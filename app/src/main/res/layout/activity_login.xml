@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.isoftston.issuser.conchapp.weight.NavBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/nav"
+        />
+
+    <EditText
+        style="@style/edit_normal"
+        android:id="@+id/et_account"/>
+
+    <EditText
+        android:layout_marginTop="10dp"
+        style="@style/edit_normal"
+        android:id="@+id/et_password"
+        />
+    
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:text="@string/login"
+        android:textSize="@dimen/text_nav"
+        android:gravity="center"
+        android:id="@+id/tv_login"
+        />
+
+</LinearLayout>
