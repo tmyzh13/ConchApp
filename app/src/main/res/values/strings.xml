@@ -33,6 +33,7 @@
     <string name="delay_data">逾期</string>
     <string name="danger_work">危险作业</string>
     <string name="common_work">常规作业</string>
+    <string name="action_cancel">取消</string>
 
 
 </resources>
