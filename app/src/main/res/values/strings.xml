@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">ConchApp</string>
 
+    <!--action-->
+    <string name="action_cancel">取消</string>
+    <string name="action_confirm">确认</string>
+
     <string name="home_message">信息</string>
     <string name="home_security">安全</string>
     <string name="home_work">作业</string>
@@ -11,5 +15,17 @@
     <string name="login_account_empty">请输入账号</string>
     <string name="login_password_empty">请输入密码</string>
     
-
+    <!--seacher-->
+    <string name="search_key">关键字</string>
+    <string name="search_all">全部</string>
+    <string name="search_hidden_trouble">隐患</string>
+    <string name="search_illegal">违章</string>
+    <string name="search_my_send">我的发布</string>
+    <string name="search_histroy">历史搜索</string>
+    
+    <!--security-->
+    <string name="hidden_trouble_msg">隐患信息</string>
+    <string name="illegal_msg">违章信息</string>
+    <string name="not_alter">未整改</string>
+    <string name="overdue">逾期</string>
 </resources>

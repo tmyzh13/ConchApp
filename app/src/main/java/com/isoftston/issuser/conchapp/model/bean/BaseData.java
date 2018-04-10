@@ -4,6 +4,7 @@ import com.corelibs.subscriber.ResponseHandler;
 import com.isoftston.issuser.conchapp.model.bean.Page;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by issuser on 2018/4/9.

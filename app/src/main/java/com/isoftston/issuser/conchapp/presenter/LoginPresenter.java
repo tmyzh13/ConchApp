@@ -20,7 +20,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
 
     public void loginAction(String account,String password){
         if(checkLoginInput(account,password)){
-
+            view.loginSuccess();
         }
     }
 

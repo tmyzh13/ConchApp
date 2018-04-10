@@ -22,9 +22,33 @@
         android:scaleType="center"
          />
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:id="@+id/ll_right"
+        android:layout_alignParentRight="true"
+        android:visibility="gone"
+        >
+        <ImageView
+            android:id="@+id/iv_seach"
+            android:layout_width="@dimen/nav_height"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            android:background="@color/red"
+            android:visibility="gone"
+            />
 
-
-
+        <ImageView
+            android:layout_marginLeft="5dp"
+            android:visibility="gone"
+            android:id="@+id/iv_add"
+            android:layout_width="@dimen/nav_height"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            android:background="@color/red"
+            />
+    </LinearLayout>
 
 
 </RelativeLayout>

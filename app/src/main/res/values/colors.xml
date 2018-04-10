@@ -3,6 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="line">#e6e6e6</color>
+    <color name="et_gray">#efefef</color>
+    <color name="transparent_black">#88000000</color>
+    <color name="dark_blue">#16246f</color>
+    <color name="app_blue">#18287A</color>
 
     <!-- 文字主要色调 -->
     <color name="text_color_main">#3e3e3e</color>

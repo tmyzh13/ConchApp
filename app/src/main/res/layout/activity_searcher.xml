@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:id="@+id/view_statue"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_height"
+        android:orientation="horizontal">
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="35dp"
+            android:layout_marginLeft="20dp"
+            android:hint="@string/search_key"
+            android:textSize="@dimen/text_normal"
+            android:textColor="@color/text_color_main"
+            android:textColorHint="@color/text_color_shallow"
+            android:gravity="center_vertical"
+            android:background="@drawable/et_seach_bg"
+            android:paddingLeft="15dp"
+            android:id="@+id/et_seach"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
+            />
+        <TextView
+            style="@style/text_normal"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/action_cancel"
+            android:gravity="center"
+            android:id="@+id/tv_cancel"
+            />
+    </LinearLayout>
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        app:tabGravity="fill"
+        app:tabIndicatorHeight="2dp"
+        app:tabMode="fixed"
+        app:tabIndicatorColor="@color/app_blue"
+        app:tabSelectedTextColor="@color/app_blue"
+        app:tabTextColor="@color/text_color_main" />
+    
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="40dp"
+       android:paddingLeft="10dp"
+
+       >
+       <TextView
+           android:gravity="center"
+           style="@style/text_normal"
+            android:layout_height="match_parent"
+           android:text="@string/search_histroy"
+           android:layout_centerVertical="true"/>
+       <ImageView
+           android:id="@+id/iv_delete"
+           android:layout_alignParentRight="true"
+           android:layout_width="30dp"
+           android:layout_height="match_parent"
+           android:background="@color/red"
+           />
+   </RelativeLayout>
+    <com.isoftston.issuser.conchapp.weight.FlowLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/flow_layout"
+        />
+</LinearLayout>

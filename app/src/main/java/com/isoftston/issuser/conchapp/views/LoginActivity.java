@@ -42,7 +42,6 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
     @Override
     protected void init(Bundle savedInstanceState) {
         navBar.setColorRes(R.color.colorPrimary);
-
     }
 
     @Override

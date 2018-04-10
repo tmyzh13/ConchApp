@@ -1,14 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.isoftston.issuser.conchapp.weight.NavBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/nav"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:baselineAligned="false"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:background="@color/app_blue"
+     >
 
+        <RelativeLayout
+            android:layout_width="120dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_width="115dp"
+                android:gravity="center"
+                style="@style/text_normal"
+                android:text="@string/hidden_trouble_msg"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:textColor="@color/white"
+                android:background="@drawable/tab_security_gradient_bg"/>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                style="@style/text_normal"
+                android:layout_width="20dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/tab_msg_bg"
+                android:text="5"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_small" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginLeft="15dp"
+            android:layout_width="120dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_width="115dp"
+                android:gravity="center"
+                style="@style/text_normal"
+                android:text="@string/illegal_msg"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:textColor="@color/text_color_shallow"
+                android:background="@drawable/tab_security_normal"/>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                style="@style/text_normal"
+                android:layout_width="20dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/tab_msg_bg"
+                android:text="5"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_small"
+                android:visibility="gone"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginLeft="15dp"
+            android:layout_width="50dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_width="455dp"
+                android:gravity="center"
+                style="@style/text_normal"
+                android:text="@string/home_mine"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:textColor="@color/text_color_shallow"
+                android:background="@drawable/tab_security_normal"/>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                style="@style/text_normal"
+                android:layout_width="20dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/tab_msg_bg"
+                android:text="5"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_small"
+                android:visibility="gone"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_height"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        app:tabGravity="fill"
+        app:tabIndicatorHeight="2dp"
+        app:tabMode="fixed"
+        app:tabIndicatorColor="@color/app_blue"
+        app:tabSelectedTextColor="@color/black"
+        app:tabTextAppearance="@style/tabLayoutTextSizeStyle"
+        app:tabTextColor="@color/text_color_main" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
 </LinearLayout>
