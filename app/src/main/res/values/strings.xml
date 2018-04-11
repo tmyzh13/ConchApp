@@ -35,5 +35,20 @@
     <string name="common_work">常规作业</string>
     <string name="action_cancel">取消</string>
 
-
+    <!--add_hidden_trouble-->
+    <string name="hidden_trouble">隐患问题</string>
+    <string name="hidden_trouble_detail_name">隐患详细名称</string>
+    <string name="hidden_trouble_find_date">发现日期</string>
+    <string name="hidden_trouble_register_date">登记日期</string>
+    <string name="hidden_trouble_find_company">发现单位</string>
+    <string name="hidden_trouble_company">隐患单位</string>
+    <string name="hidden_trouble_check">排查人员</string>
+    <string name="hidden_trouble_range">隐患级别</string>
+    <string name="hidden_trouble_place">隐患地点</string>
+    <string name="hidden_trouble_photo">隐患照片</string>
+    <string name="hidden_trouble_position">隐患部位</string>
+    <string name="hidden_trouble_input">填写</string>
+    <string name="hidden_trouble_major">重大</string>
+    <string name="hidden_trouble_normal">一般</string>
+    <string name="hidden_trouble_source">来源</string>
 </resources>

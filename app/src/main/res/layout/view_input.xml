@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:gravity="center_vertical"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/rl_all"
+        android:paddingLeft="10dp"
+        >
+        <TextView
+            style="@style/text_normal"
+            android:id="@+id/tv_type"
+            android:textColor="@color/black"
+            android:text="sss"
+            android:layout_centerVertical="true"
+            />
+        <TextView
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            style="@style/text_normal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:textColor="@color/white"
+            android:background="@drawable/tv_write_bg"
+            android:text="@string/hidden_trouble_input"
+            android:id="@+id/tv_write"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_toRightOf="@id/tv_type"
+            android:layout_marginLeft="25dp"
+            android:textColor="@color/white"
+            android:background="@drawable/et_add_input_bg"
+            android:id="@+id/et_input"
+            android:visibility="gone"
+            android:singleLine="true"
+            android:paddingLeft="15dp"
+            android:layout_marginRight="3dp"
+            />
+        <TextView
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            style="@style/text_normal"
+            android:textColor="@color/text_main"
+            android:id="@+id/tv_result" />
+    </RelativeLayout>
+
+</LinearLayout>
