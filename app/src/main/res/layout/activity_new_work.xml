@@ -187,6 +187,19 @@
                 android:id="@+id/work_zone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"></com.isoftston.issuser.conchapp.weight.InputView>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#c6c1c1"></View>
+            <Button
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="@string/sure"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:background="@drawable/shape_corner_green"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
