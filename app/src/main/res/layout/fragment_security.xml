@@ -24,6 +24,7 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/tv_hidden_trouble"
                 android:layout_centerVertical="true"
                 android:layout_width="115dp"
                 android:gravity="center"
@@ -35,6 +36,7 @@
                 android:background="@drawable/tab_security_gradient_bg"/>
 
             <TextView
+                android:id="@+id/tv_hidden_trouble_count"
                 android:layout_marginTop="10dp"
                 style="@style/text_normal"
                 android:layout_width="20dp"
@@ -52,6 +54,7 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/tv_illegal"
                 android:layout_centerVertical="true"
                 android:layout_width="115dp"
                 android:gravity="center"
@@ -63,6 +66,7 @@
                 android:background="@drawable/tab_security_normal"/>
 
             <TextView
+                android:id="@+id/tv_illegal_count"
                 android:layout_marginTop="10dp"
                 style="@style/text_normal"
                 android:layout_width="20dp"
@@ -73,7 +77,7 @@
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_small"
-                android:visibility="gone"/>
+                />
         </RelativeLayout>
         <RelativeLayout
             android:layout_marginLeft="15dp"
@@ -81,6 +85,7 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/tv_mine"
                 android:layout_centerVertical="true"
                 android:layout_width="455dp"
                 android:gravity="center"
@@ -92,6 +97,7 @@
                 android:background="@drawable/tab_security_normal"/>
 
             <TextView
+                android:id="@+id/tv_mine_acount"
                 android:layout_marginTop="10dp"
                 style="@style/text_normal"
                 android:layout_width="20dp"

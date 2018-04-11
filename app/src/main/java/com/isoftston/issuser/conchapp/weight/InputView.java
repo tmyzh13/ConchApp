@@ -20,6 +20,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
+ * 输入栏控件
  * Created by issuser on 2018/4/11.
  */
 

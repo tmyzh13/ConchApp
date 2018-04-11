@@ -3,6 +3,7 @@ package com.isoftston.issuser.conchapp.weight;
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
@@ -76,6 +77,9 @@ public class NavBar extends TranslucentNavBar {
         }
     };
 
+    public void setTitleColor(int color){
+        tv_title.setTextColor(color);
+    }
 
     public void showSeach(OnClickListener listener){
         ll_right.setVisibility(VISIBLE);
@@ -88,4 +92,15 @@ public class NavBar extends TranslucentNavBar {
         iv_add.setVisibility(VISIBLE);
         iv_add.setOnClickListener(listener);
     }
+
+    public void showOrHideAdd(boolean isShow){
+        if(isShow){
+            iv_add.setVisibility(VISIBLE);
+        }else{
+            iv_add.setVisibility(GONE);
+        }
+
+    }
+
+
 }

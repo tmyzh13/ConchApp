@@ -8,6 +8,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewParent;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.corelibs.base.BaseFragment;
 import com.corelibs.base.BasePresenter;
@@ -19,6 +20,7 @@ import com.isoftston.issuser.conchapp.weight.NavBar;
 import java.lang.reflect.Field;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * Created by issuser on 2018/4/9.
@@ -32,6 +34,18 @@ public class SecurityFragment extends BaseFragment {
     TabLayout tabLayout;
     @Bind(R.id.viewPager)
     ViewPager viewPager;
+    @Bind(R.id.tv_hidden_trouble)
+    TextView tv_hidden_trouble;
+    @Bind(R.id.tv_hidden_trouble_count)
+    TextView tv_hidden_trouble_count;
+    @Bind(R.id.tv_illegal_count)
+    TextView tv_illegal_count;
+    @Bind(R.id.tv_illegal)
+    TextView tv_illegal;
+    @Bind(R.id.tv_mine)
+    TextView tv_mine;
+    @Bind(R.id.tv_mine_acount)
+    TextView tv_mine_count;
 
     private String[] titles;
     @Override
@@ -57,7 +71,7 @@ public class SecurityFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 //进入隐患问题新增
-                startActivity(AddHiddenTroubleActivity.getLauncher(getContext()));
+                startActivity(AddHiddenTroubleActivity.getLauncher(getContext(),"1"));
             }
         });
         titles=new String[]{getString(R.string.search_all),getString(R.string.not_alter),getString(R.string.overdue)};
@@ -108,5 +122,38 @@ public class SecurityFragment extends BaseFragment {
         }
     }
 
+    @OnClick(R.id.tv_hidden_trouble)
+    public void choiceHiddenTrouble(){
+        tv_hidden_trouble.setBackground(getResources().getDrawable(R.drawable.tab_security_gradient_bg));
+        tv_illegal.setBackground(getResources().getDrawable(R.drawable.tab_security_normal));
+        tv_mine.setBackground(getResources().getDrawable(R.drawable.tab_security_normal));
+        tv_illegal.setTextColor(getResources().getColor(R.color.text_color_shallow));
+        tv_mine.setTextColor(getResources().getColor(R.color.text_color_shallow));
+        tv_hidden_trouble.setTextColor(getResources().getColor(R.color.white));
+        nav.showOrHideAdd(true);
+    }
+
+    @OnClick(R.id.tv_illegal)
+    public void choicIllegal(){
+        tv_illegal.setBackground(getResources().getDrawable(R.drawable.tab_security_illegal_bg));
+        tv_hidden_trouble.setBackground(getResources().getDrawable(R.drawable.tab_security_normal));
+        tv_mine.setBackground(getResources().getDrawable(R.drawable.tab_security_normal));
+        tv_illegal.setTextColor(getResources().getColor(R.color.white));
+        tv_mine.setTextColor(getResources().getColor(R.color.text_color_shallow));
+        tv_hidden_trouble.setTextColor(getResources().getColor(R.color.text_color_shallow));
+        nav.showOrHideAdd(true);
+    }
+
+    @OnClick(R.id.tv_mine)
+    public void choiceMine(){
+        tv_mine.setBackground(getResources().getDrawable(R.drawable.tab_security_mine));
+        tv_hidden_trouble.setBackground(getResources().getDrawable(R.drawable.tab_security_normal));
+        tv_illegal.setBackground(getResources().getDrawable(R.drawable.tab_security_normal));
+        tv_illegal.setTextColor(getResources().getColor(R.color.text_color_shallow));
+        tv_mine.setTextColor(getResources().getColor(R.color.app_blue));
+        tv_hidden_trouble.setTextColor(getResources().getColor(R.color.text_color_shallow));
+        //选择我的时 新增功能去掉
+        nav.showOrHideAdd(false);
+    }
 
 }

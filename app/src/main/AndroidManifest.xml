@@ -37,6 +37,9 @@
         <activity android:name=".views.work.FixWorkActivity"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".views.security.ChoicePhotoActivity"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 </manifest>

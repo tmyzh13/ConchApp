@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,8 +14,11 @@ import android.widget.TextView;
 import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BasePresenter;
 import com.corelibs.common.AppManager;
+import com.corelibs.utils.PreferencesHelper;
 import com.corelibs.views.tab.InterceptedFragmentTabHost;
 import com.corelibs.views.tab.TabNavigator;
+import com.isoftston.issuser.conchapp.constants.Constant;
+import com.isoftston.issuser.conchapp.views.LoginActivity;
 import com.isoftston.issuser.conchapp.views.check.CheckFragment;
 import com.isoftston.issuser.conchapp.views.message.MessageFragment;
 import com.isoftston.issuser.conchapp.views.mine.MineFragment;
@@ -32,10 +36,11 @@ public class MainActivity extends BaseActivity implements TabNavigator.TabNaviga
     private String[] tabTags;
     private Context context=MainActivity.this;
     private int bgRecourse[] = new int[]{
-//            R.drawable.tab_home,
-//            R.drawable.tab_msg,
-//            R.drawable.tab_order,
-//            R.drawable.tab_mine
+            R.drawable.tab_msg,
+            R.drawable.tab_trouble,
+            R.drawable.tab_work,
+            R.drawable.tab_check,
+            R.drawable.tab_mine
     };
 
     public static Intent getLauncher(Context context){
@@ -45,6 +50,10 @@ public class MainActivity extends BaseActivity implements TabNavigator.TabNaviga
 
     @Override
     protected int getLayoutId() {
+
+        if(TextUtils.isEmpty(PreferencesHelper.getData(Constant.LOGIN_STATUE))){
+            startActivity(LoginActivity.getLauncher(context));
+        }
         return R.layout.activity_main;
     }
 
@@ -66,8 +75,11 @@ public class MainActivity extends BaseActivity implements TabNavigator.TabNaviga
 
         ImageView icon = (ImageView) view.findViewById(R.id.iv_tab_icon);
         TextView text = (TextView) view.findViewById(R.id.tv_tab_text);
-
-//        icon.setImageResource(bgRecourse[position]);
+        TextView tv_msg_count=view.findViewById(R.id.tv_msg_count);
+        if(position!=0){
+            tv_msg_count.setVisibility(View.GONE);
+        }
+        icon.setImageResource(bgRecourse[position]);
         text.setText(tabTags[position]);
         return view;
     }

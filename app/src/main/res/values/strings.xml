@@ -8,6 +8,11 @@
     <string name="home_mine">我的</string>
 
     <string name="login">登录</string>
+    <string name="login_confirm">确定</string>
+    <string name="login_account_hint">用户名</string>
+    <string name="login_password_hint">密码</string>
+    <string name="login_forget_password">忘记了登录密码？</string>
+    <string name="login_find_password">找回密码</string>
     <string name="login_account_empty">请输入账号</string>
     <string name="login_password_empty">请输入密码</string>
     
@@ -35,6 +40,16 @@
     <string name="common_work">常规作业</string>
     <string name="action_cancel">取消</string>
 
+    <!--add_illegal_promble-->
+    <string name="illegal_problem">违章问题</string>
+    <string name="illegal_detail_name">隐患详细名称</string>
+    <string name="illeagl_company">违章单位</string>
+    <string name="illegal_type">违章类型</string>
+    <string name="illegal_place">违章地点</string>
+    <string name="illegal_description">违章描述</string>
+    <string name="illegal_photo">违章照片</string>
+    <string name="illegal_report">匿名举报</string>
+
     <!--add_hidden_trouble-->
     <string name="hidden_trouble">隐患问题</string>
     <string name="hidden_trouble_detail_name">隐患详细名称</string>
@@ -50,7 +65,7 @@
     <string name="hidden_trouble_input">填写</string>
     <string name="hidden_trouble_major">重大</string>
     <string name="hidden_trouble_normal">一般</string>
-    <string name="hidden_trouble_source">来源</string>
+    <string name="hidden_trouble_source">隐患来源</string>
     <string name="yh_project_check">隐患项目查看</string>
     <string name="yh_finder">隐患发现人</string>
     <string name="find_time">发现时间</string>
@@ -88,5 +103,6 @@
     <string name="hour">时</string>
     <string name="minute">分</string>
     <string name="information">结束时间必须大于开始时间</string>
+
 
 </resources>

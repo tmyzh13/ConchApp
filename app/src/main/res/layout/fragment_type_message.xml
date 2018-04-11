@@ -7,6 +7,7 @@
        style="@style/text_normal"
         android:id="@+id/tv"
         android:text="sss"
+        android:visibility="gone"
         />
 
     <com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout
@@ -22,8 +23,10 @@
             android:layout_height="match_parent"
             android:listSelector="#00000000"
             android:scrollbars="none"
-            android:divider="@color/et_gray"
-            android:dividerHeight="15dp"/>
+            android:divider="@color/transparent"
+            android:dividerHeight="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
 
     </com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout>
 </LinearLayout>

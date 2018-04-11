@@ -9,6 +9,11 @@ import com.corelibs.base.BasePresenter;
 import com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout;
 import com.corelibs.views.ptr.loadmore.widget.AutoLoadMoreListView;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.adapters.MessageTypeAdapter;
+import com.isoftston.issuser.conchapp.model.bean.MessageBean;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 
@@ -21,10 +26,13 @@ public class TypeMessageFragment extends BaseFragment {
     @Bind(R.id.tv)
     TextView tv;
     @Bind(R.id.lv_message)
-    AutoLoadMoreListView lv_order;
+    AutoLoadMoreListView lv_message;
     @Bind(R.id.ptrLayout)
     PtrAutoLoadMoreLayout<AutoLoadMoreListView> ptrLayout;
+
     public String type;
+    public MessageTypeAdapter adapter;
+    public List<MessageBean> listMessage;
 
     public static TypeMessageFragment newInstance(String type){
         TypeMessageFragment fragment =new TypeMessageFragment();
@@ -45,6 +53,14 @@ public class TypeMessageFragment extends BaseFragment {
         type=getArguments().getString("type");
         Log.e("yzh","1111111"+type);
         tv.setText(type);
+
+        adapter=new MessageTypeAdapter(getContext());
+        listMessage=new ArrayList<>();
+        for(int i=0;i<10;i++){
+            listMessage.add(new MessageBean());
+        }
+        adapter.addAll(listMessage);
+        lv_message.setAdapter(adapter);
         ptrLayout.disableLoading();
         ptrLayout.setCanRefresh(false);
     }

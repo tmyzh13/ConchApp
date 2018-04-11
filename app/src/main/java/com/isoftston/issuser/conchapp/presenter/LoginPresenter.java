@@ -4,8 +4,10 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.corelibs.base.BasePresenter;
+import com.corelibs.utils.PreferencesHelper;
 import com.corelibs.utils.ToastMgr;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.views.interfaces.LoginView;
 
 /**
@@ -20,6 +22,9 @@ public class LoginPresenter extends BasePresenter<LoginView> {
 
     public void loginAction(String account,String password){
         if(checkLoginInput(account,password)){
+
+            PreferencesHelper.saveData(Constant.LOGIN_STATUE,"1");
+            view.loginSuccess();
         }
     }
 
