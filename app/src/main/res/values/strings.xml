@@ -15,7 +15,7 @@
     <string name="login_find_password">找回密码</string>
     <string name="login_account_empty">请输入账号</string>
     <string name="login_password_empty">请输入密码</string>
-    
+
     <!--seacher-->
     <string name="search_key">关键字</string>
     <string name="search_all">全部</string>
@@ -39,6 +39,26 @@
     <string name="danger_work">危险作业</string>
     <string name="common_work">常规作业</string>
     <string name="action_cancel">取消</string>
+    <!--ScanCodeActivity-->
+    <string name="scan_code">扫码</string>
+    <string name="take_photo">拍照</string>
+    <string name="revoke">撤销</string>
+    <string name="commit">提交</string>
+    <string name="modify">修改</string>
+    <string name="project_name">项目名称</string>
+    <string name="project_time">2018年4月6日 04:05</string>
+    <string name="work_point_information">现场作业点信息</string>
+    <string name="work_start_time">作业开始时间</string>
+    <string name="work_end_time">作业结束时间</string>
+    <string name="hint_time">2018年4月11</string>
+    <string name="person_in_charge">负责人</string>
+    <string name="guardian">监护人</string>
+    <string name="auditor">审核人</string>
+    <string name="approver">批准人</string>
+    <string name="equipment_model">设备型号</string>
+    <string name="last_time_scan_code">上次扫码时间14:08</string>
+    <string name="scan_code_times">第一次扫码完成</string>
+    <string name="project_address">安徽省项目扫码地点详细地址</string>
 
     <!--add_illegal_promble-->
     <string name="illegal_problem">违章问题</string>

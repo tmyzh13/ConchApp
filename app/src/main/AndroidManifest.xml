@@ -2,6 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.isoftston.issuser.conchapp">
 
+    <!-- 扫码start -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 网络权限 -->
+    <uses-permission android:name="android.permission.VIBRATE" /> <!-- 震动权限 -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- 摄像头权限 -->
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <!-- 自动聚焦权限 -->
+    <!-- 扫码end -->
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -40,6 +48,20 @@
         <activity android:name=".views.security.ChoicePhotoActivity"
             android:screenOrientation="portrait"
             />
+        <activity
+            android:name=".views.LoginActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".views.message.ItemDtailActivity"></activity>
+        <activity
+            android:name=".views.seacher.SeacherActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".views.security.AddHiddenTroubleActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".views.work.ScanCodeActivity"></activity>
+        <activity
+            android:name="com.google.zxing.client.android.CaptureActivity"
+            android:screenOrientation="portrait" /><!--扫码-->
     </application>
 
 </manifest>

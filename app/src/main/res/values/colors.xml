@@ -18,5 +18,13 @@
     <color name="text2">#333333</color>
     <color name="text_main">#666</color>
     <color name="text_light">#999</color>
+
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorLightGreen">#37d79d</color>
+    <color name="colorDarkGreen">#18da38</color>
+    <color name="colorActivityBg">#f2f1f7</color>
+    <color name="colorGreen">#00a334</color>
+    <color name="colorLine">#DDDDDD</color>
+    <color name="colorDarkDot">#9A9A9A</color>
     <color name="split_line">#11112233</color>
 </resources>
