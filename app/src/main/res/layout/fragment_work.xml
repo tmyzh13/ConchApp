@@ -9,42 +9,90 @@
         />
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/colorPrimaryDark"
-        android:orientation="vertical">
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="bottom"
-            android:paddingBottom="10dp"
+        android:layout_height="60dp"
+        android:baselineAligned="false"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:background="@color/app_blue"
+        >
 
-            android:orientation="horizontal">
-            <RadioButton
+        <RelativeLayout
+            android:layout_width="120dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_width="115dp"
                 android:gravity="center"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:button="@null"
-                android:textColor="#fff"
-                android:text="@string/danger_work"/>
-            <RadioButton
+                style="@style/text_normal"
+                android:text="@string/danger_work"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:textColor="@color/white"
+                android:background="@drawable/tab_security_gradient_bg"/>
+
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginLeft="15dp"
+            android:layout_width="120dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_width="115dp"
                 android:gravity="center"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:button="@null"
-                android:textColor="#fff"
-                android:text="@string/common_work"/>
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                style="@style/text_normal"
+                android:text="@string/common_work"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:textColor="@color/text_color_shallow"
+                android:background="@drawable/tab_security_normal"/>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                style="@style/text_normal"
+                android:layout_width="20dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/tab_msg_bg"
+                android:text="5"
                 android:gravity="center"
-                android:layout_height="wrap_content"
-                android:button="@null"
-                android:textColor="#fff"
-                android:text="@string/home_mine"/>
-        </RadioGroup>
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_small"
+                android:visibility="gone"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginLeft="15dp"
+            android:layout_width="50dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_width="455dp"
+                android:gravity="center"
+                style="@style/text_normal"
+                android:text="@string/home_mine"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:textColor="@color/text_color_shallow"
+                android:background="@drawable/tab_security_normal"/>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                style="@style/text_normal"
+                android:layout_width="20dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/tab_msg_bg"
+                android:text="5"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_small"
+                android:visibility="gone"/>
+        </RelativeLayout>
     </LinearLayout>
+
     <com.shizhefei.view.indicator.ScrollIndicatorView
         android:id="@+id/moretab_indicator"
         android:layout_width="match_parent"

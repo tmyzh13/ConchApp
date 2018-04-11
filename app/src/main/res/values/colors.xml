@@ -14,7 +14,9 @@
     <color name="text_color_main">#3e3e3e</color>
     <!-- 文字主要浅色调 -->
     <color name="text_color_shallow">#666</color>
-
+    <color name="text1">#59B29C</color>
+    <color name="text2">#333333</color>
     <color name="text_main">#666</color>
     <color name="text_light">#999</color>
+    <color name="split_line">#11112233</color>
 </resources>

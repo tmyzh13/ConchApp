@@ -70,7 +70,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        nav.setColorRes(R.color.colorPrimary);
+        nav.setColorRes(R.color.app_blue);
         nav.setNavTitle(getString(R.string.home_message));
         nav.hideBack();
         ll_main.setOnClickListener(this) ;

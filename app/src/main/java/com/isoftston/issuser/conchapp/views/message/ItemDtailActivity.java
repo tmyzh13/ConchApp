@@ -9,18 +9,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.corelibs.base.BaseActivity;
+import com.corelibs.base.BasePresenter;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.views.message.adpter.VpAdapter;
 import com.isoftston.issuser.conchapp.weight.CircleImageView;
+import com.isoftston.issuser.conchapp.weight.NavBar;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.Bind;
 
 /**
  * Created by issuser on 2018/4/10.
  */
 
-public class ItemDtailActivity extends AppCompatActivity {
+public class ItemDtailActivity extends BaseActivity {
+    @Bind(R.id.nav)
+    NavBar nav;
     private ViewPager vp;
     private LinearLayout ll;
     private List<View> imageList;
@@ -36,10 +43,18 @@ public class ItemDtailActivity extends AppCompatActivity {
 //            handler.sendEmptyMessageDelayed(1, 2000);
         };
     };
+
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_itemdetail);
+    protected int getLayoutId() {
+        return R.layout.activity_itemdetail;
+    }
+
+    @Override
+    protected void init(Bundle savedInstanceState) {
+        nav.setColorRes(R.color.colorPrimary);
+        nav.setNavTitle(getString(R.string.yh_project_check));
+        nav.hideBack();
         vp = (ViewPager) findViewById(R.id.vp);
         ll = (LinearLayout) findViewById(R.id.ll);
         //初始化数据
@@ -75,10 +90,13 @@ public class ItemDtailActivity extends AppCompatActivity {
             public void onPageScrollStateChanged(int state) {
             }
         });
-        //两秒发送一个消息
-//        handler.sendEmptyMessageDelayed(1, 2000);
-
     }
+
+    @Override
+    protected BasePresenter createPresenter() {
+        return null;
+    }
+
     private void initDots() {
         //实例化一个集合存放小圆点
         dotsList = new ArrayList<View>();

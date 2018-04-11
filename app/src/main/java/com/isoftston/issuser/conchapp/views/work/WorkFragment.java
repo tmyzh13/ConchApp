@@ -1,5 +1,6 @@
 package com.isoftston.issuser.conchapp.views.work;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -12,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.corelibs.base.BaseFragment;
@@ -31,9 +33,13 @@ import butterknife.Bind;
  * Created by issuser on 2018/4/9.
  */
 
-public class WorkFragment extends BaseFragment{
+public class WorkFragment extends BaseFragment implements View.OnClickListener {
     @Bind(R.id.nav)
     NavBar nav;
+    @Bind(R.id.iv_add)
+    ImageView iv_add;
+    @Bind(R.id.iv_seach)
+    ImageView iv_seach;
     @Bind((R.id.moretab_viewPager))
     ViewPager viewPager;
     @Bind((R.id.moretab_indicator))
@@ -47,9 +53,13 @@ public class WorkFragment extends BaseFragment{
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        nav.setColorRes(R.color.colorPrimary);
+        nav.setColorRes(R.color.app_blue);
         nav.setNavTitle(getString(R.string.home_work));
         nav.hideBack();
+        iv_seach.setVisibility(View.VISIBLE);
+        iv_add.setVisibility(View.VISIBLE);
+        iv_seach.setOnClickListener(this);
+        iv_add.setOnClickListener(this);
         FragmentPagerAdapter adapter = new TabPageIndicatorAdapter(getActivity().getSupportFragmentManager());
         float unSelectSize = 12;
         float selectSize = unSelectSize * 1.3f;
@@ -65,6 +75,21 @@ public class WorkFragment extends BaseFragment{
     protected BasePresenter createPresenter() {
         return null;
     }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.iv_add:
+                Intent intent=new Intent(getActivity(),NewWorkActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.iv_seach:
+                Intent intent1=new Intent(getActivity(),FixWorkActivity.class);
+                startActivity(intent1);
+                break;
+        }
+    }
+
     private class TabPageIndicatorAdapter extends FragmentPagerAdapter {
 
         public TabPageIndicatorAdapter(FragmentManager fm) {
