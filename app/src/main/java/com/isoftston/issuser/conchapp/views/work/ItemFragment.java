@@ -43,6 +43,7 @@ public class ItemFragment extends BaseFragment {
         //获取Activity传递过来的参数
         Bundle mBundle = getArguments();
         String title = mBundle.getString("arg");
+        Log.i("ZT",title);
         ToastUtils.showtoast(getActivity(), title);
         initData();
         ListviewAdapter listviewAdapter = new ListviewAdapter(getActivity(), list);

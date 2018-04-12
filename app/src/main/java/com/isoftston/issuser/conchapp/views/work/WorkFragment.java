@@ -81,8 +81,8 @@ public class WorkFragment extends BaseFragment implements View.OnClickListener {
         float selectSize = unSelectSize * 1.3f;
         scrollIndicatorView.setOnTransitionListener(new OnTransitionTextListener().setColor(0xff262626, Color.GRAY).setSize(selectSize, unSelectSize));
         scrollIndicatorView.setScrollBar(new ColorBar(getActivity(), 0xFF18287A, 4));
-//        viewPager.setOffscreenPageLimit(2);
         indicatorViewPager = new IndicatorViewPager(scrollIndicatorView, viewPager);
+//        viewPager.setOffscreenPageLimit(1);
         indicatorViewPager.setAdapter(new MyAdapter());
         viewPager.setAdapter(adapter);
     }
