@@ -29,7 +29,6 @@ public class UserHelper {
 
 
 
-
     public static  void clearInfo(String key){
         PreferencesHelper.remove(key);
     }

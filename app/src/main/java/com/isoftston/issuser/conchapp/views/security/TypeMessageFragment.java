@@ -53,6 +53,7 @@ public class TypeMessageFragment extends BaseFragment {
     protected void init(Bundle savedInstanceState) {
         type=getArguments().getString("type");
         Log.e("yzh","1111111"+type);
+        ToastUtils.showtoast(getActivity(),type);
         tv.setText(type);
 
         adapter=new MessageTypeAdapter(getContext());

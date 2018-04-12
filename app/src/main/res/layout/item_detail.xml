@@ -11,27 +11,28 @@
         android:orientation="horizontal">
         <ImageView
             android:id="@+id/item_icon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@mipmap/ic_launcher"/>
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/project_name"/>
         <TextView
             android:id="@+id/item_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
-            android:text="项目名称"/>
+            android:paddingTop="5dp"
+            android:text="@string/project_detail_name"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="100dp"
-            android:text="2018年4月5日 20：02 "/>
+            android:text="@string/project_time"/>
     </LinearLayout>
         <TextView
             android:id="@+id/content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
-            android:text="作业内容"/>
+            android:text="@string/work_name"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,7 +44,7 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:textSize="10sp"
-        android:text="作业地点"/>
+        android:text="@string/work_adress"/>
         <TextView
             android:id="@+id/work_accept"
             android:layout_width="wrap_content"
@@ -51,13 +52,14 @@
             android:padding="10dp"
             android:layout_marginLeft="180dp"
             android:textSize="10sp"
-            android:text="已审批"/>
+            android:text="@string/approved"/>
         <TextView
             android:id="@+id/unclosed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:textSize="10sp"
-            android:text="未关闭"/>
+            android:textColor="@color/red"
+            android:text="@string/un_closed"/>
     </LinearLayout>
 </LinearLayout>

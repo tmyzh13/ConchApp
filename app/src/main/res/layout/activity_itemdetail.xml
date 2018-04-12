@@ -26,12 +26,15 @@
         android:layout_alignBottom="@id/vp"
         android:gravity="center_horizontal"
         />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <LinearLayout
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:background="@drawable/shape_corner_white"
         android:orientation="vertical">
         <LinearLayout
@@ -62,7 +65,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#b3b0b0"
-                        android:paddingLeft="5dp"
+                        android:paddingLeft="20dp"
                         android:text="王某某"/>
                     <TextView
                         android:id="@+id/tv_company"
@@ -87,7 +90,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#b3b0b0"
-                        android:paddingLeft="20dp"
+                        android:paddingLeft="35dp"
                         android:text="2018年4月3日"/>
                 </LinearLayout>
             </LinearLayout>
@@ -103,10 +106,10 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <com.isoftston.issuser.conchapp.weight.RoundByXfermode
-                android:layout_margin="15dp"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/aaa"/>
+                android:layout_marginLeft="5dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@mipmap/yh_icon"/>
             <LinearLayout
                 android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
@@ -145,7 +148,7 @@
                 android:layout_margin="15dp"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/aaa"/>
+                android:src="@mipmap/fatal_mark"/>
             <TextView
                 android:layout_marginTop="20dp"
                 android:layout_width="wrap_content"
@@ -214,14 +217,14 @@
                 android:layout_margin="15dp"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/aaa"/>
+                android:src="@mipmap/un_fix"/>
             <TextView
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#000"
                 android:text="@string/fixed"/>
         </LinearLayout>
     </LinearLayout>
-
+    </ScrollView>
 </LinearLayout>

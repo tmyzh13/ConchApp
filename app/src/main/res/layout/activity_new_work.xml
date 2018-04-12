@@ -170,7 +170,7 @@
                     android:background="@drawable/shape_corner_green2"
                     android:hint="@string/project_detail_fix"
                     android:padding="10dp"
-                    android:textColorHint="@color/white"
+                    android:textColorHint="#A0BAFF"
                     android:textSize="12sp" />
             </LinearLayout>
 

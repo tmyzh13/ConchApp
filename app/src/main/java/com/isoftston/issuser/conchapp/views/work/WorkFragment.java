@@ -47,6 +47,7 @@ public class WorkFragment extends BaseFragment implements View.OnClickListener {
     ScrollIndicatorView scrollIndicatorView;
     private IndicatorViewPager indicatorViewPager;
     private String[] names ;
+    private String[] mines ;
     @Bind(R.id.tv_danger_work)
     TextView tv_danger_work;
     @Bind(R.id.tv_common_work)
@@ -74,6 +75,7 @@ public class WorkFragment extends BaseFragment implements View.OnClickListener {
         tv_danger_work.setOnClickListener(this);
         tv_mine.setOnClickListener(this);
         names=new String[]{getString(R.string.all), getString(R.string.shuini), getString(R.string.matou),getString(R.string.kuangshan),getString(R.string.build)};
+        mines=new String[]{getString(R.string.my_approve), getString(R.string.my_check),getString(R.string.my_release)};
         adapter = new TabPageIndicatorAdapter(getActivity().getSupportFragmentManager());
         float unSelectSize = 12;
         float selectSize = unSelectSize * 1.3f;
@@ -104,29 +106,29 @@ public class WorkFragment extends BaseFragment implements View.OnClickListener {
                 tv_danger_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_work_normal));
                 tv_mine.setBackgroundDrawable(getResources().getDrawable(R.drawable.work_mine));
                 tv_common_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.work_mine));
-//                names=new String[]{getString(R.string.all), getString(R.string.shuini), getString(R.string.matou),getString(R.string.kuangshan),getString(R.string.build)};
-//                adapter = new TabPageIndicatorAdapter(getActivity().getSupportFragmentManager());
-//                indicatorViewPager.setAdapter(new MyAdapter());
-//                viewPager.setAdapter(adapter);
+                names=new String[]{getString(R.string.all), getString(R.string.shuini), getString(R.string.matou),getString(R.string.kuangshan),getString(R.string.build)};
+                adapter = new TabPageIndicatorAdapter(getActivity().getSupportFragmentManager());
+                indicatorViewPager.setAdapter(new MyAdapter());
+                viewPager.setAdapter(adapter);
                 break;
             case R.id.tv_common_work:
                 ToastUtils.showtoast(getActivity(),"onclick2");
                 tv_common_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_work_gradient_bg));
                 tv_mine.setBackgroundDrawable(getResources().getDrawable(R.drawable.work_mine));
                 tv_danger_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.work_mine));
-//                names=new String[]{getString(R.string.all), getString(R.string.shuini), getString(R.string.matou),getString(R.string.kuangshan),getString(R.string.build)};
-//                adapter = new TabPageIndicatorAdapter(getActivity().getSupportFragmentManager());
-//                indicatorViewPager.setAdapter(new MyAdapter());
-//                viewPager.setAdapter(adapter);
+                names=new String[]{getString(R.string.all), getString(R.string.shuini), getString(R.string.matou),getString(R.string.kuangshan),getString(R.string.build)};
+                adapter = new TabPageIndicatorAdapter(getActivity().getSupportFragmentManager());
+                indicatorViewPager.setAdapter(new MyAdapter());
+                viewPager.setAdapter(adapter);
                 break;
             case R.id.tv_mine:
                 tv_mine.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_security_mine));
                 tv_danger_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.work_mine));
                 tv_common_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.work_mine));
-//                names=new String[]{getString(R.string.my_approve), getString(R.string.my_check),getString(R.string.my_release)};
-//                adapter = new TabPageIndicatorAdapter(getActivity().getSupportFragmentManager());
-//                indicatorViewPager.setAdapter(new MyAdapter());
-//                viewPager.setAdapter(adapter);
+                names=mines;
+                adapter = new TabPageIndicatorAdapter(getActivity().getSupportFragmentManager());
+                indicatorViewPager.setAdapter(new MyAdapter());
+                viewPager.setAdapter(adapter);
                 ToastUtils.showtoast(getActivity(),"onclick3");
                 break;
         }

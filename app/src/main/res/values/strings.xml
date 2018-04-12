@@ -134,6 +134,10 @@
     <string name="my_approve">我的审批</string>
     <string name="my_check">我的审核</string>
     <string name="my_release">我的发布</string>
+    <string name="work_name">作业内容</string>
+    <string name="work_adress">作业地点</string>
+    <string name="approved">已审批</string>
+    <string name="un_closed">未关闭</string>
 
 
 </resources>

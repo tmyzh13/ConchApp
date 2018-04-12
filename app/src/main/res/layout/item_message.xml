@@ -35,7 +35,7 @@
                     android:id="@+id/item_mark"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@mipmap/yh_icon"/>
+                    android:src="@mipmap/mark"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -60,7 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
-                    android:text=" 安达市多阿萨大萨达多"/>
+                    android:text="@string/project_address"/>
             </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"

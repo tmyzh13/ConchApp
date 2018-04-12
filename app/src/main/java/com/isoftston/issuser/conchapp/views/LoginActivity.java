@@ -16,10 +16,13 @@ import com.corelibs.common.AppManager;
 import com.corelibs.utils.PreferencesHelper;
 import com.isoftston.issuser.conchapp.MainActivity;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.model.bean.UserBean;
 import com.isoftston.issuser.conchapp.presenter.LoginPresenter;
 import com.isoftston.issuser.conchapp.utils.Tools;
 import com.isoftston.issuser.conchapp.views.interfaces.LoginView;
 import com.isoftston.issuser.conchapp.weight.NavBar;
+
+import org.litepal.crud.callback.SaveCallback;
 
 import butterknife.Bind;
 import butterknife.OnClick;

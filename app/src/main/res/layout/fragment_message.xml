@@ -156,21 +156,31 @@
                             android:gravity="center"
                             android:text="12"
                             android:textColor="@color/white"
-                            android:textSize="24sp" />
-
+                            android:textSize="28sp" />
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            >
+                        <TextView
+                            android:layout_marginTop="14dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/un_fix"
+                            android:id="@+id/unfix"
+                            android:textColor="@color/white" />
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="20dp"
-                            android:gravity="center"
-                            android:text="@string/un_fix"
-                            android:textColor="@color/white" />
-
+                            android:layout_toRightOf="@+id/unfix"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="26sp"
+                            android:textColor="@color/white"
+                            android:text="3"/>
+                        </RelativeLayout>
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:gravity="center"
                             android:text="@string/yh_message"
                             android:textColor="@color/white" />
                     </LinearLayout>
