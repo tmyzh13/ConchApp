@@ -28,8 +28,10 @@ import butterknife.Bind;
 public class ItemDtailActivity extends BaseActivity {
     @Bind(R.id.nav)
     NavBar nav;
-    private ViewPager vp;
-    private LinearLayout ll;
+    @Bind(R.id.vp)
+    ViewPager vp;
+    @Bind(R.id.ll)
+    LinearLayout ll;
     private List<View> imageList;
     private ArrayList<View> dotsList;
     private int[] images = {R.drawable.aaa,R.drawable.bbb,R.drawable.ccc,R.drawable.ddd};
@@ -55,8 +57,6 @@ public class ItemDtailActivity extends BaseActivity {
         nav.setColorRes(R.color.colorPrimary);
         nav.setNavTitle(getString(R.string.yh_project_check));
         nav.hideBack();
-        vp = (ViewPager) findViewById(R.id.vp);
-        ll = (LinearLayout) findViewById(R.id.ll);
         //初始化数据
         initImages();
         //初始化小圆点
@@ -64,7 +64,7 @@ public class ItemDtailActivity extends BaseActivity {
         //适配器
 
         VpAdapter adapter = new VpAdapter(imageList,handler);
-        vp.setPageMargin(80);
+        vp.setPageMargin(20);
         vp.setAdapter(adapter);
         //初始化vp的位置
         vp.setCurrentItem(1);

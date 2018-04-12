@@ -53,6 +53,8 @@ public class WorkFragment extends BaseFragment implements View.OnClickListener {
     TextView tv_common_work;
     @Bind(R.id.tv_mine)
     TextView tv_mine;
+    private FragmentPagerAdapter adapter;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_work;
@@ -63,6 +65,7 @@ public class WorkFragment extends BaseFragment implements View.OnClickListener {
         nav.setColorRes(R.color.app_blue);
         nav.setNavTitle(getString(R.string.home_work));
         nav.hideBack();
+        tv_danger_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_work_normal));
         iv_seach.setVisibility(View.VISIBLE);
         iv_add.setVisibility(View.VISIBLE);
         iv_seach.setOnClickListener(this);
@@ -71,12 +74,12 @@ public class WorkFragment extends BaseFragment implements View.OnClickListener {
         tv_danger_work.setOnClickListener(this);
         tv_mine.setOnClickListener(this);
         names=new String[]{getString(R.string.all), getString(R.string.shuini), getString(R.string.matou),getString(R.string.kuangshan),getString(R.string.build)};
-        FragmentPagerAdapter adapter = new TabPageIndicatorAdapter(getActivity().getSupportFragmentManager());
+        adapter = new TabPageIndicatorAdapter(getActivity().getSupportFragmentManager());
         float unSelectSize = 12;
         float selectSize = unSelectSize * 1.3f;
-        scrollIndicatorView.setOnTransitionListener(new OnTransitionTextListener().setColor(0xFF2196F3, Color.GRAY).setSize(selectSize, unSelectSize));
-        scrollIndicatorView.setScrollBar(new ColorBar(getActivity(), 0xFF2196F3, 4));
-        viewPager.setOffscreenPageLimit(2);
+        scrollIndicatorView.setOnTransitionListener(new OnTransitionTextListener().setColor(0xff262626, Color.GRAY).setSize(selectSize, unSelectSize));
+        scrollIndicatorView.setScrollBar(new ColorBar(getActivity(), 0xFF18287A, 4));
+//        viewPager.setOffscreenPageLimit(2);
         indicatorViewPager = new IndicatorViewPager(scrollIndicatorView, viewPager);
         indicatorViewPager.setAdapter(new MyAdapter());
         viewPager.setAdapter(adapter);
@@ -98,11 +101,32 @@ public class WorkFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.tv_danger_work:
                 ToastUtils.showtoast(getActivity(),"onclick1");
+                tv_danger_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_work_normal));
+                tv_mine.setBackgroundDrawable(getResources().getDrawable(R.drawable.work_mine));
+                tv_common_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.work_mine));
+//                names=new String[]{getString(R.string.all), getString(R.string.shuini), getString(R.string.matou),getString(R.string.kuangshan),getString(R.string.build)};
+//                adapter = new TabPageIndicatorAdapter(getActivity().getSupportFragmentManager());
+//                indicatorViewPager.setAdapter(new MyAdapter());
+//                viewPager.setAdapter(adapter);
                 break;
             case R.id.tv_common_work:
                 ToastUtils.showtoast(getActivity(),"onclick2");
+                tv_common_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_work_gradient_bg));
+                tv_mine.setBackgroundDrawable(getResources().getDrawable(R.drawable.work_mine));
+                tv_danger_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.work_mine));
+//                names=new String[]{getString(R.string.all), getString(R.string.shuini), getString(R.string.matou),getString(R.string.kuangshan),getString(R.string.build)};
+//                adapter = new TabPageIndicatorAdapter(getActivity().getSupportFragmentManager());
+//                indicatorViewPager.setAdapter(new MyAdapter());
+//                viewPager.setAdapter(adapter);
                 break;
             case R.id.tv_mine:
+                tv_mine.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_security_mine));
+                tv_danger_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.work_mine));
+                tv_common_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.work_mine));
+//                names=new String[]{getString(R.string.my_approve), getString(R.string.my_check),getString(R.string.my_release)};
+//                adapter = new TabPageIndicatorAdapter(getActivity().getSupportFragmentManager());
+//                indicatorViewPager.setAdapter(new MyAdapter());
+//                viewPager.setAdapter(adapter);
                 ToastUtils.showtoast(getActivity(),"onclick3");
                 break;
         }
@@ -126,7 +150,7 @@ public class WorkFragment extends BaseFragment implements View.OnClickListener {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return names[position % names.length];
+            return names[position%names.length];
         }
 
         @Override

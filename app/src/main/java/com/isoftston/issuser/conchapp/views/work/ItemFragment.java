@@ -11,27 +11,35 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.corelibs.base.BaseFragment;
+import com.corelibs.base.BasePresenter;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
+import com.isoftston.issuser.conchapp.views.security.TypeMessageFragment;
 import com.isoftston.issuser.conchapp.views.work.adpter.ListviewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+
 /**
  * Created by issuser on 2018/4/9.
  */
 
-public class ItemFragment extends Fragment {
+public class ItemFragment extends BaseFragment {
     private List<String> list = new ArrayList<>();
+    @Bind(R.id.listview)
+    ListView mlistview;
+
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    protected int getLayoutId() {
+        return R.layout.fragment_item;
+    }
 
-        View contextView = inflater.inflate(R.layout.fragment_item, container, false);
-        ListView mlistview = (ListView) contextView.findViewById(R.id.listview);
-
+    @Override
+    protected void init(Bundle savedInstanceState) {
         //获取Activity传递过来的参数
         Bundle mBundle = getArguments();
         String title = mBundle.getString("arg");
@@ -48,7 +56,11 @@ public class ItemFragment extends Fragment {
                 startActivity(ScanCodeActivity.getLauncher(getContext()));
             }
         });
-        return contextView;
+    }
+
+    @Override
+    protected BasePresenter createPresenter() {
+        return null;
     }
 
     private void initData() {

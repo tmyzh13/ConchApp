@@ -130,6 +130,10 @@
     <string name="matou">码头</string>
     <string name="kuangshan">矿山</string>
     <string name="build">制造</string>
+    <string name="data_count">其他数据统计</string>
+    <string name="my_approve">我的审批</string>
+    <string name="my_check">我的审核</string>
+    <string name="my_release">我的发布</string>
 
 
 </resources>

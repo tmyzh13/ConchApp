@@ -22,7 +22,7 @@ public class MessageTypePageAdapter extends FragmentPagerAdapter{
 
     @Override
     public Fragment getItem(int position) {
-        return TypeMessageFragment.newInstance(""+position);
+        return TypeMessageFragment.newInstance(mTitles[position]);
     }
 
     @Override

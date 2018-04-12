@@ -30,7 +30,7 @@
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:textColor="@color/white"
-                android:background="@drawable/tab_work_normal"/>
+                android:background="@drawable/work_mine"/>
 
 
         </RelativeLayout>
@@ -49,7 +49,7 @@
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:textColor="@color/white"
-                android:background="@drawable/tab_work_gradient_bg"/>
+                android:background="@drawable/work_mine"/>
 
             <TextView
                 android:layout_marginTop="10dp"

@@ -70,6 +70,8 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
 //            handler.sendEmptyMessageDelayed(1, 2000);
         };
     };
+    private View view;
+
     @Override
     protected int getLayoutId() {
         initDate();
@@ -93,7 +95,11 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         bt_yh.setOnClickListener(this);
         bt_aq.setOnClickListener(this);
         bt_wz.setOnClickListener(this);
-        viewPager.setPageMargin(100);
+        iv_back.setOnClickListener(this);
+        ll_aq_detail.setOnClickListener(this);
+        ll_wz_detail.setOnClickListener(this);;
+        ll_yh_detail.setOnClickListener(this);
+        viewPager.setPageMargin(20);
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(2);
         viewPager.setCurrentItem(1);
@@ -132,8 +138,17 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     private void initDate() {
         list=new ArrayList<>();
         for (int i=0;i<3;i++){
-            View view=LayoutInflater.from(getActivity()).inflate(
+            if (i==0){
+                view = LayoutInflater.from(getActivity()).inflate(
                         R.layout.viewpager_yh_item, null);
+            }else if (i==1){
+                view=LayoutInflater.from(getActivity()).inflate(
+                        R.layout.viewpager_wz_item, null);
+            }else {
+                view=LayoutInflater.from(getActivity()).inflate(
+                        R.layout.viewpager_aq_item, null);
+            }
+
             list.add(view);
         }
 
@@ -170,10 +185,16 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
             case R.id.bt_aq:
             case R.id.bt_wz:
             case R.id.bt_yh:
+            case R.id.aq_detail:
+            case R.id.yh_detail:
+            case R.id.wz_detail:
                 viewPager.setVisibility(View.VISIBLE);
                 ll_main.setVisibility(View.GONE);
                 iv_back.setImageDrawable(getResources().getDrawable(R.mipmap.back));
                 iv_back.setVisibility(View.VISIBLE);
+                break;
+            case R.id.iv_back:
+                getActivity().finish();
                 break;
         }
     }
