@@ -82,7 +82,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     @Override
     protected void init(Bundle savedInstanceState) {
         nav.setColorRes(R.color.app_blue);
-        nav.setNavTitle(getString(R.string.home_message));
+        nav.setNavTitle(getString(R.string.main_message));
         nav.hideBack();
         iv_seach.setVisibility(View.VISIBLE);
 //        ll_main.setOnClickListener(this) ;
@@ -188,6 +188,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
             case R.id.aq_detail:
             case R.id.yh_detail:
             case R.id.wz_detail:
+                nav.setNavTitle(getString(R.string.home_message));
                 viewPager.setVisibility(View.VISIBLE);
                 ll_main.setVisibility(View.GONE);
                 iv_back.setImageDrawable(getResources().getDrawable(R.mipmap.back));

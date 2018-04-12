@@ -102,6 +102,7 @@ public class WorkFragment extends BaseFragment implements View.OnClickListener {
             case R.id.iv_seach:
                 break;
             case R.id.tv_danger_work:
+                iv_add.setVisibility(View.VISIBLE);
                 ToastUtils.showtoast(getActivity(),"onclick1");
                 tv_danger_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_work_normal));
                 tv_mine.setBackgroundDrawable(getResources().getDrawable(R.drawable.work_mine));
@@ -112,6 +113,7 @@ public class WorkFragment extends BaseFragment implements View.OnClickListener {
                 viewPager.setAdapter(adapter);
                 break;
             case R.id.tv_common_work:
+                iv_add.setVisibility(View.VISIBLE);
                 ToastUtils.showtoast(getActivity(),"onclick2");
                 tv_common_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_work_gradient_bg));
                 tv_mine.setBackgroundDrawable(getResources().getDrawable(R.drawable.work_mine));
@@ -122,6 +124,7 @@ public class WorkFragment extends BaseFragment implements View.OnClickListener {
                 viewPager.setAdapter(adapter);
                 break;
             case R.id.tv_mine:
+                iv_add.setVisibility(View.GONE);
                 tv_mine.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_security_mine));
                 tv_danger_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.work_mine));
                 tv_common_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.work_mine));

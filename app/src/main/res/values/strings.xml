@@ -183,4 +183,5 @@
     <string name="forget_password_hint">请输入您的Email地址，我们会将重置密码的信息发送给您</string>
     <string name="forget_password_email_error">邮箱不符合规格</string>
     <string name="forget_password_send_success">操作成功，请稍等！</string>
+    <string name="main_message">海螺预警</string>
 </resources>
