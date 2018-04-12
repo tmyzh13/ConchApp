@@ -38,15 +38,15 @@ public class NavBar extends TranslucentNavBar {
 
     public NavBar(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        initNav();
     }
     public NavBar(Context context) {
         super(context);
-        init();
+        initNav();
     }
 
-    private void init(){
-        LayoutInflater.from(getContext()).inflate(R.layout.v_nav, this);
+    private void initNav(){
+//        LayoutInflater.from(getContext()).inflate(R.layout.v_nav, this);
         ButterKnife.bind(this, this);
 
         initView();
@@ -102,5 +102,12 @@ public class NavBar extends TranslucentNavBar {
 
     }
 
+    public void showWhiteBack(boolean b){
+        if(b){
+            iv_back.setImageResource(R.mipmap.back_white);
+        }else{
+
+        }
+    }
 
 }

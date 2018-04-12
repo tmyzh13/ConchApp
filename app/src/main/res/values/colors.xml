@@ -9,6 +9,8 @@
     <color name="dark_blue">#16246f</color>
     <color name="app_blue">#18287A</color>
     <color name="app_light_blue">#4c84ff</color>
+    <color name="app_gray">#ACACAC</color>
+    <color name="app_bg">#f1f0f7</color>
 
     <!-- 文字主要色调 -->
     <color name="text_color_main">#3e3e3e</color>
@@ -18,6 +20,7 @@
     <color name="text2">#333333</color>
     <color name="text_main">#666</color>
     <color name="text_light">#999</color>
+    <color name="text_gray">#9b9b9b</color>
 
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorLightGreen">#37d79d</color>

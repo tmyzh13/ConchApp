@@ -20,6 +20,10 @@ public class MessageTypePageAdapter extends FragmentPagerAdapter{
         this.mTitles=mTitles;
     }
 
+    public void setmTitles(String[] mTitles){
+        this.mTitles=mTitles;
+    }
+
     @Override
     public Fragment getItem(int position) {
         return TypeMessageFragment.newInstance(mTitles[position]);

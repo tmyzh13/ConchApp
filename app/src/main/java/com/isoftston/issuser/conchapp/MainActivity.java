@@ -16,6 +16,7 @@ import com.corelibs.base.BasePresenter;
 import com.corelibs.common.AppManager;
 import com.corelibs.utils.PreferencesHelper;
 import com.corelibs.views.tab.InterceptedFragmentTabHost;
+import com.corelibs.views.tab.TabChangeInterceptor;
 import com.corelibs.views.tab.TabNavigator;
 import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.views.LoginActivity;
@@ -62,6 +63,21 @@ public class MainActivity extends BaseActivity implements TabNavigator.TabNaviga
             tabTags = new String[]{getString(R.string.home_message), getString(R.string.home_security),getString(R.string.home_work),
                     getString(R.string.home_check),getString(R.string.home_mine)};
             navigator.setup(this, tabHost, this, getSupportFragmentManager(), R.id.real_tab_content);
+        navigator.setTabChangeInterceptor(new TabChangeInterceptor() {
+            @Override
+            public boolean canTab(String tabId) {
+                if(tabId.equals(tabTags[3])) {
+                    setBarColor(getResources().getColor(R.color.transparent_black));
+                }else{
+                    setBarColor(getResources().getColor(R.color.transparent));
+                }
+                return true;
+            }
+
+            @Override
+            public void onTabIntercepted(String tabId) {
+            }
+        });
     }
 
     @Override

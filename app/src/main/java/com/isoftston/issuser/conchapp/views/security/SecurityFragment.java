@@ -3,18 +3,17 @@ package com.isoftston.issuser.conchapp.views.security;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewParent;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.corelibs.base.BaseFragment;
 import com.corelibs.base.BasePresenter;
 import com.isoftston.issuser.conchapp.R;
-import com.isoftston.issuser.conchapp.adapters.MessageTypePageAdapter;
+import com.isoftston.issuser.conchapp.adapters.IllegalTypeAdapter;
 import com.isoftston.issuser.conchapp.views.seacher.SeacherActivity;
+import com.isoftston.issuser.conchapp.weight.MyViewPager;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
 import java.lang.reflect.Field;
@@ -30,10 +29,7 @@ public class SecurityFragment extends BaseFragment {
 
     @Bind(R.id.nav)
     NavBar nav;
-    @Bind(R.id.tabLayout)
-    TabLayout tabLayout;
-    @Bind(R.id.viewPager)
-    ViewPager viewPager;
+
     @Bind(R.id.tv_hidden_trouble)
     TextView tv_hidden_trouble;
     @Bind(R.id.tv_hidden_trouble_count)
@@ -46,8 +42,13 @@ public class SecurityFragment extends BaseFragment {
     TextView tv_mine;
     @Bind(R.id.tv_mine_acount)
     TextView tv_mine_count;
+    @Bind(R.id.myViewPager)
+    MyViewPager myViewPager;
 
-    private String[] titles;
+
+    //选择当前信息类型 默认隐患
+    private String type="0";
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_security;
@@ -71,18 +72,11 @@ public class SecurityFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 //进入隐患问题新增
-                startActivity(AddHiddenTroubleActivity.getLauncher(getContext(),"1"));
+                startActivity(AddHiddenTroubleActivity.getLauncher(getContext(),type));
             }
         });
-        titles=new String[]{getString(R.string.search_all),getString(R.string.not_alter),getString(R.string.overdue)};
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.search_all)+"12"));
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.not_alter)+"8"));
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.overdue)+"4"));
-
-        MessageTypePageAdapter adapter=new MessageTypePageAdapter(getActivity().getSupportFragmentManager(),titles);
-        viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
-        setIndicator(tabLayout,10,10);
+       IllegalTypeAdapter adapter=new IllegalTypeAdapter(getActivity().getSupportFragmentManager());
+       myViewPager.setAdapter(adapter);
     }
 
     @Override
@@ -124,36 +118,41 @@ public class SecurityFragment extends BaseFragment {
 
     @OnClick(R.id.tv_hidden_trouble)
     public void choiceHiddenTrouble(){
-        tv_hidden_trouble.setBackground(getResources().getDrawable(R.drawable.tab_security_gradient_bg));
-        tv_illegal.setBackground(getResources().getDrawable(R.drawable.tab_security_normal));
-        tv_mine.setBackground(getResources().getDrawable(R.drawable.tab_security_normal));
+        tv_hidden_trouble.setBackgroundResource(R.drawable.tab_security_gradient_bg);
+        tv_illegal.setBackgroundResource(R.drawable.tab_security_normal);
+        tv_mine.setBackgroundResource(R.drawable.tab_security_normal);
         tv_illegal.setTextColor(getResources().getColor(R.color.text_color_shallow));
         tv_mine.setTextColor(getResources().getColor(R.color.text_color_shallow));
         tv_hidden_trouble.setTextColor(getResources().getColor(R.color.white));
         nav.showOrHideAdd(true);
+        type="0";
+        myViewPager.setCurrentItem(0);
     }
 
     @OnClick(R.id.tv_illegal)
     public void choicIllegal(){
-        tv_illegal.setBackground(getResources().getDrawable(R.drawable.tab_security_illegal_bg));
-        tv_hidden_trouble.setBackground(getResources().getDrawable(R.drawable.tab_security_normal));
-        tv_mine.setBackground(getResources().getDrawable(R.drawable.tab_security_normal));
+        tv_illegal.setBackgroundResource(R.drawable.tab_security_illegal_bg);
+        tv_hidden_trouble.setBackgroundResource(R.drawable.tab_security_normal);
+        tv_mine.setBackgroundResource(R.drawable.tab_security_normal);
         tv_illegal.setTextColor(getResources().getColor(R.color.white));
         tv_mine.setTextColor(getResources().getColor(R.color.text_color_shallow));
         tv_hidden_trouble.setTextColor(getResources().getColor(R.color.text_color_shallow));
         nav.showOrHideAdd(true);
+        type="1";
+        myViewPager.setCurrentItem(1);
     }
 
     @OnClick(R.id.tv_mine)
     public void choiceMine(){
-        tv_mine.setBackground(getResources().getDrawable(R.drawable.tab_security_mine));
-        tv_hidden_trouble.setBackground(getResources().getDrawable(R.drawable.tab_security_normal));
-        tv_illegal.setBackground(getResources().getDrawable(R.drawable.tab_security_normal));
+        tv_mine.setBackgroundResource(R.drawable.tab_security_mine);
+        tv_hidden_trouble.setBackgroundResource(R.drawable.tab_security_normal);
+        tv_illegal.setBackgroundResource(R.drawable.tab_security_normal);
         tv_illegal.setTextColor(getResources().getColor(R.color.text_color_shallow));
         tv_mine.setTextColor(getResources().getColor(R.color.app_blue));
         tv_hidden_trouble.setTextColor(getResources().getColor(R.color.text_color_shallow));
         //选择我的时 新增功能去掉
         nav.showOrHideAdd(false);
+        myViewPager.setCurrentItem(2);
     }
 
 }

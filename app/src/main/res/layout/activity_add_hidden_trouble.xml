@@ -103,6 +103,7 @@
                         android:text="@string/hidden_trouble_find_date"
                         />
                     <TextView
+                        android:id="@+id/tv_start_time"
                         android:layout_marginLeft="100dp"
                         style="@style/text_normal"
                         android:textColor="@color/text_light"
@@ -131,6 +132,7 @@
                         android:text="@string/hidden_trouble_register_date"
                         />
                     <TextView
+                        android:id="@+id/tv_end_time"
                         android:layout_marginLeft="100dp"
                         style="@style/text_normal"
                         android:textColor="@color/text_light"
@@ -178,6 +180,12 @@
                     android:layout_height="1dip"
                     android:background="@color/et_gray"
                     />
+                <com.isoftston.issuser.conchapp.weight.InputView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/input_illegal_type"
+                    android:visibility="gone"
+                    />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -185,6 +193,8 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="25dp"
                     android:paddingRight="25dp"
+                    android:id="@+id/ll_range"
+                    android:visibility="gone"
                     >
                     <TextView
                         style="@style/text_normal"
@@ -236,6 +246,11 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/input_position"
                     />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:background="@color/et_gray"
+                    />
                 <RelativeLayout
                     android:layout_marginTop="15dp"
                     android:layout_marginLeft="20dp"
@@ -246,7 +261,7 @@
                     <TextView
                         style="@style/text_normal"
                         android:id="@+id/tv_photo"
-                        android:text="@string/hidden_trouble_detail_name"
+                        android:text="@string/hidden_trouble_photo"
                         android:textColor="@color/white"
                         android:paddingLeft="15dp"
                         android:layout_centerVertical="true"
@@ -265,7 +280,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/alter_icn"
+                            android:src="@mipmap/photo"
                             />
                     </LinearLayout>
 

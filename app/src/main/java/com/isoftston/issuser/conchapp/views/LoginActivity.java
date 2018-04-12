@@ -87,6 +87,7 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
     @OnClick(R.id.tv_find_password)
     public void findPassword(){
         //进入找回密码界面
+        startActivity(ForgetPasswordActivity.getLaucner(context));
     }
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {

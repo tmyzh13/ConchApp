@@ -2,7 +2,7 @@
     <string name="app_name">ConchApp</string>
 
     <string name="home_message">信息</string>
-    <string name="home_security">安全</string>
+    <string name="home_security">违章</string>
     <string name="home_work">作业</string>
     <string name="home_check">检维</string>
     <string name="home_mine">我的</string>
@@ -27,8 +27,11 @@
     <!--security-->
     <string name="hidden_trouble_msg">隐患信息</string>
     <string name="illegal_msg">违章信息</string>
+    <string name="send">发布</string>
     <string name="not_alter">未整改</string>
     <string name="overdue">逾期</string>
+    <string name="altered">已修改</string>
+    <string name="not_check">未验收</string>
     <string name="yh_message">隐患信息</string>
     <string name="wz_message">违章信息</string>
     <string name="aq_message">安全信息</string>
@@ -62,7 +65,7 @@
 
     <!--add_illegal_promble-->
     <string name="illegal_problem">违章问题</string>
-    <string name="illegal_detail_name">隐患详细名称</string>
+    <string name="illegal_detail_name">违章详细名称</string>
     <string name="illeagl_company">违章单位</string>
     <string name="illegal_type">违章类型</string>
     <string name="illegal_place">违章地点</string>
@@ -72,6 +75,7 @@
 
     <!--add_hidden_trouble-->
     <string name="hidden_trouble">隐患问题</string>
+    <string name="illegal">违章问题</string>
     <string name="hidden_trouble_detail_name">隐患详细名称</string>
     <string name="hidden_trouble_find_date">发现日期</string>
     <string name="hidden_trouble_register_date">登记日期</string>
@@ -86,6 +90,9 @@
     <string name="hidden_trouble_major">重大</string>
     <string name="hidden_trouble_normal">一般</string>
     <string name="hidden_trouble_source">隐患来源</string>
+    <string name="hidden_info">发现日期必须早于登记时间</string>
+
+
     <string name="yh_project_check">隐患项目查看</string>
     <string name="yh_finder">隐患发现人</string>
     <string name="find_time">发现时间</string>
@@ -139,5 +146,41 @@
     <string name="approved">已审批</string>
     <string name="un_closed">未关闭</string>
 
+    <!--选择照片-->
+    <string name="choice_photo">选择照片</string>
+    <string name="choice_photo_hint">提示：只能添加三张图片，长按图片删除 </string>
+    <string name="choice_photo_add">添加图片</string>
+    <string name="photo_action">拍照</string>
+    <string name="gallery_action">相册</string>
+    <string name="cancel_action">取消</string>
 
+    <!--检修管理-->
+    <string name="check_manager">检维修管理</string>
+    <string name="check_manager_device_statistics_info">设备统计信息</string>
+    <string name="check_manager_device_info">设备信息</string>
+    <string name="check_manager_device_scan">设备扫描</string>
+    <string name="check_manager_device_scan_code">设备扫码</string>
+    <string name="check_manager_device_name">设备名称</string>
+    <string name="check_manager_device_no">设备编号</string>
+    <string name="check_manager_device_place">地点</string>
+
+    <!--危险作业信息-->
+    <string name="danger_work_info">危险作业信息</string>
+    <string name="danger_work_phone">中控室电话</string>
+    <string name="danger_work_safety_point">安全要点或注意事项</string>
+    <string name="danger_work_damage_type">可能造成的伤害种类</string>
+    <string name="danger_work_accident">可能出现的危险事故</string>
+    <string name="danger_work_accident_eg">典型事故案例</string>
+    <string name="danger_work_action_rules">检维修作业操作规程</string>
+    <string name="danger_work_manager_system">停送电管理制度</string>
+    <string name="danger_work_approval_system">危险作业审批制度</string>
+    <string name="danger_work_eneger_system">能量隔离制度</string>
+
+    <!--忘记密码-->
+    <string name="forget_password">忘记密码</string>
+    <string name="forget_password_input_hint">Email 地址</string>
+    <string name="forget_password_sned_link">发送重置密码链接</string>
+    <string name="forget_password_hint">请输入您的Email地址，我们会将重置密码的信息发送给您</string>
+    <string name="forget_password_email_error">邮箱不符合规格</string>
+    <string name="forget_password_send_success">操作成功，请稍等！</string>
 </resources>

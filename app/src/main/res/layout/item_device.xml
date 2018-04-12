@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/item_message_bg"
+    android:padding="10dp"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            style="@style/text_normal"
+            android:textColor="@color/black"
+            android:text="@string/check_manager_device_name"
+            />
+        <TextView
+            style="@style/text_normal"
+            android:textSize="10sp"
+            android:text="2018年3月5日"
+            android:layout_alignParentRight="true"
+            />
+    </RelativeLayout>
+    <TextView
+        android:textSize="@dimen/text_small"
+        android:layout_marginTop="10dp"
+       style="@style/text_normal"
+        android:id="@+id/tv_device_no"
+        android:text="@string/check_manager_device_no"
+        />
+    <TextView
+        android:layout_marginTop="30dp"
+        style="@style/text_normal"
+        android:textSize="@dimen/text_small_small"
+        android:textColor="@color/text_gray"
+        android:id="@+id/tv_device_place"
+        android:text="@string/check_manager_device_place"
+        />
+</LinearLayout>

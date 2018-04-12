@@ -1,4 +1,4 @@
-package com.isoftston.issuser.conchapp.views.security;
+package com.isoftston.issuser.conchapp.views.check;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,35 +10,30 @@ import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
 import butterknife.Bind;
-import butterknife.OnClick;
 
 /**
- * Created by issuser on 2018/4/11.
+ * Created by issuser on 2018/4/12.
  */
 
-public class ChoicePhotoActivity extends BaseActivity {
+public class CheckDeviceDetailActivity extends BaseActivity {
 
     @Bind(R.id.nav)
     NavBar navBar;
 
-    private Context context=ChoicePhotoActivity.this;
-
     public static Intent getLauncher(Context context){
-        Intent intent =new Intent(context,ChoicePhotoActivity.class);
+        Intent intent =new Intent(context,CheckDeviceDetailActivity.class);
         return intent;
     }
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_choice_photo;
+        return R.layout.activity_check_device_detail;
     }
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        navBar.setColorRes(R.color.white);
-        navBar.setTitleColor(getResources().getColor(R.color.black));
-        setBarColor(getResources().getColor(R.color.transparent_black));
-        navBar.setNavTitle(getString(R.string.choice_photo));
+        navBar.setNavTitle(getString(R.string.danger_work));
+        navBar.setColorRes(R.color.transparent);
     }
 
     @Override
