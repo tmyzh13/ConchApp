@@ -1,6 +1,7 @@
 package com.isoftston.issuser.conchapp;
 
 import android.app.Application;
+import android.os.StrictMode;
 import android.support.multidex.MultiDexApplication;
 
 import com.corelibs.api.ApiFactory;
@@ -32,5 +33,9 @@ public class App extends MultiDexApplication {
         ApiFactory.getFactory().add(Urls.ROOT); //初始化Retrofit接口工厂
         PreferencesHelper.init(getApplicationContext());
         GalleryFinalConfigurator.config(getApplicationContext());
+
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        builder.detectFileUriExposure();
     }
 }
