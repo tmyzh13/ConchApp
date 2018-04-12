@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.corelibs.base.BaseFragment;
 import com.corelibs.base.BasePresenter;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.views.message.adpter.MessageListviewAdapter;
 import com.isoftston.issuser.conchapp.views.message.adpter.VpAdapter;
 import com.isoftston.issuser.conchapp.weight.NavBar;
@@ -47,6 +48,8 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     LinearLayout ll_aq_detail;
     @Bind(R.id.bt_yh)
     Button bt_yh;
+    @Bind(R.id.iv_dirict)
+    ImageView iv_direc;
     @Bind(R.id.iv_back)
     ImageView iv_back;
     @Bind(R.id.bt_aq)
@@ -57,6 +60,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     ListView listView;
     private List<View> list=null;
     private List<String> datas=new ArrayList<>();
+    private boolean up=false;
     public Handler handler = new Handler(){
         public void handleMessage(android.os.Message msg) {
             int currentItem = viewPager.getCurrentItem();
@@ -79,15 +83,16 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         nav.setNavTitle(getString(R.string.home_message));
         nav.hideBack();
         iv_seach.setVisibility(View.VISIBLE);
-        ll_main.setOnClickListener(this) ;
+//        ll_main.setOnClickListener(this) ;
         VpAdapter adapter = new VpAdapter(list,handler);
         addData();
         MessageListviewAdapter messageListviewAdapter=new MessageListviewAdapter(getActivity(),datas);
         listView.setAdapter(messageListviewAdapter);
         listView.setCacheColorHint(Color.TRANSPARENT);
+        iv_direc.setOnClickListener(this);
+        bt_yh.setOnClickListener(this);
         bt_aq.setOnClickListener(this);
         bt_wz.setOnClickListener(this);
-        bt_yh.setOnClickListener(this);
         viewPager.setPageMargin(100);
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(2);
@@ -100,7 +105,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
 
             @Override
             public void onPageSelected(int position) {
-                Toast.makeText(getActivity(),"当前是第"+position+"个条目",Toast.LENGTH_SHORT).show();
+               ToastUtils.showtoast(getActivity(),"当前是第"+position+"个条目");
 
             }
 
@@ -142,17 +147,29 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.bt_yh:
-            case R.id.bt_wz:
-            case R.id.bt_aq:
-                bt_yh.setVisibility(View.GONE);
-                bt_wz.setVisibility(View.GONE);
-                bt_aq.setVisibility(View.GONE);
-                ll_aq_detail.setVisibility(View.VISIBLE);
-                ll_wz_detail.setVisibility(View.VISIBLE);
-                ll_yh_detail.setVisibility(View.VISIBLE);
+            case R.id.iv_dirict:
+                if (up){
+                    up=false;
+                    bt_yh.setVisibility(View.GONE);
+                    bt_wz.setVisibility(View.GONE);
+                    bt_aq.setVisibility(View.GONE);
+                    ll_aq_detail.setVisibility(View.VISIBLE);
+                    ll_wz_detail.setVisibility(View.VISIBLE);
+                    ll_yh_detail.setVisibility(View.VISIBLE);
+                }else {
+                    up=true;
+                    bt_yh.setVisibility(View.VISIBLE);
+                    bt_wz.setVisibility(View.VISIBLE);
+                    bt_aq.setVisibility(View.VISIBLE);
+                    ll_aq_detail.setVisibility(View.GONE);
+                    ll_wz_detail.setVisibility(View.GONE);
+                    ll_yh_detail.setVisibility(View.GONE);
+                }
+
                 break;
-            case R.id.ll_main:
+            case R.id.bt_aq:
+            case R.id.bt_wz:
+            case R.id.bt_yh:
                 viewPager.setVisibility(View.VISIBLE);
                 ll_main.setVisibility(View.GONE);
                 iv_back.setImageDrawable(getResources().getDrawable(R.mipmap.back));
