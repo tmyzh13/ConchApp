@@ -22,15 +22,20 @@
                     android:id="@+id/item_icon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@mipmap/yh_icon"/>
                 <TextView
                     android:id="@+id/item_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
-                    android:text="隐患信息"
+                    android:text="@string/yh_message"
                     android:textColor="@color/text_main"
                     />
+                <ImageView
+                    android:id="@+id/item_mark"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@mipmap/yh_icon"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -38,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:paddingRight="10dp"
-                    android:text="2018年4月5日 20：02 "/>
+                    android:text="@string/time"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -64,7 +69,7 @@
                 android:paddingLeft="10dp"
                 android:textColor="@color/text_color_shallow"
                 android:paddingBottom="5dp"
-                android:text="发现地点"/>
+                android:text="@string/find_place"/>
         </LinearLayout>
 
     <View

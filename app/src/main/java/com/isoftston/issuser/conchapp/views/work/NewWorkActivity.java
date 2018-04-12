@@ -1,14 +1,21 @@
 package com.isoftston.issuser.conchapp.views.work;
 
+import android.content.Context;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BasePresenter;
+import com.corelibs.utils.IMEUtil;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.utils.DateUtils;
 import com.isoftston.issuser.conchapp.weight.CustomDatePicker;
@@ -21,6 +28,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * Created by issuser on 2018/4/11.
@@ -48,6 +56,14 @@ public class NewWorkActivity extends BaseActivity implements View.OnClickListene
     TextView tv_start_time;
     @Bind(R.id.end_time)
     TextView tv_end_time;
+    @Bind(R.id.et_name)
+    EditText et_name;
+    @Bind(R.id.tv_detail_name_content)
+    TextView tv_detail_name_content;
+    @Bind(R.id.ll_alter)
+    LinearLayout ll_alter;
+
+    private Context context =NewWorkActivity.this;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_new_work;
@@ -55,8 +71,10 @@ public class NewWorkActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        nav.setColorRes(R.color.colorPrimary);
         nav.setNavTitle(getString(R.string.new_work));
+        nav.setColorRes(R.color.white);
+        nav.setTitleColor(getResources().getColor(R.color.black));
+        setBarColor(getResources().getColor(R.color.transparent_black));
         nav.hideBack();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
         String now = sdf.format(new Date());
@@ -71,6 +89,43 @@ public class NewWorkActivity extends BaseActivity implements View.OnClickListene
         tv_end_time.setText(now);
         tv_start_time.setOnClickListener(this);
         tv_end_time.setOnClickListener(this);
+        et_name.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                if(actionId== EditorInfo.IME_ACTION_DONE||actionId==EditorInfo.IME_ACTION_SEARCH){
+                    if(!TextUtils.isEmpty(et_name.getText().toString())){
+                        tv_detail_name_content.setVisibility(View.VISIBLE);
+                        tv_detail_name_content.setText(et_name.getText().toString());
+                    }else{
+                        ll_alter.setVisibility(View.VISIBLE);
+                    }
+                    et_name.setVisibility(View.GONE);
+                    IMEUtil.closeIME(et_name,context);
+                    return true;
+                }
+                return false;
+            }
+        });
+        et_name.setOnFocusChangeListener(new android.view.View.
+                OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    // 此处为得到焦点时的处理内容
+                } else {
+                    // 此处为失去焦点时的处理内容
+                    if(!TextUtils.isEmpty(et_name.getText().toString())){
+                        tv_detail_name_content.setVisibility(View.VISIBLE);
+                        tv_detail_name_content.setText(et_name.getText().toString());
+                    }else{
+                        ll_alter.setVisibility(View.VISIBLE);
+                    }
+                    et_name.setVisibility(View.GONE);
+
+                }
+            }
+        });
     }
 
     @Override
@@ -145,5 +200,16 @@ public class NewWorkActivity extends BaseActivity implements View.OnClickListene
         customDatePicker.setIsLoop(false); // 不允许循环滚动
         //customDatePicker.show(dateText.getText().toString() + " " + timeText.getText().toString());
         customDatePicker.show(DateUtils.format_yyyy_MM_dd_HH_mm.format(new Date()));
+    }
+    @OnClick(R.id.ll_alter)
+    public void alterNamebtn(){
+        ll_alter.setVisibility(View.GONE);
+        et_name.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.tv_detail_name_content)
+    public void alterNameText(){
+        tv_detail_name_content.setVisibility(View.GONE);
+        et_name.setVisibility(View.VISIBLE);
     }
 }

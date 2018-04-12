@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.views.work.adpter.ListviewAdapter;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class ItemFragment extends Fragment {
         //获取Activity传递过来的参数
         Bundle mBundle = getArguments();
         String title = mBundle.getString("arg");
-        Toast.makeText(getActivity(), title, Toast.LENGTH_SHORT).show();
+        ToastUtils.showtoast(getActivity(), title);
         initData();
         ListviewAdapter listviewAdapter = new ListviewAdapter(getActivity(), list);
         mlistview.setAdapter(listviewAdapter);

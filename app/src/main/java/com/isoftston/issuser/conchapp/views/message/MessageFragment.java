@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -32,6 +33,8 @@ import butterknife.Bind;
 public class MessageFragment extends BaseFragment implements View.OnClickListener {
     @Bind(R.id.nav)
     NavBar nav;
+    @Bind(R.id.iv_seach)
+    ImageView iv_seach;
     @Bind(R.id.view_pager)
     ViewPager viewPager;
     @Bind(R.id.ll_main)
@@ -44,6 +47,8 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     LinearLayout ll_aq_detail;
     @Bind(R.id.bt_yh)
     Button bt_yh;
+    @Bind(R.id.iv_back)
+    ImageView iv_back;
     @Bind(R.id.bt_aq)
     Button bt_aq;
     @Bind(R.id.bt_wz)
@@ -73,6 +78,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         nav.setColorRes(R.color.app_blue);
         nav.setNavTitle(getString(R.string.home_message));
         nav.hideBack();
+        iv_seach.setVisibility(View.VISIBLE);
         ll_main.setOnClickListener(this) ;
         VpAdapter adapter = new VpAdapter(list,handler);
         addData();
@@ -149,6 +155,8 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
             case R.id.ll_main:
                 viewPager.setVisibility(View.VISIBLE);
                 ll_main.setVisibility(View.GONE);
+                iv_back.setImageDrawable(getResources().getDrawable(R.mipmap.back));
+                iv_back.setVisibility(View.VISIBLE);
                 break;
         }
     }

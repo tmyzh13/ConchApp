@@ -50,11 +50,11 @@
                         android:gravity="center"
                         android:id="@+id/ll_alter"
                         >
+
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/alter_icn"
-                            />
+                            android:src="@mipmap/alter_icn" />
                     </LinearLayout>
                     <EditText
                         android:visibility="gone"

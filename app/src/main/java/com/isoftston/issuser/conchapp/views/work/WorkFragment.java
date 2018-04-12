@@ -20,6 +20,7 @@ import com.corelibs.base.BaseFragment;
 import com.corelibs.base.BasePresenter;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.utils.DisplayUtil;
+import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.views.security.SecurityFragment;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 import com.shizhefei.view.indicator.IndicatorViewPager;
@@ -45,7 +46,13 @@ public class WorkFragment extends BaseFragment implements View.OnClickListener {
     @Bind((R.id.moretab_indicator))
     ScrollIndicatorView scrollIndicatorView;
     private IndicatorViewPager indicatorViewPager;
-    private String[] names = {"全部", "水泥", "码头","矿山","制造"};
+    private String[] names ;
+    @Bind(R.id.tv_danger_work)
+    TextView tv_danger_work;
+    @Bind(R.id.tv_common_work)
+    TextView tv_common_work;
+    @Bind(R.id.tv_mine)
+    TextView tv_mine;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_work;
@@ -60,6 +67,10 @@ public class WorkFragment extends BaseFragment implements View.OnClickListener {
         iv_add.setVisibility(View.VISIBLE);
         iv_seach.setOnClickListener(this);
         iv_add.setOnClickListener(this);
+        tv_common_work.setOnClickListener(this);
+        tv_danger_work.setOnClickListener(this);
+        tv_mine.setOnClickListener(this);
+        names=new String[]{getString(R.string.all), getString(R.string.shuini), getString(R.string.matou),getString(R.string.kuangshan),getString(R.string.build)};
         FragmentPagerAdapter adapter = new TabPageIndicatorAdapter(getActivity().getSupportFragmentManager());
         float unSelectSize = 12;
         float selectSize = unSelectSize * 1.3f;
@@ -84,8 +95,15 @@ public class WorkFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.iv_seach:
-                Intent intent1=new Intent(getActivity(),FixWorkActivity.class);
-                startActivity(intent1);
+                break;
+            case R.id.tv_danger_work:
+                ToastUtils.showtoast(getActivity(),"onclick1");
+                break;
+            case R.id.tv_common_work:
+                ToastUtils.showtoast(getActivity(),"onclick2");
+                break;
+            case R.id.tv_mine:
+                ToastUtils.showtoast(getActivity(),"onclick3");
                 break;
         }
     }

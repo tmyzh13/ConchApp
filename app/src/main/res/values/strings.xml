@@ -123,6 +123,13 @@
     <string name="hour">时</string>
     <string name="minute">分</string>
     <string name="information">结束时间必须大于开始时间</string>
+    <string name="time">2018年4月5日 20：02</string>
+    <string name="find_place">发现地点</string>
+    <string name="all">全部</string>
+    <string name="shuini">水泥</string>
+    <string name="matou">码头</string>
+    <string name="kuangshan">矿山</string>
+    <string name="build">制造</string>
 
 
 </resources>

@@ -47,7 +47,7 @@ public class MessageListviewAdapter extends BaseAdapter {
         ViewHolder holder = null;
         if (convertView == null) {
             holder=new ViewHolder();
-            convertView = mInflater.inflate(R.layout.item_message_detail, null);
+            convertView = mInflater.inflate(R.layout.item_message, null);
             holder.icon_image = (ImageView) convertView.findViewById(R.id.item_icon);
             holder.icon_title = (TextView)convertView.findViewById(R.id.item_title);
             holder.content_msg = (TextView) convertView.findViewById(R.id.content);

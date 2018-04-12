@@ -71,8 +71,8 @@ public class ScanCodeActivity extends BaseActivity {
 
     @OnClick(R.id.modify_btn)
     public void modify() {//修改
-//        Intent intent = new Intent(this, );
-//        startActivity(intent);
+        Intent intent=new Intent(this,FixWorkActivity.class);
+        startActivity(intent);
     }
 
     private void scaned() {//扫过二维码

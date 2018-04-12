@@ -21,15 +21,71 @@
             android:focusableInTouchMode="true"
             android:orientation="vertical">
 
-            <EditText
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/shape_corner_green"
-                android:hint="@string/project_detail_name"
-                android:padding="10dp"
-                android:textColorHint="@color/white"
-                android:textSize="12sp" />
+                android:background="@color/white"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:paddingBottom="5dp">
+                <RelativeLayout
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/ll_add_corner_bg">
+                    <TextView
+                        style="@style/text_normal"
+                        android:id="@+id/tv_trouble_name"
+                        android:text="@string/project_detail_name"
+                        android:textColor="@color/white"
+                        android:paddingLeft="15dp"
+                        android:layout_centerVertical="true"
+                        />
+                    <LinearLayout
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:orientation="vertical"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/ll_oval_bg"
+                        android:gravity="center"
+                        android:id="@+id/ll_alter"
+                        >
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/alter_icn"
+                            />
+                    </LinearLayout>
+                    <EditText
+                        android:visibility="gone"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_toRightOf="@id/tv_trouble_name"
+                        android:layout_marginLeft="25dp"
+                        android:textColor="@color/app_light_blue"
+                        android:background="@drawable/et_add_inoput_white_bg"
+                        android:gravity="center_vertical"
+                        android:id="@+id/et_name"
+                        android:singleLine="true"
+                        android:paddingLeft="15dp"
+                        android:layout_marginRight="20dp" />
+                    <TextView
+                        style="@style/text_normal"
+                        android:textColor="@color/white"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="15dp"
+                        android:id="@+id/tv_detail_name_content"
+                        />
+                </RelativeLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
