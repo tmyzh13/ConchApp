@@ -166,6 +166,7 @@
     <string name="check_manager_device_name">设备名称</string>
     <string name="check_manager_device_no">设备编号</string>
     <string name="check_manager_device_place">地点</string>
+    <string name="check_manager_open_pemission">打开权限失败</string>
 
     <!--危险作业信息-->
     <string name="danger_work_info">危险作业信息</string>

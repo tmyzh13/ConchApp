@@ -1,9 +1,13 @@
 package com.isoftston.issuser.conchapp.views.message;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v13.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -154,7 +158,8 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     }
 
     private void checkLocationPermission() {
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest
+                .permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 //            //申请摄像头权限
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
@@ -195,35 +200,6 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.bt_yh:
-            case R.id.bt_wz:
-            case R.id.bt_aq:
-                bt_yh.setVisibility(View.GONE);
-                bt_wz.setVisibility(View.GONE);
-                bt_aq.setVisibility(View.GONE);
-                ll_aq_detail.setVisibility(View.VISIBLE);
-                ll_wz_detail.setVisibility(View.VISIBLE);
-                ll_yh_detail.setVisibility(View.VISIBLE);
-                switch (view.getId()) {
-                    case R.id.iv_dirict:
-                        if (up) {
-                            up = false;
-                            bt_yh.setVisibility(View.GONE);
-                            bt_wz.setVisibility(View.GONE);
-                            bt_aq.setVisibility(View.GONE);
-                            ll_aq_detail.setVisibility(View.VISIBLE);
-                            ll_wz_detail.setVisibility(View.VISIBLE);
-                            ll_yh_detail.setVisibility(View.VISIBLE);
-                        } else {
-                            up = true;
-                            bt_yh.setVisibility(View.VISIBLE);
-                            bt_wz.setVisibility(View.VISIBLE);
-                            bt_aq.setVisibility(View.VISIBLE);
-                            ll_aq_detail.setVisibility(View.GONE);
-                            ll_wz_detail.setVisibility(View.GONE);
-                            ll_yh_detail.setVisibility(View.GONE);
-                        }
         switch (view.getId()){
             case R.id.iv_dirict:
                 if (up){
@@ -246,23 +222,22 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                     ll_yh_detail.setVisibility(View.GONE);
                 }
 
-                        break;
-                    case R.id.bt_aq:
-                    case R.id.bt_wz:
-                    case R.id.bt_yh:
-                    case R.id.aq_detail:
-                    case R.id.yh_detail:
-                    case R.id.wz_detail:
-                        nav.setNavTitle(getString(R.string.home_message));
-                        viewPager.setVisibility(View.VISIBLE);
-                        ll_main.setVisibility(View.GONE);
-                        iv_back.setImageDrawable(getResources().getDrawable(R.mipmap.back));
-                        iv_back.setVisibility(View.VISIBLE);
-                        break;
-                    case R.id.iv_back:
-                        getActivity().finish();
-                        break;
-                }
+                break;
+            case R.id.bt_aq:
+            case R.id.bt_wz:
+            case R.id.bt_yh:
+            case R.id.aq_detail:
+            case R.id.yh_detail:
+            case R.id.wz_detail:
+                nav.setNavTitle(getString(R.string.home_message));
+                viewPager.setVisibility(View.VISIBLE);
+                ll_main.setVisibility(View.GONE);
+                iv_back.setImageDrawable(getResources().getDrawable(R.mipmap.back));
+                iv_back.setVisibility(View.VISIBLE);
+                break;
+            case R.id.iv_back:
+                getActivity().finish();
+                break;
         }
     }
 
