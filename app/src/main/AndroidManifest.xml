@@ -191,6 +191,9 @@
         <!--扫码-->
         <activity android:name=".views.check.CheckDeviceDetailActivity"
             android:screenOrientation="portrait"
+             />
+        <activity android:name=".views.work.CityLocationActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/DialogActivity" />
         <activity
             android:name=".views.mine.OpinionFeedbackActivity"
