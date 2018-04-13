@@ -8,6 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.corelibs.views.roundedimageview.RoundedTransformationBuilder;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.weight.CircleImageView;
 
@@ -62,6 +65,11 @@ public class MessageListviewAdapter extends BaseAdapter {
         }
         holder.content_msg.setText(list.get(position));
 
+        Glide.with(context).load("http://pic29.photophoto.cn/20131204/0034034499213463_b.jpg")
+                .centerCrop()
+                .override(320,160)
+                .transform(new CenterCrop(context), new RoundedTransformationBuilder().cornerRadius(20).build(context))
+                .into(holder.imageView);
         return convertView;
     }
 

@@ -7,17 +7,28 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BasePresenter;
+import com.corelibs.views.ptr.loadmore.adapter.GridViewAdapter;
+import com.corelibs.views.roundedimageview.RoundedTransformationBuilder;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.adapters.mGridViewAdapter;
 import com.isoftston.issuser.conchapp.views.message.adpter.VpAdapter;
 import com.isoftston.issuser.conchapp.weight.CircleImageView;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 
@@ -28,14 +39,19 @@ import butterknife.Bind;
 public class ItemDtailActivity extends BaseActivity {
     @Bind(R.id.nav)
     NavBar nav;
+    @Bind(R.id.tv_title)
+    TextView tv_title;
     @Bind(R.id.vp)
     ViewPager vp;
     @Bind(R.id.ll)
     LinearLayout ll;
+    @Bind(R.id.mGridView)
+    GridView mGridView;
     private List<View> imageList;
     private ArrayList<View> dotsList;
     private int[] images = {R.drawable.aaa,R.drawable.bbb,R.drawable.ccc,R.drawable.ddd};
-
+    private mGridViewAdapter gridViewAdapter;
+    private List<Map<String, Object>> data_list;
     public Handler handler = new Handler(){
         public void handleMessage(android.os.Message msg) {
             int currentItem = vp.getCurrentItem();
@@ -54,9 +70,8 @@ public class ItemDtailActivity extends BaseActivity {
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        nav.setColorRes(R.color.colorPrimary);
         nav.setNavTitle(getString(R.string.yh_project_check));
-        nav.hideBack();
+        tv_title.setTextColor(getResources().getColor(R.color.text_color));
         //初始化数据
         initImages();
         //初始化小圆点
@@ -68,6 +83,9 @@ public class ItemDtailActivity extends BaseActivity {
         vp.setAdapter(adapter);
         //初始化vp的位置
         vp.setCurrentItem(1);
+        data_list = initList();
+        gridViewAdapter = new mGridViewAdapter(this, data_list);
+        mGridView.setAdapter(gridViewAdapter);
         //页面改变监听
         vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -91,7 +109,15 @@ public class ItemDtailActivity extends BaseActivity {
             }
         });
     }
-
+    public List<Map<String, Object>> initList() {
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        for (int i = 0; i < images.length; i++) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("ItemImage", images[i]);
+            list.add(map);
+        }
+        return list;
+    }
     @Override
     protected BasePresenter createPresenter() {
         return null;
@@ -126,8 +152,13 @@ public class ItemDtailActivity extends BaseActivity {
                     R.layout.viewpager_item, null);
 //            TextView title = (TextView) view.findViewById(R.id.view_title);
 //            title.setText("头像");
-            CircleImageView iv = (CircleImageView) view.findViewById(R.id.view_image);
-            iv.setImageDrawable(getResources().getDrawable(images[i]));
+            ImageView iv = view.findViewById(R.id.view_image);
+//            Glide.with(this).load("http://pic29.photophoto.cn/20131204/0034034499213463_b.jpg")
+//                    .centerCrop()
+//                    .override(320,160)
+//                    .transform(new CenterCrop(this), new RoundedTransformationBuilder().cornerRadius(20).build(this))
+//                    .into(iv);
+            iv.setImageResource(images[i]);
             imageList.add(view);
         }
     }

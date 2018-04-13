@@ -12,6 +12,7 @@
     <color name="app_gray">#ACACAC</color>
     <color name="app_bg">#f1f0f7</color>
 
+
     <!-- 文字主要色调 -->
     <color name="text_color_main">#3e3e3e</color>
     <!-- 文字主要浅色调 -->
@@ -42,4 +43,5 @@
     <!-- 次要字体（描述性字体的颜色）-->
     <color name = "des_text_color">#999999</color>
 
+    <color name="text_color">#616161</color>
 </resources>

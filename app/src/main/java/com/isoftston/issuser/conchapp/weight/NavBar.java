@@ -66,6 +66,7 @@ public class NavBar extends TranslucentNavBar {
         tv_title.setText(title);
     }
 
+
     public void hideBack(){
         iv_back.setVisibility(GONE);
     }
