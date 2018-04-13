@@ -18,6 +18,7 @@ import com.corelibs.base.BasePresenter;
 import com.corelibs.utils.IMEUtil;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.utils.DateUtils;
+import com.isoftston.issuser.conchapp.utils.Tools;
 import com.isoftston.issuser.conchapp.views.work.NewWorkActivity;
 import com.isoftston.issuser.conchapp.weight.CustomDatePicker;
 import com.isoftston.issuser.conchapp.weight.InputView;
@@ -158,6 +159,11 @@ public class AddHiddenTroubleActivity extends BaseActivity {
             }
         });
 
+        starttime= Tools.getCurrentTime();
+        endtime=Tools.getCurrentTime();
+        tv_start_time.setText(starttime);
+        tv_end_time.setText(endtime);
+
     }
 
     @Override
@@ -175,17 +181,24 @@ public class AddHiddenTroubleActivity extends BaseActivity {
     public void alterNamebtn(){
         ll_alter.setVisibility(View.GONE);
         et_name.setVisibility(View.VISIBLE);
+        et_name.setFocusable(true);
+        et_name.setFocusableInTouchMode(true);
+        et_name.requestFocus();
     }
 
     @OnClick(R.id.tv_detail_name_content)
     public void alterNameText(){
         tv_detail_name_content.setVisibility(View.GONE);
         et_name.setVisibility(View.VISIBLE);
+        et_name.setFocusable(true);
+        et_name.setFocusableInTouchMode(true);
+        et_name.requestFocus();
     }
 
     @OnClick(R.id.ll_confirm)
     public void confirmInfo(){
-
+        //提交新增信息 暂时结束页面
+        finish();
     }
 
     private boolean isDateOneBigger(String beginDateTime, String endDateTime) {
@@ -217,13 +230,15 @@ public class AddHiddenTroubleActivity extends BaseActivity {
         showDatePickerDialog(tv_end_time,2);
     }
 
+    private String starttime;
+    private String endtime;
+
     private void showDatePickerDialog(final TextView textView, final int i) {
 
 
         CustomDatePicker customDatePicker = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
 
-            private String starttime;
-            private String endtime;
+
 
             @Override
             public void handle(String time) { // 回调接口，获得选中的时间
@@ -236,11 +251,11 @@ public class AddHiddenTroubleActivity extends BaseActivity {
                         endtime=DateUtils.format_yyyy_MM_dd_HH_mm.format(DateUtils.format_yyyy_MM_dd_HH_mm.parse(time));
                     }
                     if (isDateOneBigger(starttime,endtime)){
-                        Toast.makeText(AddHiddenTroubleActivity.this,R.string.information,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddHiddenTroubleActivity.this,R.string.hidden_info,Toast.LENGTH_SHORT).show();
                         return;
                     }
                     textView.setText(DateUtils.format_yyyy_MM_dd_HH_mm.format(DateUtils.format_yyyy_MM_dd_HH_mm.parse(time)));
-                    textView.setTextColor(getResources().getColor(R.color.black));
+//                    textView.setTextColor(getResources().getColor(R.color.black));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

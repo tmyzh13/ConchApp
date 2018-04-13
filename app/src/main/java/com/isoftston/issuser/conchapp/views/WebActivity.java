@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
@@ -17,6 +18,7 @@ import android.widget.ProgressBar;
 import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BasePresenter;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.utils.Tools;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
 import butterknife.Bind;
@@ -26,7 +28,7 @@ import butterknife.Bind;
  */
 public class WebActivity extends BaseActivity {
 
-    private Context context;
+    private Context context =WebActivity.this;
     @Bind(R.id.nav)
     NavBar nav;
     @Bind(R.id.web)
@@ -41,11 +43,10 @@ public class WebActivity extends BaseActivity {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            if(getIntent().getStringExtra("title").equals("广告详情")){
+            if(!Tools.isNull(url)){
                 view.loadDataWithBaseURL(null, url, "text/html", "utf-8", null);
-            }else{
-                view.loadUrl(url);
             }
+//                view.loadUrl(url);
             return true;
         }
 
@@ -74,6 +75,7 @@ public class WebActivity extends BaseActivity {
     };
 
     public static Intent getLauncher(Context context,String title,String url){
+        Log.e("yzh","WebActivity");
         Intent intent=new Intent(context,WebActivity.class);
         intent.putExtra(WEB_TITLE,title);
         intent.putExtra(WEB_URL,url);
@@ -88,17 +90,15 @@ public class WebActivity extends BaseActivity {
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        nav.setNavTitle(getIntent().getStringExtra("title"));
+        Log.e("yzh","init");
+        nav.setNavTitle(getIntent().getStringExtra(WEB_TITLE));
         web.setWebViewClient(mClient);
         web.setWebChromeClient(mChromeClient);
         web.getSettings().setJavaScriptEnabled(true);
-        if(!TextUtils.isEmpty(getIntent().getStringExtra("url"))){
+        if(!TextUtils.isEmpty(getIntent().getStringExtra(WEB_URL))){
 
-            if(getIntent().getStringExtra("title").equals("广告详情")){
                 web.loadDataWithBaseURL(null, getIntent().getStringExtra("url"), "text/html", "utf-8", null);
-            }else{
-                web.loadUrl(getIntent().getStringExtra("url"));
-            }
+//                web.loadUrl(getIntent().getStringExtra("url"));
 
         }
     }

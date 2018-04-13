@@ -103,4 +103,9 @@ public class ChoicePhotoActivity extends BaseActivity {
     protected BasePresenter createPresenter() {
         return null;
     }
+
+    @OnClick(R.id.tv_confirm)
+    public void confirm(){
+        finish();
+    }
 }

@@ -1,17 +1,22 @@
 package com.isoftston.issuser.conchapp.views.security;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.corelibs.base.BaseFragment;
 import com.corelibs.base.BasePresenter;
+import com.corelibs.utils.rxbus.RxBus;
 import com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout;
 import com.corelibs.views.ptr.loadmore.widget.AutoLoadMoreListView;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.MessageTypeAdapter;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
+import com.isoftston.issuser.conchapp.views.message.ItemDtailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,8 +57,7 @@ public class TypeMessageFragment extends BaseFragment {
     @Override
     protected void init(Bundle savedInstanceState) {
         type=getArguments().getString("type");
-        Log.e("yzh","1111111"+type);
-        ToastUtils.showtoast(getActivity(),type);
+//        ToastUtils.showtoast(getActivity(),type);
         tv.setText(type);
 
         adapter=new MessageTypeAdapter(getContext());
@@ -65,6 +69,18 @@ public class TypeMessageFragment extends BaseFragment {
         lv_message.setAdapter(adapter);
         ptrLayout.disableLoading();
         ptrLayout.setCanRefresh(false);
+
+        lv_message.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //进入消息详情界面
+                Intent intent =new Intent(getActivity(),ItemDtailActivity.class);
+                startActivity(intent);
+                //test
+//                Log.e("yzh","onItemclick");
+//                RxBus.getDefault().send(new Object(),"ssss");
+            }
+        });
     }
 
     @Override

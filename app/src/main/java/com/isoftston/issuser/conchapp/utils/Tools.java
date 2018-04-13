@@ -2,6 +2,8 @@ package com.isoftston.issuser.conchapp.utils;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.design.widget.TabLayout;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -9,6 +11,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by issuser on 2018/4/9.
@@ -112,5 +116,17 @@ public class Tools {
      */
     public static int getScreenHeight(Context context) {
         return context.getResources().getDisplayMetrics().heightPixels;
+    }
+
+    public static String getCurrentTime(){
+        SimpleDateFormat   formatter   =   new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date curDate =  new Date(System.currentTimeMillis());
+        return formatter.format(curDate);
+    }
+
+    public static boolean isConnected(Context context) {
+        ConnectivityManager conn = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = conn.getActiveNetworkInfo();
+        return (info != null && info.isConnected());
     }
 }

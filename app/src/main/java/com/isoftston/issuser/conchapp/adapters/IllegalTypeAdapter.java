@@ -3,6 +3,7 @@ package com.isoftston.issuser.conchapp.adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
 
 import com.isoftston.issuser.conchapp.views.security.HiddenTroubleMessageFragment;
 import com.isoftston.issuser.conchapp.views.security.IllegalMessageFragment;
@@ -27,16 +28,19 @@ public class IllegalTypeAdapter  extends FragmentPagerAdapter {
 
         if(position==0){
             if(hiddenTroubleMessageFragment==null){
+                Log.e("yzh","hiddenTouble");
                 hiddenTroubleMessageFragment=new HiddenTroubleMessageFragment();
             }
             return hiddenTroubleMessageFragment;
         }else if(position==1){
             if(illegalMessageFragment==null){
+                Log.e("yzh","illegalMessage");
                 illegalMessageFragment=new IllegalMessageFragment();
             }
             return illegalMessageFragment;
         }else if(position==2){
             if(mineMsgFragment==null){
+                Log.e("yzh","mineMsg");
                 mineMsgFragment=new MineMsgFragment();
             }
             return mineMsgFragment;

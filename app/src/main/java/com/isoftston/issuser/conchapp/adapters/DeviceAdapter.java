@@ -1,6 +1,7 @@
 package com.isoftston.issuser.conchapp.adapters;
 
 import android.content.Context;
+import android.widget.TextView;
 
 import com.corelibs.utils.adapter.BaseAdapterHelper;
 import com.corelibs.utils.adapter.normal.QuickAdapter;
@@ -19,6 +20,10 @@ public class DeviceAdapter extends QuickAdapter<DeviceBean> {
 
     @Override
     protected void convert(BaseAdapterHelper helper, DeviceBean item, int position) {
+//        helper.setText(R.id.tv_device_name,"")
+//                .setText(R.id.tv_time,"")
+//                .setText(R.id.tv_device_no,"")
+//                .setText(R.id.tv_device_place,"");
 
     }
 }

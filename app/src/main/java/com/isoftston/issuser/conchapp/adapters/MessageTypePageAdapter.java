@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
 
 import com.isoftston.issuser.conchapp.views.security.TypeMessageFragment;
 
@@ -16,6 +17,7 @@ public class MessageTypePageAdapter extends FragmentPagerAdapter{
     private String[] mTitles;
 
     public MessageTypePageAdapter(FragmentManager fm,String[] mTitles){
+
         super(fm);
         this.mTitles=mTitles;
     }

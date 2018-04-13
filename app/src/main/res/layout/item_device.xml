@@ -12,12 +12,14 @@
             style="@style/text_normal"
             android:textColor="@color/black"
             android:text="@string/check_manager_device_name"
+            android:id="@+id/tv_device_name"
             />
         <TextView
             style="@style/text_normal"
             android:textSize="10sp"
             android:text="2018年3月5日"
             android:layout_alignParentRight="true"
+            android:id="@+id/tv_time"
             />
     </RelativeLayout>
     <TextView

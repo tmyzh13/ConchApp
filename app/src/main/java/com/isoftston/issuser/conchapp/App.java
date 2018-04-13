@@ -13,6 +13,8 @@ import com.isoftston.issuser.conchapp.constants.Urls;
 
 import org.litepal.LitePal;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * Created by issuser on 2018/4/9.
  */
@@ -34,8 +36,13 @@ public class App extends MultiDexApplication {
         PreferencesHelper.init(getApplicationContext());
         GalleryFinalConfigurator.config(getApplicationContext());
 
+        //galleryfinal 7.0
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
+
+        //jpush
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
     }
 }

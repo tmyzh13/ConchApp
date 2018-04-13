@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
+import com.corelibs.utils.ToastMgr;
 import com.corelibs.utils.adapter.BaseAdapterHelper;
 import com.corelibs.utils.adapter.normal.QuickAdapter;
 import com.isoftston.issuser.conchapp.R;
@@ -38,7 +39,7 @@ public class SelectImageAdapter extends QuickAdapter<ChosenImageFile>
     }
 
     @Override
-    protected void convert(BaseAdapterHelper helper, ChosenImageFile item, int position) {
+    protected void convert(BaseAdapterHelper helper, ChosenImageFile item, final int position) {
         helper.setVisible(R.id.image, item.chosen)
 
                 .setVisible(R.id.iv_plus, !item.chosen)
@@ -47,21 +48,12 @@ public class SelectImageAdapter extends QuickAdapter<ChosenImageFile>
         ImageView iv_plus=helper.getView(R.id.iv_plus);
 
         int width;
-//        if(isBig){
-//            width = (Tools.getScreenWidth(context)-Tools.dip2px(context,45))/2;
-//            iv_plus.setImageResource(R.mipmap.load_card);
-//            ViewGroup.LayoutParams  ps = image.getLayoutParams();
-//            ps.height=width/4*3;
-//            ViewGroup.LayoutParams ps1=iv_plus.getLayoutParams();
-//            ps1.height=width/4*3;
-//        }else{
-           width = (Tools.getScreenWidth(context)- Tools.dip2px(context,70))/4;
+           width = (Tools.getScreenWidth(context)- Tools.dip2px(context,60))/3;
             iv_plus.setImageResource(R.mipmap.plus);
             ViewGroup.LayoutParams  ps = image.getLayoutParams();
             ps.height=width;
             ViewGroup.LayoutParams ps1=iv_plus.getLayoutParams();
             ps1.height=width;
-//        }
 
 
 
@@ -81,7 +73,16 @@ public class SelectImageAdapter extends QuickAdapter<ChosenImageFile>
 //                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE);
 //            helper.setImageBuilder(R.id.image, creator);
 //        }
-
+        image.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (getChosenCount() == maxSize){
+                    add(ChosenImageFile.emptyInstance());
+                }
+                remove(position);
+                return false;
+            }
+        });
     }
 
     public int getChosenCount() {

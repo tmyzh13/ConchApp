@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/app_blue"
     >
 
-    <com.bm.wddoors.widget.NavBar
+    <com.isoftston.issuser.conchapp.weight.NavBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/nav"
@@ -23,5 +23,6 @@
     <WebView
         android:id="@+id/web"
         android:layout_height="match_parent"
-        android:layout_width="match_parent"/>
+        android:layout_width="match_parent"
+        android:layout_margin="15dp"/>
 </LinearLayout>

@@ -3,6 +3,7 @@ package com.isoftston.issuser.conchapp.views.security;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 
 import com.corelibs.base.BaseFragment;
 import com.corelibs.base.BasePresenter;
@@ -19,18 +20,19 @@ import butterknife.Bind;
 public class IllegalMessageFragment extends BaseFragment {
     @Bind(R.id.tabLayout)
     TabLayout tabLayout;
-    @Bind(R.id.viewPager)
+    @Bind(R.id.viewPagerIllegal)
     ViewPager viewPager;
 
     public String[] tabs;
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_hidden_trouble_msg;
+        return R.layout.fragment_illegal_msg;
     }
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        Log.e("yzh","illegalMessageFragment");
         tabs=new String[]{getString(R.string.not_alter),getString(R.string.overdue)
                 ,getString(R.string.altered),getString(R.string.not_check)};
         MessageTypePageAdapter adapter=new MessageTypePageAdapter(getActivity().getSupportFragmentManager(),tabs);
