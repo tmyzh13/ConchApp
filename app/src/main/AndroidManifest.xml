@@ -115,7 +115,7 @@
 
         <!-- User defined.  For test only  用户自定义的广播接收器-->
         <receiver
-            android:name="com.example.issuser.jpushtest.MyReceiver"
+            android:name=".views.jpush.MyReceiver"
             android:exported="false"
             android:enabled="true">
             <intent-filter>
@@ -129,7 +129,7 @@
         </receiver>
 
         <!-- User defined.  For test only  用户自定义接收消息器,3.0.7开始支持,目前新tag/alias接口设置结果会在该广播接收器对应的方法中回调-->
-        <receiver android:name="com.example.issuser.jpushtest.MyJpushReceiver">
+        <receiver android:name=".views.jpush.MyJpushReceiver">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
                 <category android:name="com.isoftston.issuser.conchapp"></category>
