@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.weight.CircleImageView;
 
 import java.util.List;
 
@@ -22,8 +23,8 @@ public class MessageListviewAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
 
     public MessageListviewAdapter(Context context, List<String> lists) {
-        this.context=context;
-        this.list=lists;
+        this.context = context;
+        this.list = lists;
         this.mInflater = LayoutInflater.from(context);
     }
 
@@ -46,24 +47,31 @@ public class MessageListviewAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup viewGroup) {
         ViewHolder holder = null;
         if (convertView == null) {
-            holder=new ViewHolder();
+            holder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.item_message, null);
-            holder.icon_image = (ImageView) convertView.findViewById(R.id.item_icon);
-            holder.icon_title = (TextView)convertView.findViewById(R.id.item_title);
+            holder.imageView = convertView.findViewById(R.id.content_pic);
+            holder.item_icon = (ImageView) convertView.findViewById(R.id.item_icon);
+            holder.item_mark = (ImageView) convertView.findViewById(R.id.item_mark);
+            holder.item_title = (TextView) convertView.findViewById(R.id.item_title);
+            holder.item_time = (TextView) convertView.findViewById(R.id.item_time);
             holder.content_msg = (TextView) convertView.findViewById(R.id.content);
+            holder.address = (TextView) convertView.findViewById(R.id.address);
             convertView.setTag(holder);
-        }else {
-            holder = (ViewHolder)convertView.getTag();
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
         holder.content_msg.setText(list.get(position));
+
         return convertView;
     }
 
-    public final class ViewHolder{
-        public ImageView icon_image;
-        public ImageView content_iamge;
-        public TextView icon_title;
-        public TextView content_msg;
-
+    public final class ViewHolder {
+        ImageView item_icon;
+        ImageView item_mark;
+        TextView item_title;
+        TextView item_time;
+        TextView content_msg;
+        ImageView imageView;
+        TextView address;
     }
 }

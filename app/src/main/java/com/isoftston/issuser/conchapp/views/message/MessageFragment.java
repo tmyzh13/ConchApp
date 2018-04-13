@@ -165,6 +165,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
             case R.id.iv_dirict:
                 if (up){
                     up=false;
+                    iv_direc.setImageDrawable(getResources().getDrawable(R.mipmap.up));
                     bt_yh.setVisibility(View.GONE);
                     bt_wz.setVisibility(View.GONE);
                     bt_aq.setVisibility(View.GONE);
@@ -173,6 +174,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                     ll_yh_detail.setVisibility(View.VISIBLE);
                 }else {
                     up=true;
+                    iv_direc.setImageDrawable(getResources().getDrawable(R.mipmap.down));
                     bt_yh.setVisibility(View.VISIBLE);
                     bt_wz.setVisibility(View.VISIBLE);
                     bt_aq.setVisibility(View.VISIBLE);

@@ -58,7 +58,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#000"
+                        android:textColor="#262626"
+                        android:textStyle="bold"
                         android:text="@string/yh_finder"/>
                     <TextView
                         android:id="@+id/tv_user"
@@ -71,7 +72,7 @@
                         android:id="@+id/tv_company"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#b3b0b0"
+                        android:textColor="@color/text_gray1"
                         android:paddingLeft="5dp"
                         android:text="芜湖分公司"/>
                 </LinearLayout>
@@ -83,13 +84,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#000"
+                        android:textColor="#262626"
+                        android:textStyle="bold"
                         android:text="@string/find_time"/>
                     <TextView
                         android:id="@+id/tv_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#b3b0b0"
+                        android:textColor="@color/text_gray1"
                         android:paddingLeft="35dp"
                         android:text="2018年4月3日"/>
                 </LinearLayout>
@@ -99,7 +101,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_width="match_parent"
-            android:background="#c2c2c2"
+            android:background="#dddddd"
             android:layout_height="1dp"></View>
         <LinearLayout
             android:layout_width="match_parent"
@@ -119,17 +121,20 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#000"
+                    android:textColor="#262626"
+                    android:textStyle="bold"
                     android:text="@string/company"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#000"
+                    android:textColor="#262626"
+                    android:textStyle="bold"
                     android:text="@string/yh_adress"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#000"
+                    android:textColor="#262626"
+                    android:textStyle="bold"
                     android:text="@string/yh_point"/>
             </LinearLayout>
         </LinearLayout>
@@ -137,7 +142,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_width="match_parent"
-            android:background="#c2c2c2"
+            android:background="#dddddd"
             android:layout_height="1dp"></View>
         <LinearLayout
             android:layout_width="match_parent"
@@ -153,13 +158,14 @@
                 android:layout_marginTop="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000"
+                android:textColor="#262626"
+                android:textStyle="bold"
                 android:text="@string/yh_class"/>
             <TextView
                 android:layout_marginTop="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#b3b0b0"
+                android:textColor="@color/text_gray1"
                 android:paddingLeft="10dp"
                 android:text="@string/important"/>
             <TextView
@@ -167,13 +173,14 @@
                 android:layout_marginTop="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000"
+                android:textColor="#262626"
+                android:textStyle="bold"
                 android:text="@string/yh_varies"/>
             <TextView
                 android:layout_marginTop="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#b3b0b0"
+                android:textColor="@color/text_gray1"
                 android:paddingLeft="10dp"
                 android:text="@string/neccecery"/>
         </LinearLayout>
@@ -181,7 +188,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_width="match_parent"
-            android:background="#c2c2c2"
+            android:background="#dddddd"
             android:layout_height="1dp"></View>
         <LinearLayout
             android:layout_width="match_parent"
@@ -192,14 +199,15 @@
             android:layout_marginLeft="60dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#000"
+            android:textColor="#262626"
+            android:textStyle="bold"
             android:text="@string/fix_time"/>
             <TextView
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#c2c2c2"
+                android:textColor="@color/text_gray1"
                 android:text="2018年"/>
         </LinearLayout>
         <View
@@ -207,7 +215,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_width="match_parent"
-            android:background="#c2c2c2"
+            android:background="#dddddd"
             android:layout_height="1dp"></View>
         <LinearLayout
             android:layout_width="match_parent"
@@ -222,7 +230,8 @@
                 android:layout_marginTop="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#000"
+                android:textColor="#262626"
+                android:textStyle="bold"
                 android:text="@string/fixed"/>
         </LinearLayout>
     </LinearLayout>

@@ -30,8 +30,8 @@
                 android:paddingBottom="5dp">
                 <RelativeLayout
                     android:layout_marginTop="5dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:background="@drawable/ll_add_corner_bg">
@@ -171,9 +171,8 @@
                     android:hint="@string/project_detail_fix"
                     android:padding="10dp"
                     android:textColorHint="#A0BAFF"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"

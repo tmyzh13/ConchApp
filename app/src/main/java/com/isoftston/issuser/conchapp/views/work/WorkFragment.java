@@ -132,7 +132,7 @@ public class WorkFragment extends BaseFragment implements View.OnClickListener {
                 adapter = new TabPageIndicatorAdapter(getActivity().getSupportFragmentManager());
                 indicatorViewPager.setAdapter(new MyAdapter());
                 viewPager.setAdapter(adapter);
-                ToastUtils.showtoast(getActivity(),"onclick3");
+//                ToastUtils.showtoast(getActivity(),"onclick3");
                 break;
         }
     }

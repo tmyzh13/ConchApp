@@ -30,4 +30,5 @@
     <color name="colorLine">#DDDDDD</color>
     <color name="colorDarkDot">#9A9A9A</color>
     <color name="split_line">#11112233</color>
+    <color name="text_gray1">#9A9A9A</color>
 </resources>

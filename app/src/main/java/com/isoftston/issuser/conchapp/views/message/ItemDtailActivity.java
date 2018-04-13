@@ -64,7 +64,7 @@ public class ItemDtailActivity extends BaseActivity {
         //适配器
 
         VpAdapter adapter = new VpAdapter(imageList,handler);
-        vp.setPageMargin(20);
+        vp.setPageMargin(10);
         vp.setAdapter(adapter);
         //初始化vp的位置
         vp.setCurrentItem(1);

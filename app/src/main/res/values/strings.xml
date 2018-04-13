@@ -96,7 +96,7 @@
     <string name="yh_project_check">隐患项目查看</string>
     <string name="yh_finder">隐患发现人</string>
     <string name="find_time">发现时间</string>
-    <string name="company">发现隐患所在的单位名称</string>
+    <string name="company">隐患单位</string>
     <string name="yh_adress">隐患地点</string>
     <string name="yh_point">隐患部位</string>
     <string name="yh_class">隐患级别</string>

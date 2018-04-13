@@ -74,8 +74,8 @@ public class NewWorkActivity extends BaseActivity implements View.OnClickListene
         nav.setNavTitle(getString(R.string.new_work));
         nav.setColorRes(R.color.white);
         nav.setTitleColor(getResources().getColor(R.color.black));
+        nav.showBack(2);
         setBarColor(getResources().getColor(R.color.transparent_black));
-        nav.hideBack();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
         String now = sdf.format(new Date());
         jh_manager.setInputType(getString(R.string.keeper));

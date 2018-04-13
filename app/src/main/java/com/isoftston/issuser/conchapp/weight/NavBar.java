@@ -93,6 +93,20 @@ public class NavBar extends TranslucentNavBar {
         iv_add.setOnClickListener(listener);
     }
 
+    public  void showBack(int i){
+        switch (i){
+            case 1:
+                    iv_back.setImageDrawable(getResources().getDrawable(R.mipmap.back_white));
+
+                break;
+            case 2:
+                    iv_back.setImageDrawable(getResources().getDrawable(R.mipmap.back_black));
+                break;
+
+        }
+
+
+    }
     public void showOrHideAdd(boolean isShow){
         if(isShow){
             iv_add.setVisibility(VISIBLE);
