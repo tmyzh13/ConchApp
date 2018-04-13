@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@color/colorActivityBg"
+    android:orientation="vertical"
+    tools:context="com.isoftston.issuser.conchapp.views.mine.OpinionFeedbackActivity">
+    <com.isoftston.issuser.conchapp.weight.NavBar
+        android:id="@+id/nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:background="@drawable/msg_item_press_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/feedback_text"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_width="fill_parent"
+            android:layout_height="180dp"
+            android:gravity="top"
+            android:background="@drawable/ll_corner_white_bg"
+            android:maxLength="150"
+            android:textSize="14dp"/>
+
+        <TextView
+            android:id="@+id/feedback_text_show_num"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+            android:layout_marginRight="18dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/feedback_text"
+            android:textSize="14dp"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/submit_view"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:background="@color/app_blue"
+        android:text="@string/commit"/>
+</LinearLayout>

@@ -25,10 +25,21 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorLightGreen">#37d79d</color>
     <color name="colorDarkGreen">#18da38</color>
+    <color name="colorLightBlue">#43e1e0</color>
+    <color name="colorDarkBlue">#42b5f8</color>
     <color name="colorActivityBg">#f2f1f7</color>
     <color name="colorGreen">#00a334</color>
     <color name="colorLine">#DDDDDD</color>
     <color name="colorDarkDot">#9A9A9A</color>
     <color name="split_line">#11112233</color>
     <color name="text_gray1">#9A9A9A</color>
+    <color name="check_picture_bg_color">#C5EDD4</color>
+    <color name="check_picture_bg_line">#00A733</color>
+    <color name="dividing_line">#eeeeee</color>
+    <color name = "single_text_color">#666666</color>
+    <color name="mainColor">#3464dd</color>
+    <color name ="hit_text_color">#cccccc</color>
+    <!-- 次要字体（描述性字体的颜色）-->
+    <color name = "des_text_color">#999999</color>
+
 </resources>

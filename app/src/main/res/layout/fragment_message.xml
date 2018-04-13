@@ -9,8 +9,8 @@
     <com.isoftston.issuser.conchapp.weight.NavBar
         android:id="@+id/nav"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        ></com.isoftston.issuser.conchapp.weight.NavBar>
+        android:layout_height="wrap_content"></com.isoftston.issuser.conchapp.weight.NavBar>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -22,23 +22,24 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginTop="-80dp"
         android:background="@drawable/shape_corner_white"
         android:orientation="vertical"
-        android:layout_marginTop="-80dp"
-        android:padding="10dp"
-        >
+        android:padding="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageView
+                android:id="@+id/location_iv"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_margin="5dp"
                 android:src="@mipmap/location" />
 
             <TextView
+                android:id="@+id/location_city_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -121,17 +122,17 @@
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shape_corner"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@drawable/shape_corner">
 
                 <LinearLayout
                     android:id="@+id/ll_yh_message"
-                    android:layout_centerVertical="true"
-                    android:layout_width="115dp"
-                    android:gravity="center"
                     style="@style/text_normal"
-                    android:text="@string/hidden_trouble_msg"
-                    android:orientation="vertical">
+                    android:layout_width="115dp"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:text="@string/hidden_trouble_msg">
 
                     <Button
                         android:id="@+id/bt_yh"
@@ -147,8 +148,8 @@
                         android:layout_height="140dp"
                         android:layout_gravity="center"
                         android:orientation="vertical"
-                        android:visibility="gone"
-                        android:padding="10dp">
+                        android:padding="10dp"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -157,26 +158,29 @@
                             android:text="12"
                             android:textColor="@color/white"
                             android:textSize="28sp" />
+
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            >
-                        <TextView
-                            android:layout_marginTop="14dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/un_fix"
-                            android:id="@+id/unfix"
-                            android:textColor="@color/white" />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_toRightOf="@+id/unfix"
-                            android:layout_marginLeft="10dp"
-                            android:textSize="26sp"
-                            android:textColor="@color/white"
-                            android:text="3"/>
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/unfix"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="14dp"
+                                android:text="@string/un_fix"
+                                android:textColor="@color/white" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_toRightOf="@+id/unfix"
+                                android:text="3"
+                                android:textColor="@color/white"
+                                android:textSize="26sp" />
                         </RelativeLayout>
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -192,68 +196,72 @@
                     android:layout_height="15dp"
                     android:layout_alignParentRight="true"
                     android:background="@drawable/tab_msg_bg"
-                    android:text="5"
                     android:gravity="center"
+                    android:text="5"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_small" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shape_corner_red"
                 android:layout_marginLeft="15dp"
-                android:layout_weight="1">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_corner_red"
-                android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/bt_wz"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:text="@string/wz_message"
-                    android:textColor="@color/white" />
+                android:layout_weight="1"
+                android:background="@drawable/shape_corner_red">
 
                 <LinearLayout
-                    android:id="@+id/wz_detail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="140dp"
-                    android:layout_gravity="center"
-                    android:orientation="vertical"
-                    android:padding="10dp"
-                    android:visibility="gone">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_corner_red"
+                    android:orientation="vertical">
 
-                    <TextView
+                    <Button
+                        android:id="@+id/bt_wz"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="9"
-                        android:textColor="@color/white"
-                        android:textSize="24sp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="48dp"
-                        android:gravity="center"
+                        android:background="@null"
                         android:text="@string/wz_message"
                         android:textColor="@color/white" />
+
+                    <LinearLayout
+                        android:id="@+id/wz_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="140dp"
+                        android:layout_gravity="center"
+                        android:orientation="vertical"
+                        android:padding="10dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="9"
+                            android:textColor="@color/white"
+                            android:textSize="24sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="48dp"
+                            android:gravity="center"
+                            android:text="@string/wz_message"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-            <TextView
-                style="@style/text_normal"
-                android:layout_width="20dp"
-                android:layout_height="15dp"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/tab_msg_bg"
-                android:text="2"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_small" />
-        </RelativeLayout>
+
+                <TextView
+                    style="@style/text_normal"
+                    android:layout_width="20dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/tab_msg_bg"
+                    android:gravity="center"
+                    android:text="2"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_small" />
+            </RelativeLayout>
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -307,10 +315,9 @@
         android:layout_height="200dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:clipChildren="false"
         android:layout_marginTop="-80dp"
-        android:visibility="gone"
-        ></android.support.v4.view.ViewPager>
+        android:clipChildren="false"
+        android:visibility="gone"></android.support.v4.view.ViewPager>
 
     <LinearLayout
         android:layout_width="match_parent"

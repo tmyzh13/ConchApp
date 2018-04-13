@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@color/colorWhite"
+    android:orientation="vertical"
+    tools:context="com.isoftston.issuser.conchapp.views.mine.SettingsActivity">
+
+    <com.isoftston.issuser.conchapp.weight.NavBar
+        android:id="@+id/nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/msg_item_press_bg"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:text="@string/settings_push_msg_switch"
+                android:textColor="@color/text_color_main"
+                android:textSize="14sp" />
+
+            <Switch
+                android:id="@+id/settings_push_msg_switch"
+                android:layout_width="54dp"
+                android:layout_height="32dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:textOff="@string/settings_push_msg_switch_off"
+                android:textOn="@string/settings_push_msg_switch_on"
+                android:track="@drawable/switch_track" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:src="@color/dividing_line" />
+
+    <RelativeLayout
+        android:id="@+id/clean_cache_view"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@drawable/msg_item_press_bg"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true">
+
+            <TextView
+                android:id="@+id/settings_cleanup_cache_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/settings_cleanup_cache"
+                android:textColor="@color/text_color_main"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/settings_cleanup_cache"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:text=""
+                android:textColor="@color/text_color_main"
+                android:textSize="14sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>
+

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.isoftston.issuser.conchapp.views.work.CityLocationActivity">
+
+    <RelativeLayout
+        android:layout_margin="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:layout_margin="@dimen/dp_5"
+            android:text="@string/city_choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_alignParentRight="true"
+            android:id="@+id/sure_btn"
+            android:text="@string/sure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_10"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_5"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/province"
+            android:textSize="@dimen/text_title" />
+
+        <Spinner
+            android:id="@+id/sp_province"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_5"
+            android:layout_weight="1"
+            android:background="#FFFFFF" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_5"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/city"
+            android:textSize="@dimen/text_title" />
+
+        <Spinner
+            android:id="@+id/sp_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_5"
+            android:layout_weight="1"
+            android:background="#FFFFFF" />
+    </LinearLayout>
+</LinearLayout>

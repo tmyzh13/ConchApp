@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.isoftston.issuser.conchapp.views.mine.IndividualCenterActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:orientation="vertical">
+
+        <com.isoftston.issuser.conchapp.weight.NavBar
+            android:id="@+id/nav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/msg_item_press_bg"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp">
+
+            <ImageView
+                android:id="@+id/img_edit_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                app:srcCompat="@mipmap/editcolumn" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:layout_toRightOf="@id/img_edit_2">
+
+                <TextView
+                    android:id="@+id/name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:text="@string/user_full_name"
+                    android:textColor="@color/single_text_color"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/user_name"
+                    style="@style/add_report_edittext"
+                    android:layout_toRightOf="@id/name_tv" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:src="@color/dividing_line" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:background="@drawable/msg_item_press_bg"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp">
+
+            <ImageView
+                android:id="@+id/img_edit_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                app:srcCompat="@mipmap/noedit" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:layout_toRightOf="@id/img_edit_3">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:text="@string/user_role"
+                    android:textColor="@color/hit_text_color"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/user_role"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:text=""
+                    android:textColor="@color/des_text_color"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:src="@color/dividing_line" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:background="@drawable/msg_item_press_bg"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp">
+
+            <ImageView
+                android:id="@+id/img_edit_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                app:srcCompat="@mipmap/editcolumn" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:layout_toRightOf="@id/img_edit_4">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:text="@string/user_sex"
+                    android:textColor="@color/single_text_color"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/user_sex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:textColor="@color/text_color_main"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+
+                <RadioGroup
+                    android:id="@+id/radio_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radio_button_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sex_male"
+                        android:textColor="@color/text_color_main"
+                        android:textSize="14sp" />
+
+                    <RadioButton
+                        android:id="@+id/radio_button_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="@string/sex_female"
+                        android:textColor="@color/text_color_main"
+                        android:textSize="14sp" />
+
+                </RadioGroup>
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/msg_item_press_bg"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp">
+
+            <ImageView
+                android:id="@+id/img_edit_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                app:srcCompat="@mipmap/noedit" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:layout_toRightOf="@id/img_edit_5">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:text="@string/user_acoount"
+                    android:textColor="@color/hit_text_color"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/user_account"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:text=""
+                    android:textColor="@color/des_text_color"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:src="@color/dividing_line" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="@drawable/msg_item_press_bg"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/img_edit_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                app:srcCompat="@mipmap/editcolumn" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:layout_toRightOf="@id/img_edit_6">
+
+                <TextView
+                    android:id="@+id/pwd_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/user_pwd"
+                    android:textColor="@color/single_text_color"
+                    android:textSize="14sp" />
+
+                <RelativeLayout
+                    android:id="@+id/show_pwd_layout"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/password_visible_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        app:srcCompat="@mipmap/passwordvisible" />
+
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/password_visible_iv"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignStart="@+id/password_visible_iv"
+                        android:layout_below="@id/password_visible_iv"
+                        android:layout_marginTop="3dp"
+                        app:srcCompat="@mipmap/passwordhide" />
+
+                </RelativeLayout>
+
+                <EditText
+                    android:id="@+id/user_pwd"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_toLeftOf="@id/show_pwd_layout"
+                    android:layout_toRightOf="@id/pwd_tv"
+                    android:background="@null"
+                    android:gravity="center_vertical|right"
+                    android:inputType="textPassword"
+                    android:singleLine="true"
+                    android:textColor="@color/text_color_main"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/msg_item_press_bg"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp">
+
+            <ImageView
+                android:id="@+id/img_edit_7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                app:srcCompat="@mipmap/addcolumn" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:layout_toRightOf="@id/img_edit_7">
+
+                <TextView
+                    android:id="@+id/phone_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/user_phoneNum"
+                    android:textColor="@color/single_text_color"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/user_phoneNum"
+                    style="@style/add_report_edittext"
+                    android:layout_toRightOf="@id/phone_tv"
+                    android:inputType="phone" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:src="@color/dividing_line" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="@drawable/msg_item_press_bg"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp">
+
+            <ImageView
+                android:id="@+id/img_edit_8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                app:srcCompat="@mipmap/addcolumn" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:layout_toRightOf="@id/img_edit_8">
+
+                <TextView
+                    android:id="@+id/company_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/user_company"
+                    android:textColor="@color/single_text_color"
+                    android:textSize="14sp" />
+
+                <RelativeLayout
+                    android:id="@+id/droparrow_layout_company"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:id="@+id/droparrow_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:visibility="visible"
+                        app:srcCompat="@mipmap/droparrow" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/user_company"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="6dp"
+                    android:layout_toRightOf="@id/company_tv"
+                    android:gravity="center_vertical|right"
+                    android:textColor="@color/des_text_color"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="@drawable/msg_item_press_bg"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp">
+
+            <ImageView
+                android:id="@+id/img_edit_10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                app:srcCompat="@mipmap/addcolumn" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:layout_toRightOf="@id/img_edit_10">
+
+                <TextView
+                    android:id="@+id/department_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/user_department"
+                    android:textColor="@color/single_text_color"
+                    android:textSize="14sp" />
+
+                <RelativeLayout
+                    android:id="@+id/droparrow_layout_department"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:id="@+id/droparrow_iv_department"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:visibility="visible"
+                        app:srcCompat="@mipmap/droparrow" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/user_department"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="6dp"
+                    android:layout_toRightOf="@id/department_tv"
+                    android:gravity="center_vertical|right"
+                    android:textColor="@color/des_text_color"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/msg_item_press_bg"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/img_edit_9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                app:srcCompat="@mipmap/editcolumn" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:layout_toRightOf="@id/img_edit_9">
+
+                <TextView
+                    android:id="@+id/single_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/user_autograph"
+                    android:textColor="@color/single_text_color"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/user_autograph"
+                    style="@style/add_report_edittext"
+                    android:layout_toRightOf="@id/single_tv" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

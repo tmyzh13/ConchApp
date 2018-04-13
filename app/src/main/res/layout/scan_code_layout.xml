@@ -29,6 +29,14 @@
             android:text="@string/scan_code"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/text_extra" />
+
+        <ImageView
+            android:id="@+id/scan_flag_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_5"
+            android:src="@mipmap/mark"
+            android:visibility="gone" />
     </LinearLayout>
 
     <LinearLayout
@@ -55,5 +63,13 @@
             android:text="@string/take_photo"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/text_extra" />
+
+        <ImageView
+            android:id="@+id/photo_flag_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_5"
+            android:src="@mipmap/mark"
+            android:visibility="gone" />
     </LinearLayout>
 </LinearLayout>

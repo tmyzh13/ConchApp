@@ -293,8 +293,12 @@
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentRight="true"
                                     android:layout_centerVertical="true"
-                                    android:background="@color/colorGreen"
-                                    android:text="@string/scan_code_times" />
+                                    android:background="@drawable/check_picture_bg_shape"
+                                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                                    android:paddingRight="@dimen/activity_horizontal_margin"
+                                    android:text="@string/check_picture"
+                                    android:textColor="@color/check_picture_bg_line"
+                                    android:textSize="@dimen/text_normal" />
                             </RelativeLayout>
 
                             <LinearLayout
@@ -376,7 +380,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_0.5"
                     android:layout_centerInParent="true"
-                    android:background="@color/transparent_black" />
+                    android:background="@color/dividing_line" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -442,7 +446,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_0.5"
                     android:layout_centerInParent="true"
-                    android:background="@color/transparent_black" />
+                    android:background="@color/dividing_line" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -468,7 +472,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_0.5"
                     android:layout_centerInParent="true"
-                    android:background="@color/transparent_black" />
+                    android:background="@color/dividing_line" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -494,7 +498,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_0.5"
                     android:layout_centerInParent="true"
-                    android:background="@color/transparent_black" />
+                    android:background="@color/dividing_line" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"

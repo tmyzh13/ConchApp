@@ -2,23 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.isoftston.issuser.conchapp">
 
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.READ_LOGS"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.VIBRATE" />
     <!-- 扫码start -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 网络权限 -->
     <uses-permission android:name="android.permission.VIBRATE" /> <!-- 震动权限 -->
     <uses-permission android:name="android.permission.CAMERA" /> <!-- 摄像头权限 -->
     <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <!-- Optional for location -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 用于开启 debug 版本的应用在6.0 系统上 层叠窗口权限 -->
@@ -146,6 +141,18 @@
 
 
 
+
+        <!-- 相机拍照 -->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.isoftston.conch.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepath" />
+        </provider>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -184,6 +191,17 @@
         <!--扫码-->
         <activity android:name=".views.check.CheckDeviceDetailActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/DialogActivity" />
+        <activity
+            android:name=".views.mine.OpinionFeedbackActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".views.mine.AboutUsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".views.mine.SettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".views.mine.IndividualCenterActivity"></activity>
             />
         <activity android:name=".views.ForgetPasswordActivity"
             android:screenOrientation="portrait"/>

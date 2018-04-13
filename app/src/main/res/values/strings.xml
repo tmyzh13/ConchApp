@@ -60,7 +60,7 @@
     <string name="approver">批准人</string>
     <string name="equipment_model">设备型号</string>
     <string name="last_time_scan_code">上次扫码时间14:08</string>
-    <string name="scan_code_times">第一次扫码完成</string>
+    <string name="check_picture">照片查看</string>
     <string name="project_address">安徽省项目扫码地点详细地址</string>
 
     <!--add_illegal_promble-->
@@ -96,7 +96,7 @@
     <string name="yh_project_check">隐患项目查看</string>
     <string name="yh_finder">隐患发现人</string>
     <string name="find_time">发现时间</string>
-    <string name="company">隐患单位</string>
+    <string name="company">发现隐患所在的单位名称</string>
     <string name="yh_adress">隐患地点</string>
     <string name="yh_point">隐患部位</string>
     <string name="yh_class">隐患级别</string>
@@ -145,6 +145,9 @@
     <string name="work_adress">作业地点</string>
     <string name="approved">已审批</string>
     <string name="un_closed">未关闭</string>
+    <string name="province">省选择：</string>
+    <string name="city">市选择：</string>
+    <string name="city_choice">城市选择</string>
 
     <!--选择照片-->
     <string name="choice_photo">选择照片</string>
@@ -163,7 +166,6 @@
     <string name="check_manager_device_name">设备名称</string>
     <string name="check_manager_device_no">设备编号</string>
     <string name="check_manager_device_place">地点</string>
-    <string name="check_manager_open_pemission">请至权限中心打开本应用的相机访问权限</string>
 
     <!--危险作业信息-->
     <string name="danger_work_info">危险作业信息</string>
@@ -185,6 +187,28 @@
     <string name="forget_password_email_error">邮箱不符合规格</string>
     <string name="forget_password_send_success">操作成功，请稍等！</string>
     <string name="main_message">海螺预警</string>
+    <!--个人中心-->
+    <string name="individual_center">个人中心</string>
+    <string name="about_us">关于我们</string>
+    <string name="feed_back">意见反馈</string>
+    <string name="settings">设置</string>
+    <string name="log_off">退出</string>
+    <string name="all_rights">© 2018 海螺预警 ALL Rights Reserved</string>
+    <string name="settings_push_msg_switch">接收推送通知</string>
+    <string name="settings_push_msg_switch_off">接收推送通知开关关闭中</string>
+    <string name="settings_push_msg_switch_on">接收推送通知开关开启中</string>
+    <string name="settings_cleanup_cache">清除缓存</string>
+    <string name="user_full_name">姓名</string>
+    <string name="user_acoount">账号</string>
+    <string name="user_pwd">密码</string>
+    <string name="user_autograph">签名</string>
+    <string name="user_company">公司</string>
+    <string name="user_department">部门</string>
+    <string name="user_phoneNum">手机</string>
+    <string name="user_sex">性别</string>
+    <string name="user_role">角色</string>
+    <string name="sex_male">男</string>
+    <string name="sex_female">女</string>
 
     <!--jpush-->
     <string name="get_cache_record_fail">获取缓存记录失败</string>
