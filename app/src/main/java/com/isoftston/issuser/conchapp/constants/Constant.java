@@ -15,4 +15,5 @@ public class Constant {
     //是否登录过了
     public static final String LOGIN_STATUE="login_staue";
 
+    public static final String CHECK_PEOPLE="check_people";
 }

@@ -28,6 +28,7 @@ import com.isoftston.issuser.conchapp.utils.LocationUtils;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.views.message.adpter.MessageListviewAdapter;
 import com.isoftston.issuser.conchapp.views.message.adpter.VpAdapter;
+import com.isoftston.issuser.conchapp.views.seacher.SeacherActivity;
 import com.isoftston.issuser.conchapp.views.work.CityLocationActivity;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
@@ -110,6 +111,12 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         nav.setNavTitle(getString(R.string.main_message));
         nav.hideBack();
         iv_seach.setVisibility(View.VISIBLE);
+        iv_seach.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(SeacherActivity.getLauncher(getContext(),"0"));
+            }
+        });
 //        ll_main.setOnClickListener(this) ;
         VpAdapter adapter = new VpAdapter(list, handler);
         ll_main.setOnClickListener(this);

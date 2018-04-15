@@ -66,7 +66,7 @@ public class CheckFragment extends BaseFragment {
         navBar.showSeach(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(SeacherActivity.getLauncher(getContext()));
+                startActivity(SeacherActivity.getLauncher(getContext(),"2"));
             }
         });
 

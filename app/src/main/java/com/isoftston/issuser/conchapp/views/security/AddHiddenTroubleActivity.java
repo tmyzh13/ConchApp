@@ -17,6 +17,7 @@ import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BasePresenter;
 import com.corelibs.utils.IMEUtil;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.utils.DateUtils;
 import com.isoftston.issuser.conchapp.utils.Tools;
 import com.isoftston.issuser.conchapp.views.work.NewWorkActivity;
@@ -41,44 +42,33 @@ public class AddHiddenTroubleActivity extends BaseActivity {
 
     @Bind(R.id.nav)
     NavBar navBar;
+    @Bind(R.id.input_trouble_name)
+    InputView input_trouble_name;
     @Bind(R.id.input_find_company)
     InputView input_find_company;
     @Bind(R.id.input_trouble_company)
     InputView input_trouble_company;
-    @Bind(R.id.input_check_worker)
-    InputView input_check_worker;
+    @Bind(R.id.tv_check_people)
+   TextView tv_check_people;
     @Bind(R.id.input_place)
     InputView input_place;
     @Bind(R.id.input_position)
     InputView input_position;
     @Bind(R.id.input_source)
     InputView input_source;
-    @Bind(R.id.tv_detail_name_content)
-    TextView tv_detail_name_content;
-    @Bind(R.id.tv_trouble_name)
-    TextView tv_trouble_name;
-    @Bind(R.id.ll_alter)
-    LinearLayout ll_alter;
-    @Bind(R.id.et_name)
-    EditText et_name;
-    @Bind(R.id.tv_photo)
-    TextView tv_photo;
-    @Bind(R.id.ll_range)
-    LinearLayout ll_range;
-    @Bind(R.id.input_illegal_type)
-    InputView input_illegal_type;
+
     @Bind(R.id.tv_start_time)
     TextView tv_start_time;
     @Bind(R.id.tv_end_time)
     TextView tv_end_time;
+    public String startTime,endTime;
 
     private Context context =AddHiddenTroubleActivity.this;
     //0隐患 1违章
     private String type;
 
-    public static Intent getLauncher(Context context,String type){
+    public static Intent getLauncher(Context context){
         Intent intent =new Intent(context,AddHiddenTroubleActivity.class);
-        intent.putExtra("type",type);
         return intent;
     }
 
@@ -93,71 +83,20 @@ public class AddHiddenTroubleActivity extends BaseActivity {
         navBar.setColorRes(R.color.white);
         navBar.setTitleColor(getResources().getColor(R.color.black));
         setBarColor(getResources().getColor(R.color.transparent_black));
-        type=getIntent().getStringExtra("type");
-        if(type.equals("0")){
+
             //隐患
             navBar.setNavTitle(getString(R.string.hidden_trouble));
-            tv_trouble_name.setText(getString(R.string.hidden_trouble_detail_name));
+            input_trouble_name.setInputType(getString(R.string.hidden_trouble_detail_name));
             input_trouble_company.setInputType(getString(R.string.hidden_trouble_company));
             input_place.setInputType(getString(R.string.hidden_trouble_place));
             input_position.setInputType(getString(R.string.hidden_trouble_position));
-            tv_photo.setText(getString(R.string.hidden_trouble_photo));
             input_source.setInputType(getString(R.string.hidden_trouble_source));
-            ll_range.setVisibility(View.VISIBLE);
-        }else{
-            //违章
-            navBar.setNavTitle(getString(R.string.illegal));
-            tv_trouble_name.setText(getString(R.string.illegal_detail_name));
-            input_trouble_company.setInputType(getString(R.string.illeagl_company));
-            input_place.setInputType(getString(R.string.illegal_place));
-            input_position.setInputType(getString(R.string.illegal_description));
-            tv_photo.setText(getString(R.string.illegal_photo));
-            input_source.setInputType(getString(R.string.illegal_report));
-            input_illegal_type.setVisibility(View.VISIBLE);
-            input_illegal_type.setInputType(getString(R.string.illegal_type));
-        }
+
 
         input_find_company.setInputType(getString(R.string.hidden_trouble_find_company));
-        input_check_worker.setInputType(getString(R.string.hidden_trouble_check));
 
 
-        et_name.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
-                if(actionId== EditorInfo.IME_ACTION_DONE||actionId==EditorInfo.IME_ACTION_SEARCH){
-                    if(!TextUtils.isEmpty(et_name.getText().toString())){
-                        tv_detail_name_content.setVisibility(View.VISIBLE);
-                        tv_detail_name_content.setText(et_name.getText().toString());
-                    }else{
-                        ll_alter.setVisibility(View.VISIBLE);
-                    }
-                    et_name.setVisibility(View.GONE);
-                    IMEUtil.closeIME(et_name,context);
-                    return true;
-                }
-                return false;
-            }
-        });
-        et_name.setOnFocusChangeListener(new android.view.View.
-                OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    // 此处为得到焦点时的处理内容
-                } else {
-                    // 此处为失去焦点时的处理内容
-                    if(!TextUtils.isEmpty(et_name.getText().toString())){
-                        tv_detail_name_content.setVisibility(View.VISIBLE);
-                        tv_detail_name_content.setText(et_name.getText().toString());
-                    }else{
-                        ll_alter.setVisibility(View.VISIBLE);
-                    }
-                    et_name.setVisibility(View.GONE);
-
-                }
-            }
-        });
 
         starttime= Tools.getCurrentTime();
         endtime=Tools.getCurrentTime();
@@ -171,29 +110,31 @@ public class AddHiddenTroubleActivity extends BaseActivity {
         return null;
     }
 
-    @OnClick(R.id.ll_photo)
+    @OnClick(R.id.rl_check_people)
+    public void choiceCheckPeople(){
+        startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context),100);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==100){
+            if(resultCode==10){
+                String result=data.getStringExtra(Constant.CHECK_PEOPLE);
+                if(!TextUtils.isEmpty(result)){
+                    tv_check_people.setText(result);
+                }
+            }
+        }
+    }
+
+    @OnClick(R.id.rl_photo)
     public void goPhoto(){
         //进入照片选择界面
-        startActivity(ChoicePhotoActivity.getLauncher(context));
+        startActivity(ChoicePhotoActivity.getLauncher(context,"0"));
     }
 
-    @OnClick(R.id.ll_alter)
-    public void alterNamebtn(){
-        ll_alter.setVisibility(View.GONE);
-        et_name.setVisibility(View.VISIBLE);
-        et_name.setFocusable(true);
-        et_name.setFocusableInTouchMode(true);
-        et_name.requestFocus();
-    }
 
-    @OnClick(R.id.tv_detail_name_content)
-    public void alterNameText(){
-        tv_detail_name_content.setVisibility(View.GONE);
-        et_name.setVisibility(View.VISIBLE);
-        et_name.setFocusable(true);
-        et_name.setFocusableInTouchMode(true);
-        et_name.requestFocus();
-    }
 
     @OnClick(R.id.ll_confirm)
     public void confirmInfo(){

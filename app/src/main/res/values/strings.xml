@@ -72,6 +72,9 @@
     <string name="illegal_description">违章描述</string>
     <string name="illegal_photo">违章照片</string>
     <string name="illegal_report">匿名举报</string>
+    <string name="illegal_please_choice">请选择</string>
+    <string name="illeagl_yes">是</string>
+    <string name="illeagl_no">否</string>
 
     <!--add_hidden_trouble-->
     <string name="hidden_trouble">隐患问题</string>
@@ -213,10 +216,14 @@
 
     <!--jpush-->
     <string name="get_cache_record_fail">获取缓存记录失败</string>
+
     <string name="notic">公告</string>
     <string name="award">奖励</string>
     <string name="pubish">惩罚</string>
     <string name="describle_yh">描述隐患</string>
     <string name="fix_pic">整改照片</string>
     <string name="yh_from">隐患来源</string>
+
+    <!--选择检修人员-->
+    <string name="choice_check_people">选择检修人员</string>
 </resources>

@@ -21,6 +21,7 @@ import com.corelibs.base.BasePresenter;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.utils.DisplayUtil;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
+import com.isoftston.issuser.conchapp.views.seacher.SeacherActivity;
 import com.isoftston.issuser.conchapp.views.security.SecurityFragment;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 import com.shizhefei.view.indicator.IndicatorViewPager;
@@ -100,6 +101,7 @@ public class WorkFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.iv_seach:
+                startActivity(SeacherActivity.getLauncher(getContext(),"1"));
                 break;
             case R.id.tv_danger_work:
                 iv_add.setVisibility(View.VISIBLE);

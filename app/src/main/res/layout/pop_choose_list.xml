@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#33000000"
+    android:gravity="bottom"
+    >
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ll_corner_white_bg"
+        android:layout_margin="8dp"
+        android:scrollbars="none"
+        android:listSelector="@color/app_light_blue"
+        android:dividerHeight="1dp"
+        android:divider="@color/line"
+        android:id="@+id/lv"
+        >
+    </ListView>
+
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_height"
+        android:gravity="center"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:textColor="@color/text_main"
+        android:textSize="@dimen/text_normal"
+        android:text="@string/action_cancel"
+        android:background="@drawable/ll_corner_white_bg">
+
+    </TextView>
+</LinearLayout>

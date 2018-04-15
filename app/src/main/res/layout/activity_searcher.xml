@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white">
+    >
 
     <View
         android:layout_width="match_parent"
@@ -13,7 +13,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/nav_height"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/white">
 
         <EditText
             android:layout_width="0dp"
@@ -46,40 +47,69 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         app:tabGravity="fill"
         app:tabIndicatorHeight="2dp"
         app:tabMode="fixed"
         app:tabIndicatorColor="@color/app_blue"
         app:tabSelectedTextColor="@color/app_blue"
         app:tabTextColor="@color/text_color_main" />
-    
-   <RelativeLayout
-       android:layout_width="match_parent"
-       android:layout_height="40dp"
-       android:paddingLeft="10dp"
 
-       >
-       <TextView
-           android:gravity="center"
-           style="@style/text_normal"
-            android:layout_height="match_parent"
-           android:text="@string/search_histroy"
-           android:layout_centerVertical="true"/>
-       <ImageView
-           android:id="@+id/iv_delete"
-           android:layout_alignParentRight="true"
-           android:layout_width="30dp"
-           android:layout_height="match_parent"
-           android:background="@color/red"
-           />
-   </RelativeLayout>
-    <com.isoftston.issuser.conchapp.weight.FlowLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginTop="10dp"
-        android:id="@+id/flow_layout"
-        />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/ll_histroy"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:paddingLeft="10dp"
+
+            >
+            <TextView
+                android:gravity="center"
+                style="@style/text_normal"
+                android:layout_height="match_parent"
+                android:text="@string/search_histroy"
+                android:layout_centerVertical="true"/>
+            <ImageView
+                android:id="@+id/iv_delete"
+                android:layout_alignParentRight="true"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:background="@color/red"
+                />
+        </RelativeLayout>
+        <com.isoftston.issuser.conchapp.weight.FlowLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/flow_layout"
+            />
+    </LinearLayout>
+    <com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout
+        android:id="@+id/ptrLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        >
+
+        <com.corelibs.views.ptr.loadmore.widget.AutoLoadMoreListView
+            android:id="@+id/lv_message"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:listSelector="#00000000"
+            android:scrollbars="none"
+            android:divider="@color/transparent"
+            android:dividerHeight="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"/>
+
+    </com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout>
+
 </LinearLayout>

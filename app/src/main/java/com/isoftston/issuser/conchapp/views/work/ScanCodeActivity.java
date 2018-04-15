@@ -24,6 +24,7 @@ import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BasePresenter;
 import com.google.zxing.client.android.CaptureActivity;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.views.security.ChoicePhotoActivity;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
 import java.io.File;
@@ -199,13 +200,15 @@ public class ScanCodeActivity extends BaseActivity {
         scanCodeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkPermission(0);
+                startActivity(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this,"1"));
+//                checkPermission(0);
             }
         });
         takePhotoLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkPermission(1);
+                startActivity(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this,"1"));
+//                checkPermission(1);
             }
         });
     }

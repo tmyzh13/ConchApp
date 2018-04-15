@@ -36,9 +36,14 @@ public class ChoicePhotoActivity extends BaseActivity {
     private Context context=ChoicePhotoActivity.this;
     private SelectImageHelper helper;
     private ChooseImagePopupWindow window;
+    //0 新增问题  1作业详情
+    private String type;
+    //需要图片数量
+    private int count;
 
-    public static Intent getLauncher(Context context){
+    public static Intent getLauncher(Context context,String type){
         Intent intent =new Intent(context,ChoicePhotoActivity.class);
+        intent.putExtra("type",type);
         return intent;
     }
 
@@ -54,7 +59,14 @@ public class ChoicePhotoActivity extends BaseActivity {
         setBarColor(getResources().getColor(R.color.transparent_black));
         navBar.setNavTitle(getString(R.string.choice_photo));
 
-        helper =new SelectImageHelper(3,gv_pic, R.layout.item_select_pic);
+        type=getIntent().getStringExtra("type");
+        if(type.equals("0")){
+            count=3;
+        }else if(type.equals("1")){
+            count=5;
+        }
+
+        helper =new SelectImageHelper(count,gv_pic, R.layout.item_select_pic);
         helper.toObservable().subscribe(new Action1<Integer>() {
             @Override
             public void call(final Integer position) {

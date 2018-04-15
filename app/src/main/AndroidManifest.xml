@@ -210,8 +210,12 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".views.WebActivity"
             android:screenOrientation="portrait"/>
-
-
+        <activity android:name=".views.security.ChoiceCheckPeopleActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".views.security.AddIllegalActivity"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 </manifest>

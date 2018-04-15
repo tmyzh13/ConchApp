@@ -65,14 +65,20 @@ public class SecurityFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 //进入搜索界面
-                startActivity(SeacherActivity.getLauncher(getContext()));
+                startActivity(SeacherActivity.getLauncher(getContext(),"0"));
             }
         });
         nav.showAdd(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //进入隐患问题新增
-                startActivity(AddHiddenTroubleActivity.getLauncher(getContext(),type));
+                if(type.equals("0")){
+                    startActivity(AddHiddenTroubleActivity.getLauncher(getContext()));
+                }else if(type.equals("1")){
+                    //新增违章
+                    startActivity(AddIllegalActivity.getLauncher(getContext()));
+                }
+
             }
         });
        IllegalTypeAdapter adapter=new IllegalTypeAdapter(getActivity().getSupportFragmentManager());
