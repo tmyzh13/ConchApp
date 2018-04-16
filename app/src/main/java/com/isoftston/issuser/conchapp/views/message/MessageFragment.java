@@ -3,7 +3,6 @@ package com.isoftston.issuser.conchapp.views.message;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -16,17 +15,19 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.corelibs.base.BaseFragment;
 import com.corelibs.base.BasePresenter;
+import com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout;
+import com.corelibs.views.ptr.loadmore.widget.AutoLoadMoreListView;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.adapters.MessageTypeAdapter;
+import com.isoftston.issuser.conchapp.model.bean.MessageBean;
 import com.isoftston.issuser.conchapp.model.event.MyEvent;
 import com.isoftston.issuser.conchapp.utils.LocationUtils;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
-import com.isoftston.issuser.conchapp.views.message.adpter.MessageListviewAdapter;
 import com.isoftston.issuser.conchapp.views.message.adpter.VpAdapter;
 import com.isoftston.issuser.conchapp.views.seacher.SeacherActivity;
 import com.isoftston.issuser.conchapp.views.work.CityLocationActivity;
@@ -35,9 +36,7 @@ import com.isoftston.issuser.conchapp.weight.NavBar;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.awt.font.TextAttribute;
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.List;
 
 import butterknife.Bind;
@@ -73,8 +72,10 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     Button bt_aq;
     @Bind(R.id.bt_wz)
     Button bt_wz;
-    @Bind(R.id.listview)
-    ListView listView;
+    @Bind(R.id.lv_message)
+    AutoLoadMoreListView lv_message;
+    @Bind(R.id.ptrLayout)
+    PtrAutoLoadMoreLayout<AutoLoadMoreListView> ptrLayout;
     private List<View> list = null;
     private List<String> datas = new ArrayList<>();
     private boolean up = false;
@@ -96,7 +97,8 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     };
 
     private View view;
-
+    public MessageTypeAdapter mAdapter;
+    public List<MessageBean> listMessage;
     @Override
     protected int getLayoutId() {
         initDate();
@@ -117,13 +119,18 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                 startActivity(SeacherActivity.getLauncher(getContext(),"0"));
             }
         });
-//        ll_main.setOnClickListener(this) ;
+
         VpAdapter adapter = new VpAdapter(list, handler);
         ll_main.setOnClickListener(this);
-        addData();
-        MessageListviewAdapter messageListviewAdapter = new MessageListviewAdapter(getActivity(), datas);
-        listView.setAdapter(messageListviewAdapter);
-        listView.setCacheColorHint(Color.TRANSPARENT);
+        mAdapter=new MessageTypeAdapter(getContext());
+        listMessage=new ArrayList<>();
+        for(int i=0;i<10;i++){
+            listMessage.add(new MessageBean());
+        }
+        mAdapter.addAll(listMessage);
+        lv_message.setAdapter(mAdapter);
+        ptrLayout.disableLoading();
+        ptrLayout.setCanRefresh(false);
         iv_direc.setOnClickListener(this);
         bt_yh.setOnClickListener(this);
         bt_aq.setOnClickListener(this);
@@ -154,7 +161,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
 
             }
         });
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lv_message.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getActivity(), ItemDtailActivity.class);
@@ -175,11 +182,6 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         }
     }
 
-    private void addData() {
-        for (int i = 0; i < 10; i++) {
-            datas.add("我这是假数据假数据假数据" + i + "itme");
-        }
-    }
 
     private void initDate() {
         list = new ArrayList<>();

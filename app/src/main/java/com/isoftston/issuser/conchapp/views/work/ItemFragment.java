@@ -1,22 +1,18 @@
 package com.isoftston.issuser.conchapp.views.work;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.corelibs.base.BaseFragment;
 import com.corelibs.base.BasePresenter;
+import com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout;
+import com.corelibs.views.ptr.loadmore.widget.AutoLoadMoreListView;
 import com.isoftston.issuser.conchapp.R;
-import com.isoftston.issuser.conchapp.utils.ToastUtils;
-import com.isoftston.issuser.conchapp.views.security.TypeMessageFragment;
-import com.isoftston.issuser.conchapp.views.work.adpter.ListviewAdapter;
+import com.isoftston.issuser.conchapp.model.bean.MessageBean;
+import com.isoftston.issuser.conchapp.views.work.adpter.WorkMessageItemAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +24,24 @@ import butterknife.Bind;
  */
 
 public class ItemFragment extends BaseFragment {
-    private List<String> list = new ArrayList<>();
-    @Bind(R.id.listview)
-    ListView mlistview;
 
+    @Bind(R.id.tv)
+    TextView tv;
+    @Bind(R.id.lv_message)
+    AutoLoadMoreListView lv_message;
+    @Bind(R.id.ptrLayout)
+    PtrAutoLoadMoreLayout<AutoLoadMoreListView> ptrLayout;
+
+    public WorkMessageItemAdapter adapter;
+    public List<MessageBean> listMessage;
+    private String type;
+    public static Fragment newInstance(String type) {
+        ItemFragment fragment =new ItemFragment();
+        Bundle b =new Bundle();
+        b.putString("type",type);
+        fragment.setArguments(b);
+        return fragment;
+    }
 
     @Override
     protected int getLayoutId() {
@@ -40,21 +50,24 @@ public class ItemFragment extends BaseFragment {
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        //获取Activity传递过来的参数
-        Bundle mBundle = getArguments();
-        String title = mBundle.getString("arg");
-        Log.i("ZT",title);
-        ToastUtils.showtoast(getActivity(), title);
-        initData();
-        ListviewAdapter listviewAdapter = new ListviewAdapter(getActivity(), list);
-        mlistview.setAdapter(listviewAdapter);
+        tv.setText(type);
 
-        //进入现场作业信息点
-        mlistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        adapter=new WorkMessageItemAdapter(getContext());
+        listMessage=new ArrayList<>();
+        for(int i=0;i<10;i++){
+            listMessage.add(new MessageBean());
+        }
+        adapter.addAll(listMessage);
+        lv_message.setAdapter(adapter);
+        ptrLayout.disableLoading();
+        ptrLayout.setCanRefresh(false);
 
+        lv_message.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //进入消息详情界面
                 startActivity(ScanCodeActivity.getLauncher(getContext()));
+
             }
         });
     }
@@ -64,14 +77,4 @@ public class ItemFragment extends BaseFragment {
         return null;
     }
 
-    private void initData() {
-        for (int i = 0; i < 10; i++) {
-            list.add("我这是假数据假数据假数据" + i + "itme");
-        }
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
 }

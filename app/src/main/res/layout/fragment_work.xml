@@ -96,11 +96,6 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <com.shizhefei.view.indicator.ScrollIndicatorView
-        android:id="@+id/moretab_indicator"
-        android:layout_width="match_parent"
-        android:layout_height="45dp" />
-
     <android.support.v4.view.ViewPager
         android:id="@+id/moretab_viewPager"
         android:layout_width="match_parent"

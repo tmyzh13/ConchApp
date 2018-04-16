@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/listview"
-        android:divider="@color/transparent"
-        android:dividerHeight="10dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"/>
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        style="@style/text_normal"
+        android:id="@+id/tv"
+        android:text="sss"
+        android:visibility="gone"
+        />
+
+    <com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout
+        android:id="@+id/ptrLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.corelibs.views.ptr.loadmore.widget.AutoLoadMoreListView
+            android:id="@+id/lv_message"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:listSelector="#00000000"
+            android:scrollbars="none"
+            android:divider="@color/transparent"
+            android:dividerHeight="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
+
+    </com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout>
+</LinearLayout>
