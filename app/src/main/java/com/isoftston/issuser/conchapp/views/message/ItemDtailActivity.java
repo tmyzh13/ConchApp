@@ -1,12 +1,15 @@
 package com.isoftston.issuser.conchapp.views.message;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -49,9 +52,10 @@ public class ItemDtailActivity extends BaseActivity {
     GridView mGridView;
     private List<View> imageList;
     private ArrayList<View> dotsList;
-    private int[] images = {R.drawable.aaa,R.drawable.bbb,R.drawable.ccc,R.drawable.ddd};
+//    private int[] images = {R.drawable.aaa,R.drawable.bbb,R.drawable.ccc,R.drawable.ddd};
+    private List<String> urls = new ArrayList<>();
     private mGridViewAdapter gridViewAdapter;
-    private List<Map<String, Object>> data_list;
+    private ArrayList<Map<String, Object>> data_list;
     public Handler handler = new Handler(){
         public void handleMessage(android.os.Message msg) {
             int currentItem = vp.getCurrentItem();
@@ -72,6 +76,7 @@ public class ItemDtailActivity extends BaseActivity {
     protected void init(Bundle savedInstanceState) {
         nav.setNavTitle(getString(R.string.yh_project_check));
         tv_title.setTextColor(getResources().getColor(R.color.text_color));
+        addData();
         //初始化数据
         initImages();
         //初始化小圆点
@@ -83,9 +88,16 @@ public class ItemDtailActivity extends BaseActivity {
         vp.setAdapter(adapter);
         //初始化vp的位置
         vp.setCurrentItem(1);
-        data_list = initList();
-        gridViewAdapter = new mGridViewAdapter(this, data_list);
+        gridViewAdapter = new mGridViewAdapter(this, urls);
         mGridView.setAdapter(gridViewAdapter);
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Map<String, Object> map = data_list.get(i);
+                Intent intent=new Intent(ItemDtailActivity.this,ImageDetilActivity.class);
+                startActivity(intent);
+            }
+        });
         //页面改变监听
         vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -109,15 +121,14 @@ public class ItemDtailActivity extends BaseActivity {
             }
         });
     }
-    public List<Map<String, Object>> initList() {
-        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-        for (int i = 0; i < images.length; i++) {
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("ItemImage", images[i]);
-            list.add(map);
+
+    private void addData() {
+        for (int i=0;i<4;i++){
+            urls.add("http://pic29.photophoto.cn/20131204/0034034499213463_b.jpg");
         }
-        return list;
     }
+
+
     @Override
     protected BasePresenter createPresenter() {
         return null;
@@ -126,7 +137,7 @@ public class ItemDtailActivity extends BaseActivity {
     private void initDots() {
         //实例化一个集合存放小圆点
         dotsList = new ArrayList<View>();
-        for(int i=0;i<images.length;i++){
+        for(int i=0;i<urls.size();i++){
             //把第一个小圆点设置为选中状态
             View v = new View(this);
             if(i == 0){
@@ -147,18 +158,18 @@ public class ItemDtailActivity extends BaseActivity {
     private void initImages() {
         //实例化一个集合，用于存放图片
         imageList = new ArrayList<View>();
-        for (int i = 0; i < images.length; i++) {
+        for (int i = 0; i < urls.size(); i++) {
             View view = LayoutInflater.from(getApplicationContext()).inflate(
                     R.layout.viewpager_item, null);
 //            TextView title = (TextView) view.findViewById(R.id.view_title);
 //            title.setText("头像");
             ImageView iv = view.findViewById(R.id.view_image);
-//            Glide.with(this).load("http://pic29.photophoto.cn/20131204/0034034499213463_b.jpg")
-//                    .centerCrop()
-//                    .override(320,160)
-//                    .transform(new CenterCrop(this), new RoundedTransformationBuilder().cornerRadius(20).build(this))
-//                    .into(iv);
-            iv.setImageResource(images[i]);
+            Glide.with(this).load("http://pic29.photophoto.cn/20131204/0034034499213463_b.jpg")
+                    .centerCrop()
+                    .override(320,160)
+                    .transform(new CenterCrop(this), new RoundedTransformationBuilder().cornerRadius(20).build(this))
+                    .into(iv);
+//            iv.setImageResource(images[i]);
             imageList.add(view);
         }
     }

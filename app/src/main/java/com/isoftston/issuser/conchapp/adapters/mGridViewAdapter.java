@@ -14,6 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.corelibs.views.roundedimageview.RoundedTransformationBuilder;
 import com.isoftston.issuser.conchapp.R;
 
 import java.util.List;
@@ -24,10 +27,10 @@ import java.util.Map;
  */
 public class mGridViewAdapter extends BaseAdapter {
     private Context context;
-    private List<Map<String, Object>> listItem;
+    private List<String> listItem;
 
 
-    public mGridViewAdapter(Context context, List<Map<String, Object>> listItem) {
+    public mGridViewAdapter(Context context, List<String> listItem) {
         this.context = context;
         this.listItem = listItem;
     }
@@ -54,8 +57,12 @@ public class mGridViewAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_gridview, null);
         }
         ImageView imageView = (ImageView) convertView.findViewById(R.id.image);
-        Map<String, Object> map = listItem.get(position);
-        imageView.setImageResource((Integer) map.get("ItemImage"));
+        Glide.with(context).load(listItem.get(position))
+                .centerCrop()
+                .override(320,160)
+                .transform(new CenterCrop(context), new RoundedTransformationBuilder().cornerRadius(20).build(context))
+                .into(imageView);
+
         return convertView;
     }
 }

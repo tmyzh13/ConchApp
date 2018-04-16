@@ -130,7 +130,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
             android:padding="10dp"
-            android:text="蔡某某"
+            android:text="@string/someone"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/dp_10"
             android:textSize="14sp"
