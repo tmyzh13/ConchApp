@@ -1,6 +1,7 @@
 package com.isoftston.issuser.conchapp.views.work;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,8 +13,12 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.text.Layout;
 import android.util.Log;
+import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -200,8 +205,7 @@ public class ScanCodeActivity extends BaseActivity {
         scanCodeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this,"1"));
-//                checkPermission(0);
+                checkPermission(0);
             }
         });
         takePhotoLayout.setOnClickListener(new View.OnClickListener() {
@@ -298,6 +302,7 @@ public class ScanCodeActivity extends BaseActivity {
             Bundle bundle = data.getExtras();
             String s = bundle.getString("result");
             Log.e(TAG, "---扫描结果：" + s);
+            showResultView();
             changeScanLayout();
         } else if (requestCode == OPEN_ACTIVITY_TAKE_PHOTO_CODE && resultCode == RESULT_OK) {
             changeScanLayout();
@@ -309,6 +314,22 @@ public class ScanCodeActivity extends BaseActivity {
             Log.e("TAG", "--" + FileProvider.getUriForFile(this, "com.isoftston.conch.fileprovider", file));
 //            imageView.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
         }
+    }
+
+    /**
+     * 提示扫码成功
+     */
+    private void showResultView() {
+        Dialog dialog = new Dialog(this, R.style.Dialog);
+        dialog.show();
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View viewDialog = inflater.inflate(R.layout.scan_code_layout, null);
+        Display display = this.getWindowManager().getDefaultDisplay();
+        int width = display.getWidth();
+        int height = display.getHeight();
+        //设置dialog的宽高为屏幕的宽高
+        ViewGroup.LayoutParams layoutParams = new  ViewGroup.LayoutParams(width, height);
+        dialog.setContentView(viewDialog, layoutParams);
     }
 
     /**

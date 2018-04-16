@@ -44,4 +44,6 @@
     <color name = "des_text_color">#999999</color>
 
     <color name="text_color">#616161</color>
+    <color name="text_color_scan_success">#262626</color>
+    <color name="sure_scan_success_bg">#1C63FF</color>
 </resources>

@@ -38,10 +38,11 @@
             android:visibility="visible">
 
             <ImageView
+                android:layout_centerVertical="true"
                 android:id="@+id/back_iv"
                 android:layout_width="45dp"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_scan_qr" />
+                android:src="@drawable/back_white" />
 
             <TextView
                 android:layout_width="wrap_content"
