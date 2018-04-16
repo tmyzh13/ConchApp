@@ -26,6 +26,7 @@ import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.mGridViewAdapter;
 import com.isoftston.issuser.conchapp.views.message.adpter.VpAdapter;
 import com.isoftston.issuser.conchapp.weight.CircleImageView;
+import com.isoftston.issuser.conchapp.weight.MyGridView;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class ItemDtailActivity extends BaseActivity {
     @Bind(R.id.ll)
     LinearLayout ll;
     @Bind(R.id.mGridView)
-    GridView mGridView;
+    MyGridView mGridView;
     private List<View> imageList;
     private ArrayList<View> dotsList;
 //    private int[] images = {R.drawable.aaa,R.drawable.bbb,R.drawable.ccc,R.drawable.ddd};
@@ -164,7 +165,7 @@ public class ItemDtailActivity extends BaseActivity {
 //            TextView title = (TextView) view.findViewById(R.id.view_title);
 //            title.setText("头像");
             ImageView iv = view.findViewById(R.id.view_image);
-            Glide.with(this).load("http://pic29.photophoto.cn/20131204/0034034499213463_b.jpg")
+            Glide.with(this).load(urls.get(i))
                     .centerCrop()
                     .override(320,160)
                     .transform(new CenterCrop(this), new RoundedTransformationBuilder().cornerRadius(20).build(this))
