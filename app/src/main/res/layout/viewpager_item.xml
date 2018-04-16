@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ImageView
+    <com.isoftston.issuser.conchapp.weight.CircleImageView
         android:layout_margin="10dp"
         android:id="@+id/view_image"
         android:layout_width="match_parent"

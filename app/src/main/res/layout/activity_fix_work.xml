@@ -7,50 +7,52 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/nav" />
-    <LinearLayout
+    <RelativeLayout
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:textColor="#000"
+            android:layout_centerVertical="true"
             android:textSize="14sp"
             android:text="@string/start_work_time"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:layout_marginLeft="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
             android:padding="10dp"
             android:text="2017-5-12     07:50"/>
-    </LinearLayout>
+    </RelativeLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#c6c1c1"></View>
-    <LinearLayout
+    <RelativeLayout
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:textColor="#000"
+            android:layout_centerVertical="true"
             android:textSize="14sp"
             android:text="@string/end_work_time"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:layout_marginLeft="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
             android:padding="10dp"
             android:text="2017-5-12     07:50"/>
-    </LinearLayout>
+    </RelativeLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -81,15 +83,15 @@
             android:textSize="12sp"
             android:hint="@string/manager_fix"/>
     </LinearLayout>
-    <LinearLayout
+    <RelativeLayout
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
+            android:layout_centerVertical="true"
             android:textColor="#000"
             android:textSize="14sp"
             android:text="@string/checker"/>
@@ -97,27 +99,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:textColor="#19ec12"
-            android:layout_marginLeft="40dp"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_alignParentRight="true"
             android:padding="10dp"
-            android:text="和某某"/>
-    </LinearLayout>
+            android:text="@string/someone"/>
+    </RelativeLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#c6c1c1"></View>
-    <LinearLayout
+    <RelativeLayout
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView"
+            android:layout_alignBottom="@+id/textView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:paddingLeft="10dp"
+            android:text="@string/authorize"
             android:textColor="#000"
-            android:textSize="14sp"
-            android:text="@string/authorize"/>
+            android:textSize="14sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -125,9 +131,11 @@
             android:layout_marginLeft="40dp"
             android:padding="10dp"
             android:text="蔡某某"
-            android:textColor="#19ec12"
-            android:textSize="14sp" />
-    </LinearLayout>
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_10"
+            android:textSize="14sp"
+            android:id="@+id/textView" />
+    </RelativeLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

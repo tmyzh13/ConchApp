@@ -60,7 +60,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_margin="15dp"
-                        android:src="@drawable/aaa" />
+                        android:src="@mipmap/male" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -269,7 +269,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_margin="15dp"
-                        android:src="@mipmap/un_fix" />
+                        android:src="@mipmap/fixed" />
 
                     <TextView
                         android:layout_width="wrap_content"
