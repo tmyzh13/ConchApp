@@ -92,7 +92,7 @@
                                 android:id="@+id/tv_company"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:paddingLeft="5dp"
+                                android:paddingLeft="45dp"
                                 android:text="芜湖分公司"
                                 android:textColor="@color/text_gray1" />
                         </LinearLayout>
@@ -149,13 +149,14 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/company"
+                            android:text="@string/hidden_trouble_company"
                             android:textColor="#262626"
                             android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_10"
                             android:text="@string/yh_adress"
                             android:textColor="#262626"
                             android:textStyle="bold" />
@@ -164,6 +165,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/yh_point"
+                            android:layout_marginTop="@dimen/dp_10"
                             android:textColor="#262626"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -207,7 +209,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="30dp"
                         android:layout_marginTop="20dp"
                         android:text="@string/yh_varies"
                         android:textColor="#262626"
@@ -330,7 +332,7 @@
                         android:layout_height="wrap_content"
                         android:numColumns="3"
                         android:scrollbars="none"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginLeft="40dp"
                         android:layout_marginRight="20dp"
                         android:stretchMode="columnWidth" />
                 </LinearLayout>

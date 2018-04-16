@@ -77,6 +77,7 @@ public class ItemDtailActivity extends BaseActivity {
     protected void init(Bundle savedInstanceState) {
         nav.setNavTitle(getString(R.string.yh_project_check));
         tv_title.setTextColor(getResources().getColor(R.color.text_color));
+        nav.showBack(2);
         addData();
         //初始化数据
         initImages();
