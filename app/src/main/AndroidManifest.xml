@@ -219,6 +219,9 @@
         <activity android:name=".views.message.ImageDetilActivity"
             android:screenOrientation="portrait"
             />
+        <activity android:name=".views.BigPicActivity"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 </manifest>

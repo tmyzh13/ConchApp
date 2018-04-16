@@ -15,7 +15,10 @@ import com.corelibs.utils.adapter.normal.QuickAdapter;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.model.bean.ChosenImageFile;
 import com.isoftston.issuser.conchapp.utils.Tools;
+import com.isoftston.issuser.conchapp.views.BigPicActivity;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -87,6 +90,7 @@ public class SelectImageAdapter extends QuickAdapter<ChosenImageFile>
             @Override
             public void onClick(View v) {
                 //点击进入大图
+                context.startActivity(BigPicActivity.getLauncher(context,getChosenImages(),position));
             }
         });
     }
@@ -108,7 +112,18 @@ public class SelectImageAdapter extends QuickAdapter<ChosenImageFile>
     public List<ChosenImageFile> getData() {
         return data;
     }
+    public ArrayList<String> getChosenImages() {
+        List<ChosenImageFile> files = getData();
+        ArrayList<String> result = new ArrayList<>();
+        for (ChosenImageFile file : files) {
+            if (file.chosen)
+                if(!file.fromSet){
+                    result.add(file.image.getPath());
+                }
 
+        }
+        return result;
+    }
 
 
 }
