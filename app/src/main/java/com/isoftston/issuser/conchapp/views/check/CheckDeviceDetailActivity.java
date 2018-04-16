@@ -9,6 +9,7 @@ import android.view.View;
 import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BasePresenter;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.model.bean.DeviceBean;
 import com.isoftston.issuser.conchapp.views.WebActivity;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
@@ -26,8 +27,11 @@ public class CheckDeviceDetailActivity extends BaseActivity {
 
     private Context context=CheckDeviceDetailActivity.this;
 
-    public static Intent getLauncher(Context context){
+    public static Intent getLauncher(Context context, DeviceBean bean){
         Intent intent =new Intent(context,CheckDeviceDetailActivity.class);
+        Bundle bundle =new Bundle();
+        bundle.putSerializable("bean",bean);
+        intent.putExtra("bundle",bundle);
         return intent;
     }
 

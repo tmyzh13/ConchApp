@@ -14,9 +14,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BaseFragment;
 import com.corelibs.base.BasePresenter;
 import com.corelibs.utils.ToastMgr;
+import com.corelibs.views.cube.ptr.PtrFrameLayout;
 import com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout;
 import com.corelibs.views.ptr.loadmore.widget.AutoLoadMoreListView;
 import com.corelibs.views.roundedimageview.CircleImageView;
@@ -25,6 +27,9 @@ import com.google.zxing.client.android.CaptureActivity;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.DeviceAdapter;
 import com.isoftston.issuser.conchapp.model.bean.DeviceBean;
+import com.isoftston.issuser.conchapp.presenter.CheckPresenter;
+import com.isoftston.issuser.conchapp.utils.Tools;
+import com.isoftston.issuser.conchapp.views.interfaces.CheckView;
 import com.isoftston.issuser.conchapp.views.seacher.SeacherActivity;
 import com.isoftston.issuser.conchapp.views.work.ScanCodeActivity;
 import com.isoftston.issuser.conchapp.weight.NavBar;
@@ -39,7 +44,7 @@ import butterknife.OnClick;
  * Created by issuser on 2018/4/9.
  */
 
-public class CheckFragment extends BaseFragment {
+public class CheckFragment extends BaseFragment<CheckView,CheckPresenter> implements CheckView, PtrAutoLoadMoreLayout.RefreshLoadCallback {
 
     @Bind(R.id.nav)
     NavBar navBar;
@@ -69,6 +74,8 @@ public class CheckFragment extends BaseFragment {
                 startActivity(SeacherActivity.getLauncher(getContext(),"2"));
             }
         });
+        navBar.showSeachColor(2);
+
 
         List<DeviceBean> list =new ArrayList<>();
         for(int i=0;i<5;i++){
@@ -84,17 +91,18 @@ public class CheckFragment extends BaseFragment {
         lv_device.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(CheckDeviceDetailActivity.getLauncher(getContext()));
+                startActivity(CheckDeviceDetailActivity.getLauncher(getContext(),adapter.getItem(position)));
             }
         });
 
         Glide.with(getContext()).load("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524193800&di=ec7643dc32956b231ab9694a6c853c71&imgtype=jpg&er=1&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201503%2F05%2F20150305175720_urKVB.jpeg")
                 .override(320,320).into(iv_icon);
+        ptrLayout.setRefreshLoadCallback(this);
     }
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected CheckPresenter createPresenter() {
+        return new CheckPresenter();
     }
 
     private static final int OPEN_ACTIVITY_CODE = 101;
@@ -155,9 +163,67 @@ public class CheckFragment extends BaseFragment {
             Bundle bundle = data.getExtras();
             String s = bundle.getString("result");
             Log.e("yzh", "checkfrtagment---扫描结果：" + s);
-
+            if(s.equals(getString(R.string.check_manager_cancel_scan))){
+                //取消扫码
+                ToastMgr.show(getString(R.string.check_manager_cancel_scan));
+            }else{
+                ((BaseActivity)getActivity()).getLoadingDialog().show();
+                presenter.checkDevice(s, Tools.getCurrentTime());
+            }
         }
     }
 
+    @Override
+    public void showLoading() {
+        ptrLayout.setRefreshing();
+    }
+
+    @Override
+    public void hideLoading() {
+        ptrLayout.complete();
+    }
+
+    @Override
+    public void onLoadingCompleted() {
+        hideLoading();
+    }
+
+    @Override
+    public void onAllPageLoaded() {
+        ptrLayout.disableLoading();
+    }
+
+    @Override
+    public void renderDatas(boolean reload, List<DeviceBean> list) {
+        if(reload){
+            adapter.replaceAll(list);
+        }else{
+            adapter.addAll(list);
+        }
+    }
+
+    @Override
+    public void checkDeviceResult(DeviceBean bean) {
+        ((BaseActivity)getActivity()).getLoadingDialog().dismiss();
+    }
+
+    @Override
+    public void checkDeviceResultError() {
+        //防止网络请求失败，或者返回数据异常导致无法触发loading消失操作
+        ((BaseActivity)getActivity()).getLoadingDialog().dismiss();
+    }
+
+    @Override
+    public void onLoading(PtrFrameLayout frame) {
+        presenter.getDevice(false);
+    }
+
+    @Override
+    public void onRefreshing(PtrFrameLayout frame) {
+        if(!frame.isAutoRefresh()){
+            ptrLayout.enableLoading();
+            presenter.getDevice(true);
+        }
+    }
 }
 

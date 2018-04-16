@@ -82,6 +82,7 @@ public class AddHiddenTroubleActivity extends BaseActivity {
 
         navBar.setColorRes(R.color.white);
         navBar.setTitleColor(getResources().getColor(R.color.black));
+        navBar.showBack(2);
         setBarColor(getResources().getColor(R.color.transparent_black));
 
             //隐患

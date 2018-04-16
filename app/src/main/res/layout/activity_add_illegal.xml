@@ -89,21 +89,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/input_find_company"
-                android:background="@drawable/ll_hidden_trouble_bg"
                 android:layout_marginTop="3dp"
+                android:background="@color/white"
                 />
+            <View
+               style="@style/view_line"/>
             <com.isoftston.issuser.conchapp.weight.InputView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/input_illegal_company"
-                android:background="@drawable/ll_hidden_trouble_bg"
-                android:layout_marginTop="3dp"
+                android:background="@color/white"
                 />
+            <View
+                style="@style/view_line"/>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@drawable/ll_hidden_trouble_bg"
-                android:layout_marginTop="3dp"
+                android:background="@color/white"
                 android:id="@+id/ll_check_people"
                 android:paddingLeft="25dp"
                 android:paddingRight="25dp"
@@ -123,11 +125,12 @@
 
 
             </RelativeLayout>
+            <View
+                style="@style/view_line"/>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@drawable/ll_hidden_trouble_bg"
-                android:layout_marginTop="3dp"
+                android:background="@color/white"
                 android:paddingLeft="25dp"
                 android:paddingRight="15dp"
                 >
@@ -156,6 +159,12 @@
                         android:text="@string/illegal_please_choice"
                        android:id="@+id/tv_illegal_type"
                         />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/go_down"
+                        android:layout_marginLeft="10dp"
+                        />
                 </LinearLayout>
 
             </RelativeLayout>
@@ -166,7 +175,10 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="3dp"
-                android:background="@drawable/ll_hidden_trouble_bg" />
+                android:background="@color/white"
+                />
+            <View
+                style="@style/view_line"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -174,10 +186,9 @@
                 android:orientation="horizontal"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:layout_marginTop="3dp"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp"
-                android:background="@drawable/ll_hidden_trouble_bg"
+                android:background="@color/white"
                 >
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -250,12 +261,12 @@
                     </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>
-
+            <View
+                style="@style/view_line"/>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@drawable/ll_hidden_trouble_bg"
-                android:layout_marginTop="3dp"
+               android:background="@color/white"
                 android:paddingLeft="25dp"
                 android:paddingRight="15dp"
                 android:id="@+id/rl_photo"
@@ -283,6 +294,8 @@
                             android:src="@mipmap/photo" />
                     </LinearLayout>
             </RelativeLayout>
+            <View
+                style="@style/view_line"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -290,8 +303,7 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="25dp"
                 android:paddingRight="25dp"
-                android:background="@drawable/ll_hidden_trouble_bg"
-               android:layout_marginTop="3dp"
+                android:background="@color/white"
                 >
                 <TextView
                     style="@style/text_normal"
@@ -309,6 +321,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/illeagl_yes"
+                        android:checked="true"
                         android:id="@+id/male_rb"/>
                     <View
                         android:layout_width="0dp"

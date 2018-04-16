@@ -51,6 +51,7 @@ public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordView,Forg
     protected void init(Bundle savedInstanceState) {
         nav.setColorRes(R.color.transparent);
         setBarColor(getResources().getColor(R.color.transparent_black));
+        nav.showBack(2);
 
         String text =getString(R.string.forget_password_hint);
         SpannableStringBuilder style=new SpannableStringBuilder(text);

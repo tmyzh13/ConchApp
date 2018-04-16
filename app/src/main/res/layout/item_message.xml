@@ -17,21 +17,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
                 <ImageView
                     android:id="@+id/item_icon"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:src="@mipmap/yh_icon"/>
                 <TextView
                     android:id="@+id/item_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
+                    android:paddingLeft="5dp"
                     android:text="@string/yh_message"
                     android:textColor="@color/text_main"
                     />
                 <ImageView
+                    android:layout_marginLeft="10dp"
                     android:id="@+id/item_mark"
                     android:layout_width="20dp"
                     android:layout_height="20dp"

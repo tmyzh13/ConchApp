@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by issuser on 2018/4/9.
@@ -118,6 +119,10 @@ public class Tools {
         return context.getResources().getDisplayMetrics().heightPixels;
     }
 
+    /**
+     * 获取当前时间
+     * @return
+     */
     public static String getCurrentTime(){
         SimpleDateFormat   formatter   =   new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date curDate =  new Date(System.currentTimeMillis());
@@ -128,5 +133,16 @@ public class Tools {
         ConnectivityManager conn = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = conn.getActiveNetworkInfo();
         return (info != null && info.isConnected());
+    }
+
+    /**
+     * 获取当前语言 en英语 zh汉语
+     * @param context
+     * @return
+     */
+    public static String getLocalLanguage(Context context){
+        Locale locale = context.getResources().getConfiguration().locale;
+        String language = locale.getLanguage();
+        return language;
     }
 }

@@ -88,6 +88,7 @@ public class AddIllegalActivity extends BaseActivity {
         navBar.setNavTitle(getString(R.string.illegal_problem));
         navBar.setColorRes(R.color.white);
         navBar.setTitleColor(getResources().getColor(R.color.black));
+        navBar.showBack(2);
         setBarColor(getResources().getColor(R.color.transparent_black));
 
         //设置栏目标题

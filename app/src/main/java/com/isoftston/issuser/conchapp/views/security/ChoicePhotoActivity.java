@@ -58,6 +58,7 @@ public class ChoicePhotoActivity extends BaseActivity {
         navBar.setTitleColor(getResources().getColor(R.color.black));
         setBarColor(getResources().getColor(R.color.transparent_black));
         navBar.setNavTitle(getString(R.string.choice_photo));
+        navBar.showBack(2);
 
         type=getIntent().getStringExtra("type");
         if(type.equals("0")){

@@ -6,5 +6,4 @@ package com.isoftston.issuser.conchapp.model.bean;
 
 public class MessageBean {
 
-
 }

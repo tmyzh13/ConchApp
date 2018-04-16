@@ -117,7 +117,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:background="@drawable/ll_hidden_trouble_bg"
+                    android:background="@color/white"
                     android:id="@+id/rl_check_people"
                     android:paddingLeft="25dp"
                     android:paddingRight="25dp"
@@ -216,8 +216,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:background="@drawable/ll_hidden_trouble_bg"
-                    android:layout_marginTop="3dp"
+                    android:background="@color/white"
                     android:paddingLeft="25dp"
                     android:paddingRight="15dp"
                     android:id="@+id/rl_photo"
@@ -245,12 +244,15 @@
                             android:src="@mipmap/photo" />
                     </LinearLayout>
                 </RelativeLayout>
-
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:background="@color/et_gray"
+                    />
                 <com.isoftston.issuser.conchapp.weight.InputView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/input_source"
-                    android:background="@drawable/ll_hidden_trouble_bg"
                     />
             </LinearLayout>
             <LinearLayout

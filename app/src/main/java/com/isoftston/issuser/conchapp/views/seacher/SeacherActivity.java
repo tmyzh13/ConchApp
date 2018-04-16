@@ -13,13 +13,20 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.corelibs.base.BaseActivity;
+import com.corelibs.utils.IMEUtil;
 import com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout;
+import com.isoftston.issuser.conchapp.adapters.DeviceAdapter;
+import com.isoftston.issuser.conchapp.model.bean.DeviceBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
+import com.isoftston.issuser.conchapp.views.check.CheckDeviceDetailActivity;
+import com.isoftston.issuser.conchapp.views.message.ItemDtailActivity;
+import com.isoftston.issuser.conchapp.views.work.ScanCodeActivity;
 import com.isoftston.issuser.conchapp.views.work.adpter.ListviewAdapter;
 import com.corelibs.views.ptr.loadmore.widget.AutoLoadMoreListView;
 import com.isoftston.issuser.conchapp.R;
@@ -68,6 +75,7 @@ public class SeacherActivity extends BaseActivity<SeacherView,SeacherPresenter> 
 
     private MessageTypeAdapter messageTypeAdapter;
     private ListviewAdapter listViewAdapter;
+    private DeviceAdapter deviceAdapter;
 
     public static Intent getLauncher(Context context,String type){
         Intent intent =new Intent(context,SeacherActivity.class);
@@ -127,6 +135,15 @@ public class SeacherActivity extends BaseActivity<SeacherView,SeacherPresenter> 
         messageTypeAdapter=new MessageTypeAdapter(context);
         messageTypeAdapter.addAll(list1);
 
+        List<DeviceBean> list2 =new ArrayList<>();
+        for(int i=0;i<10;i++){
+            DeviceBean deviceBean=new DeviceBean();
+            list2.add(deviceBean);
+        }
+        deviceAdapter=new DeviceAdapter(context);
+        deviceAdapter.addAll(list2);
+
+
         if(type.equals("0")){
             for(int i=0;i<list_trouble.size();i++){
                 tabLayout.addTab(tabLayout.newTab().setText(list_trouble.get(i).name));
@@ -137,7 +154,24 @@ public class SeacherActivity extends BaseActivity<SeacherView,SeacherPresenter> 
                 tabLayout.addTab(tabLayout.newTab().setText(list_work.get(i).name));
             }
             lv_message.setAdapter(listViewAdapter);
+        } else if(type.equals("2")){
+            tabLayout.setVisibility(View.GONE);
+            lv_message.setAdapter(deviceAdapter);
         }
+
+        lv_message.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(type.equals("0")){
+                    Intent intent =new Intent(context,ItemDtailActivity.class);
+                    startActivity(intent);
+                }else if(type.equals("1")){
+                    startActivity(ScanCodeActivity.getLauncher(context));
+                }else if(type.equals("2")){
+                    startActivity(CheckDeviceDetailActivity.getLauncher(context,new DeviceBean()));
+                }
+            }
+        });
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -167,6 +201,7 @@ public class SeacherActivity extends BaseActivity<SeacherView,SeacherPresenter> 
                         ll_histroy.setVisibility(View.GONE);
                         ptrLayout.setVisibility(View.VISIBLE);
                     }
+                    IMEUtil.closeIME(et_seach,context);
                     return true;
                 }
                 return false;
@@ -210,6 +245,9 @@ public class SeacherActivity extends BaseActivity<SeacherView,SeacherPresenter> 
                     alterHistroySeach(str);
                     ll_histroy.setVisibility(View.GONE);
                     ptrLayout.setVisibility(View.VISIBLE);
+
+                    et_seach.setText(str);
+                    et_seach.setSelection(str.length());
                 }
             });
             flowLayout.addView(tv);//添加到父View

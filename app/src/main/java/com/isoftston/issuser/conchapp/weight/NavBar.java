@@ -101,13 +101,27 @@ public class NavBar extends TranslucentNavBar {
 
                 break;
             case 2:
-                    iv_back.setImageDrawable(getResources().getDrawable(R.mipmap.back_black));
+                    iv_back.setImageDrawable(getResources().getDrawable(R.mipmap.icn_black_back));
                 break;
 
         }
 
 
     }
+
+    public void showSeachColor(int i){
+        switch (i){
+            case 1:
+                iv_seach.setImageDrawable(getResources().getDrawable(R.mipmap.search));
+
+                break;
+            case 2:
+                iv_seach.setImageDrawable(getResources().getDrawable(R.mipmap.seach_black));
+                break;
+
+        }
+    }
+
     public void showOrHideAdd(boolean isShow){
         if(isShow){
             iv_add.setVisibility(VISIBLE);
@@ -117,12 +131,6 @@ public class NavBar extends TranslucentNavBar {
 
     }
 
-    public void showWhiteBack(boolean b){
-        if(b){
-            iv_back.setImageResource(R.mipmap.back_white);
-        }else{
 
-        }
-    }
 
 }

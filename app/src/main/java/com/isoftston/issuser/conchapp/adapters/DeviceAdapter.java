@@ -20,9 +20,9 @@ public class DeviceAdapter extends QuickAdapter<DeviceBean> {
 
     @Override
     protected void convert(BaseAdapterHelper helper, DeviceBean item, int position) {
-//        helper.setText(R.id.tv_device_name,"")
-//                .setText(R.id.tv_time,"")
-//                .setText(R.id.tv_device_no,"")
+//        helper.setText(R.id.tv_device_name,item.name)
+//                .setText(R.id.tv_time,item.createTime)
+//                .setText(R.id.tv_device_no,item.equipCode)
 //                .setText(R.id.tv_device_place,"");
 
     }

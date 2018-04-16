@@ -63,6 +63,7 @@ public class ChoiceCheckPeopleActivity extends BaseActivity{
         nav.setColorRes(R.color.white);
         nav.setTitleColor(getResources().getColor(R.color.black));
         setBarColor(getResources().getColor(R.color.transparent_black));
+        nav.showBack(2);
 
         adapter=new CheckPeopleAdapter(context);
         list =new ArrayList<>();

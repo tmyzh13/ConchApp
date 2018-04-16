@@ -83,6 +83,12 @@ public class SelectImageAdapter extends QuickAdapter<ChosenImageFile>
                 return false;
             }
         });
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //点击进入大图
+            }
+        });
     }
 
     public int getChosenCount() {

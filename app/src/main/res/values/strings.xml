@@ -1,12 +1,15 @@
 <resources>
+    <!--app名称-->
     <string name="app_name">ConchApp</string>
 
+    <!--首页tab-->
     <string name="home_message">信息</string>
     <string name="home_security">违章</string>
     <string name="home_work">作业</string>
     <string name="home_check">检维</string>
     <string name="home_mine">我的</string>
 
+    <!--登录-->
     <string name="login">登录</string>
     <string name="login_confirm">确定</string>
     <string name="login_account_hint">用户名</string>
@@ -96,7 +99,7 @@
     <string name="hidden_trouble_source">隐患来源</string>
     <string name="hidden_info">发现日期必须早于登记时间</string>
 
-
+    <!-- -->
     <string name="yh_project_check">隐患项目查看</string>
     <string name="yh_finder">隐患发现人</string>
     <string name="find_time">发现时间</string>
@@ -171,6 +174,7 @@
     <string name="check_manager_device_no">设备编号</string>
     <string name="check_manager_device_place">地点</string>
     <string name="check_manager_open_pemission">打开权限失败</string>
+    <string name="check_manager_cancel_scan">取消扫码</string>
 
     <!--危险作业信息-->
     <string name="danger_work_info">危险作业信息</string>
