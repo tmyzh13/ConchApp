@@ -45,5 +45,7 @@
 
     <color name="text_color">#616161</color>
     <color name="text_color_scan_success">#262626</color>
+    <color name="scan_success_bg_color">#18287A</color>
     <color name="sure_scan_success_bg">#1C63FF</color>
+    <color name="charge_person_relname">#262626</color>
 </resources>

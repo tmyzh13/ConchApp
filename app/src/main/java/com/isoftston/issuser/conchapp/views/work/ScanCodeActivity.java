@@ -22,6 +22,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,10 +31,14 @@ import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BasePresenter;
 import com.google.zxing.client.android.CaptureActivity;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.model.bean.ScanInfo;
+import com.isoftston.issuser.conchapp.views.mine.adapter.ScanInfoAdapter;
 import com.isoftston.issuser.conchapp.views.security.ChoicePhotoActivity;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -107,6 +113,11 @@ public class ScanCodeActivity extends BaseActivity {
     LinearLayout scanCodeInner;//扫码
     LinearLayout takePhotoInnerLayout;//拍照
     ImageView scanFlagIv2, photoFlagIv2;//第二轮扫码、拍照标记view
+
+    @Bind(R.id.scan_info_lv)
+    ListView mListView;
+    private List<ScanInfo> datas;
+    private ScanInfoAdapter mAdapter;
     private boolean isScaned2 = false;
     private boolean isPhotoed2 = false;
 
@@ -135,7 +146,22 @@ public class ScanCodeActivity extends BaseActivity {
         refreshIv.setImageResource(R.mipmap.add);//改为刷新
         checkUserPosition();
         scan();
+        setData();
         scaned();
+    }
+
+    /**
+     * 测试数据
+     */
+    private void setData() {
+        datas = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            ScanInfo info = new ScanInfo("上次扫码时间：" + i, "武汉");
+            datas.add(info);
+        }
+        mAdapter = new ScanInfoAdapter(this, datas);
+        mListView.setAdapter(mAdapter);
+        setListViewHeightBasedOnChildren(mListView);
     }
 
     /**
@@ -211,7 +237,7 @@ public class ScanCodeActivity extends BaseActivity {
         takePhotoLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this,"1"));
+                startActivity(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this, "1"));
 //                checkPermission(1);
             }
         });
@@ -320,16 +346,27 @@ public class ScanCodeActivity extends BaseActivity {
      * 提示扫码成功
      */
     private void showResultView() {
-        Dialog dialog = new Dialog(this, R.style.Dialog);
+        final Dialog dialog = new Dialog(this, R.style.Dialog);
         dialog.show();
         LayoutInflater inflater = LayoutInflater.from(this);
-        View viewDialog = inflater.inflate(R.layout.scan_code_layout, null);
+        final View viewDialog = inflater.inflate(R.layout.scan_success_layout, null);
         Display display = this.getWindowManager().getDefaultDisplay();
         int width = display.getWidth();
         int height = display.getHeight();
         //设置dialog的宽高为屏幕的宽高
-        ViewGroup.LayoutParams layoutParams = new  ViewGroup.LayoutParams(width, height);
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(width, height);
         dialog.setContentView(viewDialog, layoutParams);
+        TextView equipmentNumber = viewDialog.findViewById(R.id.equipment_name_number_tv);
+        Button sureBtn = viewDialog.findViewById(R.id.scan_success_sure_btn);
+        //获取扫码得到的编号
+//        equipmentNumber.setText("");
+        sureBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+
     }
 
     /**
@@ -340,6 +377,22 @@ public class ScanCodeActivity extends BaseActivity {
         scanedLayout.setVisibility(View.VISIBLE);
         scanCodeInner.setBackgroundResource(R.drawable.scaned_code_btn_shape);
         takePhotoInnerLayout.setBackgroundResource(R.drawable.scaned_code_btn_shape);
+    }
+
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            return;
+        }
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
     }
 
     @Override

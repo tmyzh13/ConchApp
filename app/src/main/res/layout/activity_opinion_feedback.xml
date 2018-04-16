@@ -25,7 +25,7 @@
             android:layout_width="fill_parent"
             android:layout_height="180dp"
             android:gravity="top"
-            android:background="@drawable/ll_corner_white_bg"
+            android:background="@drawable/bg_edittext_default"
             android:maxLength="150"
             android:textSize="14dp"/>
 

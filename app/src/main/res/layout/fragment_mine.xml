@@ -5,12 +5,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
+    <View
+        android:background="@color/mainColor"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_height"/>
     <LinearLayout
         android:id="@+id/head_linearlayout"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="@color/colorPrimaryDark"
+        android:background="@mipmap/userbg"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -19,9 +22,7 @@
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:layout_gravity="center"
-            android:src="@mipmap/ic_launcher"
-            app:border_color="@color/white"
-            app:border_width="2dp" />
+            android:src="@mipmap/man_head" />
 
         <TextView
             android:id="@+id/user_name_tv"
@@ -282,7 +283,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="@string/log_off"
-                android:textColor="@color/dark_blue"
+                android:textColor="@color/app_light_blue"
                 android:textSize="16sp" />
         </RelativeLayout>
 

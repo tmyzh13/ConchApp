@@ -195,48 +195,105 @@
                     android:layout_marginRight="@dimen/nav_height"
                     android:visibility="visible">
 
-                    <TextView
-                        android:id="@+id/charge_person"
-                        style="@style/charge_person_style"
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/person_in_charge" />
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/guardian"
-                        style="@style/charge_person_style"
+                        <TextView
+                            android:id="@+id/charge_person"
+                            style="@style/charge_person_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/person_in_charge" />
+
+                        <TextView
+                            android:id="@+id/charge_person__relname"
+                            style="@style/charge_person_relname_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/person_in_charge" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="@string/guardian" />
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/auditor"
-                        style="@style/charge_person_style"
+                        <TextView
+                            android:id="@+id/guardian"
+                            style="@style/charge_person_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/guardian" />
+
+                        <TextView
+                            android:id="@+id/guardian_relname"
+                            style="@style/charge_person_relname_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/guardian" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="@string/auditor" />
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/approver"
-                        style="@style/charge_person_style"
+                        <TextView
+                            android:id="@+id/auditor"
+                            style="@style/charge_person_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/auditor" />
+
+                        <TextView
+                            android:id="@+id/auditor_relname"
+                            style="@style/charge_person_relname_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/auditor" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="@string/approver" />
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/approver"
+                            style="@style/charge_person_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:text="@string/approver" />
+
+                        <TextView
+                            android:id="@+id/approver_relname"
+                            style="@style/charge_person_relname_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:text="@string/approver" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/scaned_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -247,31 +304,37 @@
                         android:orientation="horizontal"
                         android:visibility="visible">
 
-                        <LinearLayout
+                        <RelativeLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:orientation="vertical">
 
                             <ImageView
+                                android:id="@+id/last_dots"
                                 android:layout_width="@dimen/dp_15"
                                 android:layout_height="@dimen/dp_15"
-                                android:layout_toRightOf="@+id/line"
                                 android:src="@drawable/dots_green" />
 
                             <View
                                 android:layout_width="1dp"
-                                android:layout_height="@dimen/tab_height"
+                                android:layout_height="match_parent"
+                                android:layout_below="@+id/last_dots"
+                                android:layout_centerHorizontal="true"
                                 android:layout_centerVertical="true"
-                                android:layout_gravity="center_horizontal"
                                 android:background="@color/text_main" />
 
                             <ImageView
                                 android:layout_width="@dimen/dp_15"
                                 android:layout_height="@dimen/dp_15"
-                                android:layout_toRightOf="@+id/line"
+                                android:layout_alignParentBottom="true"
                                 android:src="@drawable/dots_blue" />
-                        </LinearLayout>
+                        </RelativeLayout>
 
+                        <ListView
+                            android:id="@+id/scan_info_lv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                        <!--
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -312,7 +375,7 @@
                                     android:layout_width="@dimen/dp_15"
                                     android:layout_height="@dimen/dp_15"
                                     android:layout_below="@+id/last_time_scan_code"
-                                    android:src="@drawable/dots_normal" />
+                                    android:src="@mipmap/location" />
 
                                 <TextView
                                     android:id="@+id/project_address_tv"
@@ -322,9 +385,11 @@
                                     android:text="@string/project_address" />
                             </LinearLayout>
                         </LinearLayout>
+                        -->
                     </LinearLayout>
 
                     <include
+                        android:visibility="gone"
                         android:id="@+id/scan_layout_inner"
                         layout="@layout/scan_code_layout" />
                 </LinearLayout>
@@ -335,7 +400,7 @@
                 layout="@layout/scan_code_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="-20dp" />
+                android:layout_marginTop="@dimen/activity_vertical_margin" />
 
             <LinearLayout
                 android:layout_width="match_parent"

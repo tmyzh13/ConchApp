@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.corelibs.base.BaseFragment;
 import com.corelibs.base.BasePresenter;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.utils.VersionUtil;
+import com.isoftston.issuser.conchapp.views.LoginActivity;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -39,7 +41,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     LinearLayout mSettingsLayout;//设置
     @Bind(R.id.log_off)
     RelativeLayout mLogOffLayout;//退出Btn
+    @Bind(R.id.version_tv)
+    TextView versionTv;//版本
 
+    private boolean isMan;
 
     @Override
     protected int getLayoutId() {
@@ -49,6 +54,19 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     @Override
     protected void init(Bundle savedInstanceState) {
         clicks();
+        showUserInfo();
+        versionTv.setText("V" + VersionUtil.getVersionName(getActivity()));
+    }
+
+    private void showUserInfo() {
+        if (isMan) {
+            headIv.setImageResource(R.mipmap.man_head);
+        } else {
+            headIv.setImageResource(R.mipmap.woman_head);
+        }
+//        userNameTv.setText();
+//        userCompanyTv.setText();
+//        userDepartmentTv.setText();
     }
 
     private void clicks() {
@@ -56,6 +74,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         mAboutUsLayout.setOnClickListener(this);
         mOpinionFeedbackLayout.setOnClickListener(this);
         mSettingsLayout.setOnClickListener(this);
+        mLogOffLayout.setOnClickListener(this);
         mLogOffLayout.setOnClickListener(this);
     }
 
@@ -69,7 +88,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.individual_center:
-
+                startActivity(IndividualCenterActivity.getLauncher(getActivity()));
                 break;
             case R.id.about_us:
                 startActivity(AboutUsActivity.getLauncher(getActivity()));
@@ -79,6 +98,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.settings:
                 startActivity(SettingsActivity.getLauncher(getActivity()));
+                break;
+            case R.id.log_off:
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+                getActivity().finish();
                 break;
             default:
                 break;

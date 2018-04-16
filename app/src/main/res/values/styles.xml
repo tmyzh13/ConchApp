@@ -47,7 +47,15 @@
 
     <style name="charge_person_style">
         <item name="android:textColor">@color/colorDarkDot</item>
-        <item name="android:textSize">@dimen/text_title</item>
+        <item name="android:textSize">@dimen/text_normal</item>
+    </style>
+
+    <!--圆点下面具体人名-->
+    <style name="charge_person_relname_style">
+        <item name="android:layout_marginTop">@dimen/dp_5</item>
+        <item name="android:layout_marginBottom">@dimen/dp_5</item>
+        <item name="android:textColor">@color/charge_person_relname</item>
+        <item name="android:textSize">@dimen/text_normal</item>
     </style>
 
     <style name="view_line">
