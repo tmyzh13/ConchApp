@@ -41,10 +41,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation project(':CoreLibs-master')
     compile 'com.android.support:design:23.4.0'
-    compile 'com.shizhefei:ViewPagerIndicator:1.1.6'
-    //    由于用到了v4和recyclerview所以也要导入他们
-    compile 'com.android.support:support-v4:23.4.0'
-    compile 'com.android.support:recyclerview-v7:23.4.0'
     compile 'org.litepal.android:core:1.5.1'
     implementation project(':zxing')
     implementation files('libs/jcore-android-1.1.9.jar')
