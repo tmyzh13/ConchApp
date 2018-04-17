@@ -5,7 +5,7 @@
     <version value="1"></version>
 
     <list>
-        <!--<mapping class= "com.isoftston.issuser.conchapp.model.bean.UserBean"></mapping>-->
+        <mapping class= "com.isoftston.issuser.conchapp.model.bean.LoginUserBean"></mapping>
     </list>
 </litepal>
 

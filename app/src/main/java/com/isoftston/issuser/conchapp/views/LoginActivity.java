@@ -16,8 +16,10 @@ import com.corelibs.common.AppManager;
 import com.corelibs.utils.PreferencesHelper;
 import com.isoftston.issuser.conchapp.MainActivity;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.model.bean.LoginUserBean;
 import com.isoftston.issuser.conchapp.model.bean.UserBean;
 import com.isoftston.issuser.conchapp.presenter.LoginPresenter;
+import com.isoftston.issuser.conchapp.utils.MD5Utils;
 import com.isoftston.issuser.conchapp.utils.Tools;
 import com.isoftston.issuser.conchapp.views.interfaces.LoginView;
 import com.isoftston.issuser.conchapp.weight.NavBar;
@@ -44,6 +46,8 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
     TextView tv_language;
 
     private Context context=LoginActivity.this;
+    private String username;
+    private String password;
 
     public static Intent getLauncher(Context context){
         Intent intent =new Intent(context,LoginActivity.class);
@@ -71,11 +75,17 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
 
     @OnClick(R.id.tv_login)
     public void loginAction(){
-        presenter.loginAction(et_login.getText().toString().trim(),et_password.getText().toString().trim());
+        username = et_login.getText().toString().trim();
+        password = et_password.getText().toString().trim();
+        presenter.loginAction(username, password);
     }
 
     @Override
     public void loginSuccess() {
+        LoginUserBean loginUserBean=new LoginUserBean();
+        loginUserBean.setUsername(username);
+        loginUserBean.setPassword(MD5Utils.encode(password));
+        loginUserBean.save();
         startActivity(MainActivity.getLauncher(context));
     }
 
