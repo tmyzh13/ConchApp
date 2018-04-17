@@ -178,31 +178,83 @@
                 android:layout_height="1dp"
                 android:background="#c6c1c1"></View>
 
-            <com.isoftston.issuser.conchapp.weight.InputView
-                android:id="@+id/jh_manager"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></com.isoftston.issuser.conchapp.weight.InputView>
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:id="@+id/rl_keeper"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                >
+                <TextView
+                    style="@style/text_normal"
+                    android:layout_centerVertical="true"
+                    android:text="@string/keeper"
+                    android:textColor="@color/black"
+                    />
+                <TextView
+                    style="@style/text_normal"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/tv_check_people"
+                    />
 
+
+            </RelativeLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#c6c1c1"></View>
 
-            <com.isoftston.issuser.conchapp.weight.InputView
-                android:id="@+id/sh_manager"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></com.isoftston.issuser.conchapp.weight.InputView>
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:id="@+id/rl_check_people"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                >
+                <TextView
+                    style="@style/text_normal"
+                    android:layout_centerVertical="true"
+                    android:text="@string/checker"
+                    android:textColor="@color/black"
+                    />
+                <TextView
+                    style="@style/text_normal"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    />
 
+
+            </RelativeLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#c6c1c1"></View>
 
-            <com.isoftston.issuser.conchapp.weight.InputView
-                android:id="@+id/pz_manager"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></com.isoftston.issuser.conchapp.weight.InputView>
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:id="@+id/rl_agree"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                >
+                <TextView
+                    style="@style/text_normal"
+                    android:layout_centerVertical="true"
+                    android:text="@string/authorize"
+                    android:textColor="@color/black"
+                    />
+                <TextView
+                    style="@style/text_normal"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    />
 
+
+            </RelativeLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -219,19 +271,37 @@
                 android:background="#c6c1c1"></View>
 
             <com.isoftston.issuser.conchapp.weight.InputView
-                android:id="@+id/sb_number"
+                android:id="@+id/sb_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"></com.isoftston.issuser.conchapp.weight.InputView>
+
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#c6c1c1"></View>
-
-            <com.isoftston.issuser.conchapp.weight.InputView
-                android:id="@+id/sb_name"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></com.isoftston.issuser.conchapp.weight.InputView>
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:id="@+id/rl_number"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                >
+                <TextView
+                    style="@style/text_normal"
+                    android:layout_centerVertical="true"
+                    android:text="@string/equipment_number"
+                    android:textColor="@color/black"
+                    />
+                <TextView
+                    style="@style/text_normal"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    />
+
+
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"

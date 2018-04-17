@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import com.corelibs.base.BasePresenter;
 import com.corelibs.utils.IMEUtil;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.utils.DateUtils;
+import com.isoftston.issuser.conchapp.views.security.ChoiceCheckPeopleActivity;
 import com.isoftston.issuser.conchapp.weight.CustomDatePicker;
 import com.isoftston.issuser.conchapp.weight.InputView;
 import com.isoftston.issuser.conchapp.weight.NavBar;
@@ -38,16 +40,9 @@ public class NewWorkActivity extends BaseActivity implements View.OnClickListene
     private static final String TAG =NewWorkActivity.class.getSimpleName() ;
     @Bind(R.id.nav)
     NavBar nav;
-    @Bind(R.id.jh_manager)
-    InputView jh_manager;
-    @Bind(R.id.sh_manager)
-    InputView sh_manager;
-    @Bind(R.id.pz_manager)
-    InputView pz_manager;
+
     @Bind(R.id.sb_class)
     InputView equipment_type;
-    @Bind(R.id.sb_number)
-    InputView equipment_number;
     @Bind(R.id.sb_name)
     InputView equipment_name;
     @Bind(R.id.work_zone)
@@ -62,7 +57,12 @@ public class NewWorkActivity extends BaseActivity implements View.OnClickListene
     TextView tv_detail_name_content;
     @Bind(R.id.ll_alter)
     LinearLayout ll_alter;
-
+    @Bind(R.id.rl_agree)
+    RelativeLayout rl_agree;
+    @Bind(R.id.rl_check_people)
+    RelativeLayout rl_check_people;
+    @Bind(R.id.rl_keeper)
+    RelativeLayout rl_keeper;
     private Context context =NewWorkActivity.this;
     @Override
     protected int getLayoutId() {
@@ -78,21 +78,20 @@ public class NewWorkActivity extends BaseActivity implements View.OnClickListene
         setBarColor(getResources().getColor(R.color.transparent_black));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
         String now = sdf.format(new Date());
-        jh_manager.setInputType(getString(R.string.keeper));
-        sh_manager.setInputType(getString(R.string.checker));
-        pz_manager.setInputType(getString(R.string.authorize));
+
         equipment_type.setInputType(getString(R.string.equipment_type));
-        equipment_number.setInputType(getString(R.string.equipment_number));
         equipment_name.setInputType(getString(R.string.equipment_name));
         work_zone.setInputType(getString(R.string.work_zone));
         tv_start_time.setText(now);
         tv_end_time.setText(now);
         tv_start_time.setOnClickListener(this);
         tv_end_time.setOnClickListener(this);
+        rl_keeper.setOnClickListener(this);
+        rl_agree.setOnClickListener(this);
+        rl_check_people.setOnClickListener(this);
         et_name.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
                 if(actionId== EditorInfo.IME_ACTION_DONE||actionId==EditorInfo.IME_ACTION_SEARCH){
                     if(!TextUtils.isEmpty(et_name.getText().toString())){
                         tv_detail_name_content.setVisibility(View.VISIBLE);
@@ -141,6 +140,11 @@ public class NewWorkActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.end_time:
                 showDatePickerDialog(tv_end_time,2);
+                break;
+            case R.id.rl_agree:
+            case R.id.rl_check_people:
+            case R.id.rl_keeper:
+                startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context),100);
                 break;
         }
     }
