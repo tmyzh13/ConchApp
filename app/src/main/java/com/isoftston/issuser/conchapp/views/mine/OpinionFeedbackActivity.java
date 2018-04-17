@@ -3,7 +3,9 @@ package com.isoftston.issuser.conchapp.views.mine;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Html;
+import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -23,9 +25,9 @@ public class OpinionFeedbackActivity extends BaseActivity {
     @Bind(R.id.feedback_text)
     EditText mFeedbackView;
     @Bind(R.id.feedback_text_show_num)
-    TextView mSubmitView;
-    @Bind(R.id.submit_view)
     TextView mNumTextShow;
+    @Bind(R.id.submit_view)
+    TextView mSubmitView;
 
     private static final int MAX_LENGTH = 150;//最大输入字符数150 
     private int Rest_Length = MAX_LENGTH;
@@ -46,6 +48,24 @@ public class OpinionFeedbackActivity extends BaseActivity {
         nav.setColorRes(R.color.app_blue);
         nav.setNavTitle(getString(R.string.feed_back));
         mNumTextShow.setText(Html.fromHtml("<font color=\"red\">" + MAX_LENGTH + "/" + MAX_LENGTH + "</font>"));
+        mFeedbackView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                mNumTextShow.setText(Html.fromHtml("您还可以输入:" + "<font color=\"red\">" + Rest_Length + "/" + MAX_LENGTH + "</font>"));
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (Rest_Length > 0) {
+                    Rest_Length = MAX_LENGTH - mFeedbackView.getText().length();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mNumTextShow.setText(Html.fromHtml("<font color=\"red\">" + Rest_Length + "/" + MAX_LENGTH + "</font>"));
+            }
+        });
     }
 
     @Override
@@ -58,6 +78,7 @@ public class OpinionFeedbackActivity extends BaseActivity {
         if (mFeedbackView.getText().length() <= 0) {
             return;
         }
+        finish();
         //上传反馈信息
         //todo
     }

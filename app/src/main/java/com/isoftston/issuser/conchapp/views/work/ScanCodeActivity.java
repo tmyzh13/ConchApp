@@ -13,7 +13,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.text.Layout;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -28,11 +27,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.corelibs.base.BaseActivity;
-import com.corelibs.base.BasePresenter;
+import com.corelibs.utils.ToastMgr;
 import com.google.zxing.client.android.CaptureActivity;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.ScanInfo;
+import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
+import com.isoftston.issuser.conchapp.presenter.WorkDetailPresenter;
+import com.isoftston.issuser.conchapp.views.interfaces.WorkDetailView;
 import com.isoftston.issuser.conchapp.views.mine.adapter.ScanInfoAdapter;
 import com.isoftston.issuser.conchapp.views.security.ChoicePhotoActivity;
 import com.isoftston.issuser.conchapp.weight.NavBar;
@@ -45,7 +47,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 
 
-public class ScanCodeActivity extends BaseActivity {
+public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPresenter> implements WorkDetailView {
     private static final String TAG = "ScanCodeActivity";
     private static final int REQUEST_CAMERA_PERMISSION_CODE = 100;
     private static final int REQUEST_STORAGE_PERMISSION_CODE = 101;
@@ -73,21 +75,29 @@ public class ScanCodeActivity extends BaseActivity {
     ImageView chargePersonIv;//负责人
     @Bind(R.id.charge_person)
     TextView chargePersonTv;
+    @Bind(R.id.charge_person_relname)
+    TextView chargePersonRelnameTv;
 
     @Bind(R.id.guardian_iv)
     ImageView guardianPersonIv;//监护人
     @Bind(R.id.guardian)
     TextView guardianTv;
+    @Bind(R.id.guardian_relname)
+    TextView guardianRelnameTv;
 
     @Bind(R.id.auditor_iv)
     ImageView auditorPersonIv;//审核人
     @Bind(R.id.auditor)
     TextView auditorTv;
+    @Bind(R.id.auditor_relname)
+    TextView auditorRelnameTv;
 
     @Bind(R.id.approver_iv)
     ImageView approverPersonIv;//审核人
     @Bind(R.id.approver)
     TextView approverTv;
+    @Bind(R.id.approver_relname)
+    TextView approverRelnameTv;
     //底部列表显示具体人名
     @Bind(R.id.person_in_charge_tv)
     TextView personInChargeNmaeTv;//负责人
@@ -97,7 +107,32 @@ public class ScanCodeActivity extends BaseActivity {
     TextView auditorNameTv;//审核人
     @Bind(R.id.approver_tv)
     TextView approverNameTv;//批准人
+    //其他信息
+    @Bind(R.id.equipment_type_tv)
+    TextView equipmentTypeTv;//设备类型
+    @Bind(R.id.equipment_model_tv)
+    TextView equipmentModelTv;//设备型号
+    @Bind(R.id.equipment_name_tv)
+    TextView equipmentNameTv;//设备名称
+    @Bind(R.id.work_zone_tv)
+    TextView workZoneTv;//作业区域
+    @Bind(R.id.work_address_tv)
+    TextView workAddressTv;//作业地点
+    @Bind(R.id.work_content_tv)
+    TextView workContentTv;//作业内容
+    @Bind(R.id.work_company_tv)
+    TextView workCompanyTv;//作业单位
+    @Bind(R.id.work_number_tv)
+    TextView workNumberTv;//作业人数
+    @Bind(R.id.danger_work_type_tv)
+    TextView dangerWorkTypeTv;//危险作业类型
+    @Bind(R.id.gas_checker_tv)
+    TextView gasCheckerTv;//气体检测人
 
+    @Bind(R.id.scan_success_layout)
+    LinearLayout scanSuccessHintLayout;//扫码成功，点击可继续扫码或拍照布局
+    @Bind(R.id.scan_or_photo_tv)
+    TextView scanOrPhotoSuccessTv;//扫码/拍照成功
 
     @Bind(R.id.scan_layout_outter)//没有扫过二维码显示的布局
             LinearLayout scanCodeLl;
@@ -144,7 +179,8 @@ public class ScanCodeActivity extends BaseActivity {
         initView();
         nav.setColorRes(R.color.app_blue);
         nav.setNavTitle(getString(R.string.work_point_information));
-        refreshIv.setImageResource(R.mipmap.add);//改为刷新
+        refreshIv.setVisibility(View.VISIBLE);
+        refreshIv.setImageResource(R.mipmap.refresh);//改为刷新
         checkUserPosition();
         scan();
         setData();
@@ -163,6 +199,7 @@ public class ScanCodeActivity extends BaseActivity {
         mAdapter = new ScanInfoAdapter(this, datas);
         mListView.setAdapter(mAdapter);
         setListViewHeightBasedOnChildren(mListView);
+//        mListView.setVisibility(View.GONE);
     }
 
     /**
@@ -181,14 +218,19 @@ public class ScanCodeActivity extends BaseActivity {
         } else if (isGurdianPerson) {//监护人
             if (isChargePersonScaned && isScaned1) {//改变ui
                 if (isScaned1) {
+                    scanSuccessHintLayout.setVisibility(View.VISIBLE);
+                    scanOrPhotoSuccessTv.setText(R.string.scan_code);//提示已扫描
                     scanFlagIv1.setVisibility(View.VISIBLE);//显示已扫码图标
                 } else if (isPhotoed1) {
+                    scanSuccessHintLayout.setVisibility(View.VISIBLE);
+                    scanOrPhotoSuccessTv.setText(R.string.photo_action);
                     photoFlagIv1.setVisibility(View.VISIBLE);//显示已拍照图标
                 }
                 if (isScaned1 && isPhotoed1) {
                     guardianPersonIv.setImageResource(R.drawable.dots_green);//圆点变色
                     guardianTv.setTextColor(getResources().getColor(R.color.colorGreen));//圆点文字变色
                     guardianNameTv.setTextColor(getResources().getColor(R.color.colorGreen));//人名变色
+                    guardianRelnameTv.setTextColor(getResources().getColor(R.color.colorGreen));//具体人名变色
                 }
             }
         } else if (isAuditorPerson) {//审核人
@@ -213,6 +255,14 @@ public class ScanCodeActivity extends BaseActivity {
         startActivity(intent);
     }
 
+    /**
+     * 刷新数据
+     */
+    @OnClick(R.id.iv_add)
+    public void refresh() {
+
+    }
+
     private void scaned() {//扫过二维码
         scanCodeInner.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -223,7 +273,8 @@ public class ScanCodeActivity extends BaseActivity {
         takePhotoInnerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkPermission(1);
+                startActivity(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this, "1",list));
+//                checkPermission(1);
             }
         });
     }
@@ -279,7 +330,7 @@ public class ScanCodeActivity extends BaseActivity {
                     //获得授权,开始扫描
                     startScanCode();
                 } else {
-                    Toast.makeText(getViewContext(), "请至权限中心打开本应用的相机访问权限", Toast.LENGTH_LONG).show();
+                    ToastMgr.show(getString(R.string.check_manager_open_pemission));
                 }
                 break;
             case REQUEST_STORAGE_PERMISSION_CODE:
@@ -287,7 +338,7 @@ public class ScanCodeActivity extends BaseActivity {
                     //获得授权,开始拍照
                     startTakePhoto();
                 } else {
-                    Toast.makeText(getViewContext(), "请至权限中心打开本应用的读写访问权限", Toast.LENGTH_LONG).show();
+                    ToastMgr.show(getString(R.string.check_manager_open_pemission));
                 }
                 break;
         }
@@ -330,8 +381,13 @@ public class ScanCodeActivity extends BaseActivity {
             Bundle bundle = data.getExtras();
             String s = bundle.getString("result");
             Log.e(TAG, "---扫描结果：" + s);
-            showResultView();
-            changeScanLayout();
+            if (s.equals(getString(R.string.check_manager_cancel_scan))) {
+                //取消扫码
+                ToastMgr.show(getString(R.string.check_manager_cancel_scan));
+            } else {
+                showResultView(s);
+                changeScanLayout();
+            }
         } else if (requestCode == OPEN_ACTIVITY_TAKE_PHOTO_CODE && resultCode == RESULT_OK) {
             changeScanLayout();
             //在手机相册中显示刚拍摄的图片
@@ -351,7 +407,7 @@ public class ScanCodeActivity extends BaseActivity {
     /**
      * 提示扫码成功
      */
-    private void showResultView() {
+    private void showResultView(String result) {
         final Dialog dialog = new Dialog(this, R.style.Dialog);
         dialog.show();
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -365,7 +421,7 @@ public class ScanCodeActivity extends BaseActivity {
         TextView equipmentNumber = viewDialog.findViewById(R.id.equipment_name_number_tv);
         Button sureBtn = viewDialog.findViewById(R.id.scan_success_sure_btn);
         //获取扫码得到的编号
-//        equipmentNumber.setText("");
+        equipmentNumber.setText(result);
         sureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -402,7 +458,31 @@ public class ScanCodeActivity extends BaseActivity {
     }
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected WorkDetailPresenter createPresenter() {
+        return new WorkDetailPresenter();
+    }
+
+    @Override
+    public void renderData(WorkDetailBean workDetailBean) {
+    }
+
+    @Override
+    public void getWorkDetailInfo(WorkDetailBean workDetailBean) {
+        //填充数据
+    }
+
+    @Override
+    public void getWorkDetailError() {
+        Log.e(TAG, "----getWorkDetailError");
+    }
+
+    @Override
+    public void onLoadingCompleted() {
+        hideLoading();
+    }
+
+    @Override
+    public void onAllPageLoaded() {
+
     }
 }

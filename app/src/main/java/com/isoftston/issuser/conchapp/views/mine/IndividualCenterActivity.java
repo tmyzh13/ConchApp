@@ -19,6 +19,9 @@ import android.widget.TextView;
 import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BasePresenter;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
+import com.isoftston.issuser.conchapp.presenter.UserPresenter;
+import com.isoftston.issuser.conchapp.views.interfaces.UserView;
 
 import butterknife.Bind;
 
@@ -129,8 +132,8 @@ public class IndividualCenterActivity extends BaseActivity implements View.OnCli
     }
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected UserPresenter createPresenter() {
+        return new UserPresenter();
     }
 
     @Override

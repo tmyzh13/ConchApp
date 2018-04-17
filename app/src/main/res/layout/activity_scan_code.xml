@@ -45,6 +45,31 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/scan_success_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/text_color_main"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/scan_or_photo_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/scan_code"
+            android:textColor="@color/colorWhite" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/continue_scan_photo"
+            android:textColor="@color/colorWhite" />
+    </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -59,16 +84,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="@dimen/dp_18"
+                android:layout_marginTop="@dimen/dp_5"
                 android:background="@drawable/shape_corner_white"
                 android:orientation="vertical">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:layout_marginTop="@dimen/activity_vertical_margin">
+                    android:layout_marginTop="@dimen/dp_10">
 
                     <ImageView
                         android:id="@+id/project_name_iv"
@@ -107,9 +131,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/nav_height"
-                    android:layout_marginRight="@dimen/nav_height"
-                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_marginLeft="@dimen/dp_30"
+                    android:layout_marginRight="@dimen/dp_30"
+                    android:layout_marginTop="@dimen/dp_10"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -124,8 +148,8 @@
 
                         <ImageView
                             android:id="@+id/charge_person_iv"
-                            android:layout_width="@dimen/dp_15"
-                            android:layout_height="@dimen/dp_15"
+                            android:layout_width="@dimen/dp_10"
+                            android:layout_height="@dimen/dp_10"
                             android:layout_toRightOf="@+id/line"
                             android:src="@drawable/dots_dark" />
 
@@ -146,8 +170,8 @@
 
                         <ImageView
                             android:id="@+id/guardian_iv"
-                            android:layout_width="@dimen/dp_15"
-                            android:layout_height="@dimen/dp_15"
+                            android:layout_width="@dimen/dp_10"
+                            android:layout_height="@dimen/dp_10"
                             android:layout_toRightOf="@+id/line"
                             android:src="@drawable/dots_dark" />
 
@@ -167,8 +191,8 @@
 
                         <ImageView
                             android:id="@+id/auditor_iv"
-                            android:layout_width="@dimen/dp_15"
-                            android:layout_height="@dimen/dp_15"
+                            android:layout_width="@dimen/dp_10"
+                            android:layout_height="@dimen/dp_10"
                             android:layout_toRightOf="@+id/line"
                             android:src="@drawable/dots_dark" />
 
@@ -181,8 +205,8 @@
 
                     <ImageView
                         android:id="@+id/approver_iv"
-                        android:layout_width="@dimen/dp_15"
-                        android:layout_height="@dimen/dp_15"
+                        android:layout_width="@dimen/dp_10"
+                        android:layout_height="@dimen/dp_10"
                         android:layout_toRightOf="@+id/line"
                         android:src="@drawable/dots_dark" />
                 </LinearLayout>
@@ -190,9 +214,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dp_30"
-                    android:layout_marginLeft="@dimen/nav_height"
-                    android:layout_marginRight="@dimen/nav_height"
+                    android:layout_marginBottom="@dimen/dp_10"
+                    android:layout_marginLeft="@dimen/dp_30"
+                    android:layout_marginRight="@dimen/activity_vertical_margin"
                     android:visibility="visible">
 
                     <LinearLayout
@@ -209,7 +233,7 @@
                             android:text="@string/person_in_charge" />
 
                         <TextView
-                            android:id="@+id/charge_person__relname"
+                            android:id="@+id/charge_person_relname"
                             style="@style/charge_person_relname_style"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -290,10 +314,8 @@
                     android:id="@+id/scaned_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:orientation="vertical"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -307,12 +329,14 @@
                         <RelativeLayout
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
+                            android:layout_marginBottom="@dimen/activity_vertical_margin"
+                            android:layout_marginTop="@dimen/dp_5"
                             android:orientation="vertical">
 
                             <ImageView
                                 android:id="@+id/last_dots"
-                                android:layout_width="@dimen/dp_15"
-                                android:layout_height="@dimen/dp_15"
+                                android:layout_width="@dimen/dp_10"
+                                android:layout_height="@dimen/dp_10"
                                 android:src="@drawable/dots_green" />
 
                             <View
@@ -321,77 +345,32 @@
                                 android:layout_below="@+id/last_dots"
                                 android:layout_centerHorizontal="true"
                                 android:layout_centerVertical="true"
-                                android:background="@color/text_main" />
+                                android:background="@color/colorLine" />
 
                             <ImageView
-                                android:layout_width="@dimen/dp_15"
-                                android:layout_height="@dimen/dp_15"
+                                android:layout_width="@dimen/dp_10"
+                                android:layout_height="@dimen/dp_10"
                                 android:layout_alignParentBottom="true"
                                 android:src="@drawable/dots_blue" />
                         </RelativeLayout>
 
-                        <ListView
-                            android:id="@+id/scan_info_lv"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                        <!--
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
 
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <TextView
-                                    android:id="@+id/last_time_scan_code"
-                                    style="@style/project_name_tv_style"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/last_time_scan_code" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentRight="true"
-                                    android:layout_centerVertical="true"
-                                    android:background="@drawable/check_picture_bg_shape"
-                                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                                    android:paddingRight="@dimen/activity_horizontal_margin"
-                                    android:text="@string/check_picture"
-                                    android:textColor="@color/check_picture_bg_line"
-                                    android:textSize="@dimen/text_normal" />
-                            </RelativeLayout>
-
-                            <LinearLayout
+                            <ListView
+                                android:id="@+id/scan_info_lv"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                                android:layout_marginTop="@dimen/activity_vertical_margin"
-                                android:orientation="horizontal">
+                                android:layout_marginBottom="@dimen/activity_vertical_margin" />
 
-                                <ImageView
-                                    android:layout_width="@dimen/dp_15"
-                                    android:layout_height="@dimen/dp_15"
-                                    android:layout_below="@+id/last_time_scan_code"
-                                    android:src="@mipmap/location" />
-
-                                <TextView
-                                    android:id="@+id/project_address_tv"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="@dimen/dp_10"
-                                    android:text="@string/project_address" />
-                            </LinearLayout>
+                            <include
+                                android:id="@+id/scan_layout_inner"
+                                layout="@layout/scan_code_layout" />
                         </LinearLayout>
-                        -->
                     </LinearLayout>
 
-                    <include
-                        android:visibility="gone"
-                        android:id="@+id/scan_layout_inner"
-                        layout="@layout/scan_code_layout" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -400,6 +379,8 @@
                 layout="@layout/scan_code_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin" />
 
             <LinearLayout
@@ -592,7 +573,34 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:background="@drawable/shape_corner_white">
+                android:background="@drawable/shape_corner_white"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/project_name_tv_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/tab_height"
+                        android:gravity="center_vertical"
+                        android:text="@string/equipment_type" />
+
+                    <TextView
+                        android:id="@+id/equipment_type_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_0.5"
+                    android:layout_centerInParent="true"
+                    android:background="@color/dividing_line" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -613,6 +621,234 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/activity_horizontal_margin" />
                 </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_0.5"
+                    android:layout_centerInParent="true"
+                    android:background="@color/dividing_line" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/project_name_tv_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/tab_height"
+                        android:gravity="center_vertical"
+                        android:text="@string/equipment_name" />
+
+                    <TextView
+                        android:id="@+id/equipment_name_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/shape_corner_white"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/project_name_tv_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/tab_height"
+                        android:gravity="center_vertical"
+                        android:text="@string/work_zone" />
+
+                    <TextView
+                        android:id="@+id/work_zone_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_0.5"
+                    android:layout_centerInParent="true"
+                    android:background="@color/dividing_line" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/project_name_tv_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/tab_height"
+                        android:gravity="center_vertical"
+                        android:text="@string/work_adress" />
+
+                    <TextView
+                        android:id="@+id/work_address_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/shape_corner_white"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/project_name_tv_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/tab_height"
+                        android:gravity="center_vertical"
+                        android:text="@string/work_name" />
+
+                    <TextView
+                        android:id="@+id/work_content_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_0.5"
+                    android:layout_centerInParent="true"
+                    android:background="@color/dividing_line" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/project_name_tv_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/tab_height"
+                        android:gravity="center_vertical"
+                        android:text="@string/work_company" />
+
+                    <TextView
+                        android:id="@+id/work_company_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_0.5"
+                    android:layout_centerInParent="true"
+                    android:background="@color/dividing_line" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/project_name_tv_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/tab_height"
+                        android:gravity="center_vertical"
+                        android:text="@string/work_number" />
+
+                    <TextView
+                        android:id="@+id/work_number_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/shape_corner_white"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/project_name_tv_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/tab_height"
+                        android:gravity="center_vertical"
+                        android:text="@string/danger_work_type" />
+
+                    <TextView
+                        android:id="@+id/danger_work_type_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/shape_corner_white"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/project_name_tv_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/tab_height"
+                        android:gravity="center_vertical"
+                        android:text="@string/gas_checker" />
+
+                    <TextView
+                        android:id="@+id/gas_checker_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin" />
+                </RelativeLayout>
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

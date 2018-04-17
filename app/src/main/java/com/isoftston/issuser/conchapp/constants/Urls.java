@@ -25,4 +25,12 @@ public class Urls {
 
     //获取安全信息列表（隐患违章我的）
     public static final String GET_SECURITY_DATAS="info/conditionsearch";
+    //作业详细信息查询
+    public static final String GET_WORK_DETAIL_INFO="job/getJobDetail";
+    //撤销作业
+    public static final String CANCEL_JOB="job/cancelJob";
+    //提交作业
+    public static final String SUBMIT_JOB="job/submitlJob";
+    //查询当前用户信息
+    public static final String GET_MY_INFO="my/getMyInfo";
 }

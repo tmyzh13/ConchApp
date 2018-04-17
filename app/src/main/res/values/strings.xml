@@ -68,6 +68,12 @@
     <string name="project_address">安徽省项目扫码地点详细地址</string>
     <string name="equipment_name_number">设备名称编号</string>
     <string name="scan_code_success">扫码成功！</string>
+    <string name="continue_scan_photo">成功。继续点击可重新扫码或拍照</string>
+    <string name="work_company">作业单位</string>
+    <string name="work_number">作业人数</string>
+    <string name="danger_work_type">危险作业类别</string>
+    <string name="gas_checker">气体检测人</string>
+
     <!--add_illegal_promble-->
     <string name="illegal_problem">违章问题</string>
     <string name="illegal_detail_name">违章详细名称</string>

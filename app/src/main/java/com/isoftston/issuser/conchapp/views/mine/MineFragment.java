@@ -12,8 +12,11 @@ import com.corelibs.base.BasePresenter;
 import com.corelibs.utils.PreferencesHelper;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
+import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
+import com.isoftston.issuser.conchapp.presenter.UserPresenter;
 import com.isoftston.issuser.conchapp.utils.VersionUtil;
 import com.isoftston.issuser.conchapp.views.LoginActivity;
+import com.isoftston.issuser.conchapp.views.interfaces.UserView;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -22,7 +25,7 @@ import butterknife.OnClick;
  * Created by issuser on 2018/4/9.
  */
 
-public class MineFragment extends BaseFragment implements View.OnClickListener {
+public class MineFragment extends BaseFragment<UserView, UserPresenter> implements UserView, View.OnClickListener {
     private static final String TAG = "MineFragment";
 
     @Bind(R.id.head_iv)
@@ -82,8 +85,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected UserPresenter createPresenter() {
+        return new UserPresenter();
     }
 
     @Override
@@ -110,5 +113,25 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onLoadingCompleted() {
+
+    }
+
+    @Override
+    public void onAllPageLoaded() {
+
+    }
+
+    @Override
+    public void getUserInfo(UserInfoBean userInfoBean) {
+//        userNameTv.setText(userInfoBean.userName);
+    }
+
+    @Override
+    public void getUserInfoError() {
+
     }
 }
