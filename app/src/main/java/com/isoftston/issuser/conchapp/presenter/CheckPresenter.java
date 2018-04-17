@@ -4,12 +4,14 @@ import com.corelibs.api.ApiFactory;
 import com.corelibs.api.ResponseTransformer;
 import com.corelibs.base.BasePresenter;
 import com.corelibs.pagination.core.BasePaginationPresenter;
+import com.corelibs.pagination.presenter.ListPagePresenter;
 import com.corelibs.pagination.presenter.PagePresenter;
 import com.corelibs.subscriber.PaginationSubscriber;
 import com.corelibs.subscriber.ResponseSubscriber;
 import com.isoftston.issuser.conchapp.model.UserHelper;
 import com.isoftston.issuser.conchapp.model.apis.CheckApi;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
+import com.isoftston.issuser.conchapp.model.bean.CheckDeviceRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceListBean;
 import com.isoftston.issuser.conchapp.views.interfaces.CheckView;
@@ -20,7 +22,7 @@ import java.util.List;
  * Created by issuser on 2018/4/16.
  */
 
-public class CheckPresenter extends PagePresenter<CheckView> {
+public class CheckPresenter extends ListPagePresenter<CheckView> {
 
     private CheckApi api;
 
@@ -57,7 +59,7 @@ public class CheckPresenter extends PagePresenter<CheckView> {
 
                     @Override
                     protected Object getCondition(BaseData<DeviceListBean> deviceListBeanBaseData, boolean dataNotNull) {
-                        return (deviceListBeanBaseData.page.totalCount/deviceListBeanBaseData.page.pageSize+1);
+                        return deviceListBeanBaseData.data.list;
                     }
 
                     @Override
@@ -73,10 +75,13 @@ public class CheckPresenter extends PagePresenter<CheckView> {
     /**
      * 扫描之后获取设备信息
      * @param content
-     * @param time
      */
-    public void checkDevice(String content,String time){
-        api.checkDevices("",UserHelper.getUserId()+"",time,"")
+    public void checkDevice(String content){
+        CheckDeviceRequestBean bean =new CheckDeviceRequestBean();
+        bean.equipId=content;
+        bean.userId=UserHelper.getUserId()+"";
+        bean.location="";
+        api.checkDevices(bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<DeviceBean>>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData<DeviceBean>>() {
                     @Override

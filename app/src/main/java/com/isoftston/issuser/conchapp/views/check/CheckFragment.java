@@ -168,7 +168,7 @@ public class CheckFragment extends BaseFragment<CheckView,CheckPresenter> implem
                 ToastMgr.show(getString(R.string.check_manager_cancel_scan));
             }else{
                 ((BaseActivity)getActivity()).getLoadingDialog().show();
-                presenter.checkDevice(s, Tools.getCurrentTime());
+                presenter.checkDevice(s);
             }
         }
     }

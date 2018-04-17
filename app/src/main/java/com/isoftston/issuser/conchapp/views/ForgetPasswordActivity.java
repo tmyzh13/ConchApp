@@ -16,6 +16,7 @@ import com.corelibs.base.BasePresenter;
 import com.corelibs.utils.ToastMgr;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.presenter.ForgetPasswordPresenter;
+import com.isoftston.issuser.conchapp.utils.MyCountDownTimer;
 import com.isoftston.issuser.conchapp.views.interfaces.ForgetPasswordView;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
@@ -30,10 +31,16 @@ public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordView,Forg
 
     @Bind(R.id.nav)
     NavBar nav;
-    @Bind(R.id.et_email)
+    @Bind(R.id.et_acount)
     EditText et_email;
     @Bind(R.id.tv_hint)
     TextView tv_hint;
+    @Bind(R.id.et_code)
+    EditText et_code;
+    @Bind(R.id.et_password)
+    EditText et_password;
+    @Bind(R.id.tv_get_code)
+    TextView tv_get_code;
 
     private Context context=ForgetPasswordActivity.this;
 
@@ -74,5 +81,10 @@ public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordView,Forg
     public void sendEmail(){
 //        presenter.sendRequst(et_email.getText().toString());
         finish();
+    }
+
+    @OnClick(R.id.tv_get_code)
+    public void getCode(){
+        new MyCountDownTimer(context,tv_get_code, 60 * 1000, 1000,true).start();
     }
 }

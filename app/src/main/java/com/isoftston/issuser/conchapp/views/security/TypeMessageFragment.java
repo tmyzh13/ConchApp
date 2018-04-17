@@ -83,7 +83,7 @@ public class TypeMessageFragment extends BaseFragment<TypeMessageView,TypeMessag
 //                RxBus.getDefault().send(new Object(),"ssss");
             }
         });
-        presenter.getDatas(true);
+//        presenter.getDatas(true);
     }
 
     @Override

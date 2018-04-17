@@ -10,10 +10,17 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import net.sourceforge.pinyin4j.PinyinHelper;
+import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
+import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
+
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by issuser on 2018/4/9.
@@ -144,5 +151,101 @@ public class Tools {
         Locale locale = context.getResources().getConfiguration().locale;
         String language = locale.getLanguage();
         return language;
+    }
+    public static String getHanyuPinyin(String content){
+        char[] target= content.toCharArray();
+        String result="";
+        String temp="";
+        ArrayList<String> list=new ArrayList<>();
+        if(Tools.isNull(content)){
+            return result;
+        }
+
+
+        try {
+            HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
+            format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
+
+            for (int i = 0; i< target.length; i++){
+
+                if(Character.toString(target[i]).matches("[\\u4E00-\\u9FA5]+")){
+//                        if(i==0){
+//                            result+=PinyinHelper.toHanyuPinyinStringArray(target[i],format)[0];
+//                        }else{
+//                            result+=PinyinHelper.toHanyuPinyinStringArray(target[i],format)[0]+" ";
+//                        }
+                    list.add(temp);
+                    temp="";
+                    list.add(PinyinHelper.toHanyuPinyinStringArray(target[i],format)[0]);
+
+
+                }else{
+                    if(!Character.toString(target[i]).equals(" ")){
+                        if((target[i]+"").matches("[0-9]+")){
+                            if(!Tools.isNull(temp)){
+                                if(isNumeric(temp)){
+                                    //上次存储的都是数字
+                                    temp+=target[i];
+                                }else{
+                                    //不是数字
+                                    list.add(temp);
+                                    temp=target[i]+"";
+                                }
+                            }else{
+                                temp+=target[i];
+                            }
+                        }else{
+                            if(!Tools.isNull(temp)){
+                                if(isNumeric(temp)){
+                                    //上次存储的都是数字
+                                    list.add(temp);
+                                    temp=target[i]+"";
+
+                                }else{
+                                    //不是数字
+                                    temp+=target[i];
+                                }
+                            }else{
+                                temp+=target[i];
+                            }
+                        }
+                    }else{
+                        list.add(temp);
+                        temp="";
+                        list.add(Character.toString(target[i]));
+                    }
+
+                }
+
+//                        result+=target[i];
+            }
+
+
+
+
+            list.add(temp);
+        }catch (Exception e){
+
+        }
+
+        for(int i=0;i<list.size();i++){
+            if(Tools.isNull(list.get(i))){
+//                result+=list.get(i);
+            }else{
+                result+=list.get(i)+" ";
+            }
+
+        }
+
+        return result.toUpperCase().trim();
+    }
+
+    public static boolean isNumeric(String str){
+        Pattern pattern = Pattern.compile("[0-9]*");
+        Matcher isNum = pattern.matcher(str);
+        if( !isNum.matches() ){
+            return false;
+        }
+        return true;
     }
 }

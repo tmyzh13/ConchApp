@@ -18,6 +18,7 @@ import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.CheckPeopleAdapter;
 import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.CheckPeopleBean;
+import com.isoftston.issuser.conchapp.utils.Tools;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
 import java.util.ArrayList;
@@ -127,7 +128,7 @@ public class ChoiceCheckPeopleActivity extends BaseActivity{
     public void getSeacherResult(String searchContent){
         List<CheckPeopleBean> listTemp=new ArrayList<>();
         for(int i=0;i<list.size();i++){
-            if(list.get(i).name.contains(searchContent.toUpperCase())){
+            if(list.get(i).name.contains(searchContent.toUpperCase())|| Tools.getHanyuPinyin(list.get(i).name).contains(searchContent.toUpperCase())){
                 listTemp.add(list.get(i));
             }
         }

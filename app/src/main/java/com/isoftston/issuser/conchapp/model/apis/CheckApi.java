@@ -2,11 +2,13 @@ package com.isoftston.issuser.conchapp.model.apis;
 
 import com.isoftston.issuser.conchapp.constants.Urls;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
+import com.isoftston.issuser.conchapp.model.bean.CheckDeviceRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceListBean;
 
 import java.util.List;
 
+import retrofit2.http.Body;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -21,8 +23,5 @@ public interface CheckApi {
     Observable<BaseData<DeviceListBean>> getDevices(@Query("userId") String userID,@Query("pageNo") String pageNo);
 
     @POST(Urls.CHECK_DEVICE)
-    Observable<BaseData<DeviceBean>> checkDevices(@Query("equipId") String equipId,
-                                                  @Query("userId") String userId,
-                                                  @Query("createTime") String createTime,
-                                                  @Query("location") String location);
+    Observable<BaseData<DeviceBean>> checkDevices(@Body CheckDeviceRequestBean bean);
 }
