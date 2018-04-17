@@ -31,6 +31,7 @@ import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BasePresenter;
 import com.google.zxing.client.android.CaptureActivity;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.ScanInfo;
 import com.isoftston.issuser.conchapp.views.mine.adapter.ScanInfoAdapter;
 import com.isoftston.issuser.conchapp.views.security.ChoicePhotoActivity;
@@ -227,6 +228,7 @@ public class ScanCodeActivity extends BaseActivity {
         });
     }
 
+    private ArrayList<String> list=new ArrayList<>();
     private void scan() {//没有扫过二维码
         scanCodeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -237,7 +239,7 @@ public class ScanCodeActivity extends BaseActivity {
         takePhotoLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this, "1"));
+                startActivityForResult(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this,"0",list),110);
 //                checkPermission(1);
             }
         });
@@ -339,6 +341,10 @@ public class ScanCodeActivity extends BaseActivity {
             sendBroadcast(mediaScanIntent);
             Log.e("TAG", "--" + FileProvider.getUriForFile(this, "com.isoftston.conch.fileprovider", file));
 //            imageView.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
+        }else if(requestCode==110){
+            if(resultCode==10){
+                list=data.getStringArrayListExtra(Constant.TEMP_PIC_LIST);
+            }
         }
     }
 

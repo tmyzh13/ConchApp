@@ -279,6 +279,7 @@
             android:paddingRight="14dp">
 
             <TextView
+                android:padding="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"

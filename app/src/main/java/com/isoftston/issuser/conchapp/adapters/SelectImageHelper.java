@@ -101,6 +101,19 @@ public class SelectImageHelper implements AdapterView.OnItemClickListener{
         adapter.replaceAll(files);
     }
 
+    public void setPicFiles(List<String> list){
+        List<ChosenImageFile> files=new ArrayList<>();
+        for (int i = 0; i <list.size(); i++) {
+            ChosenImageFile imageFile=new ChosenImageFile(true,new File(list.get(i)));
+            files.add(imageFile);
+        }
+        if (files.size()<maxSize){
+            files.add(ChosenImageFile.emptyInstance());
+        }
+
+        adapter.replaceAll(files);
+    }
+
     public void setImageUrls(List<String> images){
 
         List<ChosenImageFile> files=new ArrayList<>();

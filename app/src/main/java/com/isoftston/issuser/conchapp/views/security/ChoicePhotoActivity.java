@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.corelibs.base.BaseActivity;
@@ -15,8 +16,13 @@ import com.corelibs.base.BasePresenter;
 import com.corelibs.views.NoScrollingGridView;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.SelectImageHelper;
+import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.weight.ChooseImagePopupWindow;
 import com.isoftston.issuser.conchapp.weight.NavBar;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -40,10 +46,12 @@ public class ChoicePhotoActivity extends BaseActivity {
     private String type;
     //需要图片数量
     private int count;
+    private ArrayList<String> currentFiles;
 
-    public static Intent getLauncher(Context context,String type){
+    public static Intent getLauncher(Context context, String type, ArrayList<String> list){
         Intent intent =new Intent(context,ChoicePhotoActivity.class);
         intent.putExtra("type",type);
+        intent.putStringArrayListExtra("files",list);
         return intent;
     }
 
@@ -61,6 +69,8 @@ public class ChoicePhotoActivity extends BaseActivity {
         navBar.showBack(2);
 
         type=getIntent().getStringExtra("type");
+        currentFiles=getIntent().getStringArrayListExtra("files");
+
         if(type.equals("0")){
             count=3;
         }else if(type.equals("1")){
@@ -94,6 +104,11 @@ public class ChoicePhotoActivity extends BaseActivity {
                 }
             }
         });
+        if(currentFiles!=null&&currentFiles.size()!=0){
+            Log.e("yzh","currentFile");
+            helper.setPicFiles(currentFiles);
+        }
+
     }
 
     private static final int MY_PERMISSIONS_REQUEST_CALL_CAMERA = 1;
@@ -119,6 +134,15 @@ public class ChoicePhotoActivity extends BaseActivity {
 
     @OnClick(R.id.tv_confirm)
     public void confirm(){
+        Intent intent =new Intent();
+        ArrayList<String> list =new ArrayList<>();
+        List<File> listFiles=helper.getChosenImages();
+        for(int i=0;i<listFiles.size();i++){
+            list.add(listFiles.get(i).getPath());
+        }
+        Log.e("yzh","111111---"+list.size());
+        intent.putStringArrayListExtra(Constant.TEMP_PIC_LIST,list);
+        setResult(10,intent);
         finish();
     }
 }

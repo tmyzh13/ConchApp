@@ -29,6 +29,7 @@ import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import butterknife.Bind;
@@ -126,14 +127,19 @@ public class AddHiddenTroubleActivity extends BaseActivity {
                     tv_check_people.setText(result);
                 }
             }
+        }else if(requestCode==110){
+            if(resultCode==10){
+                list=data.getStringArrayListExtra(Constant.TEMP_PIC_LIST);
+            }
         }
     }
-
+    private ArrayList<String> list=new ArrayList<>();
     @OnClick(R.id.rl_photo)
     public void goPhoto(){
         //进入照片选择界面
-        startActivity(ChoicePhotoActivity.getLauncher(context,"0"));
+        startActivityForResult(ChoicePhotoActivity.getLauncher(context,"0",list),110);
     }
+
 
 
 

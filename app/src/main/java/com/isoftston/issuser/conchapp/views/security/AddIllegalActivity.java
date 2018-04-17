@@ -155,10 +155,13 @@ public class AddIllegalActivity extends BaseActivity {
         finish();
     }
 
+    private ArrayList<String> list=new ArrayList<>();
+
     @OnClick(R.id.rl_photo)
     public void choicePhoto(){
-        startActivity(ChoicePhotoActivity.getLauncher(context,"0"));
+        startActivityForResult(ChoicePhotoActivity.getLauncher(context,"0",list),110);
     }
+
 
     @OnClick(R.id.ll_check_people)
     public void choiceCheckPeople(){
@@ -210,6 +213,10 @@ public class AddIllegalActivity extends BaseActivity {
                     tv_check_people.setText(result);
                 }
 
+            }
+        }else if(requestCode==110){
+            if(resultCode==10){
+                list=data.getStringArrayListExtra(Constant.TEMP_PIC_LIST);
             }
         }
     }

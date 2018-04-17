@@ -8,7 +8,7 @@ package com.isoftston.issuser.conchapp.constants;
 public class Urls {
 
 
-    public static final String ROOT = "http://m.zyh198.com/wy-app/";
+    public static final String ROOT="http://10.28.124.188:8090/conch/";
 
     //登录
     public static final String LOGIN = "";
@@ -23,4 +23,6 @@ public class Urls {
     //查询安全信息列表数据
     public static final String GET_CONCH_NEWS="/info/getConchNews";
 
+    //获取安全信息列表（隐患违章我的）
+    public static final String GET_SECURITY_DATAS="info/conditionsearch";
 }

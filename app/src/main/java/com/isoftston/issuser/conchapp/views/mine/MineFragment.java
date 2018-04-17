@@ -9,7 +9,9 @@ import android.widget.TextView;
 
 import com.corelibs.base.BaseFragment;
 import com.corelibs.base.BasePresenter;
+import com.corelibs.utils.PreferencesHelper;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.utils.VersionUtil;
 import com.isoftston.issuser.conchapp.views.LoginActivity;
 
@@ -100,6 +102,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(SettingsActivity.getLauncher(getActivity()));
                 break;
             case R.id.log_off:
+                PreferencesHelper.remove(Constant.LOGIN_STATUE);
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
                 getActivity().finish();

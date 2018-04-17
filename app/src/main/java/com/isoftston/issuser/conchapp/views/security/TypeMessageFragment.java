@@ -15,7 +15,9 @@ import com.corelibs.views.ptr.loadmore.widget.AutoLoadMoreListView;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.MessageTypeAdapter;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
+import com.isoftston.issuser.conchapp.presenter.TypeMessagePresenter;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
+import com.isoftston.issuser.conchapp.views.interfaces.TypeMessageView;
 import com.isoftston.issuser.conchapp.views.message.ItemDtailActivity;
 
 import java.util.ArrayList;
@@ -27,7 +29,7 @@ import butterknife.Bind;
  * Created by issuser on 2018/4/10.
  */
 
-public class TypeMessageFragment extends BaseFragment {
+public class TypeMessageFragment extends BaseFragment<TypeMessageView,TypeMessagePresenter> implements TypeMessageView {
 
     @Bind(R.id.tv)
     TextView tv;
@@ -81,10 +83,21 @@ public class TypeMessageFragment extends BaseFragment {
 //                RxBus.getDefault().send(new Object(),"ssss");
             }
         });
+        presenter.getDatas(true);
     }
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected TypeMessagePresenter createPresenter() {
+        return new TypeMessagePresenter();
+    }
+
+    @Override
+    public void onLoadingCompleted() {
+
+    }
+
+    @Override
+    public void onAllPageLoaded() {
+
     }
 }
