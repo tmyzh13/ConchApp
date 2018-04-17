@@ -151,8 +151,6 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
 
             @Override
             public void onPageSelected(int position) {
-                Toast.makeText(getActivity(), "当前是第" + position + "个条目", Toast.LENGTH_SHORT).show();
-                ToastUtils.showtoast(getActivity(), "当前是第" + position + "个条目");
 
             }
 
@@ -232,22 +230,34 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                 }
 
                 break;
-            case R.id.bt_aq:
-            case R.id.bt_wz:
             case R.id.bt_yh:
-            case R.id.aq_detail:
             case R.id.yh_detail:
+                changeCurrent(0);
+                break;
+            case R.id.bt_wz:
             case R.id.wz_detail:
-                nav.setNavTitle(getString(R.string.home_message));
-                viewPager.setVisibility(View.VISIBLE);
-                ll_main.setVisibility(View.GONE);
-                iv_back.setImageDrawable(getResources().getDrawable(R.mipmap.back));
-                iv_back.setVisibility(View.VISIBLE);
+                changeCurrent(1);
+                break;
+            case R.id.bt_aq:
+            case R.id.aq_detail:
+                changeCurrent(2);
                 break;
             case R.id.iv_back:
-                getActivity().finish();
+                nav.setNavTitle(getString(R.string.main_message));
+                viewPager.setVisibility(View.GONE);
+                ll_main.setVisibility(View.VISIBLE);
+                iv_back.setVisibility(View.GONE);
                 break;
         }
+    }
+
+    private void changeCurrent(int i) {
+        nav.setNavTitle(getString(R.string.home_message));
+        viewPager.setVisibility(View.VISIBLE);
+        ll_main.setVisibility(View.GONE);
+        iv_back.setImageDrawable(getResources().getDrawable(R.mipmap.back));
+        iv_back.setVisibility(View.VISIBLE);
+        viewPager.setCurrentItem(i);
     }
 
     @OnClick(R.id.location_city_tv)
