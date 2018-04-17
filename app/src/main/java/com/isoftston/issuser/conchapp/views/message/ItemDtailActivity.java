@@ -75,6 +75,8 @@ public class ItemDtailActivity extends BaseActivity {
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        setBarColor(getResources().getColor(R.color.transparent_black));
+        nav.setColorRes(R.color.white);
         nav.setNavTitle(getString(R.string.yh_project_check));
         tv_title.setTextColor(getResources().getColor(R.color.text_color));
         nav.showBack(2);
@@ -84,7 +86,6 @@ public class ItemDtailActivity extends BaseActivity {
         //初始化小圆点
         initDots();
         //适配器
-
         VpAdapter adapter = new VpAdapter(imageList,handler);
         vp.setPageMargin(10);
         vp.setAdapter(adapter);

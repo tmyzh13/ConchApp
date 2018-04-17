@@ -20,4 +20,7 @@ public class Urls {
     public static final String CHECK_DEVICE_DESCRIPTION="device/searchDescription";
     //扫面之后根据信息来获取设备信息
     public static final String CHECK_DEVICE="device/currentExamine";
+    //查询安全信息列表数据
+    public static final String GET_CONCH_NEWS="/info/getConchNews";
+
 }

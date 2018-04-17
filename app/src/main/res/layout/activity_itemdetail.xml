@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
+    android:background="@color/app_bg"
     android:orientation="vertical">
 
     <com.isoftston.issuser.conchapp.weight.NavBar
