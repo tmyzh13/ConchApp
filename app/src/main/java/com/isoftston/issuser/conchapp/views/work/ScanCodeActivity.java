@@ -31,6 +31,7 @@ import com.corelibs.utils.ToastMgr;
 import com.google.zxing.client.android.CaptureActivity;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
+import com.isoftston.issuser.conchapp.model.bean.ResponseDataBean;
 import com.isoftston.issuser.conchapp.model.bean.ScanInfo;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
 import com.isoftston.issuser.conchapp.presenter.WorkDetailPresenter;
@@ -47,7 +48,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 
 
-public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPresenter> implements WorkDetailView {
+public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPresenter> implements WorkDetailView, View.OnClickListener {
     private static final String TAG = "ScanCodeActivity";
     private static final int REQUEST_CAMERA_PERMISSION_CODE = 100;
     private static final int REQUEST_STORAGE_PERMISSION_CODE = 101;
@@ -163,6 +164,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     private boolean isApproverPerson;//是否为批准人
     private boolean isChargePersonScaned;//负责人是否扫过
     private boolean isChargePersonPhotoed;//负责人是拍过
+    private boolean isOneTurnDone;//第一轮是否完成
 
     @Override
     protected int getLayoutId() {
@@ -208,15 +210,29 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
      * 扫描和拍照后改变ui
      */
     private void checkUserPosition() {
+        presenter.getWorkDetailInfo("cn", 01);
+        if (isOneTurnDone){
+            changeScanLayout();
+        }
         if (isChargePerson) {//负责人
             if (isChargePersonScaned) {
+                scanSuccessHintLayout.setVisibility(View.VISIBLE);
+                scanOrPhotoSuccessTv.setText(R.string.scan_code);
                 scanFlagIv1.setVisibility(View.VISIBLE);
             }
             if (isChargePersonPhotoed) {
+                scanSuccessHintLayout.setVisibility(View.VISIBLE);
+                scanOrPhotoSuccessTv.setText(R.string.photo_action);
                 photoFlagIv1.setVisibility(View.VISIBLE);
             }
+            if (isChargePersonScaned && isChargePersonPhotoed){
+                chargePersonIv.setImageResource(R.drawable.dots_green);
+                chargePersonTv.setTextColor(getResources().getColor(R.color.colorGreen));
+                chargePersonRelnameTv.setTextColor(getResources().getColor(R.color.colorGreen));
+                personInChargeNmaeTv.setTextColor(getResources().getColor(R.color.colorGreen));
+            }
         } else if (isGurdianPerson) {//监护人
-            if (isChargePersonScaned && isScaned1) {//改变ui
+            if (isChargePersonScaned) {//改变ui
                 if (isScaned1) {
                     scanSuccessHintLayout.setVisibility(View.VISIBLE);
                     scanOrPhotoSuccessTv.setText(R.string.scan_code);//提示已扫描
@@ -229,14 +245,44 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                 if (isScaned1 && isPhotoed1) {
                     guardianPersonIv.setImageResource(R.drawable.dots_green);//圆点变色
                     guardianTv.setTextColor(getResources().getColor(R.color.colorGreen));//圆点文字变色
-                    guardianNameTv.setTextColor(getResources().getColor(R.color.colorGreen));//人名变色
                     guardianRelnameTv.setTextColor(getResources().getColor(R.color.colorGreen));//具体人名变色
+                    guardianNameTv.setTextColor(getResources().getColor(R.color.colorGreen));//人名变色
                 }
             }
         } else if (isAuditorPerson) {//审核人
-
+            if (isChargePersonScaned) {
+                if (isScaned1) {
+                    scanSuccessHintLayout.setVisibility(View.VISIBLE);
+                    scanOrPhotoSuccessTv.setText(R.string.scan_code);
+                    scanFlagIv1.setVisibility(View.VISIBLE);
+                } else if (isPhotoed1) {
+                    scanSuccessHintLayout.setVisibility(View.VISIBLE);
+                    scanOrPhotoSuccessTv.setText(R.string.photo_action);
+                    photoFlagIv1.setVisibility(View.VISIBLE);
+                }
+                if (isScaned1 && isPhotoed1) {
+                    auditorPersonIv.setImageResource(R.drawable.dots_green);
+                    auditorTv.setTextColor(getResources().getColor(R.color.colorGreen));
+                    auditorRelnameTv.setTextColor(getResources().getColor(R.color.colorGreen));
+                    auditorNameTv.setTextColor(getResources().getColor(R.color.colorGreen));
+                }
+            }
         } else if (isApproverPerson) {//批准人
-
+            if (isScaned1){
+                scanSuccessHintLayout.setVisibility(View.VISIBLE);
+                scanOrPhotoSuccessTv.setText(R.string.scan_code);
+                scanFlagIv1.setVisibility(View.VISIBLE);
+            }else if (isPhotoed1){
+                scanSuccessHintLayout.setVisibility(View.VISIBLE);
+                scanOrPhotoSuccessTv.setText(R.string.photo_action);
+                photoFlagIv1.setVisibility(View.VISIBLE);
+            }
+            if (isScaned1 && isPhotoed1){
+                approverPersonIv.setImageResource(R.drawable.dots_green);
+                approverTv.setTextColor(getResources().getColor(R.color.colorGreen));
+                approverRelnameTv.setTextColor(getResources().getColor(R.color.colorGreen));
+                approverNameTv.setTextColor(getResources().getColor(R.color.colorGreen));
+            }
         }
     }
 
@@ -260,7 +306,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
      */
     @OnClick(R.id.iv_add)
     public void refresh() {
-
+        presenter.getWorkDetailInfo("cn", 1);
     }
 
     private void scaned() {//扫过二维码
@@ -273,13 +319,13 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         takePhotoInnerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this, "1",list));
-//                checkPermission(1);
+                startActivityForResult(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this, "1", list), OPEN_ACTIVITY_TAKE_PHOTO_CODE);
             }
         });
     }
 
-    private ArrayList<String> list=new ArrayList<>();
+    private ArrayList<String> list = new ArrayList<>();
+
     private void scan() {//没有扫过二维码
         scanCodeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -290,8 +336,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         takePhotoLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this,"0",list),110);
-//                checkPermission(1);
+                startActivityForResult(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this, "1", list), OPEN_ACTIVITY_TAKE_PHOTO_CODE);
             }
         });
     }
@@ -303,13 +348,6 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION_CODE);
             } else {
                 startScanCode();
-            }
-        } else if (type == 1) {
-            if (ContextCompat.checkSelfPermission(getViewContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                //申请读写权限
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, REQUEST_STORAGE_PERMISSION_CODE);
-            } else {
-                startTakePhoto();
             }
         }
     }
@@ -333,13 +371,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                     ToastMgr.show(getString(R.string.check_manager_open_pemission));
                 }
                 break;
-            case REQUEST_STORAGE_PERMISSION_CODE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    //获得授权,开始拍照
-                    startTakePhoto();
-                } else {
-                    ToastMgr.show(getString(R.string.check_manager_open_pemission));
-                }
+            default:
                 break;
         }
     }
@@ -348,23 +380,6 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         //开始扫描
         Intent intent = new Intent(getViewContext(), CaptureActivity.class);
         startActivityForResult(intent, OPEN_ACTIVITY_SCAN_CODE);
-    }
-
-    /**
-     * 打开相机
-     */
-    private File file;
-
-    private void startTakePhoto() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
-                + "/test/" + System.currentTimeMillis() + ".jpg");
-        file.getParentFile().mkdirs();
-
-        //改变Uri  com.isoftston.conch.fileprovider注意和xml中的一致
-        Uri uri = FileProvider.getUriForFile(this, "com.isoftston.conch.fileprovider", file);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-        startActivityForResult(intent, OPEN_ACTIVITY_TAKE_PHOTO_CODE);
     }
 
     /**
@@ -386,21 +401,11 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                 ToastMgr.show(getString(R.string.check_manager_cancel_scan));
             } else {
                 showResultView(s);
-                changeScanLayout();
+//                changeScanLayout();
             }
-        } else if (requestCode == OPEN_ACTIVITY_TAKE_PHOTO_CODE && resultCode == RESULT_OK) {
-            changeScanLayout();
-            //在手机相册中显示刚拍摄的图片
-            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-            Uri contentUri = Uri.fromFile(file);
-            mediaScanIntent.setData(contentUri);
-            sendBroadcast(mediaScanIntent);
-            Log.e("TAG", "--" + FileProvider.getUriForFile(this, "com.isoftston.conch.fileprovider", file));
-//            imageView.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
-        }else if(requestCode==110){
-            if(resultCode==10){
-                list=data.getStringArrayListExtra(Constant.TEMP_PIC_LIST);
-            }
+        } else if (requestCode == OPEN_ACTIVITY_TAKE_PHOTO_CODE && resultCode == 10) {
+            list = data.getStringArrayListExtra(Constant.TEMP_PIC_LIST);
+            Log.e(TAG, "----size:" + list.size() + ",--" + list.toString());
         }
     }
 
@@ -472,8 +477,24 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     }
 
     @Override
-    public void getWorkDetailError() {
-        Log.e(TAG, "----getWorkDetailError");
+    public void responseError(int type) {
+        if (type == 0) {
+            Log.e(TAG, "----获取作业详细信息失败");
+        } else if (type == 1) {
+            Log.e(TAG, "----撤销作业失败");
+        } else if (type == 2) {
+            Log.e(TAG, "----提交作业失败");
+        }
+    }
+
+    @Override
+    public void revokeJob(ResponseDataBean responseDataBean) {
+
+    }
+
+    @Override
+    public void submitJob(ResponseDataBean responseDataBean) {
+
     }
 
     @Override
@@ -484,5 +505,17 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     @Override
     public void onAllPageLoaded() {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.revoke_btn:
+                presenter.revokeJob(11);
+                break;
+            case R.id.commit_btn:
+                presenter.submitJob(1, "11", list.toString());
+                break;
+        }
     }
 }

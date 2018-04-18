@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                app:srcCompat="@mipmap/edite" />
+                app:srcCompat="@mipmap/noedit" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -89,7 +89,8 @@
                 <EditText
                     android:id="@+id/user_name"
                     style="@style/add_report_edittext"
-                    android:layout_toRightOf="@id/name_tv" />
+                    android:layout_toRightOf="@id/name_tv"
+                    android:focusable="false" />
             </RelativeLayout>
         </RelativeLayout>
 
@@ -129,7 +130,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerInParent="true"
                     android:text="@string/user_role"
-                    android:textColor="@color/hit_text_color"
+                    android:textColor="@color/single_text_color"
                     android:textSize="14sp" />
 
                 <TextView
@@ -165,7 +166,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                app:srcCompat="@mipmap/edite" />
+                app:srcCompat="@mipmap/noedit" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -199,6 +200,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
+                    android:focusable="false"
                     android:orientation="horizontal">
 
                     <RadioButton
@@ -258,7 +260,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerInParent="true"
                     android:text="@string/user_acoount"
-                    android:textColor="@color/hit_text_color"
+                    android:textColor="@color/single_text_color"
                     android:textSize="14sp" />
 
                 <TextView
@@ -294,7 +296,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                app:srcCompat="@mipmap/edite" />
+                app:srcCompat="@mipmap/noedit" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -350,6 +352,7 @@
                     android:layout_toLeftOf="@id/show_pwd_layout"
                     android:layout_toRightOf="@id/pwd_tv"
                     android:background="@null"
+                    android:focusable="false"
                     android:gravity="center_vertical|right"
                     android:inputType="textPassword"
                     android:singleLine="true"
@@ -379,7 +382,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                app:srcCompat="@mipmap/addcolumn" />
+                app:srcCompat="@mipmap/noedit" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -402,6 +405,7 @@
                     android:id="@+id/user_phoneNum"
                     style="@style/add_report_edittext"
                     android:layout_toRightOf="@id/phone_tv"
+                    android:focusable="false"
                     android:inputType="phone" />
             </RelativeLayout>
         </RelativeLayout>

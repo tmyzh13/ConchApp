@@ -6,6 +6,7 @@ import com.corelibs.base.BasePresenter;
 import com.corelibs.subscriber.ResponseSubscriber;
 import com.isoftston.issuser.conchapp.model.apis.WorkDetailApi;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
+import com.isoftston.issuser.conchapp.model.bean.ResponseDataBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
 import com.isoftston.issuser.conchapp.views.interfaces.WorkDetailView;
 
@@ -29,9 +30,11 @@ public class WorkDetailPresenter extends BasePresenter<WorkDetailView> {
 
     /**
      * 默认获取数据
+     * @param language 语言
+     * @param id 作业id
      */
-    public void getWorkDetailInfo() {
-        api.getWorkDetailInfo("", 1)
+    public void getWorkDetailInfo(String language,long id) {
+        api.getWorkDetailInfo(language, id)
                 .compose(new ResponseTransformer<>(this.<BaseData<WorkDetailBean>>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData<WorkDetailBean>>() {
 
@@ -43,14 +46,58 @@ public class WorkDetailPresenter extends BasePresenter<WorkDetailView> {
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-                        view.getWorkDetailError();
+                        view.responseError(0);
                     }
 
                     @Override
                     public boolean operationError(BaseData<WorkDetailBean> workDetailBeanBaseData, int status, String message) {
-                        view.getWorkDetailError();
+                        view.responseError(0);
                         return super.operationError(workDetailBeanBaseData, status, message);
                     }
                 });
+    }
+
+    /**
+     * 撤销
+     * @param id
+     */
+    public void revokeJob(long id){
+        api.cancelJob(id)
+                .compose(new ResponseTransformer<BaseData<ResponseDataBean>>(this.<BaseData<ResponseDataBean>>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData<ResponseDataBean>>() {
+                    @Override
+                    public void success(BaseData<ResponseDataBean> responseDataBeanBaseData) {
+                        view.revokeJob(responseDataBeanBaseData.data);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        view.responseError(1);
+                    }
+                });
+    }
+
+    /**
+     *
+     * @param id 主键
+     * @param code 设备号
+     * @param imgs 图片路径，以逗号分隔开的
+     */
+    public void submitJob(long id,String code,String imgs){
+       api.submitJob(id,code,imgs)
+               .compose(new ResponseTransformer<BaseData<ResponseDataBean>>(this.<BaseData<ResponseDataBean>>bindToLifeCycle()))
+               .subscribe(new ResponseSubscriber<BaseData<ResponseDataBean>>() {
+                   @Override
+                   public void success(BaseData<ResponseDataBean> responseDataBeanBaseData) {
+                       view.submitJob(responseDataBeanBaseData.data);
+                   }
+
+                   @Override
+                   public void onError(Throwable e) {
+                       super.onError(e);
+                       view.responseError(2);
+                   }
+               });
     }
 }

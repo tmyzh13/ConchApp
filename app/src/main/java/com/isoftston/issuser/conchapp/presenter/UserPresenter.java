@@ -26,8 +26,12 @@ public class UserPresenter extends PagePresenter<UserView> {
         api = ApiFactory.getFactory().create(UserApi.class);
     }
 
-   public void getUserInfo(){
-        api.getUserInfo("","userId")
+    /**
+     * @param language
+     * @param userId
+     */
+   public void getUserInfo(String language,String userId){
+        api.getUserInfo(language,userId)
                 .compose(new ResponseTransformer<>(this.<BaseData<UserInfoBean>>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData<UserInfoBean>>() {
                     @Override

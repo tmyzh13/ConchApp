@@ -60,9 +60,11 @@ public class IndividualCenterActivity extends BaseActivity implements View.OnCli
     TextView userDepartmentTv;
 
     private boolean isShowPwd = false;
+    private UserInfoBean userInfo;
 
-    public static Intent getLauncher(Context context) {
+    public static Intent getLauncher(Context context, UserInfoBean userInfo) {
         Intent intent = new Intent(context, IndividualCenterActivity.class);
+        intent.putExtra("userInfo", userInfo);
         return intent;
     }
 
@@ -83,6 +85,7 @@ public class IndividualCenterActivity extends BaseActivity implements View.OnCli
      * 获取用户信息并显示
      */
     private void showUserInfo() {
+//        userInfo = (UserInfoBean) getIntent().getSerializableExtra("userInfo");
     }
 
     private void changeIcon() {
@@ -115,20 +118,13 @@ public class IndividualCenterActivity extends BaseActivity implements View.OnCli
     private void clicks() {
         backIv.setOnClickListener(this);
         sureTv.setOnClickListener(this);
-        radioButtonMan.setChecked(true);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.radio_button_man:
-                        break;
-                    case R.id.radio_button_woman:
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
+        showPwdLayout.setOnClickListener(this);
+        boolean isMan = false;
+        if (isMan) {
+            radioButtonMan.setChecked(true);
+        } else {
+            radioButtonWoman.setChecked(true);
+        }
     }
 
     @Override

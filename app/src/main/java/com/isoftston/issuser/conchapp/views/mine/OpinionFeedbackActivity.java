@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BasePresenter;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
 import butterknife.Bind;
@@ -78,6 +79,7 @@ public class OpinionFeedbackActivity extends BaseActivity {
         if (mFeedbackView.getText().length() <= 0) {
             return;
         }
+        ToastUtils.showtoast(this,getResources().getString(R.string.submit_success));
         finish();
         //上传反馈信息
         //todo

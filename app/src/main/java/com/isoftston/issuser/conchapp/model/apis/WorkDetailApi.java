@@ -2,6 +2,7 @@ package com.isoftston.issuser.conchapp.model.apis;
 
 import com.isoftston.issuser.conchapp.constants.Urls;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
+import com.isoftston.issuser.conchapp.model.bean.ResponseDataBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
 
 
@@ -22,9 +23,9 @@ public interface WorkDetailApi {
 
     //撤销作业
     @POST(Urls.CANCEL_JOB)
-    Observable<BaseData<WorkDetailBean>> cancelJob(@Query("id") long id);
+    Observable<BaseData<ResponseDataBean>> cancelJob(@Query("id") long id);
 
     //提交作业
     @POST(Urls.SUBMIT_JOB)
-    Observable<BaseData<WorkDetailBean>> submitJob(@Query("id") long id, @Query("code") String cod, @Query("imgs") String imgs);
+    Observable<BaseData<ResponseDataBean>> submitJob(@Query("id") long id, @Query("code") String cod, @Query("imgs") String imgs);
 }

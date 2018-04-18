@@ -50,6 +50,7 @@ public class MineFragment extends BaseFragment<UserView, UserPresenter> implemen
     TextView versionTv;//版本
 
     private boolean isMan;
+    private UserInfoBean userInfo;
 
     @Override
     protected int getLayoutId() {
@@ -64,6 +65,7 @@ public class MineFragment extends BaseFragment<UserView, UserPresenter> implemen
     }
 
     private void showUserInfo() {
+        presenter.getUserInfo("cn","xxx");
         if (isMan) {
             headIv.setImageResource(R.mipmap.man_head);
         } else {
@@ -93,7 +95,7 @@ public class MineFragment extends BaseFragment<UserView, UserPresenter> implemen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.individual_center:
-                startActivity(IndividualCenterActivity.getLauncher(getActivity()));
+                startActivity(IndividualCenterActivity.getLauncher(getActivity(),userInfo));
                 break;
             case R.id.about_us:
                 startActivity(AboutUsActivity.getLauncher(getActivity()));
@@ -127,7 +129,7 @@ public class MineFragment extends BaseFragment<UserView, UserPresenter> implemen
 
     @Override
     public void getUserInfo(UserInfoBean userInfoBean) {
-//        userNameTv.setText(userInfoBean.userName);
+
     }
 
     @Override
