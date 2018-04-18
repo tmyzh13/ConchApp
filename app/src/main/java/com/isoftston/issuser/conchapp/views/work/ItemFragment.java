@@ -7,11 +7,14 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.corelibs.base.BaseFragment;
-import com.corelibs.base.BasePresenter;
+import com.corelibs.views.cube.ptr.PtrFrameLayout;
 import com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout;
 import com.corelibs.views.ptr.loadmore.widget.AutoLoadMoreListView;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkBean;
+import com.isoftston.issuser.conchapp.presenter.WorkPresenter;
+import com.isoftston.issuser.conchapp.views.interfaces.WorkView;
 import com.isoftston.issuser.conchapp.views.work.adpter.WorkMessageItemAdapter;
 
 import java.util.ArrayList;
@@ -23,7 +26,7 @@ import butterknife.Bind;
  * Created by issuser on 2018/4/9.
  */
 
-public class ItemFragment extends BaseFragment {
+public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implements WorkView, PtrAutoLoadMoreLayout.RefreshLoadCallback{
 
     @Bind(R.id.tv)
     TextView tv;
@@ -53,6 +56,7 @@ public class ItemFragment extends BaseFragment {
         tv.setText(type);
 
         adapter=new WorkMessageItemAdapter(getContext());
+        presenter.getWorklInfo("");
         listMessage=new ArrayList<>();
         for(int i=0;i<10;i++){
             listMessage.add(new MessageBean());
@@ -61,7 +65,7 @@ public class ItemFragment extends BaseFragment {
         lv_message.setAdapter(adapter);
         ptrLayout.disableLoading();
         ptrLayout.setCanRefresh(false);
-
+        ptrLayout.setRefreshLoadCallback(this);
         lv_message.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -73,8 +77,42 @@ public class ItemFragment extends BaseFragment {
     }
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected WorkPresenter createPresenter() {
+        return new WorkPresenter();
     }
 
+    @Override
+    public void onLoadingCompleted() {
+
+    }
+
+    @Override
+    public void onAllPageLoaded() {
+
+    }
+
+    @Override
+    public void renderData(WorkBean workBean) {
+
+    }
+
+    @Override
+    public void getWorkInfo(WorkBean workBean) {
+
+    }
+
+    @Override
+    public void getWorkError() {
+
+    }
+
+    @Override
+    public void onLoading(PtrFrameLayout frame) {
+
+    }
+
+    @Override
+    public void onRefreshing(PtrFrameLayout frame) {
+
+    }
 }

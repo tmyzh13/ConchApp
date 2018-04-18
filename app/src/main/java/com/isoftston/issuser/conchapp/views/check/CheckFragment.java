@@ -76,12 +76,12 @@ public class CheckFragment extends BaseFragment<CheckView,CheckPresenter> implem
         });
         navBar.showSeachColor(2);
 
-
+        presenter.getDeviceInfo("");
         List<DeviceBean> list =new ArrayList<>();
         for(int i=0;i<5;i++){
             list.add(new DeviceBean());
         }
-
+//        presenter.
         adapter =new DeviceAdapter(getContext());
         adapter.addAll(list);
         lv_device.setAdapter(adapter);

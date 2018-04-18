@@ -19,6 +19,7 @@ import com.isoftston.issuser.conchapp.presenter.ForgetPasswordPresenter;
 import com.isoftston.issuser.conchapp.utils.MyCountDownTimer;
 import com.isoftston.issuser.conchapp.views.interfaces.ForgetPasswordView;
 import com.isoftston.issuser.conchapp.weight.NavBar;
+import com.umeng.message.PushAgent;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -56,6 +57,7 @@ public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordView,Forg
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        PushAgent.getInstance(context).onAppStart();
         nav.setColorRes(R.color.transparent);
         setBarColor(getResources().getColor(R.color.transparent_black));
         nav.showBack(2);
@@ -85,6 +87,8 @@ public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordView,Forg
 
     @OnClick(R.id.tv_get_code)
     public void getCode(){
+
         new MyCountDownTimer(context,tv_get_code, 60 * 1000, 1000,true).start();
+
     }
 }

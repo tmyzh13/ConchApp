@@ -102,4 +102,15 @@ public class CheckPresenter extends ListPagePresenter<CheckView> {
                     }
                 });
     }
+    public void getDeviceInfo(String deviceId){
+        api.getDeviceInfo(deviceId)
+                .compose(new ResponseTransformer<>(this.<BaseData<DeviceBean>>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData<DeviceBean>>() {
+                    @Override
+                    public void success(BaseData<DeviceBean> deviceBeanBaseData) {
+                        view.checkDeviceResult(deviceBeanBaseData.data);
+                    }
+
+                });
+    }
 }

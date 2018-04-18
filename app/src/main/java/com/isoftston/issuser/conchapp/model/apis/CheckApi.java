@@ -24,4 +24,7 @@ public interface CheckApi {
 
     @POST(Urls.CHECK_DEVICE)
     Observable<BaseData<DeviceBean>> checkDevices(@Body CheckDeviceRequestBean bean);
+
+    @POST(Urls.CHECK_DEVICE_DESCRIPTION)
+    Observable<BaseData<DeviceBean>> getDeviceInfo(@Query("descid") String descId);
 }

@@ -3,34 +3,28 @@ package com.isoftston.issuser.conchapp.views.message;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
-import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.corelibs.base.BaseActivity;
-import com.corelibs.base.BasePresenter;
-import com.corelibs.views.ptr.loadmore.adapter.GridViewAdapter;
 import com.corelibs.views.roundedimageview.RoundedTransformationBuilder;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.mGridViewAdapter;
+import com.isoftston.issuser.conchapp.model.bean.MessageDetailBean;
+import com.isoftston.issuser.conchapp.presenter.MessageDetailPresenter;
+import com.isoftston.issuser.conchapp.views.interfaces.MessageDetailView;
 import com.isoftston.issuser.conchapp.views.message.adpter.VpAdapter;
-import com.isoftston.issuser.conchapp.weight.CircleImageView;
 import com.isoftston.issuser.conchapp.weight.MyGridView;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +34,7 @@ import butterknife.Bind;
  * Created by issuser on 2018/4/10.
  */
 
-public class ItemDtailActivity extends BaseActivity {
+public class ItemDtailActivity extends BaseActivity<MessageDetailView,MessageDetailPresenter> implements MessageDetailView {
     @Bind(R.id.nav)
     NavBar nav;
     @Bind(R.id.tv_title)
@@ -133,8 +127,8 @@ public class ItemDtailActivity extends BaseActivity {
 
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected MessageDetailPresenter createPresenter() {
+        return new MessageDetailPresenter();
     }
 
     private void initDots() {
@@ -175,5 +169,27 @@ public class ItemDtailActivity extends BaseActivity {
 //            iv.setImageResource(images[i]);
             imageList.add(view);
         }
+    }
+
+    @Override
+    public void onLoadingCompleted() {
+
+    }
+
+    @Override
+    public void onAllPageLoaded() {
+
+    }
+
+
+
+    @Override
+    public void getWorkInfo(MessageDetailBean messageDetailBean) {
+
+    }
+
+    @Override
+    public void getWorkError() {
+
     }
 }
