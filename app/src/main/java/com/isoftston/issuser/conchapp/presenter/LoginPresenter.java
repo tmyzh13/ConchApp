@@ -13,6 +13,9 @@ import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.apis.LoginApi;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
+import com.isoftston.issuser.conchapp.model.bean.LoginRequestBean;
+import com.isoftston.issuser.conchapp.utils.MD5Utils;
+import com.isoftston.issuser.conchapp.utils.Tools;
 import com.isoftston.issuser.conchapp.views.interfaces.LoginView;
 import com.trello.rxlifecycle.ActivityEvent;
 
@@ -37,15 +40,21 @@ public class LoginPresenter extends BasePresenter<LoginView> {
 
     public void loginAction(String account,String password){
         if(checkLoginInput(account,password)){
-//            api.login(account,password)
-//                    .compose(new ResponseTransformer<>(this.<BaseData>bindUntilEvent(ActivityEvent.DESTROY)))
-//                    .subscribe(new ResponseSubscriber<BaseData>(view) {
-//                        @Override
-//                        public void success(BaseData baseData) {
+            LoginRequestBean bean =new LoginRequestBean();
+            bean.language= Tools.getLocalLanguage(getContext());
+            bean.userName=account;
+            bean.password= MD5Utils.encode(password);
+            bean.phoneType=Tools.getPhoneType();
+            bean.phoneCode=Tools.getIMEI(getContext());
+            api.login(bean)
+                    .compose(new ResponseTransformer<>(this.<BaseData>bindUntilEvent(ActivityEvent.DESTROY)))
+                    .subscribe(new ResponseSubscriber<BaseData>(view) {
+                        @Override
+                        public void success(BaseData baseData) {
                             PreferencesHelper.saveData(Constant.LOGIN_STATUE,"1");
                             view.loginSuccess();
-//                        }
-//                    });
+                        }
+                    });
 
         }
     }

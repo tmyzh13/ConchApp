@@ -1,10 +1,15 @@
 package com.isoftston.issuser.conchapp.utils;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Environment;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
@@ -14,11 +19,15 @@ import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
 import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,8 +47,8 @@ public class Tools {
         return (int) (pxValue / scale + 0.5f);
     }
 
-    public static int getStatueHeight(Context context){
-        int statusBarHeight=0;
+    public static int getStatueHeight(Context context) {
+        int statusBarHeight = 0;
         try {
             Class<?> c = Class.forName("com.android.internal.R$dimen");
             Object obj = c.newInstance();
@@ -97,6 +106,7 @@ public class Tools {
             child.invalidate();
         }
     }
+
     /**
      * 判断 一个字段的值否为空
      *
@@ -130,9 +140,9 @@ public class Tools {
      * 获取当前时间
      * @return
      */
-    public static String getCurrentTime(){
-        SimpleDateFormat   formatter   =   new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        Date curDate =  new Date(System.currentTimeMillis());
+    public static String getCurrentTime() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date curDate = new Date(System.currentTimeMillis());
         return formatter.format(curDate);
     }
 
@@ -147,17 +157,18 @@ public class Tools {
      * @param context
      * @return
      */
-    public static String getLocalLanguage(Context context){
+    public static String getLocalLanguage(Context context) {
         Locale locale = context.getResources().getConfiguration().locale;
         String language = locale.getLanguage();
         return language;
     }
-    public static String getHanyuPinyin(String content){
-        char[] target= content.toCharArray();
-        String result="";
-        String temp="";
-        ArrayList<String> list=new ArrayList<>();
-        if(Tools.isNull(content)){
+
+    public static String getHanyuPinyin(String content) {
+        char[] target = content.toCharArray();
+        String result = "";
+        String temp = "";
+        ArrayList<String> list = new ArrayList<>();
+        if (Tools.isNull(content)) {
             return result;
         }
 
@@ -166,52 +177,52 @@ public class Tools {
             HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
             format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
 
-            for (int i = 0; i< target.length; i++){
+            for (int i = 0; i < target.length; i++) {
 
-                if(Character.toString(target[i]).matches("[\\u4E00-\\u9FA5]+")){
+                if (Character.toString(target[i]).matches("[\\u4E00-\\u9FA5]+")) {
 //                        if(i==0){
 //                            result+=PinyinHelper.toHanyuPinyinStringArray(target[i],format)[0];
 //                        }else{
 //                            result+=PinyinHelper.toHanyuPinyinStringArray(target[i],format)[0]+" ";
 //                        }
                     list.add(temp);
-                    temp="";
-                    list.add(PinyinHelper.toHanyuPinyinStringArray(target[i],format)[0]);
+                    temp = "";
+                    list.add(PinyinHelper.toHanyuPinyinStringArray(target[i], format)[0]);
 
 
-                }else{
-                    if(!Character.toString(target[i]).equals(" ")){
-                        if((target[i]+"").matches("[0-9]+")){
-                            if(!Tools.isNull(temp)){
-                                if(isNumeric(temp)){
+                } else {
+                    if (!Character.toString(target[i]).equals(" ")) {
+                        if ((target[i] + "").matches("[0-9]+")) {
+                            if (!Tools.isNull(temp)) {
+                                if (isNumeric(temp)) {
                                     //上次存储的都是数字
-                                    temp+=target[i];
-                                }else{
+                                    temp += target[i];
+                                } else {
                                     //不是数字
                                     list.add(temp);
-                                    temp=target[i]+"";
+                                    temp = target[i] + "";
                                 }
-                            }else{
-                                temp+=target[i];
+                            } else {
+                                temp += target[i];
                             }
-                        }else{
-                            if(!Tools.isNull(temp)){
-                                if(isNumeric(temp)){
+                        } else {
+                            if (!Tools.isNull(temp)) {
+                                if (isNumeric(temp)) {
                                     //上次存储的都是数字
                                     list.add(temp);
-                                    temp=target[i]+"";
+                                    temp = target[i] + "";
 
-                                }else{
+                                } else {
                                     //不是数字
-                                    temp+=target[i];
+                                    temp += target[i];
                                 }
-                            }else{
-                                temp+=target[i];
+                            } else {
+                                temp += target[i];
                             }
                         }
-                    }else{
+                    } else {
                         list.add(temp);
-                        temp="";
+                        temp = "";
                         list.add(Character.toString(target[i]));
                     }
 
@@ -221,18 +232,16 @@ public class Tools {
             }
 
 
-
-
             list.add(temp);
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 
-        for(int i=0;i<list.size();i++){
-            if(Tools.isNull(list.get(i))){
+        for (int i = 0; i < list.size(); i++) {
+            if (Tools.isNull(list.get(i))) {
 //                result+=list.get(i);
-            }else{
-                result+=list.get(i)+" ";
+            } else {
+                result += list.get(i) + " ";
             }
 
         }
@@ -240,12 +249,63 @@ public class Tools {
         return result.toUpperCase().trim();
     }
 
-    public static boolean isNumeric(String str){
+    public static boolean isNumeric(String str) {
         Pattern pattern = Pattern.compile("[0-9]*");
         Matcher isNum = pattern.matcher(str);
-        if( !isNum.matches() ){
+        if (!isNum.matches()) {
             return false;
         }
         return true;
+    }
+
+    private static final String KEY_MIUI_VERSION_CODE = "ro.miui.ui.version.code";
+    private static final String KEY_MIUI_VERSION_NAME = "ro.miui.ui.version.name";
+    private static final String KEY_MIUI_INTERNAL_STORAGE = "ro.miui.internal.storage";
+
+    public static String getPhoneType() {
+
+        String SYS = "";
+        try {
+            Properties prop = new Properties();
+            prop.load(new FileInputStream(new File(Environment.getRootDirectory(), "build.prop")));
+            if (prop.getProperty(KEY_MIUI_VERSION_CODE, null) != null
+                    || prop.getProperty(KEY_MIUI_VERSION_NAME, null) != null
+                    || prop.getProperty(KEY_MIUI_INTERNAL_STORAGE, null) != null) {
+                SYS = "xiaomi";//小米
+            } else {
+                SYS = "android";
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return SYS;
+        }
+        return SYS;
+    }
+
+    /**
+     * 获取手机IMEi
+     * @param context
+     * @return
+     */
+    // TODO: Consider calling
+    //    ActivityCompat#requestPermissions
+    // here to request the missing permissions, and then overriding
+    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+    //                                          int[] grantResults)
+    // to handle the case where the user grants the permission. See the documentation
+    // for ActivityCompat#requestPermissions for more details.
+    public static String getIMEI(Context context) {
+        try {
+            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE);
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                String imei = telephonyManager.getDeviceId();
+
+                return imei;
+            }
+
+        }catch (Exception e){
+            return "";
+        }
+        return "";
     }
 }

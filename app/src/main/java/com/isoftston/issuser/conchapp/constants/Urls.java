@@ -14,6 +14,8 @@ public class Urls {
     public static final String LOGIN = "";
     //忘记密码
     public static final String FORGET_PASSWORD="";
+    //获取验证码
+    public static final String GET_CODE="";
     //获取所有设备
     public static final String GET_DEVICES = "device/currentExamine";
     //查询设备说明信息

@@ -1,19 +1,26 @@
 package com.isoftston.issuser.conchapp.views;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BasePresenter;
 import com.corelibs.common.AppManager;
 import com.corelibs.utils.PreferencesHelper;
+import com.corelibs.utils.ToastMgr;
 import com.isoftston.issuser.conchapp.MainActivity;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.model.bean.LoginUserBean;
@@ -22,6 +29,7 @@ import com.isoftston.issuser.conchapp.presenter.LoginPresenter;
 import com.isoftston.issuser.conchapp.utils.MD5Utils;
 import com.isoftston.issuser.conchapp.utils.Tools;
 import com.isoftston.issuser.conchapp.views.interfaces.LoginView;
+import com.isoftston.issuser.conchapp.views.security.ChoicePhotoActivity;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
 import org.litepal.crud.callback.SaveCallback;
@@ -77,9 +85,30 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
     public void loginAction(){
         username = et_login.getText().toString().trim();
         password = et_password.getText().toString().trim();
-        presenter.loginAction(username, password);
-    }
 
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            //如果没有授权，则请求授权
+            ActivityCompat.requestPermissions(LoginActivity.this, new String[]{Manifest.permission.READ_PHONE_STATE}, MY_PERMISSIONS_REQUEST_CALL_CAMERA);
+        }else{
+            presenter.loginAction(username, password);
+        }
+
+    }
+    private static final int MY_PERMISSIONS_REQUEST_CALL_CAMERA = 1;
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        //判断请求码
+        if (requestCode == MY_PERMISSIONS_REQUEST_CALL_CAMERA) {
+            //grantResults授权结果
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+            } else {
+                //授权失败
+                ToastMgr.show(getString(R.string.check_manager_open_pemission));
+            }
+            return;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
     @Override
     public void loginSuccess() {
         LoginUserBean loginUserBean=new LoginUserBean();

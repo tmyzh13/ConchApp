@@ -140,7 +140,6 @@ public class ChoicePhotoActivity extends BaseActivity {
         for(int i=0;i<listFiles.size();i++){
             list.add(listFiles.get(i).getPath());
         }
-        Log.e("yzh","111111---"+list.size());
         intent.putStringArrayListExtra(Constant.TEMP_PIC_LIST,list);
         setResult(10,intent);
         finish();

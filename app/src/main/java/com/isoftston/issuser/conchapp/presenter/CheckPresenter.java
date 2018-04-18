@@ -42,13 +42,13 @@ public class CheckPresenter extends ListPagePresenter<CheckView> {
      * @param reload
      */
     public void getDevice(final boolean reload){
-        if(doPagination(reload)){
+        if(!doPagination(reload)){
             return;
         }
         if(reload){
             view.showLoading();
         }
-        api.getDevices(UserHelper.getUserId()+"",getPageNo()+"")
+        api.getDevices("1",getPageNo()+"")
                 .compose(new ResponseTransformer<>(this.<BaseData<DeviceListBean>>bindToLifeCycle()))
                 .subscribe(new PaginationSubscriber<BaseData<DeviceListBean>>(view,this,reload){
 
