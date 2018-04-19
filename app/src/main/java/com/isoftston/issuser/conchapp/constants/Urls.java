@@ -8,7 +8,7 @@ package com.isoftston.issuser.conchapp.constants;
 public class Urls {
 
 
-    public static final String ROOT="http://10.28.124.188:8090/conch/";
+    public static final String ROOT="http://10.28.124.196:8099/conch/";
 
     //Appkey
     public static final String APPKEY="5ad6ae01f29d981e84000090";
@@ -33,8 +33,10 @@ public class Urls {
     public static final String GET_MESSAGE_DETAIL_INFO="home/list";
     //获取安全信息列表（隐患违章我的）
     public static final String GET_SECURITY_DATAS="info/conditionsearch";
-    //作业列表信息查询
-    public static final String GET_WORK_INFO="job/getJobs";
+    //（作业界面）获取作业信息
+    public static final String GET_WORK_INFO="job/getJobType";
+    //获取作业列表
+    public static final String GET_WORK_TYPE_INFO="job/queryJob";
     //作业详细信息查询
     public static final String GET_WORK_DETAIL_INFO="job/getJobDetail";
     //撤销作业
@@ -43,6 +45,13 @@ public class Urls {
     public static final String SUBMIT_JOB="job/submitlJob";
     //查询当前用户信息
     public static final String GET_MY_INFO="my/getMyInfo";
+
+    //检维界面查询所有设备
+    public static final String GET_ALL_DEVICES_INFO="device/totalExamine";
+    //检维界面条件查询设备
+    public static final String GET_CONDITION_DEVICE_INFO="device/conditionSearch";
+    //检维界面查询一条设备
+    public static final String GET_ONE_DEVICE_INFO="device/searchOneEquip";
 
 
 }

@@ -46,15 +46,15 @@ public class LoginPresenter extends BasePresenter<LoginView> {
             bean.password= MD5Utils.encode(password);
             bean.phoneType=Tools.getPhoneType();
             bean.phoneCode=Tools.getIMEI(getContext());
-            api.login(bean)
-                    .compose(new ResponseTransformer<>(this.<BaseData>bindUntilEvent(ActivityEvent.DESTROY)))
-                    .subscribe(new ResponseSubscriber<BaseData>(view) {
-                        @Override
-                        public void success(BaseData baseData) {
+//            api.login(bean)
+//                    .compose(new ResponseTransformer<>(this.<BaseData>bindUntilEvent(ActivityEvent.DESTROY)))
+//                    .subscribe(new ResponseSubscriber<BaseData>(view) {
+//                        @Override
+//                        public void success(BaseData baseData) {
                             PreferencesHelper.saveData(Constant.LOGIN_STATUE,"1");
                             view.loginSuccess();
-                        }
-                    });
+//                        }
+//                    });
 
         }
     }

@@ -2,6 +2,7 @@ package com.isoftston.issuser.conchapp.views.work;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
@@ -36,7 +37,7 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
     PtrAutoLoadMoreLayout<AutoLoadMoreListView> ptrLayout;
 
     public WorkMessageItemAdapter adapter;
-    public List<MessageBean> listMessage;
+    public List<WorkBean> listMessage;
     private String type;
     public static Fragment newInstance(String type) {
         ItemFragment fragment =new ItemFragment();
@@ -54,26 +55,26 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
     @Override
     protected void init(Bundle savedInstanceState) {
         tv.setText(type);
-
-        adapter=new WorkMessageItemAdapter(getContext());
-        presenter.getWorklInfo("");
         listMessage=new ArrayList<>();
         for(int i=0;i<10;i++){
-            listMessage.add(new MessageBean());
+            listMessage.add(new WorkBean());
         }
+        adapter=new WorkMessageItemAdapter(getContext());
+        presenter.getWorkInfo("1","zh","0","1");
         adapter.addAll(listMessage);
         lv_message.setAdapter(adapter);
         ptrLayout.disableLoading();
         ptrLayout.setCanRefresh(false);
-        ptrLayout.setRefreshLoadCallback(this);
+
         lv_message.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //进入消息详情界面
-                startActivity(ScanCodeActivity.getLauncher(getContext()));
+                startActivity(ScanCodeActivity.getLauncher(getContext(),adapter.getItem(position)));
 
             }
         });
+        ptrLayout.setRefreshLoadCallback(this);
     }
 
     @Override
@@ -83,12 +84,12 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
 
     @Override
     public void onLoadingCompleted() {
-
+        hideLoading();
     }
 
     @Override
     public void onAllPageLoaded() {
-
+        ptrLayout.disableLoading();
     }
 
     @Override
@@ -97,7 +98,10 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
     }
 
     @Override
-    public void getWorkInfo(WorkBean workBean) {
+    public void getWorkListInfo(List<WorkBean> list) {
+//        listMessage=list;
+//        adapter.addAll(listMessage);
+//        adapter.notifyDataSetChanged();
 
     }
 

@@ -1,20 +1,27 @@
 package com.isoftston.issuser.conchapp.presenter;
 
+import android.util.Log;
+
 import com.corelibs.api.ApiFactory;
 import com.corelibs.api.ResponseTransformer;
-import com.corelibs.base.BasePresenter;
-import com.corelibs.pagination.core.BasePaginationPresenter;
 import com.corelibs.pagination.presenter.ListPagePresenter;
-import com.corelibs.pagination.presenter.PagePresenter;
 import com.corelibs.subscriber.PaginationSubscriber;
 import com.corelibs.subscriber.ResponseSubscriber;
+import com.google.gson.JsonObject;
 import com.isoftston.issuser.conchapp.model.UserHelper;
 import com.isoftston.issuser.conchapp.model.apis.CheckApi;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
+import com.isoftston.issuser.conchapp.model.bean.CheckAllDeviceBean;
+import com.isoftston.issuser.conchapp.model.bean.CheckAllDevicesBean;
+import com.isoftston.issuser.conchapp.model.bean.CheckBean;
+import com.isoftston.issuser.conchapp.model.bean.CheckConditionDeviceBean;
 import com.isoftston.issuser.conchapp.model.bean.CheckDeviceRequestBean;
+import com.isoftston.issuser.conchapp.model.bean.CheckOneDeviceBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceListBean;
 import com.isoftston.issuser.conchapp.views.interfaces.CheckView;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -79,8 +86,9 @@ public class CheckPresenter extends ListPagePresenter<CheckView> {
     public void checkDevice(String content){
         CheckDeviceRequestBean bean =new CheckDeviceRequestBean();
         bean.equipId=content;
-        bean.userId=UserHelper.getUserId()+"";
-        bean.location="";
+//        bean.userId=UserHelper.getUserId()+"";
+        bean.userId="1";
+        bean.location="湖北";
         api.checkDevices(bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<DeviceBean>>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData<DeviceBean>>() {
@@ -102,8 +110,61 @@ public class CheckPresenter extends ListPagePresenter<CheckView> {
                     }
                 });
     }
+    //查询设备说明信息
     public void getDeviceInfo(String deviceId){
-        api.getDeviceInfo(deviceId)
+        CheckBean checkBean=new CheckBean();
+        checkBean.descId=deviceId;
+        api.getDeviceInfo(checkBean)
+                .compose(new ResponseTransformer<>(this.<BaseData<DeviceBean>>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData<DeviceBean>>() {
+                    @Override
+                    public void success(BaseData<DeviceBean> deviceBeanBaseData) {
+                        view.checkDeviceResult(deviceBeanBaseData.data);
+                    }
+
+                });
+    }
+    //获取所有设备列表
+    public void getAllDeviceInfo(String content){
+        CheckAllDeviceBean checkAllDeviceBean=new CheckAllDeviceBean();
+//        checkAllDeviceBean.userId=UserHelper.getUserId()+"";
+        checkAllDeviceBean.userId = "1";
+        checkAllDeviceBean.equipId=content;
+        api.getAllDeviceInfo(checkAllDeviceBean)
+                .compose(new ResponseTransformer<>(this.<BaseData<DeviceListBean>>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData<DeviceListBean>>() {
+                    @Override
+                    public void success(BaseData<DeviceListBean> deviceBeanBaseData) {
+                        Log.i("zt",deviceBeanBaseData.data.list.size()+"");
+                        view.CheckAllDeviceResult(deviceBeanBaseData.data.list);
+                    }
+
+                });
+    }
+    //条件查询设备
+    public void getConditionDeviceInfo(String content){
+        CheckConditionDeviceBean bean=new CheckConditionDeviceBean();
+        bean.userId=UserHelper.getUserId()+"";
+        bean.equipId="";
+        bean.condition=content;
+        api.getConditionDeviceInfo(bean)
+                .compose(new ResponseTransformer<>(this.<BaseData<DeviceListBean>>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData<DeviceListBean>>() {
+                    @Override
+                    public void success(BaseData<DeviceListBean> deviceBeanBaseData) {
+                        view.CheckAllDeviceResult(deviceBeanBaseData.data.list);
+                    }
+
+                });
+
+    }
+    //查询一条设备信息
+    public void getOneDeviceInfo(String content){
+        CheckOneDeviceBean bean=new CheckOneDeviceBean();
+//        bean.userId=UserHelper.getUserId()+"";
+        bean.userId="1";
+        bean.equipId=content;
+        api.getOneDeviceInfo(bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<DeviceBean>>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData<DeviceBean>>() {
                     @Override

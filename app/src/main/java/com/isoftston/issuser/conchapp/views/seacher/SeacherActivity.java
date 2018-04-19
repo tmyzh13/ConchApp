@@ -24,6 +24,7 @@ import com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout;
 import com.isoftston.issuser.conchapp.adapters.DeviceAdapter;
 import com.isoftston.issuser.conchapp.model.bean.DeviceBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkBean;
 import com.isoftston.issuser.conchapp.views.check.CheckDeviceDetailActivity;
 import com.isoftston.issuser.conchapp.views.message.ItemDtailActivity;
 import com.isoftston.issuser.conchapp.views.work.ScanCodeActivity;
@@ -166,7 +167,7 @@ public class SeacherActivity extends BaseActivity<SeacherView,SeacherPresenter> 
                     Intent intent =new Intent(context,ItemDtailActivity.class);
                     startActivity(intent);
                 }else if(type.equals("1")){
-                    startActivity(ScanCodeActivity.getLauncher(context));
+                    startActivity(ScanCodeActivity.getLauncher(context,new WorkBean()));
                 }else if(type.equals("2")){
                     startActivity(CheckDeviceDetailActivity.getLauncher(context,new DeviceBean()));
                 }

@@ -33,6 +33,7 @@ import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.ResponseDataBean;
 import com.isoftston.issuser.conchapp.model.bean.ScanInfo;
+import com.isoftston.issuser.conchapp.model.bean.WorkBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
 import com.isoftston.issuser.conchapp.presenter.WorkDetailPresenter;
 import com.isoftston.issuser.conchapp.views.interfaces.WorkDetailView;
@@ -171,7 +172,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         return R.layout.activity_scan_code;
     }
 
-    public static Intent getLauncher(Context context) {
+    public static Intent getLauncher(Context context, WorkBean bean) {
         Intent intent = new Intent(context, ScanCodeActivity.class);
         return intent;
     }

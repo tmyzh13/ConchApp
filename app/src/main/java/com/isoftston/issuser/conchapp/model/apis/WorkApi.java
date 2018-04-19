@@ -4,7 +4,11 @@ import com.isoftston.issuser.conchapp.constants.Urls;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
 import com.isoftston.issuser.conchapp.model.bean.WorkBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkListBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkListRequestBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkTypeRequestBean;
 
+import retrofit2.http.Body;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -14,7 +18,10 @@ import rx.Observable;
  */
 
 public interface WorkApi {
-    //查询作业详细信息
+    //获取作业信息
     @POST(Urls.GET_WORK_INFO)
-    Observable<BaseData<WorkBean>> getWorkInfo(@Query("language") String language);
+    Observable<BaseData<WorkListBean>> getWorkInfo(@Body WorkListRequestBean bean);
+
+    @POST(Urls.GET_WORK_TYPE_INFO)
+    Observable<BaseData<WorkListBean>> getWorkTypeInfo(@Body WorkTypeRequestBean bean);
 }

@@ -32,8 +32,8 @@ public class DateUtils {
     public final static SimpleDateFormat format_yyyy = new SimpleDateFormat("yyyy");
     public final static SimpleDateFormat format_MM = new SimpleDateFormat("MM");
     public final static SimpleDateFormat format_dd = new SimpleDateFormat("dd");
-    public final static SimpleDateFormat format_hour= new SimpleDateFormat("HH");
-    public final static SimpleDateFormat format_min= new SimpleDateFormat("mm");
+    public final static SimpleDateFormat format_hour = new SimpleDateFormat("HH");
+    public final static SimpleDateFormat format_min = new SimpleDateFormat("mm");
     public final static SimpleDateFormat format_file_name = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
 
 
@@ -85,7 +85,7 @@ public class DateUtils {
             ex.printStackTrace();
         }
 
-        return  resultTime;
+        return resultTime;
     }
 
     /**
@@ -109,7 +109,7 @@ public class DateUtils {
         try {
             Date begin = dfs.parse(videoBeginDateTime);
             Date end = dfs.parse(videoEndDateTime);
-            float num= ((float)(diffTime) / (float)((end.getTime() - begin.getTime())));
+            float num = ((float) (diffTime) / (float) ((end.getTime() - begin.getTime())));
             DecimalFormat df = new DecimalFormat("0.00");//格式化小数，.后跟几个零代表几位小数
             String positionStr = df.format(num);//返回的是String类型
             //获取格式化对象
@@ -118,7 +118,7 @@ public class DateUtils {
             nt.setMinimumFractionDigits(2);
             //nt.format(Double.valueOf(positionStr));
             Log.i("zzz", "&&&&& " + nt.format(Double.valueOf(positionStr)));
-            position = (int)(Double.valueOf(positionStr) * 100);
+            position = (int) (Double.valueOf(positionStr) * 100);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -135,9 +135,9 @@ public class DateUtils {
             Date end = dfs.parse(videoEndDateTime);
             Date crrent = dfs.parse(crrentDateTime);
 
-            diffTime =  crrent.getTime() - begin.getTime();
+            diffTime = crrent.getTime() - begin.getTime();
 
-            float num= ((float)(diffTime) / (float)((end.getTime() - begin.getTime())));
+            float num = ((float) (diffTime) / (float) ((end.getTime() - begin.getTime())));
             DecimalFormat df = new DecimalFormat("0.00");//格式化小数，.后跟几个零代表几位小数
             String positionStr = df.format(num);//返回的是String类型
             //获取格式化对象
@@ -146,7 +146,7 @@ public class DateUtils {
             nt.setMinimumFractionDigits(2);
             //nt.format(Double.valueOf(positionStr));
             Log.i("zzz", "&&&&& " + nt.format(Double.valueOf(positionStr)));
-            position = (int)(Double.valueOf(positionStr) * 100);
+            position = (int) (Double.valueOf(positionStr) * 100);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -229,22 +229,22 @@ public class DateUtils {
 //        LinearLayout mSpinners = (LinearLayout) llFirst.getChildAt(1);
 //        for (int i = 0; i < mSpinners.getChildCount(); i++) {
 //            if (mSpinners.getChildAt(i) instanceof NumberPicker) {
-                Field[] pickerFields = NumberPicker.class.getDeclaredFields();
-                for (Field pf : pickerFields) {
-                    if (pf.getName().equals("mSelectionDivider")) {
-                        pf.setAccessible(true);
-                        try {
-                            pf.set(timePicker, new ColorDrawable());
-                        } catch (IllegalArgumentException e) {
-                            e.printStackTrace();
-                        } catch (Resources.NotFoundException e) {
-                            e.printStackTrace();
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    }
+        Field[] pickerFields = NumberPicker.class.getDeclaredFields();
+        for (Field pf : pickerFields) {
+            if (pf.getName().equals("mSelectionDivider")) {
+                pf.setAccessible(true);
+                try {
+                    pf.set(timePicker, new ColorDrawable());
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                } catch (Resources.NotFoundException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
                 }
+                break;
+            }
+        }
 //            }
 //        }
     }
@@ -258,18 +258,18 @@ public class DateUtils {
 
     public static String formatTime(int year, int monthOfYear, int dayOfMonth, int hour, int min) {
         Calendar sCalendar = Calendar.getInstance();
-        sCalendar.set(year,monthOfYear,dayOfMonth,hour,min);
+        sCalendar.set(year, monthOfYear, dayOfMonth, hour, min);
         return DateFormat.format("HH:mm", sCalendar).toString();
     }
 
-    public static String getNewTime_1(){
+    public static String getNewTime_1() {
         Date date = new Date();
-        return  format1.format(date).toString();
+        return format1.format(date).toString();
     }
 
-    public static String getNewTime_2(){
+    public static String getNewTime_2() {
         Date date = new Date();
-        return  format2.format(date).toString();
+        return format2.format(date).toString();
     }
 
     public static String formatDate(String dateTimeStr) {
@@ -281,6 +281,13 @@ public class DateUtils {
             e.printStackTrace();
         }
         return dateTimeStr.split(" ")[0];
+    }
+    /*时间戳转换成字符窜*/
+    public static String getDateToString(String time) {
+        String date = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+                .format(new java.util.Date(
+                        Long.parseLong(time)));
+        return date;
     }
 
 }

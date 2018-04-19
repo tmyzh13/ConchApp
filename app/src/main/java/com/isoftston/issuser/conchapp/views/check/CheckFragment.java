@@ -26,6 +26,8 @@ import com.corelibs.views.roundedimageview.RoundedImageView;
 import com.google.zxing.client.android.CaptureActivity;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.DeviceAdapter;
+import com.isoftston.issuser.conchapp.model.bean.CheckAllDevicesBean;
+import com.isoftston.issuser.conchapp.model.bean.CheckBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceBean;
 import com.isoftston.issuser.conchapp.presenter.CheckPresenter;
 import com.isoftston.issuser.conchapp.utils.Tools;
@@ -56,6 +58,7 @@ public class CheckFragment extends BaseFragment<CheckView,CheckPresenter> implem
     CircleImageView iv_icon;
 
     private DeviceAdapter adapter;
+    private List<DeviceBean> list;
 
     @Override
     protected int getLayoutId() {
@@ -76,12 +79,11 @@ public class CheckFragment extends BaseFragment<CheckView,CheckPresenter> implem
         });
         navBar.showSeachColor(2);
 
-        presenter.getDeviceInfo("");
-        List<DeviceBean> list =new ArrayList<>();
-        for(int i=0;i<5;i++){
-            list.add(new DeviceBean());
-        }
-//        presenter.
+        presenter.getAllDeviceInfo("");
+        list = new ArrayList<>();
+//        for(int i=0;i<5;i++){
+//            list.add(new DeviceBean());
+//        }
         adapter =new DeviceAdapter(getContext());
         adapter.addAll(list);
         lv_device.setAdapter(adapter);
@@ -166,6 +168,7 @@ public class CheckFragment extends BaseFragment<CheckView,CheckPresenter> implem
             Log.e("yzh", "checkfrtagment---扫描结果：" + s);
             if(s.equals(getString(R.string.check_manager_cancel_scan))){
                 //取消扫码
+//                presenter.checkDevice("2");
                 ToastMgr.show(getString(R.string.check_manager_cancel_scan));
             }else{
                 ((BaseActivity)getActivity()).getLoadingDialog().show();
@@ -213,6 +216,14 @@ public class CheckFragment extends BaseFragment<CheckView,CheckPresenter> implem
         //防止网络请求失败，或者返回数据异常导致无法触发loading消失操作
         ((BaseActivity)getActivity()).getLoadingDialog().dismiss();
     }
+
+    @Override
+    public void CheckAllDeviceResult(List<DeviceBean> list) {
+        this.list=list;
+        adapter.addAll(list);
+        adapter.notifyDataSetChanged();
+    }
+
 
     @Override
     public void onLoading(PtrFrameLayout frame) {

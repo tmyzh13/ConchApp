@@ -2,7 +2,9 @@ package com.isoftston.issuser.conchapp.views.interfaces;
 
 import com.corelibs.base.BasePaginationView;
 import com.corelibs.base.BaseView;
+import com.isoftston.issuser.conchapp.model.bean.CheckAllDevicesBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceBean;
+import com.isoftston.issuser.conchapp.model.bean.DeviceListBean;
 
 import java.util.List;
 
@@ -15,5 +17,10 @@ public interface CheckView extends BasePaginationView {
     void renderDatas(boolean reload,List<DeviceBean> list);
 
     void checkDeviceResult(DeviceBean bean);
+
     void checkDeviceResultError();
+
+    void CheckAllDeviceResult(List<DeviceBean> deviceListBean);
+
+
 }
