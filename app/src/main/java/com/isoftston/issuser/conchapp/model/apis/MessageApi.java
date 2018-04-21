@@ -10,6 +10,8 @@ import com.isoftston.issuser.conchapp.model.bean.MessageQueryBean;
 import com.isoftston.issuser.conchapp.model.bean.QueryMessageRequestBean;
 
 import retrofit2.http.Body;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import rx.Observable;
 
@@ -19,7 +21,7 @@ import rx.Observable;
 
 public interface MessageApi {
     @POST(Urls.GET_MESSAGE_LIST)
-    Observable<BaseData<MessageListInfoBean>> getMessageListInfo(@Body MessageListRequestBean bean );
+    Observable<BaseData<MessageListInfoBean>> getMessageListInfo(@Header("Access-Token") String token, @Body MessageListRequestBean bean);
 
     @POST(Urls.GET_MESSGAE_DETAIL_INFO)
     Observable<BaseData<MessageDetailBean>> getMessageDetailInfo(@Body MessageDetailRequestBean bean);

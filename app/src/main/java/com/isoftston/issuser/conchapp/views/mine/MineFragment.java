@@ -136,4 +136,9 @@ public class MineFragment extends BaseFragment<UserView, UserPresenter> implemen
     public void getUserInfoError() {
 
     }
+
+    @Override
+    public void addFeedBackSuccess() {
+
+    }
 }

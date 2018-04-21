@@ -11,4 +11,6 @@ public interface UserView extends BasePaginationView {
     void getUserInfo(UserInfoBean userInfoBean);
 
     void getUserInfoError();
+
+    void addFeedBackSuccess();
 }

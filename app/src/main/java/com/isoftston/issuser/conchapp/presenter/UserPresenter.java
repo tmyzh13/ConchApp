@@ -5,6 +5,7 @@ import com.corelibs.api.ResponseTransformer;
 import com.corelibs.pagination.presenter.PagePresenter;
 import com.corelibs.subscriber.ResponseSubscriber;
 import com.isoftston.issuser.conchapp.model.apis.UserApi;
+import com.isoftston.issuser.conchapp.model.bean.AddFeedBackRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.UserRequestBean;
@@ -55,5 +56,20 @@ public class UserPresenter extends PagePresenter<UserView> {
                         return super.operationError(userInfoBeanBaseData, status, message);
                     }
                 });
+    }
+    public void  addFeedBack(String content){
+        AddFeedBackRequestBean bean=new AddFeedBackRequestBean();
+        bean.content=content;
+        api.addFeedBack(bean)
+                .compose(new ResponseTransformer<>(this.<BaseData>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData>() {
+                    @Override
+                    public void success(BaseData userInfoBeanBaseData) {
+                        view.addFeedBackSuccess();
+                    }
+
+
+                });
+
     }
 }

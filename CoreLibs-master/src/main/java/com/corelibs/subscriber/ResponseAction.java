@@ -36,7 +36,7 @@ public abstract class ResponseAction<T, R> implements Func1<T, R>,
             data = (IBaseData) t;
             if (data.isSuccess()) {
                 return successCall(t);
-            } else {
+            }else {
                 if (!operationError(t, data.status(), data.msg())) {
                     handler.handleOperationError(data.msg());
                 }

@@ -1,5 +1,6 @@
 package com.isoftston.issuser.conchapp.model.apis;
 
+import com.google.gson.JsonObject;
 import com.isoftston.issuser.conchapp.constants.Urls;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
 import com.isoftston.issuser.conchapp.model.bean.CodeRequestBean;
@@ -18,7 +19,7 @@ import rx.Observable;
 public interface LoginApi {
     //登录
     @POST(Urls.LOGIN)
-    Observable<BaseData> login(@Body LoginRequestBean bean);
+    Observable<BaseData<JsonObject>> login(@Body LoginRequestBean bean);
     //忘记密码
     @POST(Urls.FORGET_PASSWORD)
     Observable<BaseData> forgetPwd(@Body ForgetPwdRequestBean bean);

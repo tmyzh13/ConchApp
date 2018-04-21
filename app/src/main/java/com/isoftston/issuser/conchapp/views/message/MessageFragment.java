@@ -16,18 +16,22 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.corelibs.base.BaseFragment;
-import com.corelibs.base.BasePresenter;
 import com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout;
 import com.corelibs.views.ptr.loadmore.widget.AutoLoadMoreListView;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.MessageTypeAdapter;
+import com.isoftston.issuser.conchapp.constants.Urls;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
+import com.isoftston.issuser.conchapp.model.bean.MessageDetailBean;
+import com.isoftston.issuser.conchapp.model.bean.MessageListInfoBean;
 import com.isoftston.issuser.conchapp.model.event.MyEvent;
+import com.isoftston.issuser.conchapp.presenter.MessagePresenter;
 import com.isoftston.issuser.conchapp.utils.LocationUtils;
-import com.isoftston.issuser.conchapp.utils.ToastUtils;
+import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
+import com.isoftston.issuser.conchapp.views.LoginActivity;
+import com.isoftston.issuser.conchapp.views.interfaces.MessageView;
 import com.isoftston.issuser.conchapp.views.message.adpter.VpAdapter;
 import com.isoftston.issuser.conchapp.views.seacher.SeacherActivity;
 import com.isoftston.issuser.conchapp.views.work.CityLocationActivity;
@@ -36,17 +40,24 @@ import com.isoftston.issuser.conchapp.weight.NavBar;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by issuser on 2018/4/9.
  */
 
-public class MessageFragment extends BaseFragment implements View.OnClickListener {
+public class MessageFragment extends BaseFragment<MessageView, MessagePresenter> implements MessageView, View.OnClickListener {
     private static final String TAG = "MessageFragment";
     @Bind(R.id.nav)
     NavBar nav;
@@ -99,6 +110,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     private View view;
     public MessageTypeAdapter mAdapter;
     public List<MessageBean> listMessage;
+
     @Override
     protected int getLayoutId() {
         initDate();
@@ -116,17 +128,49 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         iv_seach.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(SeacherActivity.getLauncher(getContext(),"0"));
+                startActivity(SeacherActivity.getLauncher(getContext(), "0"));
             }
         });
 
         VpAdapter adapter = new VpAdapter(list, handler);
         ll_main.setOnClickListener(this);
-        mAdapter=new MessageTypeAdapter(getContext());
-        listMessage=new ArrayList<>();
-        for(int i=0;i<10;i++){
-            listMessage.add(new MessageBean());
-        }
+        mAdapter = new MessageTypeAdapter(getContext());
+        listMessage = new ArrayList<>();
+//        for(int i=0;i<10;i++){
+//            listMessage.add(new MessageBean());
+//        }
+        presenter.getMessageListInfo("all", "");
+//        final String token= SharePrefsUtils.getValue(getContext(),"token",null);
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                OkHttpClient client = new OkHttpClient();//创建OkHttpClient对象。
+//                FormBody.Builder formBody = new FormBody.Builder();//创建表单请求体
+//                formBody.add("type", "all");//传递键值对参数
+//                formBody.add("lastId", "");
+//                Request request = new Request.Builder()//创建Request 对象。
+//                        .addHeader("Content-Type","application/json")
+//                        .addHeader("Access-Token",token)
+//                        .url(Urls.ROOT+Urls.GET_MESSAGE_LIST)
+//                        .post(formBody.build())//传递请求体
+//                        .build();
+//                client.newCall(request).enqueue(new Callback() {
+//                    @Override
+//                    public void onFailure(Call call, IOException e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onResponse(Call call, Response response) throws IOException {
+//                        if (response.code() == 200) {
+//                            startActivity(LoginActivity.getLauncher(getActivity()));
+//                        }
+//                        Log.i("code",response.code()+"");
+//
+//                    }
+//                });
+//            }
+//        }).start();
         mAdapter.addAll(listMessage);
         lv_message.setAdapter(mAdapter);
         ptrLayout.disableLoading();
@@ -137,7 +181,8 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         bt_wz.setOnClickListener(this);
         iv_back.setOnClickListener(this);
         ll_aq_detail.setOnClickListener(this);
-        ll_wz_detail.setOnClickListener(this);;
+        ll_wz_detail.setOnClickListener(this);
+        ;
         ll_yh_detail.setOnClickListener(this);
         viewPager.setPageMargin(20);
         viewPager.setAdapter(adapter);
@@ -175,7 +220,7 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                 && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 //            //申请摄像头权限
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
-        }else {
+        } else {
             setLocationCity();
         }
     }
@@ -201,16 +246,16 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     }
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected MessagePresenter createPresenter() {
+        return new MessagePresenter();
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.iv_dirict:
-                if (up){
-                    up=false;
+                if (up) {
+                    up = false;
                     iv_direc.setImageDrawable(getResources().getDrawable(R.mipmap.up));
                     bt_yh.setVisibility(View.GONE);
                     bt_wz.setVisibility(View.GONE);
@@ -218,8 +263,8 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
                     ll_aq_detail.setVisibility(View.VISIBLE);
                     ll_wz_detail.setVisibility(View.VISIBLE);
                     ll_yh_detail.setVisibility(View.VISIBLE);
-                }else {
-                    up=true;
+                } else {
+                    up = true;
                     iv_direc.setImageDrawable(getResources().getDrawable(R.mipmap.down));
                     bt_yh.setVisibility(View.VISIBLE);
                     bt_wz.setVisibility(View.VISIBLE);
@@ -277,21 +322,54 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 100){
-            if (grantResults.length>0&&grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (requestCode == 100) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 setLocationCity();
             }
         }
     }
+
     //自动定位
     private void setLocationCity() {
         LocationUtils.getCNBylocation(getActivity());
         locationCityTv.setText(LocationUtils.cityName);
-        Log.e(TAG,"--CITY:"+LocationUtils.cityName);
+        Log.e(TAG, "--CITY:" + LocationUtils.cityName);
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onLoadingCompleted() {
+
+    }
+
+    @Override
+    public void onAllPageLoaded() {
+
+    }
+
+    @Override
+    public void getMessageDetailResult(MessageDetailBean bean) {
+
+    }
+
+    @Override
+    public void getMessageListResult(MessageListInfoBean data) {
+//        List<MessageBean> list=data.list;
+//        listMessage=list;
+        mAdapter.addAll(data.list);
+        mAdapter.notifyDataSetChanged();
+//        lv_message.setAdapter(mAdapter);
+
+    }
+
+    @Override
+    public void getWorkError() {
+        startActivity(LoginActivity.getLauncher(getActivity()));
+
     }
 }

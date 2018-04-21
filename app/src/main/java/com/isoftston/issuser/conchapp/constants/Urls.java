@@ -65,6 +65,8 @@ public class Urls {
     public static final String SUBMIT_JOB="job/submitlJob";
     //查询当前用户信息
     public static final String GET_MY_INFO="my/getMyInfo";
+    //意见反馈
+    public static final String ADD_FEEDBACK="info/addFeedBack";
 
     //检维界面查询所有设备
     public static final String GET_ALL_DEVICES_INFO="device/totalExamine";

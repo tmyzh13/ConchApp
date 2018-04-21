@@ -22,6 +22,8 @@ public class BaseData<T> implements Serializable,ResponseHandler.IBaseData {
         return code==1;
     }
 
+
+
     @Override
     public int status() {
         return code;

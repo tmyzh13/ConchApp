@@ -10,15 +10,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.corelibs.base.BaseActivity;
-import com.corelibs.base.BasePresenter;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
+import com.isoftston.issuser.conchapp.presenter.UserPresenter;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
+import com.isoftston.issuser.conchapp.views.interfaces.UserView;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 
-public class OpinionFeedbackActivity extends BaseActivity {
+public class OpinionFeedbackActivity extends BaseActivity<UserView, UserPresenter> implements UserView {
     private static final String TAG = "OpinionFeedbackActivity";
     @Bind(R.id.nav)
     NavBar nav;
@@ -70,8 +72,8 @@ public class OpinionFeedbackActivity extends BaseActivity {
     }
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected UserPresenter createPresenter() {
+        return new UserPresenter();
     }
 
     @OnClick(R.id.submit_view)
@@ -79,9 +81,35 @@ public class OpinionFeedbackActivity extends BaseActivity {
         if (mFeedbackView.getText().length() <= 0) {
             return;
         }
-        ToastUtils.showtoast(this,getResources().getString(R.string.submit_success));
-        finish();
+        presenter.addFeedBack(mFeedbackView.getText().toString());
         //上传反馈信息
         //todo
+    }
+
+    @Override
+    public void getUserInfo(UserInfoBean userInfoBean) {
+
+    }
+
+    @Override
+    public void getUserInfoError() {
+
+    }
+
+    @Override
+    public void addFeedBackSuccess() {
+        ToastUtils.showtoast(this,getResources().getString(R.string.submit_success));
+        finish();
+
+    }
+
+    @Override
+    public void onLoadingCompleted() {
+
+    }
+
+    @Override
+    public void onAllPageLoaded() {
+
     }
 }

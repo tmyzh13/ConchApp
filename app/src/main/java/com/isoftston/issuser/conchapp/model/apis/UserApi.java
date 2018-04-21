@@ -1,6 +1,7 @@
 package com.isoftston.issuser.conchapp.model.apis;
 
 import com.isoftston.issuser.conchapp.constants.Urls;
+import com.isoftston.issuser.conchapp.model.bean.AddFeedBackRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
 import com.isoftston.issuser.conchapp.model.bean.UserBean;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
@@ -19,4 +20,8 @@ public interface UserApi {
     //获取用户信息
     @POST(Urls.GET_MY_INFO)
     Observable<BaseData<UserInfoBean>> getUserInfo(@Body UserRequestBean bean);
+    //意见反馈
+    @POST(Urls.ADD_FEEDBACK)
+    Observable<BaseData> addFeedBack(@Body AddFeedBackRequestBean bean);
+
 }

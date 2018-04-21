@@ -1,5 +1,7 @@
 package com.isoftston.issuser.conchapp.presenter;
 
+import android.util.Log;
+
 import com.corelibs.api.ApiFactory;
 import com.corelibs.api.ResponseTransformer;
 import com.corelibs.pagination.presenter.ListPagePresenter;
@@ -12,6 +14,7 @@ import com.isoftston.issuser.conchapp.model.bean.MessageListInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageListRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageQueryBean;
 import com.isoftston.issuser.conchapp.model.bean.QueryMessageRequestBean;
+import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.MessageView;
 
 import java.util.List;
@@ -33,24 +36,26 @@ public class MessagePresenter extends ListPagePresenter<MessageView> {
         super.onViewAttach();
         api= ApiFactory.getFactory().create(MessageApi.class);
     }
-    public void getMessageListInfo(String language,String token,String type,String lastId){
+    public void getMessageListInfo(String type,String lastId){
         MessageListRequestBean bean=new MessageListRequestBean();
-        bean.language=language;
-        bean.token=token;
         bean.type=type;
         bean.lastId=lastId;
-        api.getMessageListInfo(bean)
+        String token=SharePrefsUtils.getValue(getContext(),"token",null);
+        Log.i("token",token);//94c29a2eaf903a1f4b3cc5996385dcd2
+        api.getMessageListInfo(token,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<MessageListInfoBean>>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData<MessageListInfoBean>>() {
 
                     @Override
-                    public void success(BaseData<MessageListInfoBean> messageDetailBeanBaseData) {
-
+                    public void success(BaseData<MessageListInfoBean> messageBaseData) {
+                        Log.i("zhoutao",messageBaseData.data.list.size()+"");
+                        view.getMessageListResult(messageBaseData.data);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
+                        view.getWorkError();
                     }
                 });
 

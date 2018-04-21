@@ -25,10 +25,12 @@ public class MessageTypeAdapter extends QuickAdapter<MessageBean> {
 
     @Override
     protected void convert(BaseAdapterHelper helper, MessageBean item, int position) {
-        ImageView item_icon=helper.getView(R.id.item_icon);
-        TextView item_title=helper.getView(R.id.item_title);
-        ImageView item_mark=helper.getView(R.id.item_mark);
+//        ImageView item_icon=helper.getView(R.id.item_icon);
+//        TextView item_title=helper.getView(R.id.item_title);
+//        ImageView item_mark=helper.getView(R.id.item_mark);
         ImageView content_pic=helper.getView(R.id.content_pic);
+        helper.setText(R.id.item_title,item.getType());
+//                .setImageUrl(R)
 
         Glide.with(context).load("http://pic29.photophoto.cn/20131204/0034034499213463_b.jpg")
                 .centerCrop()
