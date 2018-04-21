@@ -26,7 +26,7 @@ public class MessageDetailPresenter extends BasePresenter<MessageDetailView> {
         api= ApiFactory.getFactory().create(MessageDetailApi.class);
     }
     public void getMessageDetailInfo() {
-        api.getMessageDetailInfo("ch","","","")
+        api.getMessageDetailInfo("zh","","","")
                 .compose(new ResponseTransformer<>(this.<BaseData<MessageDetailBean>>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData<MessageDetailBean>>() {
 

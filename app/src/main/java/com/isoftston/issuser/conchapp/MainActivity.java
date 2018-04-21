@@ -45,7 +45,8 @@ public class MainActivity extends BaseActivity implements TabNavigator.TabNaviga
     };
 
     public static Intent getLauncher(Context context){
-        return new Intent(context, MainActivity.class);
+        Intent intent=new Intent(context,MainActivity.class);
+        return intent;
     }
 
 

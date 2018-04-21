@@ -8,31 +8,26 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.corelibs.base.BaseActivity;
-import com.corelibs.base.BasePresenter;
 import com.corelibs.common.AppManager;
 import com.corelibs.utils.PreferencesHelper;
 import com.corelibs.utils.ToastMgr;
 import com.isoftston.issuser.conchapp.MainActivity;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.LoginUserBean;
-import com.isoftston.issuser.conchapp.model.bean.UserBean;
 import com.isoftston.issuser.conchapp.presenter.LoginPresenter;
 import com.isoftston.issuser.conchapp.utils.MD5Utils;
+import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
+import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.utils.Tools;
 import com.isoftston.issuser.conchapp.views.interfaces.LoginView;
-import com.isoftston.issuser.conchapp.views.security.ChoicePhotoActivity;
-import com.isoftston.issuser.conchapp.weight.NavBar;
-
-import org.litepal.crud.callback.SaveCallback;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -110,12 +105,24 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
     @Override
-    public void loginSuccess() {
+    public void loginSuccess(String data) {
         LoginUserBean loginUserBean=new LoginUserBean();
         loginUserBean.setUsername(username);
         loginUserBean.setPassword(MD5Utils.encode(password));
         loginUserBean.save();
+        SharePrefsUtils.putValue(context,"token",data);
         startActivity(MainActivity.getLauncher(context));
+        ToastUtils.showtoast(context,getString(R.string.login_success));
+    }
+
+    @Override
+    public void changePwdSuccess() {
+
+    }
+
+    @Override
+    public void getCodeSuccess() {
+
     }
 
     @OnClick(R.id.tv_language)

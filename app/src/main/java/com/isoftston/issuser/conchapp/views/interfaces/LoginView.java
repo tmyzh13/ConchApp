@@ -8,5 +8,7 @@ import com.corelibs.base.BaseView;
 
 public interface LoginView extends BaseView {
 
-    void loginSuccess();
+    void loginSuccess(String data);
+    void changePwdSuccess();
+    void getCodeSuccess();
 }

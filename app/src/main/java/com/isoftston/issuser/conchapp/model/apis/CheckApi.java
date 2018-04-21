@@ -29,7 +29,7 @@ public interface CheckApi {
 
     @POST(Urls.CHECK_DEVICE)
     Observable<BaseData<DeviceBean>> checkDevices(@Body CheckDeviceRequestBean bean);
-//{"userid":"1","pageNo":"1","itemId":""}
+
     @POST(Urls.CHECK_DEVICE_DESCRIPTION)
     Observable<BaseData<DeviceBean>> getDeviceInfo(@Body CheckBean bean);
 

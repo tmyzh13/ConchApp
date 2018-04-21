@@ -8,7 +8,7 @@
     <string name="home_work">作业</string>
     <string name="home_check">检维</string>
     <string name="home_mine">我的</string>
-
+    <string name="login_success">登录成功</string>
     <!--登录-->
     <string name="login">登录</string>
     <string name="login_confirm">确定</string>
@@ -81,6 +81,7 @@
     <string name="illegal_type">违章类型</string>
     <string name="illegal_place">违章地点</string>
     <string name="illegal_description">违章描述</string>
+    <string name="yh_description">隐患描述</string>
     <string name="illegal_photo">违章照片</string>
     <string name="illegal_report">匿名举报</string>
     <string name="illegal_please_choice">请选择</string>
@@ -244,4 +245,5 @@
     <!--选择检修人员-->
     <string name="choice_check_people">选择检修人员</string>
     <string name="someone">何某某</string>
+    <string name="fix_status">是否已整改</string>
 </resources>

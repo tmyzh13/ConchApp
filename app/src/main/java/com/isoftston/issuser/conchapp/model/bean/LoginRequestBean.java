@@ -6,7 +6,7 @@ package com.isoftston.issuser.conchapp.model.bean;
 
 public class LoginRequestBean {
 
-    public String language ;
+//    public String language ;
     public String userName;
     public String password;
     public String phoneCode;

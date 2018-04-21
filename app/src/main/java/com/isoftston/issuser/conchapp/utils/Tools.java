@@ -1,6 +1,8 @@
 package com.isoftston.issuser.conchapp.utils;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -295,17 +297,9 @@ public class Tools {
     // to handle the case where the user grants the permission. See the documentation
     // for ActivityCompat#requestPermissions for more details.
     public static String getIMEI(Context context) {
-        try {
-            TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE);
-            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-                String imei = telephonyManager.getDeviceId();
+        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE);
+        @SuppressLint("MissingPermission") String imei = telephonyManager.getDeviceId();
 
-                return imei;
-            }
-
-        }catch (Exception e){
-            return "";
-        }
-        return "";
+        return imei;
     }
 }

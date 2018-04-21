@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,11 +58,20 @@ public class AddHiddenTroubleActivity extends BaseActivity {
     InputView input_position;
     @Bind(R.id.input_source)
     InputView input_source;
-
+    @Bind(R.id.et_yh_description)
+    EditText et_description;
+    @Bind(R.id.rl_description)
+    RelativeLayout rl_description;
     @Bind(R.id.tv_start_time)
     TextView tv_start_time;
     @Bind(R.id.tv_end_time)
     TextView tv_end_time;
+    @Bind(R.id.ll_description)
+    LinearLayout ll_description;
+    @Bind(R.id.tv_illegal_describ_title)
+    TextView tv_illegal_describ_title;
+    @Bind(R.id.tv_illegal_descibe_content)
+    TextView tv_illegal_descibe_content;
     public String startTime,endTime;
 
     private Context context =AddHiddenTroubleActivity.this;
@@ -96,15 +106,51 @@ public class AddHiddenTroubleActivity extends BaseActivity {
 
 
         input_find_company.setInputType(getString(R.string.hidden_trouble_find_company));
-
-
-
-
         starttime= Tools.getCurrentTime();
         endtime=Tools.getCurrentTime();
         tv_start_time.setText(starttime);
         tv_end_time.setText(endtime);
+        et_description.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    // 此处为得到焦点时的处理内容
+                } else {
+                    // 此处为失去焦点时的处理内容
+                    if(!TextUtils.isEmpty(et_description.getText().toString())){
+                        tv_illegal_descibe_content.setText(et_description.getText().toString());
+                    }else{
+                        tv_illegal_descibe_content.setText("");
+                    }
+                    et_description.setVisibility(View.GONE);
+                    ll_description.setVisibility(View.VISIBLE);
+                    rl_description.setBackgroundColor(getResources().getColor(R.color.transparent));
+                    tv_illegal_describ_title.setTextColor(getResources().getColor(R.color.black));
+                }
+            }
+        });
 
+        et_description.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                if(actionId== EditorInfo.IME_ACTION_DONE||actionId==EditorInfo.IME_ACTION_SEARCH){
+                    if(!TextUtils.isEmpty(et_description.getText().toString())){
+
+                        tv_illegal_descibe_content.setText(et_description.getText().toString());
+                    }else{
+                        tv_illegal_descibe_content.setText("");
+                    }
+                    et_description.setVisibility(View.GONE);
+                    ll_description.setVisibility(View.VISIBLE);
+                    rl_description.setBackgroundColor(getResources().getColor(R.color.transparent));
+                    tv_illegal_describ_title.setTextColor(getResources().getColor(R.color.black));
+                    IMEUtil.closeIME(et_description,context);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -134,6 +180,7 @@ public class AddHiddenTroubleActivity extends BaseActivity {
         }
     }
     private ArrayList<String> list=new ArrayList<>();
+
     @OnClick(R.id.rl_photo)
     public void goPhoto(){
         //进入照片选择界面
@@ -141,7 +188,16 @@ public class AddHiddenTroubleActivity extends BaseActivity {
     }
 
 
-
+    @OnClick(R.id.ll_description)
+    public void choiceDescription(){
+        ll_description.setVisibility(View.GONE);
+        et_description.setVisibility(View.VISIBLE);
+        et_description.setFocusable(true);
+        et_description.setFocusableInTouchMode(true);
+        et_description.requestFocus();
+        rl_description.setBackgroundResource(R.drawable.ll_input_selector_bg);
+        tv_illegal_describ_title.setTextColor(getResources().getColor(R.color.white));
+    }
 
     @OnClick(R.id.ll_confirm)
     public void confirmInfo(){

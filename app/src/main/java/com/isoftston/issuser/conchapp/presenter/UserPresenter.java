@@ -7,6 +7,7 @@ import com.corelibs.subscriber.ResponseSubscriber;
 import com.isoftston.issuser.conchapp.model.apis.UserApi;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
+import com.isoftston.issuser.conchapp.model.bean.UserRequestBean;
 import com.isoftston.issuser.conchapp.views.interfaces.UserView;
 
 /**
@@ -31,7 +32,10 @@ public class UserPresenter extends PagePresenter<UserView> {
      * @param userId
      */
    public void getUserInfo(String language,String userId){
-        api.getUserInfo(language,userId)
+       UserRequestBean bean=new UserRequestBean();
+       bean.language=language;
+       bean.userId=userId;
+        api.getUserInfo(bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<UserInfoBean>>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData<UserInfoBean>>() {
                     @Override

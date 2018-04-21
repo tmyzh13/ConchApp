@@ -1,6 +1,7 @@
 package com.isoftston.issuser.conchapp.presenter;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.corelibs.api.ApiFactory;
@@ -13,6 +14,8 @@ import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.apis.LoginApi;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
+import com.isoftston.issuser.conchapp.model.bean.CodeRequestBean;
+import com.isoftston.issuser.conchapp.model.bean.ForgetPwdRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.LoginRequestBean;
 import com.isoftston.issuser.conchapp.utils.MD5Utils;
 import com.isoftston.issuser.conchapp.utils.Tools;
@@ -41,22 +44,48 @@ public class LoginPresenter extends BasePresenter<LoginView> {
     public void loginAction(String account,String password){
         if(checkLoginInput(account,password)){
             LoginRequestBean bean =new LoginRequestBean();
-            bean.language= Tools.getLocalLanguage(getContext());
+//            bean.language= Tools.getLocalLanguage(getContext());
             bean.userName=account;
-            bean.password= MD5Utils.encode(password);
+            bean.password= password;
             bean.phoneType=Tools.getPhoneType();
             bean.phoneCode=Tools.getIMEI(getContext());
-//            api.login(bean)
-//                    .compose(new ResponseTransformer<>(this.<BaseData>bindUntilEvent(ActivityEvent.DESTROY)))
-//                    .subscribe(new ResponseSubscriber<BaseData>(view) {
-//                        @Override
-//                        public void success(BaseData baseData) {
+            api.login(bean)
+                    .compose(new ResponseTransformer<>(this.<BaseData>bindUntilEvent(ActivityEvent.DESTROY)))
+                    .subscribe(new ResponseSubscriber<BaseData>(view) {
+                        @Override
+                        public void success(BaseData baseData) {
                             PreferencesHelper.saveData(Constant.LOGIN_STATUE,"1");
-                            view.loginSuccess();
-//                        }
-//                    });
+                            view.loginSuccess((String) baseData.data);
+                        }
+                    });
 
         }
+    }
+    public void forgetPwd(String phonenum,String yzm,String newpwd){
+        ForgetPwdRequestBean bean=new ForgetPwdRequestBean();
+        bean.phoneNume=phonenum;
+        bean.yzm=yzm;
+        bean.newpwd=newpwd;
+        api.forgetPwd(bean)
+                .compose(new ResponseTransformer<>(this.<BaseData>bindUntilEvent(ActivityEvent.DESTROY)))
+                .subscribe(new ResponseSubscriber<BaseData>(view) {
+                    @Override
+                    public void success(BaseData baseData) {
+                        view.changePwdSuccess();
+                    }
+                });
+    }
+    public void getCode(String content){
+        CodeRequestBean bean=new CodeRequestBean();
+        bean.phonenum=content;
+        api.getCode(bean)
+                .compose(new ResponseTransformer<>(this.<BaseData>bindUntilEvent(ActivityEvent.DESTROY)))
+                .subscribe(new ResponseSubscriber<BaseData>(view) {
+                    @Override
+                    public void success(BaseData baseData) {
+                        view.getCodeSuccess();
+                    }
+                });
     }
 
     private boolean checkLoginInput(String account,String password){

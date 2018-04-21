@@ -9,6 +9,8 @@ import com.corelibs.subscriber.ResponseSubscriber;
 import com.isoftston.issuser.conchapp.model.UserHelper;
 import com.isoftston.issuser.conchapp.model.apis.WorkApi;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
+import com.isoftston.issuser.conchapp.model.bean.FixWorkBean;
+import com.isoftston.issuser.conchapp.model.bean.NewWorkBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkListBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkListRequestBean;
@@ -45,8 +47,8 @@ public class WorkPresenter extends BasePresenter<WorkView> {
                 .subscribe(new ResponseSubscriber<BaseData<WorkListBean>>() {
                     @Override
                     public void success(BaseData<WorkListBean> workBeanBaseData) {
+
                         view.getWorkListInfo(workBeanBaseData.data.list);
-                        Log.i("zhoutao",workBeanBaseData.data.list.size()+"");
                     }
 
                     @Override
@@ -69,7 +71,7 @@ public class WorkPresenter extends BasePresenter<WorkView> {
                     @Override
                     public void success(BaseData<WorkListBean> workBeanBaseData) {
                         view.getWorkListInfo(workBeanBaseData.data.list);
-                        Log.i("zhoutao",workBeanBaseData.data.list.size()+"");
+                        Log.i("zt",workBeanBaseData.data.list.size()+"");
                     }
 
                     @Override
@@ -80,5 +82,35 @@ public class WorkPresenter extends BasePresenter<WorkView> {
 
                 });
 
+    }
+    public void addWork(NewWorkBean bean){
+        api.addWork(bean)
+                .compose(new ResponseTransformer<>(this.<BaseData >bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData>() {
+                    @Override
+                    public void success(BaseData workBeanBaseData) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                    }
+                });
+    }
+    public void fixWork(FixWorkBean bean){
+        api.fixWork(bean)
+                .compose(new ResponseTransformer<>(this.<BaseData>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData>() {
+                    @Override
+                    public void success(BaseData workBeanBaseData) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                    }
+                });
     }
 }

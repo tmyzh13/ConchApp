@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spingarr">
+        <item>隐患信息</item>
+        <item>违章信息</item>
+    </string-array>
+</resources>
