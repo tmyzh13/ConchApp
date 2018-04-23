@@ -13,4 +13,6 @@ public interface UserView extends BasePaginationView {
     void getUserInfoError();
 
     void addFeedBackSuccess();
+
+    void  updatePwdSuccess();
 }

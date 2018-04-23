@@ -5,23 +5,58 @@ package com.isoftston.issuser.conchapp.model.bean;
  */
 
 public class FixWorkBean {
-    public String name;
-    public String jobStartTime;
-    public String jobEndTime;
-    public String deviceType;
-    public String deviceNo;
-    public String deviceName;
-    public String jobArea;
-    public String jobPoint;
-    public String jobContent;
-    public String jobUnit;
-    public String jobPersonNum;
-    public String isDanger;
-    public String dangerJobType;
-    public String airPersonCheck;
-    public String leader;
-    public String keeper;
-    public String checker;
-    public String approver;
+    public String id;//作业id
+    public long startTime;//开始时间
+    public long endTime;//结束时间
+    public String guardian;//监护人ID
+    public String auditor;//审核人ID
+    public String approver;//批准人ID
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
+    public long getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(long endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getGuardian() {
+        return guardian;
+    }
+
+    public void setGuardian(String guardian) {
+        this.guardian = guardian;
+    }
+
+    public String getAuditor() {
+        return auditor;
+    }
+
+    public void setAuditor(String auditor) {
+        this.auditor = auditor;
+    }
+
+    public String getApprover() {
+        return approver;
+    }
+
+    public void setApprover(String approver) {
+        this.approver = approver;
+    }
 }

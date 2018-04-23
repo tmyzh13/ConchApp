@@ -104,6 +104,11 @@ public class OpinionFeedbackActivity extends BaseActivity<UserView, UserPresente
     }
 
     @Override
+    public void updatePwdSuccess() {
+
+    }
+
+    @Override
     public void onLoadingCompleted() {
 
     }

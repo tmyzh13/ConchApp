@@ -7,6 +7,5 @@ import java.util.List;
  */
 
 public class CheckAllDeviceBean {
-    public String userId;
-    public String equipId;
+    public String lastId;
 }

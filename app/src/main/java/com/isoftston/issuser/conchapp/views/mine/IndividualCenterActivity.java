@@ -21,11 +21,12 @@ import com.corelibs.base.BasePresenter;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.presenter.UserPresenter;
+import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.UserView;
 
 import butterknife.Bind;
 
-public class IndividualCenterActivity extends BaseActivity implements View.OnClickListener {
+public class IndividualCenterActivity extends BaseActivity<UserView,UserPresenter> implements UserView, View.OnClickListener {
     public static String TAG = "IndividualCenterActivity";
     @Bind(R.id.iv_back)
     ImageView backIv;
@@ -35,7 +36,7 @@ public class IndividualCenterActivity extends BaseActivity implements View.OnCli
     TextView sureTv;
 
     @Bind(R.id.user_name)
-    EditText userNameEt;
+    TextView userNameEt;
     @Bind(R.id.user_role)
     TextView sureRoleTv;//角色/监控人员
     @Bind(R.id.radio_group)
@@ -85,7 +86,9 @@ public class IndividualCenterActivity extends BaseActivity implements View.OnCli
      * 获取用户信息并显示
      */
     private void showUserInfo() {
-//        userInfo = (UserInfoBean) getIntent().getSerializableExtra("userInfo");
+        userInfo = (UserInfoBean) getIntent().getSerializableExtra("userInfo");
+        userNameEt.setText(userInfo.getRealName());
+        userCompanyTv.setText(userInfo.getCompanyName());
     }
 
     private void changeIcon() {
@@ -139,6 +142,7 @@ public class IndividualCenterActivity extends BaseActivity implements View.OnCli
                 finish();
                 break;
             case R.id.sure_tv:
+            presenter.updatePwd(userPwdEt.getText().toString());
                 break;
             case R.id.show_pwd_layout:
                 isShowPwd = !isShowPwd;
@@ -153,5 +157,37 @@ public class IndividualCenterActivity extends BaseActivity implements View.OnCli
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onLoadingCompleted() {
+
+    }
+
+    @Override
+    public void onAllPageLoaded() {
+
+    }
+
+    @Override
+    public void getUserInfo(UserInfoBean userInfoBean) {
+
+    }
+
+    @Override
+    public void getUserInfoError() {
+
+    }
+
+    @Override
+    public void addFeedBackSuccess() {
+
+    }
+
+    @Override
+    public void updatePwdSuccess() {
+        ToastUtils.showtoast(IndividualCenterActivity.this,getString(R.string.update_pwd_success));
+        finish();
+
     }
 }

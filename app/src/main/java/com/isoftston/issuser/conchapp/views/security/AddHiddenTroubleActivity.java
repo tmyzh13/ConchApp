@@ -17,10 +17,16 @@ import android.widget.Toast;
 import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BasePresenter;
 import com.corelibs.utils.IMEUtil;
+import com.corelibs.utils.ToastMgr;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
+import com.isoftston.issuser.conchapp.model.bean.AddYHBean;
+import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
+import com.isoftston.issuser.conchapp.presenter.SecurityPresenter;
 import com.isoftston.issuser.conchapp.utils.DateUtils;
+import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.utils.Tools;
+import com.isoftston.issuser.conchapp.views.interfaces.SecuryView;
 import com.isoftston.issuser.conchapp.views.work.NewWorkActivity;
 import com.isoftston.issuser.conchapp.weight.CustomDatePicker;
 import com.isoftston.issuser.conchapp.weight.InputView;
@@ -40,7 +46,7 @@ import butterknife.OnClick;
  * Created by issuser on 2018/4/10.
  */
 
-public class AddHiddenTroubleActivity extends BaseActivity {
+public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPresenter> implements SecuryView  {
 
     @Bind(R.id.nav)
     NavBar navBar;
@@ -154,8 +160,8 @@ public class AddHiddenTroubleActivity extends BaseActivity {
     }
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected SecurityPresenter createPresenter() {
+        return new SecurityPresenter();
     }
 
     @OnClick(R.id.rl_check_people)
@@ -202,6 +208,29 @@ public class AddHiddenTroubleActivity extends BaseActivity {
     @OnClick(R.id.ll_confirm)
     public void confirmInfo(){
         //提交新增信息 暂时结束页面
+        AddYHBean bean=new AddYHBean();
+//        bean.setYhmc(input_trouble_name.getContent());
+        bean.setYhmc("1");
+        bean.setGsId("1");
+        bean.setJcdwid("1");
+        bean.setJcdwmc("1");
+        bean.setSjdwid("1");
+        bean.setSjdwmc("1");
+        bean.setYhly("1");
+        bean.setFxrmc("1");
+        bean.setFxrId("1");
+        bean.setFxrq("1");
+        bean.setCjsj("1");
+        bean.setYhlx("1");
+        bean.setYhjb("1");
+        bean.setYhdd("1");
+        bean.setYhbw("1");
+        bean.setYhlbb("1");
+        bean.setSfxczg("1");
+        bean.setYhms("1");
+        bean.setTplj("1");
+        bean.setKnzchg("1");
+        presenter.addYHMessage(bean);
         finish();
     }
 
@@ -271,5 +300,32 @@ public class AddHiddenTroubleActivity extends BaseActivity {
         customDatePicker.setIsLoop(false); // 不允许循环滚动
         //customDatePicker.show(dateText.getText().toString() + " " + timeText.getText().toString());
         customDatePicker.show(DateUtils.format_yyyy_MM_dd_HH_mm.format(new Date()));
+    }
+
+    @Override
+    public void onLoadingCompleted() {
+
+    }
+
+    @Override
+    public void onAllPageLoaded() {
+
+    }
+
+    @Override
+    public void addSuccess() {
+        ToastMgr.show(getString(R.string.submit_success));
+        finish();
+
+    }
+
+    @Override
+    public void getSafeListSuccess(SafeListBean data) {
+
+    }
+
+    @Override
+    public void addFailed() {
+
     }
 }

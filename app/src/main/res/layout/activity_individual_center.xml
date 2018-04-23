@@ -86,7 +86,7 @@
                     android:textColor="@color/single_text_color"
                     android:textSize="14sp" />
 
-                <EditText
+                <TextView
                     android:id="@+id/user_name"
                     style="@style/add_report_edittext"
                     android:layout_toRightOf="@id/name_tv"
@@ -303,6 +303,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="12dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:layout_toRightOf="@id/img_edit_6">
 
                 <TextView
@@ -352,7 +354,6 @@
                     android:layout_toLeftOf="@id/show_pwd_layout"
                     android:layout_toRightOf="@id/pwd_tv"
                     android:background="@null"
-                    android:focusable="false"
                     android:gravity="center_vertical|right"
                     android:inputType="textPassword"
                     android:singleLine="true"

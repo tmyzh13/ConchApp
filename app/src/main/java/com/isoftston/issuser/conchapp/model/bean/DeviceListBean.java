@@ -7,6 +7,5 @@ import java.util.List;
  */
 
 public class DeviceListBean {
-
     public List<DeviceBean> list;
 }

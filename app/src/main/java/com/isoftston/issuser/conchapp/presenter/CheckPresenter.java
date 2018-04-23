@@ -19,6 +19,7 @@ import com.isoftston.issuser.conchapp.model.bean.CheckDeviceRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.CheckOneDeviceBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceListBean;
+import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.CheckView;
 
 import org.json.JSONObject;
@@ -125,12 +126,13 @@ public class CheckPresenter extends ListPagePresenter<CheckView> {
                 });
     }
     //获取所有设备列表
-    public void getAllDeviceInfo(String content){
+    public void getAllDeviceInfo(String lastId){
         CheckAllDeviceBean checkAllDeviceBean=new CheckAllDeviceBean();
-//        checkAllDeviceBean.userId=UserHelper.getUserId()+"";
-        checkAllDeviceBean.userId = "1";
-        checkAllDeviceBean.equipId=content;
-        api.getAllDeviceInfo(checkAllDeviceBean)
+        checkAllDeviceBean.lastId=lastId;
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        Log.i("token",token);
+        String token1=token.replaceAll("\"","");
+        api.getAllDeviceInfo(token1,checkAllDeviceBean)
                 .compose(new ResponseTransformer<>(this.<BaseData<DeviceListBean>>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData<DeviceListBean>>() {
                     @Override
@@ -161,10 +163,11 @@ public class CheckPresenter extends ListPagePresenter<CheckView> {
     //查询一条设备信息
     public void getOneDeviceInfo(String content){
         CheckOneDeviceBean bean=new CheckOneDeviceBean();
-//        bean.userId=UserHelper.getUserId()+"";
-        bean.userId="1";
         bean.equipId=content;
-        api.getOneDeviceInfo(bean)
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        Log.i("token",token);
+        String token1=token.replaceAll("\"","");
+        api.getOneDeviceInfo(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<DeviceBean>>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData<DeviceBean>>() {
                     @Override

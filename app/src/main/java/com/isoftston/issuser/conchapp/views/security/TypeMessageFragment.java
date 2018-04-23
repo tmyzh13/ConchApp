@@ -71,9 +71,9 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
         if (bType==0){
             presenter.getSafeMessageList("yh","wzg","");
         }else if (bType==1){
-            presenter.getSafeMessageList("wz","wzg","");
+            presenter.getSafeMessageList("wz","","");
         }else {
-            presenter.getSafeMessageList("mine","wzg","");
+            presenter.getSafeMessageList("wz","wzg","");
         }
         adapter.addAll(listMessage);
         lv_message.setAdapter(adapter);
@@ -85,6 +85,9 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //进入消息详情界面
                 Intent intent =new Intent(getActivity(),ItemDtailActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putString("type",listMessage.get(position).getType());
+                bundle.putString("id",listMessage.get(position).getId());
                 startActivity(intent);
                 //test
 //                Log.e("yzh","onItemclick");
@@ -119,7 +122,10 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
     @Override
     public void getSafeListSuccess(SafeListBean data) {
         SafeBean bean=data.total;
-        List<MessageBean> list=data.list;
+        listMessage=data.list;
+        adapter.addAll(listMessage);
+        adapter.notifyDataSetChanged();
+        lv_message.setAdapter(adapter);
     }
 
     @Override

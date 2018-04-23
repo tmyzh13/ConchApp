@@ -23,15 +23,15 @@ import rx.Observable;
 public interface WorkApi {
     //获取作业信息
     @POST(Urls.GET_WORK_INFO)
-    Observable<BaseData<WorkListBean>> getWorkInfo(@Body WorkListRequestBean bean);
+    Observable<BaseData<WorkListBean>> getWorkInfo(@Header("Access-Token") String token,@Body WorkListRequestBean bean);
 
     @POST(Urls.GET_WORK_TYPE_INFO)
     Observable<BaseData<WorkListBean>> getWorkTypeInfo(@Body WorkTypeRequestBean bean);
 
     @POST(Urls.ADD_WORK)
-    Observable<BaseData> addWork(@Body NewWorkBean bean);
+    Observable<BaseData> addWork(@Header("Access-Token") String token,@Body NewWorkBean bean);
 
     @POST(Urls.FIX_WORK)
-    Observable<BaseData> fixWork(@Body FixWorkBean bean);
+    Observable<BaseData> fixWork(@Header("Access-Token") String token,@Body FixWorkBean bean);
 
 }

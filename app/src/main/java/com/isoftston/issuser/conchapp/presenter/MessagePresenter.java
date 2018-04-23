@@ -64,7 +64,7 @@ public class MessagePresenter extends ListPagePresenter<MessageView> {
                         if (status==-200){
                             view.reLogin();
                         }
-                        return true;
+                        return false;
                     }
                 });
 

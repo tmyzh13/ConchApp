@@ -14,6 +14,7 @@ import com.isoftston.issuser.conchapp.model.bean.DeviceListBean;
 import java.util.List;
 
 import retrofit2.http.Body;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -34,12 +35,12 @@ public interface CheckApi {
     Observable<BaseData<DeviceBean>> getDeviceInfo(@Body CheckBean bean);
 
     @POST(Urls.GET_ALL_DEVICES_INFO)
-    Observable<BaseData<DeviceListBean>> getAllDeviceInfo(@Body CheckAllDeviceBean bean );
+    Observable<BaseData<DeviceListBean>> getAllDeviceInfo(@Header("Access-Token") String token, @Body CheckAllDeviceBean bean );
 
     @POST(Urls.GET_CONDITION_DEVICE_INFO)
     Observable<BaseData<DeviceListBean>> getConditionDeviceInfo(@Body CheckConditionDeviceBean bean );
 
     @POST(Urls.GET_ONE_DEVICE_INFO)
-    Observable<BaseData<DeviceBean>> getOneDeviceInfo(@Body CheckOneDeviceBean bean );
+    Observable<BaseData<DeviceBean>> getOneDeviceInfo(@Header("Access-Token") String token,@Body CheckOneDeviceBean bean );
 
 }

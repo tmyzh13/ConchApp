@@ -41,10 +41,12 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
     public WorkMessageItemAdapter adapter;
     public List<WorkBean> listMessage;
     private String type;
-    public static Fragment newInstance(String type) {
+    private int bType;
+    public static Fragment newInstance(String type, int bigType) {
         ItemFragment fragment =new ItemFragment();
         Bundle b =new Bundle();
         b.putString("type",type);
+        b.putInt("bigType",bigType);
         fragment.setArguments(b);
         return fragment;
     }
@@ -56,13 +58,21 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        type=getArguments().getString("type");
+        bType=getArguments().getInt("bigType");
         tv.setText(type);
         listMessage=new ArrayList<>();
-        for(int i=0;i<10;i++){
-            listMessage.add(new WorkBean());
+//        for(int i=0;i<10;i++){
+//            listMessage.add(new WorkBean());
+//        }
+        if (bType==0){
+            presenter.getWorkInfo("0","3","");
+        }else if (bType==1){
+            presenter.getWorkInfo("1","3","");
+        }else {
+            presenter.getWorkInfo("2","3","");
         }
         adapter=new WorkMessageItemAdapter(getContext());
-        presenter.getWorkInfo("1","zh","0","1");
         adapter.addAll(listMessage);
         lv_message.setAdapter(adapter);
         ptrLayout.disableLoading();
@@ -101,14 +111,19 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
 
     @Override
     public void getWorkListInfo(List<WorkBean> list) {
-//        listMessage=list;
-//        adapter.addAll(listMessage);
-//        adapter.notifyDataSetChanged();
+        listMessage=list;
+        adapter.addAll(listMessage);
+        adapter.notifyDataSetChanged();
 
     }
 
     @Override
     public void getWorkError() {
+
+    }
+
+    @Override
+    public void addWorkSuccess() {
 
     }
 

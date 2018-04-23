@@ -15,6 +15,7 @@ import com.isoftston.issuser.conchapp.model.bean.SafeRequestBean;
 import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.SecuryView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,13 +35,11 @@ public class SecurityPresenter extends BasePresenter<SecuryView> {
         super.onViewAttach();
         api= ApiFactory.getFactory().create(SecurityApi.class);
     }
-    public void addWZMessage(String language,AddYHBean bean){
-        AddWZMessageRequestBean addWZMessageRequestBean=new AddWZMessageRequestBean();
-        List<AddYHBean> list=new ArrayList<>();
-        list.add(bean);
-        addWZMessageRequestBean.language=language;
-        addWZMessageRequestBean.list=list;
-        api.addWZMessage(addWZMessageRequestBean)
+    public void addWZMessage(AddYHBean bean){
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        Log.i("token",token);
+        String token1=token.replaceAll("\"","");
+        api.addWZMessage(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData>() {
 
@@ -56,13 +55,11 @@ public class SecurityPresenter extends BasePresenter<SecuryView> {
                     }
                 });
     }
-    public void addYHMessage(String language,AddYHBean bean){
-        AddWZMessageRequestBean addWZMessageRequestBean=new AddWZMessageRequestBean();
-        List<AddYHBean> list=new ArrayList<>();
-        list.add(bean);
-        addWZMessageRequestBean.language=language;
-        addWZMessageRequestBean.list=list;
-        api.addYHMessage(addWZMessageRequestBean)
+    public void addYHMessage(AddYHBean bean){
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        Log.i("token",token);
+        String token1=token.replaceAll("\"","");
+        api.addYHMessage(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData>() {
 
@@ -101,5 +98,27 @@ public class SecurityPresenter extends BasePresenter<SecuryView> {
                         super.onError(e);
                     }
                 });
+    }
+    public void uploadImg(List<File> listFiles){
+        for (int i=0;i<listFiles.size();i++){
+            File file=listFiles.get(i);
+            String token= SharePrefsUtils.getValue(getContext(),"token",null);
+            Log.i("token",token);
+            String token1=token.replaceAll("\"","");
+            api.uploadImage(token1,file)
+                    .compose(new ResponseTransformer<>(this.<BaseData>bindToLifeCycle()))
+                    .subscribe(new ResponseSubscriber<BaseData>() {
+
+                        @Override
+                        public void success(BaseData messageBeanBaseData) {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            super.onError(e);
+                        }
+                    });
+        }
     }
 }

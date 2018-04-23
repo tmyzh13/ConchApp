@@ -7,6 +7,5 @@ import java.util.List;
  */
 
 public class AddWZMessageRequestBean {
-    public String language;
     public List<AddYHBean> list;
 }

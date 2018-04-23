@@ -1,13 +1,14 @@
 package com.isoftston.issuser.conchapp.model.apis;
 
 import com.isoftston.issuser.conchapp.constants.Urls;
-import com.isoftston.issuser.conchapp.model.bean.AddWZMessageRequestBean;
+import com.isoftston.issuser.conchapp.model.bean.AddYHBean;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeRequestBean;
 
+import java.io.File;
+
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import rx.Observable;
@@ -18,9 +19,11 @@ import rx.Observable;
 
 public interface SecurityApi {
     @POST(Urls.ADD_WZ_MESSAGE)
-    Observable<BaseData> addWZMessage(@Body AddWZMessageRequestBean bean );
+    Observable<BaseData> addWZMessage(@Header("Access-Token") String token,@Body AddYHBean bean );
     @POST(Urls.ADD_YH_MESSAGE)
-    Observable<BaseData> addYHMessage(@Body AddWZMessageRequestBean bean );
+    Observable<BaseData> addYHMessage(@Header("Access-Token") String token,@Body AddYHBean bean );
     @POST(Urls.GET_SAFE_MESSAGE_LIST)
     Observable<BaseData<SafeListBean>> getSefeMessageList(@Header("Access-Token") String token, @Body SafeRequestBean bean );
+    @POST(Urls.UPLOAD_IMAGE)
+    Observable<BaseData> uploadImage(@Header("Access-Token") String token, @Body File file );
 }

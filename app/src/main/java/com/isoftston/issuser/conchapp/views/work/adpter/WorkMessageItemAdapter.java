@@ -21,7 +21,7 @@ public class WorkMessageItemAdapter extends QuickAdapter<WorkBean> {
     @Override
     protected void convert(BaseAdapterHelper helper, WorkBean item, int position) {
 //       String time=DateUtils.getDateToString(item.getCreateTime());
-//        helper.setText(R.id.item_title,item.getName())
+        helper.setText(R.id.item_title,item.getName());
 //                .setText(R.id.tv_time, time);
 
     }

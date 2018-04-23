@@ -5,8 +5,8 @@ package com.isoftston.issuser.conchapp.model.bean;
  */
 
 public class WorkListRequestBean {
-    public String jobId;
-    public String language;
+
     public String type;//  0:危险   1：常规 2：我的
-    public String item;//
+    public String item;//小type
+    public String lastId;
 }

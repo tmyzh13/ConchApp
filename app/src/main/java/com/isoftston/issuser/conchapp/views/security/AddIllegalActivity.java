@@ -16,10 +16,16 @@ import android.widget.Toast;
 import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BasePresenter;
 import com.corelibs.utils.IMEUtil;
+import com.corelibs.utils.ToastMgr;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
+import com.isoftston.issuser.conchapp.model.bean.AddYHBean;
+import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
+import com.isoftston.issuser.conchapp.presenter.SecurityPresenter;
 import com.isoftston.issuser.conchapp.utils.DateUtils;
+import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.utils.Tools;
+import com.isoftston.issuser.conchapp.views.interfaces.SecuryView;
 import com.isoftston.issuser.conchapp.weight.ChooseListPopupWindow;
 import com.isoftston.issuser.conchapp.weight.CustomDatePicker;
 import com.isoftston.issuser.conchapp.weight.InputView;
@@ -38,7 +44,7 @@ import butterknife.OnClick;
  * Created by john on 2018/4/15.
  */
 
-public class AddIllegalActivity extends BaseActivity {
+public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresenter> implements SecuryView {
 
     @Bind(R.id.nav)
     NavBar navBar;
@@ -146,12 +152,35 @@ public class AddIllegalActivity extends BaseActivity {
     }
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected SecurityPresenter createPresenter() {
+        return new SecurityPresenter();
     }
 
     @OnClick(R.id.ll_confirm)
     public void confirmInfo(){
+        AddYHBean bean=new AddYHBean();
+//        bean.setYhmc(input_illegal_name.getContent());
+        bean.setYhmc("1");
+        bean.setGsId("1");
+        bean.setJcdwid("1");
+        bean.setJcdwmc("1");
+        bean.setSjdwid("1");
+        bean.setSjdwmc("1");
+        bean.setYhly("1");
+        bean.setFxrmc("1");
+        bean.setFxrId("1");
+        bean.setFxrq("1");
+        bean.setCjsj("1");
+        bean.setYhlx("1");
+        bean.setYhjb("1");
+        bean.setYhdd("1");
+        bean.setYhbw("1");
+        bean.setYhlbb("1");
+        bean.setSfxczg("1");
+        bean.setYhms("1");
+        bean.setTplj("1");
+        bean.setKnzchg("1");
+        presenter.addWZMessage(bean);
         finish();
     }
 
@@ -287,5 +316,31 @@ public class AddIllegalActivity extends BaseActivity {
         customDatePicker.setIsLoop(false); // 不允许循环滚动
         //customDatePicker.show(dateText.getText().toString() + " " + timeText.getText().toString());
         customDatePicker.show(DateUtils.format_yyyy_MM_dd_HH_mm.format(new Date()));
+    }
+
+    @Override
+    public void onLoadingCompleted() {
+
+    }
+
+    @Override
+    public void onAllPageLoaded() {
+
+    }
+
+    @Override
+    public void addSuccess() {
+        ToastMgr.show(getString(R.string.submit_success));
+        finish();
+    }
+
+    @Override
+    public void getSafeListSuccess(SafeListBean data) {
+
+    }
+
+    @Override
+    public void addFailed() {
+
     }
 }

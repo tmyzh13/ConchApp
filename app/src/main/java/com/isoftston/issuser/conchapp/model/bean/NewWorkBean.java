@@ -5,18 +5,24 @@ package com.isoftston.issuser.conchapp.model.bean;
  */
 
 public class NewWorkBean {
-    public String name;
-    public String jobStartTime;
-    public String jobEndTime;
-    public String deviceType;
-    public String deviceNo;
-    public String deviceName;
-    public String jobArea;
-    public String jobPoint;
-    public String jobContent;
-    public String jobUnit;
-    public String jobPersonNum;
-    public String isDanger;
+    private String name;
+    private int startTime;
+    private int endTime;
+    private int equipmentType;
+    private String equipmentCode;
+    private String equipmentName;
+    private int area;
+    private String part;
+    private String content;
+    private String company;
+    private int numberPeople;
+    private int type;
+    private String leading;
+    private String guardian;
+    private String auditor;
+    private String approver;
+    private String orgId;
+    private int isDanger;
 
     public String getName() {
         return name;
@@ -26,147 +32,139 @@ public class NewWorkBean {
         this.name = name;
     }
 
-    public String getJobStartTime() {
-        return jobStartTime;
+    public int getStartTime() {
+        return startTime;
     }
 
-    public void setJobStartTime(String jobStartTime) {
-        this.jobStartTime = jobStartTime;
+    public void setStartTime(int startTime) {
+        this.startTime = startTime;
     }
 
-    public String getJobEndTime() {
-        return jobEndTime;
+    public int getEndTime() {
+        return endTime;
     }
 
-    public void setJobEndTime(String jobEndTime) {
-        this.jobEndTime = jobEndTime;
+    public void setEndTime(int endTime) {
+        this.endTime = endTime;
     }
 
-    public String getDeviceType() {
-        return deviceType;
+    public int getEquipmentType() {
+        return equipmentType;
     }
 
-    public void setDeviceType(String deviceType) {
-        this.deviceType = deviceType;
+    public void setEquipmentType(int equipmentType) {
+        this.equipmentType = equipmentType;
     }
 
-    public String getDeviceNo() {
-        return deviceNo;
+    public String getEquipmentCode() {
+        return equipmentCode;
     }
 
-    public void setDeviceNo(String deviceNo) {
-        this.deviceNo = deviceNo;
+    public void setEquipmentCode(String equipmentCode) {
+        this.equipmentCode = equipmentCode;
     }
 
-    public String getDeviceName() {
-        return deviceName;
+    public String getEquipmentName() {
+        return equipmentName;
     }
 
-    public void setDeviceName(String deviceName) {
-        this.deviceName = deviceName;
+    public void setEquipmentName(String equipmentName) {
+        this.equipmentName = equipmentName;
     }
 
-    public String getJobArea() {
-        return jobArea;
+    public int getArea() {
+        return area;
     }
 
-    public void setJobArea(String jobArea) {
-        this.jobArea = jobArea;
+    public void setArea(int area) {
+        this.area = area;
     }
 
-    public String getJobPoint() {
-        return jobPoint;
+    public String getPart() {
+        return part;
     }
 
-    public void setJobPoint(String jobPoint) {
-        this.jobPoint = jobPoint;
+    public void setPart(String part) {
+        this.part = part;
     }
 
-    public String getJobContent() {
-        return jobContent;
+    public String getContent() {
+        return content;
     }
 
-    public void setJobContent(String jobContent) {
-        this.jobContent = jobContent;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public String getJobUnit() {
-        return jobUnit;
+    public String getCompany() {
+        return company;
     }
 
-    public void setJobUnit(String jobUnit) {
-        this.jobUnit = jobUnit;
+    public void setCompany(String company) {
+        this.company = company;
     }
 
-    public String getJobPersonNum() {
-        return jobPersonNum;
+    public int getNumberPeople() {
+        return numberPeople;
     }
 
-    public void setJobPersonNum(String jobPersonNum) {
-        this.jobPersonNum = jobPersonNum;
+    public void setNumberPeople(int numberPeople) {
+        this.numberPeople = numberPeople;
     }
 
-    public String getIsDanger() {
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getLeading() {
+        return leading;
+    }
+
+    public void setLeading(String leading) {
+        this.leading = leading;
+    }
+
+    public String getGuardian() {
+        return guardian;
+    }
+
+    public void setGuardian(String guardian) {
+        this.guardian = guardian;
+    }
+
+    public String getAuditor() {
+        return auditor;
+    }
+
+    public void setAuditor(String auditor) {
+        this.auditor = auditor;
+    }
+
+    public String getApprover() {
+        return approver;
+    }
+
+    public void setApprover(String approver) {
+        this.approver = approver;
+    }
+
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
+    }
+
+    public int getIsDanger() {
         return isDanger;
     }
 
-    public void setIsDanger(String isDanger) {
+    public void setIsDanger(int isDanger) {
         this.isDanger = isDanger;
     }
-
-    public String getDangerJobType() {
-        return dangerJobType;
-    }
-
-    public void setDangerJobType(String dangerJobType) {
-        this.dangerJobType = dangerJobType;
-    }
-
-    public String getAirPersonCheck() {
-        return airPersonCheck;
-    }
-
-    public void setAirPersonCheck(String airPersonCheck) {
-        this.airPersonCheck = airPersonCheck;
-    }
-
-    public String getLeader() {
-        return leader;
-    }
-
-    public void setLeader(String leader) {
-        this.leader = leader;
-    }
-
-    public String getKeeper() {
-        return keeper;
-    }
-
-    public void setKeeper(String keeper) {
-        this.keeper = keeper;
-    }
-
-    public String getChecker() {
-        return checker;
-    }
-
-    public void setChecker(String checker) {
-        this.checker = checker;
-    }
-
-    public String getApp() {
-        return app;
-    }
-
-    public void setApp(String app) {
-        this.app = app;
-    }
-
-    public String dangerJobType;
-    public String airPersonCheck;
-    public String leader;
-    public String keeper;
-    public String checker;
-    public String app;
-
 }

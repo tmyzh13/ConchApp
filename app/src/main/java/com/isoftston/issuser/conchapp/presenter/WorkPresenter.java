@@ -15,6 +15,7 @@ import com.isoftston.issuser.conchapp.model.bean.WorkBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkListBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkListRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkTypeRequestBean;
+import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.WorkView;
 
 /**
@@ -36,13 +37,14 @@ public class WorkPresenter extends BasePresenter<WorkView> {
     /**
      * 获取作业列表数据
      */
-    public void getWorkInfo(String id,String language,String type,String item) {
+    public void getWorkInfo(String type,String item,String lastid) {
         WorkListRequestBean bean=new WorkListRequestBean();
-        bean.jobId=id;
-        bean.language=language;
         bean.type=type;
         bean.item=item;
-        api.getWorkInfo(bean)
+        bean.lastId=lastid;
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        String token1=token.replaceAll("\"","");
+        api.getWorkInfo(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<WorkListBean>>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData<WorkListBean>>() {
                     @Override
@@ -84,12 +86,14 @@ public class WorkPresenter extends BasePresenter<WorkView> {
 
     }
     public void addWork(NewWorkBean bean){
-        api.addWork(bean)
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        String token1=token.replaceAll("\"","");
+        api.addWork(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData >bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData>() {
                     @Override
                     public void success(BaseData workBeanBaseData) {
-
+                        view.addWorkSuccess();
                     }
 
                     @Override
@@ -99,12 +103,14 @@ public class WorkPresenter extends BasePresenter<WorkView> {
                 });
     }
     public void fixWork(FixWorkBean bean){
-        api.fixWork(bean)
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        String token1=token.replaceAll("\"","");
+        api.fixWork(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData>() {
                     @Override
                     public void success(BaseData workBeanBaseData) {
-
+                        view.addWorkSuccess();
                     }
 
                     @Override

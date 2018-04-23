@@ -12,11 +12,11 @@ import com.isoftston.issuser.conchapp.views.work.ItemFragment;
 
 public class WorkMessageAdapter  extends FragmentPagerAdapter {
     private String[] mTitles;
-
-    public WorkMessageAdapter(FragmentManager fm, String[] mTitles){
-
+    private int bigType;
+    public WorkMessageAdapter(FragmentManager fm, String[] mTitles, int i){
         super(fm);
         this.mTitles=mTitles;
+        this.bigType=i;
     }
 
     public void setmTitles(String[] mTitles){
@@ -25,7 +25,7 @@ public class WorkMessageAdapter  extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return ItemFragment.newInstance(mTitles[position]);
+        return ItemFragment.newInstance(mTitles[position],bigType);
     }
 
     @Override

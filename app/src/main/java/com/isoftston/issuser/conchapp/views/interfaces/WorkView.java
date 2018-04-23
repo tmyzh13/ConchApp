@@ -16,4 +16,6 @@ public interface WorkView extends BasePaginationView {
 
     void getWorkError();
 
+    void addWorkSuccess();
+
 }

@@ -18,10 +18,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.corelibs.base.BaseFragment;
+import com.corelibs.utils.PreferencesHelper;
 import com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout;
 import com.corelibs.views.ptr.loadmore.widget.AutoLoadMoreListView;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.MessageTypeAdapter;
+import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.constants.Urls;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageDetailBean;
@@ -379,6 +381,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
     @Override
     public void reLogin() {
         ToastUtils.showtoast(getActivity(),getString(R.string.re_login));
+        PreferencesHelper.saveData(Constant.LOGIN_STATUE,"");
         startActivity(LoginActivity.getLauncher(getActivity()));
     }
 }

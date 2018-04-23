@@ -58,7 +58,7 @@ public class CheckFragment extends BaseFragment<CheckView,CheckPresenter> implem
     CircleImageView iv_icon;
 
     private DeviceAdapter adapter;
-    private List<DeviceBean> list;
+    private List<DeviceBean> mlist;
 
     @Override
     protected int getLayoutId() {
@@ -80,12 +80,12 @@ public class CheckFragment extends BaseFragment<CheckView,CheckPresenter> implem
         navBar.showSeachColor(2);
 
         presenter.getAllDeviceInfo("");
-        list = new ArrayList<>();
+        mlist = new ArrayList<>();
 //        for(int i=0;i<5;i++){
 //            list.add(new DeviceBean());
 //        }
         adapter =new DeviceAdapter(getContext());
-        adapter.addAll(list);
+        adapter.addAll(mlist);
         lv_device.setAdapter(adapter);
         ptrLayout.disableLoading();
         ptrLayout.setCanRefresh(false);
@@ -219,8 +219,9 @@ public class CheckFragment extends BaseFragment<CheckView,CheckPresenter> implem
 
     @Override
     public void CheckAllDeviceResult(List<DeviceBean> list) {
-        this.list=list;
-        adapter.addAll(list);
+        this.mlist=list;
+        adapter.addAll(mlist);
+        lv_device.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
 

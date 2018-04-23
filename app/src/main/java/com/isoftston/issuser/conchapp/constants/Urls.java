@@ -6,10 +6,10 @@ package com.isoftston.issuser.conchapp.constants;
  */
 
 public class Urls {
-//    public static final String ROOT="http://10.0.11.208:8099/conch/";//客户环境
+    public static final String ROOT="http://10.0.11.208:8099/conch/";//客户环境
 
-    public static final String ROOT="http://10.28.124.196:8099/conch/";//测试环境
-//    public static final String ROOT="http://10.28.124.195:8099/conch/";
+//    public static final String ROOT="http://10.28.124.196:8099/conch/";//测试环境
+//    public static final String ROOT="http://10.28.124.188:8099/conch/";
 //    public static final String ROOT="http://10.28.124.116:8099/conch/";
 
     //Appkey
@@ -45,7 +45,7 @@ public class Urls {
     public static final String GET_SECURITY_DATAS="info/conditionsearch";
 
     //违章界面 添加违章信息
-    public static final String ADD_WZ_MESSAGE="safety/addBreakRule";
+    public static final String ADD_WZ_MESSAGE="info/addBreakRule";
 
     //违章界面 添加隐患信息
     public static final String ADD_YH_MESSAGE="safety/addHiddenDanger";
@@ -58,15 +58,15 @@ public class Urls {
     //作业详细信息查询
     public static final String GET_WORK_DETAIL_INFO="job/getJobDetail";
     //新建作业
-    public static final String ADD_WORK="job/addJob";
+    public static final String ADD_WORK="job/createJob ";
     //修改作业
-    public static final String FIX_WORK="job/updateJob";
+    public static final String FIX_WORK="job/modifyJob";
     //撤销作业
     public static final String CANCEL_JOB="job/cancelJob";
     //提交作业
     public static final String SUBMIT_JOB="job/submitlJob";
     //查询当前用户信息
-    public static final String GET_MY_INFO="my/getMyInfo";
+    public static final String GET_MY_INFO="info/getMyInfo";
     //意见反馈
     public static final String ADD_FEEDBACK="info/addFeedBack";
 
@@ -76,6 +76,9 @@ public class Urls {
     public static final String GET_CONDITION_DEVICE_INFO="device/conditionSearch";
     //检维界面查询一条设备
     public static final String GET_ONE_DEVICE_INFO="device/searchOneEquip";
-
+    //更改密码
+    public static final String CHANGE_PWD="updatePassword";
+    //上传照片
+    public static final String UPLOAD_IMAGE="upload/img";
 
 }

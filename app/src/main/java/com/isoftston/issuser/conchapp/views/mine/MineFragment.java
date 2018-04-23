@@ -49,7 +49,7 @@ public class MineFragment extends BaseFragment<UserView, UserPresenter> implemen
     @Bind(R.id.version_tv)
     TextView versionTv;//版本
 
-    private boolean isMan;
+    private boolean isMan=false;
     private UserInfoBean userInfo;
 
     @Override
@@ -129,6 +129,7 @@ public class MineFragment extends BaseFragment<UserView, UserPresenter> implemen
 
     @Override
     public void getUserInfo(UserInfoBean userInfoBean) {
+        userInfo=userInfoBean;
 
     }
 
@@ -139,6 +140,11 @@ public class MineFragment extends BaseFragment<UserView, UserPresenter> implemen
 
     @Override
     public void addFeedBackSuccess() {
+
+    }
+
+    @Override
+    public void updatePwdSuccess() {
 
     }
 }

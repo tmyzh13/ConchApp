@@ -7,8 +7,11 @@ import com.corelibs.subscriber.ResponseSubscriber;
 import com.isoftston.issuser.conchapp.model.apis.UserApi;
 import com.isoftston.issuser.conchapp.model.bean.AddFeedBackRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
+import com.isoftston.issuser.conchapp.model.bean.ChangePwdRequestBean;
+import com.isoftston.issuser.conchapp.model.bean.UserBean;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.UserRequestBean;
+import com.isoftston.issuser.conchapp.utils.MD5Utils;
 import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.UserView;
 
@@ -30,12 +33,14 @@ public class UserPresenter extends PagePresenter<UserView> {
     }
 
     /**
-     * @param language
-     * @param userId
+     * @param
+     * @param
      */
    public void getUserInfo(){
        String token= SharePrefsUtils.getValue(getContext(),"token",null);
-        api.getUserInfo(token)
+       String token1=token.replaceAll("\"","");
+       UserBean bean=new UserBean();
+        api.getUserInfo(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<UserInfoBean>>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData<UserInfoBean>>() {
                     @Override
@@ -59,7 +64,9 @@ public class UserPresenter extends PagePresenter<UserView> {
     public void  addFeedBack(String content){
         AddFeedBackRequestBean bean=new AddFeedBackRequestBean();
         bean.content=content;
-        api.addFeedBack(bean)
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        String token1=token.replaceAll("\"","");
+        api.addFeedBack(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData>() {
                     @Override
@@ -70,5 +77,21 @@ public class UserPresenter extends PagePresenter<UserView> {
 
                 });
 
+    }
+    public void updatePwd(String password){
+        ChangePwdRequestBean bean=new ChangePwdRequestBean();
+        bean.password= MD5Utils.encode(password);
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        String token1=token.replaceAll("\"","");
+        api.changePwd(token1,bean)
+                .compose(new ResponseTransformer<>(this.<BaseData>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData>() {
+                    @Override
+                    public void success(BaseData userInfoBeanBaseData) {
+                        view.updatePwdSuccess();
+                    }
+
+
+                });
     }
 }

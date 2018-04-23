@@ -30,7 +30,7 @@ public class MineMessageFragment extends BaseFragment {
     @Override
     protected void init(Bundle savedInstanceState) {
         tabs=new String[]{getString(R.string.my_approve), getString(R.string.my_check),getString(R.string.my_release)};
-        WorkMessageAdapter adapter=new WorkMessageAdapter(getActivity().getSupportFragmentManager(),tabs);
+        WorkMessageAdapter adapter=new WorkMessageAdapter(getActivity().getSupportFragmentManager(),tabs, 0);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         Tools.setIndicator(tabLayout,10,10);

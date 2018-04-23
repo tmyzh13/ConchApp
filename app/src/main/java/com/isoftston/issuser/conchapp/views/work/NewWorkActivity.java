@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -18,7 +19,12 @@ import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BasePresenter;
 import com.corelibs.utils.IMEUtil;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.model.bean.NewWorkBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkBean;
+import com.isoftston.issuser.conchapp.presenter.WorkPresenter;
 import com.isoftston.issuser.conchapp.utils.DateUtils;
+import com.isoftston.issuser.conchapp.utils.ToastUtils;
+import com.isoftston.issuser.conchapp.views.interfaces.WorkView;
 import com.isoftston.issuser.conchapp.views.security.ChoiceCheckPeopleActivity;
 import com.isoftston.issuser.conchapp.weight.CustomDatePicker;
 import com.isoftston.issuser.conchapp.weight.InputView;
@@ -27,6 +33,7 @@ import com.isoftston.issuser.conchapp.weight.NavBar;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.Bind;
@@ -36,7 +43,7 @@ import butterknife.OnClick;
  * Created by issuser on 2018/4/11.
  */
 
-public class NewWorkActivity extends BaseActivity implements View.OnClickListener {
+public class NewWorkActivity extends BaseActivity<WorkView,WorkPresenter> implements WorkView, View.OnClickListener {
     private static final String TAG =NewWorkActivity.class.getSimpleName() ;
     @Bind(R.id.nav)
     NavBar nav;
@@ -63,6 +70,8 @@ public class NewWorkActivity extends BaseActivity implements View.OnClickListene
     RelativeLayout rl_check_people;
     @Bind(R.id.rl_keeper)
     RelativeLayout rl_keeper;
+    @Bind(R.id.bt_submit)
+    Button bt_submit;
     private Context context =NewWorkActivity.this;
     @Override
     protected int getLayoutId() {
@@ -88,6 +97,7 @@ public class NewWorkActivity extends BaseActivity implements View.OnClickListene
         tv_end_time.setOnClickListener(this);
         rl_keeper.setOnClickListener(this);
         rl_agree.setOnClickListener(this);
+        bt_submit.setOnClickListener(this);
         rl_check_people.setOnClickListener(this);
         et_name.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -128,8 +138,8 @@ public class NewWorkActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected WorkPresenter createPresenter() {
+        return new WorkPresenter();
     }
 
     @Override
@@ -145,6 +155,28 @@ public class NewWorkActivity extends BaseActivity implements View.OnClickListene
             case R.id.rl_check_people:
             case R.id.rl_keeper:
                 startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context),100);
+                break;
+            case R.id.bt_submit:
+                NewWorkBean bean=new NewWorkBean();
+                bean.setName("test");
+                bean.setStartTime(2222);
+                bean.setEndTime(2222);
+                bean.setEquipmentType(1);
+                bean.setEquipmentCode("test");
+                bean.setEquipmentName("test");
+                bean.setArea(2222);
+                bean.setPart("test");
+                bean.setContent("test");
+                bean.setCompany("test");
+                bean.setNumberPeople(3);
+                bean.setType(1);
+                bean.setLeading("1");
+                bean.setGuardian("2");
+                bean.setAuditor("3");
+                bean.setApprover("4");
+                bean.setOrgId("1");
+                bean.setIsDanger(0);
+                presenter.addWork(bean);
                 break;
         }
     }
@@ -215,5 +247,36 @@ public class NewWorkActivity extends BaseActivity implements View.OnClickListene
     public void alterNameText(){
         tv_detail_name_content.setVisibility(View.GONE);
         et_name.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onLoadingCompleted() {
+
+    }
+
+    @Override
+    public void onAllPageLoaded() {
+
+    }
+
+    @Override
+    public void renderData(WorkBean workBean) {
+
+    }
+
+    @Override
+    public void getWorkListInfo(List<WorkBean> list) {
+
+    }
+
+    @Override
+    public void getWorkError() {
+
+    }
+
+    @Override
+    public void addWorkSuccess() {
+        ToastUtils.showtoast(context,getString(R.string.submit_success));
+
     }
 }

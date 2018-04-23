@@ -317,6 +317,7 @@
                 android:layout_height="1dp"
                 android:background="#c6c1c1"></View>
             <Button
+                android:id="@+id/bt_submit"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:text="@string/sure"

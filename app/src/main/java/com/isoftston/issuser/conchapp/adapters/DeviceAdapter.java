@@ -32,7 +32,7 @@ public class DeviceAdapter extends QuickAdapter<DeviceBean> {
     protected void convert(BaseAdapterHelper helper, DeviceBean item, int position) {
         String date = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
                 .format(new java.util.Date(
-                        Long.parseLong(item.getCreateTime())));
+                        Long.parseLong(String.valueOf(item.getCreateTime()))));
         helper.setText(R.id.tv_device_name,item.getName())
                 .setText(R.id.tv_time, date)
                 .setText(R.id.tv_device_no,item.getEquipCode())
