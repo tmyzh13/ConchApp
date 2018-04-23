@@ -1,12 +1,9 @@
 package com.isoftston.issuser.conchapp.views.security;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 
 import com.corelibs.base.BaseFragment;
 import com.corelibs.base.BasePresenter;
@@ -14,7 +11,6 @@ import com.corelibs.subscriber.RxBusSubscriber;
 import com.corelibs.utils.rxbus.RxBus;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.MessageTypePageAdapter;
-import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.utils.Tools;
 
 import butterknife.Bind;
@@ -42,7 +38,7 @@ public class HiddenTroubleMessageFragment extends BaseFragment {
     protected void init(Bundle savedInstanceState) {
         tabs=new String[]{getString(R.string.not_alter),getString(R.string.overdue)
                 ,getString(R.string.altered),getString(R.string.not_check)};
-        final MessageTypePageAdapter adapter=new MessageTypePageAdapter(getActivity().getSupportFragmentManager(),tabs);
+        final MessageTypePageAdapter adapter=new MessageTypePageAdapter(getActivity().getSupportFragmentManager(),tabs,0);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         Tools.setIndicator(tabLayout,10,10);
@@ -63,4 +59,5 @@ public class HiddenTroubleMessageFragment extends BaseFragment {
     protected BasePresenter createPresenter() {
         return null;
     }
+
 }

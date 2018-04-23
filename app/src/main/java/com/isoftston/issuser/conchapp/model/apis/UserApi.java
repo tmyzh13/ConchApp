@@ -8,6 +8,7 @@ import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.UserRequestBean;
 
 import retrofit2.http.Body;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -19,7 +20,7 @@ import rx.Observable;
 public interface UserApi {
     //获取用户信息
     @POST(Urls.GET_MY_INFO)
-    Observable<BaseData<UserInfoBean>> getUserInfo(@Body UserRequestBean bean);
+    Observable<BaseData<UserInfoBean>> getUserInfo(@Header("Access-Token") String token);
     //意见反馈
     @POST(Urls.ADD_FEEDBACK)
     Observable<BaseData> addFeedBack(@Body AddFeedBackRequestBean bean);

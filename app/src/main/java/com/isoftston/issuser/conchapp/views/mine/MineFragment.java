@@ -65,7 +65,7 @@ public class MineFragment extends BaseFragment<UserView, UserPresenter> implemen
     }
 
     private void showUserInfo() {
-        presenter.getUserInfo("cn","xxx");
+        presenter.getUserInfo();
         if (isMan) {
             headIv.setImageResource(R.mipmap.man_head);
         } else {

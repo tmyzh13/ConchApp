@@ -9,6 +9,7 @@ import com.isoftston.issuser.conchapp.model.bean.AddFeedBackRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.UserRequestBean;
+import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.UserView;
 
 /**
@@ -32,11 +33,9 @@ public class UserPresenter extends PagePresenter<UserView> {
      * @param language
      * @param userId
      */
-   public void getUserInfo(String language,String userId){
-       UserRequestBean bean=new UserRequestBean();
-       bean.language=language;
-       bean.userId=userId;
-        api.getUserInfo(bean)
+   public void getUserInfo(){
+       String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        api.getUserInfo(token)
                 .compose(new ResponseTransformer<>(this.<BaseData<UserInfoBean>>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData<UserInfoBean>>() {
                     @Override

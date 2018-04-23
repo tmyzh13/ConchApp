@@ -6,11 +6,11 @@ package com.isoftston.issuser.conchapp.model.bean;
  */
 
 public class MessageDetailBean {
-    private int id;
-    private String gsid;
-    private String gsmc;
-    private String jcdwid;
-    private String jcdwmc;
+    private int id;//主键
+    private String gsid;//公司Id
+    private String gsmc;//公司名称
+    private String jcdwid;//检查单位编号
+    private String jcdwmc;//检查单位名称
     private String fxrmc;
     private String fxrid;
     private String sjdwid;

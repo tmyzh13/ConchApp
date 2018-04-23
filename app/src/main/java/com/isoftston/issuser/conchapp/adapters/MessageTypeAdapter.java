@@ -11,6 +11,7 @@ import com.corelibs.utils.adapter.normal.QuickAdapter;
 import com.corelibs.views.roundedimageview.RoundedTransformationBuilder;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
+import com.isoftston.issuser.conchapp.utils.DateUtils;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
@@ -28,8 +29,12 @@ public class MessageTypeAdapter extends QuickAdapter<MessageBean> {
 //        ImageView item_icon=helper.getView(R.id.item_icon);
 //        TextView item_title=helper.getView(R.id.item_title);
 //        ImageView item_mark=helper.getView(R.id.item_mark);
+//        String time= DateUtils.getDateToString(item.getCreateTime());
         ImageView content_pic=helper.getView(R.id.content_pic);
-        helper.setText(R.id.item_title,item.getType());
+        helper.setText(R.id.item_title,item.getType())
+        .setText(R.id.address,item.getLocation())
+        .setText(R.id.content,item.getContent());
+//        .setText(R.id.item_time,DateUtils.getDateToString(item.getCreateTime()));
 //                .setImageUrl(R)
 
         Glide.with(context).load("http://pic29.photophoto.cn/20131204/0034034499213463_b.jpg")

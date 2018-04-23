@@ -6,9 +6,11 @@ package com.isoftston.issuser.conchapp.constants;
  */
 
 public class Urls {
+//    public static final String ROOT="http://10.0.11.208:8099/conch/";//客户环境
 
-
-    public static final String ROOT="http://10.28.124.196:8099/conch/";
+    public static final String ROOT="http://10.28.124.196:8099/conch/";//测试环境
+//    public static final String ROOT="http://10.28.124.195:8099/conch/";
+//    public static final String ROOT="http://10.28.124.116:8099/conch/";
 
     //Appkey
     public static final String APPKEY="5ad6ae01f29d981e84000090";

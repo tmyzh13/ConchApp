@@ -5,8 +5,6 @@ package com.isoftston.issuser.conchapp.model.bean;
  */
 
 public class MessageDetailRequestBean {
-    public String language;
-    public String token;
     public String type;
     public String id;
 }

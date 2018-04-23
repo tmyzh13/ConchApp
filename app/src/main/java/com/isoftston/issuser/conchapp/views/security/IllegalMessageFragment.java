@@ -35,7 +35,7 @@ public class IllegalMessageFragment extends BaseFragment {
         Log.e("yzh","illegalMessageFragment");
         tabs=new String[]{getString(R.string.not_alter),getString(R.string.overdue)
                 ,getString(R.string.altered),getString(R.string.not_check)};
-        MessageTypePageAdapter adapter=new MessageTypePageAdapter(getActivity().getSupportFragmentManager(),tabs);
+        MessageTypePageAdapter adapter=new MessageTypePageAdapter(getActivity().getSupportFragmentManager(),tabs,1);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         Tools.setIndicator(tabLayout,10,10);

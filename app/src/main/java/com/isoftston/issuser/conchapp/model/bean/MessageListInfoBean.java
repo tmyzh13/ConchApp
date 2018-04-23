@@ -8,7 +8,7 @@ import java.util.Map;
  */
 
 public class MessageListInfoBean {
-    public List<Map<String,MessageItemBean>> totle;
+    public Map<String,MessageItemBean> totle;
     public List<MessageBean> list;
 
 

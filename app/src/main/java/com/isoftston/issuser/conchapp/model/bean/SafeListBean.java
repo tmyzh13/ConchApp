@@ -7,5 +7,7 @@ import java.util.List;
  */
 
 public class SafeListBean {
+    public SafeBean total;
+    public List<MessageBean> list;
 
 }

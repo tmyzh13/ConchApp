@@ -8,6 +8,7 @@ import com.isoftston.issuser.conchapp.model.bean.SafeRequestBean;
 
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import rx.Observable;
 
@@ -20,6 +21,6 @@ public interface SecurityApi {
     Observable<BaseData> addWZMessage(@Body AddWZMessageRequestBean bean );
     @POST(Urls.ADD_YH_MESSAGE)
     Observable<BaseData> addYHMessage(@Body AddWZMessageRequestBean bean );
-    @GET(Urls.GET_SAFE_MESSAGE_LIST)
-    Observable<BaseData<SafeListBean>> getSefeMessageList(@Body SafeRequestBean bean );
+    @POST(Urls.GET_SAFE_MESSAGE_LIST)
+    Observable<BaseData<SafeListBean>> getSefeMessageList(@Header("Access-Token") String token, @Body SafeRequestBean bean );
 }

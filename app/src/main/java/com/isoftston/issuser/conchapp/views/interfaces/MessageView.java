@@ -13,4 +13,5 @@ public interface MessageView extends BasePaginationView {
     void getMessageDetailResult(MessageDetailBean bean);
     void  getMessageListResult(MessageListInfoBean data);
     void getWorkError();
+    void  reLogin();
 }

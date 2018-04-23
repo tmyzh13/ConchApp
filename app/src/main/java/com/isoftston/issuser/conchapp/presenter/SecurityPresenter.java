@@ -1,5 +1,7 @@
 package com.isoftston.issuser.conchapp.presenter;
 
+import android.util.Log;
+
 import com.corelibs.api.ApiFactory;
 import com.corelibs.api.ResponseTransformer;
 import com.corelibs.base.BasePresenter;
@@ -10,6 +12,7 @@ import com.isoftston.issuser.conchapp.model.bean.AddWZMessageRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeRequestBean;
+import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.SecuryView;
 
 import java.util.ArrayList;
@@ -75,18 +78,21 @@ public class SecurityPresenter extends BasePresenter<SecuryView> {
                     }
                 });
     }
-    public void getSafeMessageList(String userid,String type,String item,String lastid){
+    public void getSafeMessageList(String type,String item,String lastId){
         SafeRequestBean bean=new SafeRequestBean();
-        bean.userId=userid;
         bean.item=item;
         bean.type=type;
-        bean.lastId=lastid;
-        api.getSefeMessageList(bean)
+        bean.lastId=lastId;
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        Log.i("token",token);
+        String token1=token.replaceAll("\"","");
+        api.getSefeMessageList(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<SafeListBean>>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData<SafeListBean>>() {
 
                     @Override
-                    public void success(BaseData<SafeListBean> messageDetailBeanBaseData) {
+                    public void success(BaseData<SafeListBean> messageBeanBaseData) {
+                        view.getSafeListSuccess(messageBeanBaseData.data);
 
                     }
 

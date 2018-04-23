@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +60,9 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
 
     @Override
     protected int getLayoutId() {
+        if (!TextUtils.isEmpty(PreferencesHelper.getData(Constant.LOGIN_STATUE))){
+            startActivity(MainActivity.getLauncher(context));
+        }
         return R.layout.activity_login;
     }
 
@@ -67,7 +71,6 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
         ViewGroup.LayoutParams lp =view_statue.getLayoutParams();
         lp.height= Tools.getStatueHeight(context);
         view_statue.setLayoutParams(lp);
-
         setBarColor(getResources().getColor(R.color.transparent_black));
     }
 
@@ -110,6 +113,7 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
         loginUserBean.setUsername(username);
         loginUserBean.setPassword(MD5Utils.encode(password));
         loginUserBean.save();
+        PreferencesHelper.saveData(Constant.LOGIN_STATUE,"1");
         SharePrefsUtils.putValue(context,"token",data);
         startActivity(MainActivity.getLauncher(context));
         ToastUtils.showtoast(context,getString(R.string.login_success));

@@ -49,7 +49,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
             LoginRequestBean bean =new LoginRequestBean();
 //            bean.language= Tools.getLocalLanguage(getContext());
             bean.userName=account;
-            bean.password= password;
+            bean.password= MD5Utils.encode(password);
             bean.phoneType=Tools.getPhoneType();
             bean.phoneCode=Tools.getIMEI(getContext());
             api.login(bean)
@@ -57,7 +57,6 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                     .subscribe(new ResponseSubscriber<BaseData<JsonObject>>(view) {
                         @Override
                         public void success(BaseData baseData) {
-                            PreferencesHelper.saveData(Constant.LOGIN_STATUE,"1");
                             JsonObject jsonObject= (JsonObject) baseData.data;
                             String token= String.valueOf(jsonObject.get("Access-Token"));
                             view.loginSuccess(token);

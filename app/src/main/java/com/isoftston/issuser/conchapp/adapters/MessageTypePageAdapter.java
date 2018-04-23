@@ -1,10 +1,8 @@
 package com.isoftston.issuser.conchapp.adapters;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.util.Log;
 
 import com.isoftston.issuser.conchapp.views.security.TypeMessageFragment;
 
@@ -15,11 +13,11 @@ import com.isoftston.issuser.conchapp.views.security.TypeMessageFragment;
 public class MessageTypePageAdapter extends FragmentPagerAdapter{
 
     private String[] mTitles;
-
-    public MessageTypePageAdapter(FragmentManager fm,String[] mTitles){
-
+    private int bigType;
+    public MessageTypePageAdapter(FragmentManager fm, String[] mTitles, int i){
         super(fm);
         this.mTitles=mTitles;
+        this.bigType=i;
     }
 
     public void setmTitles(String[] mTitles){
@@ -28,7 +26,7 @@ public class MessageTypePageAdapter extends FragmentPagerAdapter{
 
     @Override
     public Fragment getItem(int position) {
-        return TypeMessageFragment.newInstance(mTitles[position]);
+        return TypeMessageFragment.newInstance(mTitles[position],bigType);
     }
 
     @Override

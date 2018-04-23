@@ -18,8 +18,11 @@ import com.corelibs.views.roundedimageview.RoundedTransformationBuilder;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.mGridViewAdapter;
 import com.isoftston.issuser.conchapp.model.bean.MessageDetailBean;
+import com.isoftston.issuser.conchapp.model.bean.MessageListInfoBean;
 import com.isoftston.issuser.conchapp.presenter.MessageDetailPresenter;
+import com.isoftston.issuser.conchapp.presenter.MessagePresenter;
 import com.isoftston.issuser.conchapp.views.interfaces.MessageDetailView;
+import com.isoftston.issuser.conchapp.views.interfaces.MessageView;
 import com.isoftston.issuser.conchapp.views.message.adpter.VpAdapter;
 import com.isoftston.issuser.conchapp.weight.MyGridView;
 import com.isoftston.issuser.conchapp.weight.NavBar;
@@ -34,7 +37,7 @@ import butterknife.Bind;
  * Created by issuser on 2018/4/10.
  */
 
-public class ItemDtailActivity extends BaseActivity<MessageDetailView,MessageDetailPresenter> implements MessageDetailView {
+public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter> implements MessageView {
     @Bind(R.id.nav)
     NavBar nav;
     @Bind(R.id.tv_title)
@@ -45,6 +48,8 @@ public class ItemDtailActivity extends BaseActivity<MessageDetailView,MessageDet
     LinearLayout ll;
     @Bind(R.id.mGridView)
     MyGridView mGridView;
+    @Bind(R.id.tv_user)
+    TextView tv_yh_finder;
     private List<View> imageList;
     private ArrayList<View> dotsList;
 //    private int[] images = {R.drawable.aaa,R.drawable.bbb,R.drawable.ccc,R.drawable.ddd};
@@ -60,6 +65,8 @@ public class ItemDtailActivity extends BaseActivity<MessageDetailView,MessageDet
 //            handler.sendEmptyMessageDelayed(1, 2000);
         };
     };
+    private String type;
+    private String id;
 
 
     @Override
@@ -74,7 +81,12 @@ public class ItemDtailActivity extends BaseActivity<MessageDetailView,MessageDet
         nav.setNavTitle(getString(R.string.yh_project_check));
         tv_title.setTextColor(getResources().getColor(R.color.text_color));
         nav.showBack(2);
-        addData();
+        Bundle bundle=getIntent().getExtras();
+        if (bundle!=null){
+            type = bundle.getString("type");
+            id = bundle.getString("id");
+        }
+        getData();
         //初始化数据
         initImages();
         //初始化小圆点
@@ -119,16 +131,17 @@ public class ItemDtailActivity extends BaseActivity<MessageDetailView,MessageDet
         });
     }
 
-    private void addData() {
+    private void getData() {
         for (int i=0;i<4;i++){
             urls.add("http://pic29.photophoto.cn/20131204/0034034499213463_b.jpg");
         }
+        presenter.getMessageDetailInfo(type,id);
     }
 
 
     @Override
-    protected MessageDetailPresenter createPresenter() {
-        return new MessageDetailPresenter();
+    protected MessagePresenter createPresenter() {
+        return new MessagePresenter();
     }
 
     private void initDots() {
@@ -181,15 +194,23 @@ public class ItemDtailActivity extends BaseActivity<MessageDetailView,MessageDet
 
     }
 
-
+    @Override
+    public void getMessageDetailResult(MessageDetailBean bean) {
+        tv_yh_finder.setText(bean.getFxrmc());
+    }
 
     @Override
-    public void getWorkInfo(MessageDetailBean messageDetailBean) {
+    public void getMessageListResult(MessageListInfoBean data) {
 
     }
 
     @Override
     public void getWorkError() {
+
+    }
+
+    @Override
+    public void reLogin() {
 
     }
 }

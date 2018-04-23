@@ -52,7 +52,6 @@ public class MainActivity extends BaseActivity implements TabNavigator.TabNaviga
 
     @Override
     protected int getLayoutId() {
-
         if(TextUtils.isEmpty(PreferencesHelper.getData(Constant.LOGIN_STATUE))){
             startActivity(LoginActivity.getLauncher(context));
         }

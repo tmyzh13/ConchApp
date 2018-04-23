@@ -25,11 +25,13 @@ import com.isoftston.issuser.conchapp.adapters.MessageTypeAdapter;
 import com.isoftston.issuser.conchapp.constants.Urls;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageDetailBean;
+import com.isoftston.issuser.conchapp.model.bean.MessageItemBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageListInfoBean;
 import com.isoftston.issuser.conchapp.model.event.MyEvent;
 import com.isoftston.issuser.conchapp.presenter.MessagePresenter;
 import com.isoftston.issuser.conchapp.utils.LocationUtils;
 import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
+import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.views.LoginActivity;
 import com.isoftston.issuser.conchapp.views.interfaces.MessageView;
 import com.isoftston.issuser.conchapp.views.message.adpter.VpAdapter;
@@ -43,6 +45,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -94,6 +97,14 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
     ImageView locationIv;
     @Bind(R.id.location_city_tv)
     TextView locationCityTv;
+    @Bind(R.id.tv_wzg_num)
+    TextView tv_wzg_num;
+    @Bind(R.id.tv_yh_total)
+    TextView tv_yh_total;
+    @Bind(R.id.tv_aq_total)
+    TextView tv_aq_total;
+    @Bind(R.id.tv_wz_total)
+    TextView tv_wz_total;
     public static final int LOCATION_REQUEST_CODE = 100;
     public Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -140,37 +151,6 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
 //            listMessage.add(new MessageBean());
 //        }
         presenter.getMessageListInfo("all", "");
-//        final String token= SharePrefsUtils.getValue(getContext(),"token",null);
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                OkHttpClient client = new OkHttpClient();//创建OkHttpClient对象。
-//                FormBody.Builder formBody = new FormBody.Builder();//创建表单请求体
-//                formBody.add("type", "all");//传递键值对参数
-//                formBody.add("lastId", "");
-//                Request request = new Request.Builder()//创建Request 对象。
-//                        .addHeader("Content-Type","application/json")
-//                        .addHeader("Access-Token",token)
-//                        .url(Urls.ROOT+Urls.GET_MESSAGE_LIST)
-//                        .post(formBody.build())//传递请求体
-//                        .build();
-//                client.newCall(request).enqueue(new Callback() {
-//                    @Override
-//                    public void onFailure(Call call, IOException e) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onResponse(Call call, Response response) throws IOException {
-//                        if (response.code() == 200) {
-//                            startActivity(LoginActivity.getLauncher(getActivity()));
-//                        }
-//                        Log.i("code",response.code()+"");
-//
-//                    }
-//                });
-//            }
-//        }).start();
         mAdapter.addAll(listMessage);
         lv_message.setAdapter(mAdapter);
         ptrLayout.disableLoading();
@@ -182,12 +162,11 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         iv_back.setOnClickListener(this);
         ll_aq_detail.setOnClickListener(this);
         ll_wz_detail.setOnClickListener(this);
-        ;
         ll_yh_detail.setOnClickListener(this);
         viewPager.setPageMargin(20);
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(2);
-        viewPager.setCurrentItem(1);
+//        viewPager.setCurrentItem(1);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -196,7 +175,17 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
 
             @Override
             public void onPageSelected(int position) {
-
+//                switch (position){
+//                    case 0:
+//                        presenter.getMessageListInfo("yh","");
+//                        break;
+//                    case 1:
+//                        presenter.getMessageListInfo("wz","");
+//                        break;
+//                    case 2:
+//                        presenter.getMessageListInfo("aq","");
+//                        break;
+//                }
             }
 
             @Override
@@ -208,6 +197,10 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getActivity(), ItemDtailActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putString("type",listMessage.get(i).getType());
+                bundle.putString("id",listMessage.get(i).getId());
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -359,11 +352,21 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
 
     @Override
     public void getMessageListResult(MessageListInfoBean data) {
-//        List<MessageBean> list=data.list;
-//        listMessage=list;
-        mAdapter.addAll(data.list);
+        Map<String,MessageItemBean> totle=data.totle;
+        MessageItemBean bean1=totle.get("aq");
+        Log.i("aq",bean1.getTotal()+"");
+        MessageItemBean bean2=totle.get("wz");
+        Log.i("wz",bean2.getTotal()+"");
+        MessageItemBean bean3=totle.get("yh");
+        Log.i("yh",bean3.getTotal()+"----"+bean3.getWys());
+        tv_aq_total.setText(bean1.getTotal()+"");
+        tv_wz_total.setText(bean2.getTotal()+"");
+        tv_yh_total.setText(bean3.getTotal()+"");
+        tv_wzg_num.setText(bean3.getWzg()+"");
+        listMessage=data.list;
+        mAdapter.addAll(listMessage);
         mAdapter.notifyDataSetChanged();
-//        lv_message.setAdapter(mAdapter);
+        lv_message.setAdapter(mAdapter);
 
     }
 
@@ -371,5 +374,11 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
     public void getWorkError() {
         startActivity(LoginActivity.getLauncher(getActivity()));
 
+    }
+
+    @Override
+    public void reLogin() {
+        ToastUtils.showtoast(getActivity(),getString(R.string.re_login));
+        startActivity(LoginActivity.getLauncher(getActivity()));
     }
 }

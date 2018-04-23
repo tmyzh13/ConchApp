@@ -20,12 +20,13 @@ import rx.Observable;
  */
 
 public interface MessageApi {
+    //@Header("Set-Cookie") String cookie,
     @POST(Urls.GET_MESSAGE_LIST)
     Observable<BaseData<MessageListInfoBean>> getMessageListInfo(@Header("Access-Token") String token, @Body MessageListRequestBean bean);
 
     @POST(Urls.GET_MESSGAE_DETAIL_INFO)
-    Observable<BaseData<MessageDetailBean>> getMessageDetailInfo(@Body MessageDetailRequestBean bean);
+    Observable<BaseData<MessageDetailBean>> getMessageDetailInfo(@Header("Access-Token") String token,@Body MessageDetailRequestBean bean);
 
     @POST(Urls.QUERY_MESSGAE_INFO)
-    Observable<BaseData<MessageQueryBean>> queryMessageInfo(@Body QueryMessageRequestBean bean);
+    Observable<BaseData<MessageQueryBean>> queryMessageInfo(@Header("Access-Token") String token,@Body QueryMessageRequestBean bean);
 }

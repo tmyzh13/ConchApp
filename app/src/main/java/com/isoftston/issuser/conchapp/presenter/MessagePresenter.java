@@ -15,6 +15,7 @@ import com.isoftston.issuser.conchapp.model.bean.MessageListRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageQueryBean;
 import com.isoftston.issuser.conchapp.model.bean.QueryMessageRequestBean;
 import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
+import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.MessageView;
 
 import java.util.List;
@@ -42,13 +43,13 @@ public class MessagePresenter extends ListPagePresenter<MessageView> {
         bean.lastId=lastId;
         String token=SharePrefsUtils.getValue(getContext(),"token",null);
         Log.i("token",token);//94c29a2eaf903a1f4b3cc5996385dcd2
-        api.getMessageListInfo(token,bean)
+        String token1=token.replaceAll("\"","");
+        api.getMessageListInfo(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<MessageListInfoBean>>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData<MessageListInfoBean>>() {
 
                     @Override
                     public void success(BaseData<MessageListInfoBean> messageBaseData) {
-                        Log.i("zhoutao",messageBaseData.data.list.size()+"");
                         view.getMessageListResult(messageBaseData.data);
                     }
 
@@ -57,16 +58,25 @@ public class MessagePresenter extends ListPagePresenter<MessageView> {
                         super.onError(e);
                         view.getWorkError();
                     }
+
+                    @Override
+                    public boolean operationError(BaseData<MessageListInfoBean> messageListInfoBeanBaseData, int status, String message) {
+                        if (status==-200){
+                            view.reLogin();
+                        }
+                        return true;
+                    }
                 });
 
     }
-    public void getMessageDetailInfo(String language,String token,String type,String id){
+    public void getMessageDetailInfo(String type,String id){
         MessageDetailRequestBean bean=new MessageDetailRequestBean();
-        bean.language=language;
-        bean.token=token;
         bean.type=type;
         bean.id=id;
-        api.getMessageDetailInfo(bean)
+        String token=SharePrefsUtils.getValue(getContext(),"token",null);
+        Log.i("token",token);//94c29a2eaf903a1f4b3cc5996385dcd2
+        String token1=token.replaceAll("\"","");
+        api.getMessageDetailInfo(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<MessageDetailBean>>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData<MessageDetailBean>>() {
 
@@ -85,7 +95,10 @@ public class MessagePresenter extends ListPagePresenter<MessageView> {
         QueryMessageRequestBean bean=new QueryMessageRequestBean();
         bean.language=language;
         bean.yhlx=type;
-        api.queryMessageInfo(bean)
+        String token=SharePrefsUtils.getValue(getContext(),"token",null);
+        Log.i("token",token);//94c29a2eaf903a1f4b3cc5996385dcd2
+        String token1=token.replaceAll("\"","");
+        api.queryMessageInfo(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<MessageQueryBean>>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData<MessageQueryBean>>() {
 

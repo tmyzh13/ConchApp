@@ -12,6 +12,9 @@ import com.corelibs.base.BaseFragment;
 import com.corelibs.base.BasePresenter;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.IllegalTypeAdapter;
+import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
+import com.isoftston.issuser.conchapp.presenter.SecurityPresenter;
+import com.isoftston.issuser.conchapp.views.interfaces.SecuryView;
 import com.isoftston.issuser.conchapp.views.seacher.SeacherActivity;
 import com.isoftston.issuser.conchapp.weight.MyViewPager;
 import com.isoftston.issuser.conchapp.weight.NavBar;
@@ -25,7 +28,7 @@ import butterknife.OnClick;
  * Created by issuser on 2018/4/9.
  */
 
-public class SecurityFragment extends BaseFragment {
+public class SecurityFragment extends BaseFragment{
 
     @Bind(R.id.nav)
     NavBar nav;

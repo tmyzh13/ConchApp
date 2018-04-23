@@ -152,6 +152,7 @@
                         android:visibility="gone">
 
                         <TextView
+                            android:id="@+id/tv_yh_total"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -172,6 +173,7 @@
                                 android:textColor="@color/white" />
 
                             <TextView
+                                android:id="@+id/tv_wzg_num"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
@@ -233,6 +235,7 @@
                         android:visibility="gone">
 
                         <TextView
+                            android:id="@+id/tv_wz_total"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -289,6 +292,7 @@
                     android:visibility="gone">
 
                     <TextView
+                        android:id="@+id/tv_aq_total"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
