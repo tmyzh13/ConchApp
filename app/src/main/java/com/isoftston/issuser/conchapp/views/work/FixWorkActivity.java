@@ -9,6 +9,10 @@ import android.widget.TextView;
 import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BasePresenter;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.model.bean.DangerTypeBean;
+import com.isoftston.issuser.conchapp.model.bean.DeviceDetailBean;
+import com.isoftston.issuser.conchapp.model.bean.DeviceTypeBean;
+import com.isoftston.issuser.conchapp.model.bean.DeviceTypeRequstBean;
 import com.isoftston.issuser.conchapp.model.bean.FixWorkBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkBean;
 import com.isoftston.issuser.conchapp.presenter.WorkPresenter;
@@ -102,5 +106,20 @@ public class FixWorkActivity extends BaseActivity<WorkView,WorkPresenter> implem
     public void addWorkSuccess() {
         ToastUtils.showtoast(FixWorkActivity.this,getString(R.string.fix_success));
         finish();
+    }
+
+    @Override
+    public void getDangerWorkTypeResult(List<DangerTypeBean> list) {
+
+    }
+
+    @Override
+    public void getDeviceTypeResult(List<DeviceTypeBean> list) {
+
+    }
+
+    @Override
+    public void getDeviceDetailSuccess(List<DeviceDetailBean> list) {
+
     }
 }

@@ -1,6 +1,11 @@
 package com.isoftston.issuser.conchapp.views.interfaces;
 
 import com.corelibs.base.BasePaginationView;
+import com.isoftston.issuser.conchapp.model.bean.DangerTypeBean;
+import com.isoftston.issuser.conchapp.model.bean.DangerWorkTypeBean;
+import com.isoftston.issuser.conchapp.model.bean.DeviceDetailBean;
+import com.isoftston.issuser.conchapp.model.bean.DeviceTypeBean;
+import com.isoftston.issuser.conchapp.model.bean.DeviceTypeRequstBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkBean;
 
 import java.util.List;
@@ -18,4 +23,9 @@ public interface WorkView extends BasePaginationView {
 
     void addWorkSuccess();
 
+    void getDangerWorkTypeResult(List<DangerTypeBean> list);
+
+    void getDeviceTypeResult(List<DeviceTypeBean> list);
+
+    void getDeviceDetailSuccess(List<DeviceDetailBean> list);
 }

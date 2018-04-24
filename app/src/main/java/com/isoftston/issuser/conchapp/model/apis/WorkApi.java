@@ -2,6 +2,11 @@ package com.isoftston.issuser.conchapp.model.apis;
 
 import com.isoftston.issuser.conchapp.constants.Urls;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
+import com.isoftston.issuser.conchapp.model.bean.DangerWorkTypeBean;
+import com.isoftston.issuser.conchapp.model.bean.DeviceNameBean;
+import com.isoftston.issuser.conchapp.model.bean.DeviceNameCodeBean;
+import com.isoftston.issuser.conchapp.model.bean.DeviceTypeBean;
+import com.isoftston.issuser.conchapp.model.bean.DeviceTypeRequstBean;
 import com.isoftston.issuser.conchapp.model.bean.FixWorkBean;
 import com.isoftston.issuser.conchapp.model.bean.NewWorkBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkBean;
@@ -34,4 +39,12 @@ public interface WorkApi {
     @POST(Urls.FIX_WORK)
     Observable<BaseData> fixWork(@Header("Access-Token") String token,@Body FixWorkBean bean);
 
+    @POST(Urls.DANGER_WORK_TYPE)
+    Observable<BaseData<DangerWorkTypeBean>> dangerWorkType(@Header("Access-Token") String token, @Body FixWorkBean bean);
+
+    @POST(Urls.DEVICE_TYPE)
+    Observable<BaseData<DeviceTypeRequstBean>> deviceType(@Header("Access-Token") String token, @Body FixWorkBean bean);
+
+    @POST(Urls.GET_EQUPMENT_INFO_BY_TYPE)
+    Observable<BaseData<DeviceNameCodeBean>> deviceName(@Header("Access-Token") String token, @Body DeviceNameBean bean);
 }

@@ -13,6 +13,10 @@ import com.corelibs.views.cube.ptr.PtrFrameLayout;
 import com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout;
 import com.corelibs.views.ptr.loadmore.widget.AutoLoadMoreListView;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.model.bean.DangerTypeBean;
+import com.isoftston.issuser.conchapp.model.bean.DeviceDetailBean;
+import com.isoftston.issuser.conchapp.model.bean.DeviceTypeBean;
+import com.isoftston.issuser.conchapp.model.bean.DeviceTypeRequstBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkBean;
 import com.isoftston.issuser.conchapp.presenter.WorkPresenter;
@@ -125,6 +129,21 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
 
     @Override
     public void addWorkSuccess() {
+
+    }
+
+    @Override
+    public void getDangerWorkTypeResult(List<DangerTypeBean> list) {
+
+    }
+
+    @Override
+    public void getDeviceTypeResult(List<DeviceTypeBean> list) {
+
+    }
+
+    @Override
+    public void getDeviceDetailSuccess(List<DeviceDetailBean> list) {
 
     }
 

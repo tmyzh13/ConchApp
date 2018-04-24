@@ -26,6 +26,7 @@ import com.isoftston.issuser.conchapp.model.bean.CheckPeopleBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
 import com.isoftston.issuser.conchapp.model.bean.ResponseUserBean;
+import com.isoftston.issuser.conchapp.model.bean.UserBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkBean;
 import com.isoftston.issuser.conchapp.views.check.CheckDeviceDetailActivity;
 import com.isoftston.issuser.conchapp.views.message.ItemDtailActivity;
@@ -289,7 +290,7 @@ public class SeacherActivity extends BaseActivity<SeacherView,SeacherPresenter> 
     }
 
     @Override
-    public void searchSuccess(ResponseUserBean userBean) {
+    public void searchSuccess(List<CheckPeopleBean> list) {
 
     }
 }

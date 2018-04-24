@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,6 +29,12 @@ import com.corelibs.utils.IMEUtil;
 import com.corelibs.utils.ToastMgr;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
+import com.isoftston.issuser.conchapp.model.bean.DangerTypeBean;
+import com.isoftston.issuser.conchapp.model.bean.DangerWorkTypeBean;
+import com.isoftston.issuser.conchapp.model.bean.DeviceDetailBean;
+import com.isoftston.issuser.conchapp.model.bean.DeviceTypeBean;
+import com.isoftston.issuser.conchapp.model.bean.DeviceTypeRequstBean;
+import com.isoftston.issuser.conchapp.model.bean.FixWorkBean;
 import com.isoftston.issuser.conchapp.model.bean.NewWorkBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkBean;
 import com.isoftston.issuser.conchapp.presenter.WorkPresenter;
@@ -34,15 +42,19 @@ import com.isoftston.issuser.conchapp.utils.DateUtils;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.WorkView;
 import com.isoftston.issuser.conchapp.views.security.ChoiceCheckPeopleActivity;
+import com.isoftston.issuser.conchapp.views.security.ChoiceDeviceNameActivity;
+import com.isoftston.issuser.conchapp.views.security.ChoiceDeviceTypeActivity;
 import com.isoftston.issuser.conchapp.weight.CustomDatePicker;
 import com.isoftston.issuser.conchapp.weight.InputView;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -57,6 +69,8 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     public static final int CHOSE_KEPPER_CODE = 101;
     public static final int CHOSE_CHEKER_CODE = 102;
     public static final int CHOSE_AGREE_CODE = 103;
+    public static final int CHOSE_DEVICE_CODE = 104;
+    public static final int CHOSE_NAME_CODE = 105;
     @Bind(R.id.nav)
     NavBar nav;
 
@@ -70,7 +84,8 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     LinearLayout ll_alter;
     @Bind(R.id.tv_detail_name_content)
     TextView tv_detail_name_content;
-
+    @Bind(R.id.tv_gas_checker)
+    TextView tv_gas_checker;
     @Bind(R.id.rl_charger)
     RelativeLayout rl_charger;
     @Bind(R.id.charger_name_tv)
@@ -115,8 +130,8 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     @Bind(R.id.rb_no)
     RadioButton rb_no;
     //三个下拉选择iv
-    @Bind(R.id.chose_danger_work_type_iv)
-    ImageView chose_danger_work_type_iv;
+//    @Bind(R.id.chose_danger_work_type_iv)
+//    ImageView chose_danger_work_type_iv;
     @Bind(R.id.chose_gas_checker_iv)
     ImageView chose_gas_checker_iv;
     @Bind(R.id.chose_worker_company_iv)
@@ -124,7 +139,8 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
 
     @Bind(R.id.rl_gas_checker)
     RelativeLayout rl_gas_checker;
-
+    @Bind(R.id.spinner)
+    Spinner mySpinner ;
 
     @Bind(R.id.description_et)
     EditText description_et;
@@ -137,8 +153,11 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     @Bind(R.id.bt_submit)
     Button bt_submit;
     private Context context = NewWorkActivity.this;
-
+    private ArrayAdapter<String> adapter;//创建一个数组适配器
     private int isDangerWork = 0;
+    private List<String> dangerTypeList=new ArrayList<>();
+    private int device_id;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_new_work;
@@ -252,14 +271,39 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             rb_yes.setClickable(false);
             rl_gas_checker.setVisibility(View.GONE);
         }
+        presenter.getDangerWorkType(new FixWorkBean());
+        dangerTypeList.add("");
+        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, dangerTypeList);//样式为原安卓里面有的android.R.layout.simple_spinner_item，让这个数组适配器装list内容。
+        //2.为适配器设置下拉菜单样式。adapter.setDropDownViewResource
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //3.以上声明完毕后，建立适配器,有关于sipnner这个控件的建立。用到myspinner
+        mySpinner.setAdapter(adapter);
+        mySpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (adapter.getItem(i)!=null&&adapter.getItem(i).equals(getString(R.string.danger_work_type_item))){
+                    rl_charger.setVisibility(View.GONE);
+                    rl_gas_checker.setVisibility(View.VISIBLE);
+                }else {
+                    rl_charger.setVisibility(View.VISIBLE);
+                    rl_gas_checker.setVisibility(View.GONE);
+                }
 
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+
+        });
     }
 
     private void clicks() {
         tv_start_time.setOnClickListener(this);
         tv_end_time.setOnClickListener(this);
         bt_submit.setOnClickListener(this);
-        chose_danger_work_type_iv.setOnClickListener(this);
+//        chose_danger_work_type_iv.setOnClickListener(this);
         chose_gas_checker_iv.setOnClickListener(this);
         chose_worker_company_iv.setOnClickListener(this);
         rl_charger.setOnClickListener(this);
@@ -268,7 +312,9 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         rl_agree.setOnClickListener(this);
         rl_agree.setOnClickListener(this);
         ll_description.setOnClickListener(this);
-
+        rl_gas_checker.setOnClickListener(this);
+        rl_equipment_type.setOnClickListener(this);
+        rl_equipment_name.setOnClickListener(this);
     }
 
     @Override
@@ -285,6 +331,9 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             case R.id.end_time:
                 showDatePickerDialog(tv_end_time, 2);
                 break;
+            case R.id.rl_gas_checker:
+                startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context), CHOSE_CHARGER_CODE);
+                break;
             case R.id.rl_charger:
                 startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context), CHOSE_CHARGER_CODE);
                 break;
@@ -297,30 +346,40 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             case R.id.rl_keeper:
                 startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context), CHOSE_KEPPER_CODE);
                 break;
+            case R.id.rl_dangerwork_type:
+
+                break;
+            case R.id.rl_equipment_type:
+                startActivityForResult(ChoiceDeviceTypeActivity.getLaucnher(context),CHOSE_DEVICE_CODE);
+                break;
+            case R.id.rl_equipment_name:
+                Intent intent=new Intent(context,ChoiceDeviceNameActivity.class);
+                intent.putExtra("device_id",String.valueOf(device_id));
+                startActivityForResult(intent,CHOSE_NAME_CODE);
+                break;
+
             case R.id.bt_submit:
-                NewWorkBean bean = new NewWorkBean();
-                bean.setName("test");
-                bean.setStartTime(2222);
-                bean.setEndTime(2222);
-                bean.setEquipmentType(1);
-                bean.setEquipmentCode("test");
-                bean.setEquipmentName("test");
-                bean.setArea(2222);
-                bean.setPart("test");
-                bean.setContent("test");
-                bean.setCompany("test");
-                bean.setNumberPeople(3);
-                bean.setType(1);
-                bean.setLeading("1");
-                bean.setGuardian("2");
-                bean.setAuditor("3");
-                bean.setApprover("4");
-                bean.setOrgId("1");
-                bean.setIsDanger(0);
+//                NewWorkBean bean = new NewWorkBean();
+//                bean.setName("test");
+//                bean.setStartTime(2222);
+//                bean.setEndTime(2222);
+//                bean.setEquipmentType(1);
+//                bean.setEquipmentCode("test");
+//                bean.setEquipmentName("test");
+//                bean.setArea(2222);
+//                bean.setPart("test");
+//                bean.setContent("test");
+//                bean.setCompany("test");
+//                bean.setNumberPeople(3);
+//                bean.setType(1);
+//                bean.setLeading("1");
+//                bean.setGuardian("2");
+//                bean.setAuditor("3");
+//                bean.setApprover("4");
+//                bean.setOrgId("1");
+//                bean.setIsDanger(0);
 //                presenter.addWork(bean);
                 getNewJobInfo();
-                break;
-            case R.id.chose_danger_work_type_iv:
                 break;
             case R.id.chose_gas_checker_iv:
                 break;
@@ -495,6 +554,24 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         finish();
     }
 
+    @Override
+    public void getDangerWorkTypeResult(List<DangerTypeBean> list) {
+        for (DangerTypeBean bean:list){
+            dangerTypeList.add(bean.getName());
+        }
+
+    }
+
+    @Override
+    public void getDeviceTypeResult(List<DeviceTypeBean> list) {
+
+    }
+
+    @Override
+    public void getDeviceDetailSuccess(List<DeviceDetailBean> list) {
+
+    }
+
     private String chosedUserName;
 
     @Override
@@ -504,12 +581,26 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             chosedUserName = data.getStringExtra(Constant.CHECK_PEOPLE);
             if (requestCode == CHOSE_CHARGER_CODE) {
                 chagerNameTv.setText(chosedUserName);
+                tv_gas_checker.setText(chosedUserName);
             } else if (requestCode == CHOSE_CHEKER_CODE) {
                 checkerNameTv.setText(chosedUserName);
             } else if (requestCode == CHOSE_KEPPER_CODE) {
                 keeperNameTv.setText(chosedUserName);
             } else if (requestCode == CHOSE_AGREE_CODE) {
                 authorizeNameTv.setText(chosedUserName);
+            }
+        }else if (resultCode==CHOSE_DEVICE_CODE){
+            if (requestCode==CHOSE_DEVICE_CODE){
+                String type=data.getStringExtra(Constant.CHECK_PEOPLE);
+                device_id = data.getIntExtra(Constant.CHECK_DEVICE_ID,-1);
+                equipment_type_tv.setText(type);
+            }
+        }else if (resultCode==CHOSE_NAME_CODE){
+            if (requestCode==CHOSE_NAME_CODE){
+                String type=data.getStringExtra(Constant.CHECK_PEOPLE);
+                equipment_name_tv.setText(type);
+                String Device_type = data.getStringExtra(Constant.CHECK_DEVICE_TYPE);
+                equipment_model_tv.setText(Device_type);
             }
         }
     }

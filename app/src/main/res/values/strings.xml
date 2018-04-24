@@ -258,5 +258,6 @@
     <string name="chose_company">选择单位</string>
     <string name="input_all_message">请填写完整</string>
     <string name="work_part">作业点</string>
+    <string name="danger_work_type_item">有限空间作业</string>
 
 </resources>

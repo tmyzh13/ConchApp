@@ -7,5 +7,5 @@ import java.util.List;
  */
 
 public class ResponseUserBean {
-    public List<UserBean> list;
+    public List<CheckPeopleBean> list;
 }

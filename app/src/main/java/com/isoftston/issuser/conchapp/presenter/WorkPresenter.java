@@ -9,6 +9,10 @@ import com.corelibs.subscriber.ResponseSubscriber;
 import com.isoftston.issuser.conchapp.model.UserHelper;
 import com.isoftston.issuser.conchapp.model.apis.WorkApi;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
+import com.isoftston.issuser.conchapp.model.bean.DangerWorkTypeBean;
+import com.isoftston.issuser.conchapp.model.bean.DeviceNameBean;
+import com.isoftston.issuser.conchapp.model.bean.DeviceNameCodeBean;
+import com.isoftston.issuser.conchapp.model.bean.DeviceTypeRequstBean;
 import com.isoftston.issuser.conchapp.model.bean.FixWorkBean;
 import com.isoftston.issuser.conchapp.model.bean.NewWorkBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkBean;
@@ -119,4 +123,61 @@ public class WorkPresenter extends BasePresenter<WorkView> {
                     }
                 });
     }
+    //危险作业类型
+    public void getDangerWorkType(FixWorkBean bean){
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        String token1=token.replaceAll("\"","");
+        api.dangerWorkType(token1,bean)
+                .compose(new ResponseTransformer<>(this.<BaseData<DangerWorkTypeBean>>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData<DangerWorkTypeBean>>() {
+                    @Override
+                    public void success(BaseData<DangerWorkTypeBean> workBeanBaseData) {
+                        view.getDangerWorkTypeResult(workBeanBaseData.data.list);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                    }
+                });
+    }
+    //设备类型
+    public void getDeviceType(FixWorkBean bean){
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        String token1=token.replaceAll("\"","");
+        api.deviceType(token1,bean)
+                .compose(new ResponseTransformer<>(this.<BaseData<DeviceTypeRequstBean>>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData<DeviceTypeRequstBean>>() {
+                    @Override
+                    public void success(BaseData<DeviceTypeRequstBean> workBeanBaseData) {
+                        view.getDeviceTypeResult(workBeanBaseData.data.list);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                    }
+                });
+    }
+    //设备名称
+    public void getDeviceName(DeviceNameBean bean){
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        String token1=token.replaceAll("\"","");
+        api.deviceName(token1,bean)
+                .compose(new ResponseTransformer<>(this.<BaseData<DeviceNameCodeBean>>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData<DeviceNameCodeBean>>() {
+                    @Override
+                    public void success(BaseData<DeviceNameCodeBean> workBeanBaseData) {
+                        view.getDeviceDetailSuccess(workBeanBaseData.data.list);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                    }
+                });
+    }
+
+
+
 }

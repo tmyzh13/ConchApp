@@ -48,10 +48,10 @@ public class ChoiceCheckPeopleActivity extends BaseActivity<SeacherView,SeacherP
 
     private Context context=ChoiceCheckPeopleActivity.this;
     private CheckPeopleAdapter adapter;
-    private String searchContent;
-    private List<CheckPeopleBean> list;
+    private String searchContent="";
+    private List<String> list;
     private Handler mHandler;
-    private SearchTask mSearchTesk;
+
 
     public static Intent getLaucnher(Context context){
         Intent intent =new Intent(context,ChoiceCheckPeopleActivity.class);
@@ -73,19 +73,22 @@ public class ChoiceCheckPeopleActivity extends BaseActivity<SeacherView,SeacherP
 
         adapter=new CheckPeopleAdapter(context);
         list =new ArrayList<>();
+        SearchUserBean bean = new SearchUserBean();
+        bean.setCondition(searchContent);
+        bean.setLastId("");
+        presenter.searchUserAction(bean);
         adapter.addAll(list);
         lv_people.setAdapter(adapter);
         lv_people.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent =new Intent();
-                intent.putExtra(Constant.CHECK_PEOPLE,list.get(position).name);
+                intent.putExtra(Constant.CHECK_PEOPLE,list.get(position));
                 setResult(NewWorkActivity.CHOSE_CHARGER_CODE,intent);
                 finish();
             }
         });
         mHandler=new Handler();
-        mSearchTesk=new SearchTask();
         et_seach.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -95,16 +98,6 @@ public class ChoiceCheckPeopleActivity extends BaseActivity<SeacherView,SeacherP
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                if(charSequence.length() > 0) {
-                    searchContent=charSequence.toString();
-                    mHandler.removeCallbacks(mSearchTesk);
-                    mHandler.postDelayed(mSearchTesk,500);
-                } else {
-                    searchContent="";
-                    mHandler.removeCallbacks(mSearchTesk);
-                    adapter.replaceAll(list);
-                    adapter.notifyDataSetChanged();
-                }
             }
 
             @Override
@@ -115,39 +108,22 @@ public class ChoiceCheckPeopleActivity extends BaseActivity<SeacherView,SeacherP
     }
 
     @Override
-    public void searchSuccess(ResponseUserBean userBean) {
-        List<UserBean> userList = userBean.list;
+    public void searchSuccess(List<CheckPeopleBean> lists) {
         list.clear();
-        for(int i=0;i<userList.size();i++){
-            CheckPeopleBean  bean =new CheckPeopleBean();
-            bean.name=userList.get(i).userName;
-            list.add(bean);
+        for(int i=0;i<lists.size();i++){
+            list.add(lists.get(i).getUserName());
         }
-        adapter.clear();
         adapter.addAll(list);
+        lv_people.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
 
-    /**
-     * 搜索任务
-     */
-    class SearchTask implements Runnable {
 
-        @Override
-        public void run() {
-            Log.e("---SearchTask---","开始查询");
-//            getSeacherResult(searchContent);
-            SearchUserBean bean = new SearchUserBean();
-            bean.setCondition(searchContent);
-            bean.setLastId("");
-            presenter.searchUserAction(bean);
-        }
-    }
 
     public void getSeacherResult(String searchContent){
-        List<CheckPeopleBean> listTemp=new ArrayList<>();
+        List<String> listTemp=new ArrayList<>();
         for(int i=0;i<list.size();i++){
-            if(list.get(i).name.contains(searchContent.toUpperCase())|| Tools.getHanyuPinyin(list.get(i).name).contains(searchContent.toUpperCase())){
+            if(list.get(i).contains(searchContent.toUpperCase())|| Tools.getHanyuPinyin(list.get(i)).contains(searchContent.toUpperCase())){
                 listTemp.add(list.get(i));
             }
         }

@@ -205,6 +205,7 @@
                 android:background="#c6c1c1"></View>
 
             <RelativeLayout
+                android:id="@+id/rl_dangerwork_type"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@color/white"
@@ -212,37 +213,18 @@
                 android:paddingRight="25dp">
 
                 <TextView
+                    android:id="@+id/danger_title"
                     style="@style/text_normal"
                     android:layout_centerVertical="true"
                     android:text="@string/danger_work_type"
                     android:textColor="@color/black" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/ll_corner_blue"
-                    android:gravity="center"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp">
-
-                    <TextView
-                        android:id="@+id/tv_illegal_type"
-                        style="@style/text_normal"
-                        android:text="@string/type1"
-                        android:textColor="@color/white" />
-
-                    <ImageView
-                        android:id="@+id/chose_danger_work_type_iv"
+                    <Spinner
+                        android:layout_centerVertical="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:src="@mipmap/go_down" />
-                </LinearLayout>
-
+                        android:id="@+id/spinner"
+                        android:layout_alignParentRight="true"
+                        />
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -307,6 +289,7 @@
                     android:paddingRight="10dp">
 
                     <TextView
+                        android:id="@+id/tv_gas_checker"
                         style="@style/text_normal"
                         android:text="@string/gas_checker"
                         android:textColor="@color/white" />

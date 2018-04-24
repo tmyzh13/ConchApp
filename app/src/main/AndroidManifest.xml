@@ -223,6 +223,10 @@
         <activity android:name=".views.BigPicActivity"
             android:screenOrientation="portrait"
             />
+        <activity android:name=".views.security.ChoiceDeviceTypeActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".views.security.ChoiceDeviceNameActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

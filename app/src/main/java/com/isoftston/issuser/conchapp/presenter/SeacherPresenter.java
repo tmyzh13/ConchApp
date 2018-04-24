@@ -39,8 +39,8 @@ public class SeacherPresenter extends BasePresenter<SeacherView> {
                 .compose(new ResponseTransformer<BaseData<ResponseUserBean>>(this.<BaseData<ResponseUserBean>>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData<ResponseUserBean>>() {
                     @Override
-                    public void success(BaseData checkPeopleBeanBaseData) {
-                        view.searchSuccess((ResponseUserBean) checkPeopleBeanBaseData.data);
+                    public void success(BaseData<ResponseUserBean> checkPeopleBeanBaseData) {
+                        view.searchSuccess(checkPeopleBeanBaseData.data.list);
                     }
                 });
     }
