@@ -2,6 +2,7 @@ package com.isoftston.issuser.conchapp.views.mine;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -13,10 +14,12 @@ import com.corelibs.utils.PreferencesHelper;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkBean;
 import com.isoftston.issuser.conchapp.presenter.UserPresenter;
 import com.isoftston.issuser.conchapp.utils.VersionUtil;
 import com.isoftston.issuser.conchapp.views.LoginActivity;
 import com.isoftston.issuser.conchapp.views.interfaces.UserView;
+import com.isoftston.issuser.conchapp.views.work.ScanCodeActivity;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -66,14 +69,6 @@ public class MineFragment extends BaseFragment<UserView, UserPresenter> implemen
 
     private void showUserInfo() {
         presenter.getUserInfo();
-        if (isMan) {
-            headIv.setImageResource(R.mipmap.man_head);
-        } else {
-            headIv.setImageResource(R.mipmap.woman_head);
-        }
-//        userNameTv.setText();
-//        userCompanyTv.setText();
-//        userDepartmentTv.setText();
     }
 
     private void clicks() {
@@ -105,6 +100,7 @@ public class MineFragment extends BaseFragment<UserView, UserPresenter> implemen
                 break;
             case R.id.settings:
                 startActivity(SettingsActivity.getLauncher(getActivity()));
+//                startActivity(ScanCodeActivity.getLauncher(getActivity(),new WorkBean()));
                 break;
             case R.id.log_off:
                 PreferencesHelper.remove(Constant.LOGIN_STATUE);
@@ -130,6 +126,13 @@ public class MineFragment extends BaseFragment<UserView, UserPresenter> implemen
     @Override
     public void getUserInfo(UserInfoBean userInfoBean) {
         userInfo=userInfoBean;
+        if (userInfoBean.getSex()!=null){
+            if (userInfoBean.getSex().equals("女")) {
+                headIv.setImageResource(R.mipmap.woman_head);
+            } else {
+                headIv.setImageResource(R.mipmap.man_head);
+            }
+        }
 
     }
 

@@ -8,6 +8,7 @@ import java.util.Date;
  */
 
 public class UserInfoBean implements Serializable {
+    private String id;
     private String realName;
     private String userRole;
     private String sex;
@@ -18,6 +19,14 @@ public class UserInfoBean implements Serializable {
 
     public String getRealName() {
         return realName;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setRealName(String realName) {

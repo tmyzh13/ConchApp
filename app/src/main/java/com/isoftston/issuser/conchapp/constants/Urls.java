@@ -64,7 +64,7 @@ public class Urls {
     //撤销作业
     public static final String CANCEL_JOB="job/cancelJob";
     //提交作业
-    public static final String SUBMIT_JOB="job/submitlJob";
+    public static final String SUBMIT_JOB="job/submitJob";
     //查询当前用户信息
     public static final String GET_MY_INFO="info/getMyInfo";
     //意见反馈

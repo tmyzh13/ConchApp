@@ -86,7 +86,8 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //进入消息详情界面
-                startActivity(ScanCodeActivity.getLauncher(getContext(),adapter.getItem(position)));
+                String jobId = String.valueOf(adapter.getItem(position).getId());
+                startActivity(ScanCodeActivity.getLauncher(getContext(),jobId));
 
             }
         });

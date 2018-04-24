@@ -40,6 +40,7 @@
                 android:src="@mipmap/back_white" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/sure_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -492,6 +493,7 @@
             android:src="@color/dividing_line" />
 
         <RelativeLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:background="@drawable/msg_item_press_bg"

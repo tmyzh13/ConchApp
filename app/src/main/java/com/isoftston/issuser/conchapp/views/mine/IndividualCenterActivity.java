@@ -26,7 +26,7 @@ import com.isoftston.issuser.conchapp.views.interfaces.UserView;
 
 import butterknife.Bind;
 
-public class IndividualCenterActivity extends BaseActivity<UserView,UserPresenter> implements UserView, View.OnClickListener {
+public class IndividualCenterActivity extends BaseActivity<UserView, UserPresenter> implements UserView, View.OnClickListener {
     public static String TAG = "IndividualCenterActivity";
     @Bind(R.id.iv_back)
     ImageView backIv;
@@ -38,7 +38,7 @@ public class IndividualCenterActivity extends BaseActivity<UserView,UserPresente
     @Bind(R.id.user_name)
     TextView userNameEt;
     @Bind(R.id.user_role)
-    TextView sureRoleTv;//角色/监控人员
+    TextView userRoleTv;//角色/监控人员
     @Bind(R.id.radio_group)
     RadioGroup radioGroup;
     @Bind(R.id.radio_button_man)
@@ -88,7 +88,24 @@ public class IndividualCenterActivity extends BaseActivity<UserView,UserPresente
     private void showUserInfo() {
         userInfo = (UserInfoBean) getIntent().getSerializableExtra("userInfo");
         userNameEt.setText(userInfo.getRealName());
-        userCompanyTv.setText(userInfo.getCompanyName());
+        if (!"".equals(userInfo.getPhoneNum())) {
+            userRoleTv.setText(userInfo.getUserRole());
+        }
+        if ("女".equals(userInfo.getSex())) {
+            radioButtonWoman.setChecked(true);
+            radioButtonMan.setClickable(false);
+            radioButtonMan.setChecked(false);
+        } else if ("男".equals(userInfo.getSex())) {
+            radioButtonMan.setChecked(true);
+            radioButtonWoman.setChecked(false);
+            radioButtonWoman.setClickable(false);
+        }
+        if (!"".equals(userInfo.getPhoneNum())) {
+            userPhoneNumEt.setText(userInfo.getPhoneNum());
+        }
+        if (!"".equals(userInfo.getCompanyName())) {
+            userCompanyTv.setText(userInfo.getCompanyName());
+        }
     }
 
     private void changeIcon() {
@@ -142,7 +159,7 @@ public class IndividualCenterActivity extends BaseActivity<UserView,UserPresente
                 finish();
                 break;
             case R.id.sure_tv:
-            presenter.updatePwd(userPwdEt.getText().toString());
+                presenter.updatePwd(userPwdEt.getText().toString());
                 break;
             case R.id.show_pwd_layout:
                 isShowPwd = !isShowPwd;
@@ -186,7 +203,7 @@ public class IndividualCenterActivity extends BaseActivity<UserView,UserPresente
 
     @Override
     public void updatePwdSuccess() {
-        ToastUtils.showtoast(IndividualCenterActivity.this,getString(R.string.update_pwd_success));
+        ToastUtils.showtoast(IndividualCenterActivity.this, getString(R.string.update_pwd_success));
         finish();
 
     }

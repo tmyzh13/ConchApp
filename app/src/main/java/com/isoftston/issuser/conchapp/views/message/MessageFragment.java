@@ -178,15 +178,15 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
             @Override
             public void onPageSelected(int position) {
                 switch (position){
-                    case 0:
-                        presenter.getMessageListInfo("yh","");
-                        break;
-                    case 1:
-                        presenter.getMessageListInfo("wz","");
-                        break;
-                    case 2:
-                        presenter.getMessageListInfo("aq","");
-                        break;
+//                    case 0:
+//                        presenter.getMessageListInfo("yh","");
+//                        break;
+//                    case 1:
+//                        presenter.getMessageListInfo("wz","");
+//                        break;
+//                    case 2:
+//                        presenter.getMessageListInfo("aq","");
+//                        break;
                 }
             }
 

@@ -111,21 +111,13 @@
 
 
                     <TextView
+                        android:layout_alignParentRight="true"
                         android:id="@+id/project_name_time_day"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/activity_horizontal_margin"
-                        android:layout_toLeftOf="@+id/project_name_time_hour"
-                        android:text="@string/hint_time" />
+                        android:layout_marginRight="@dimen/dp_5" />
 
-                    <TextView
-                        android:id="@+id/project_name_time_hour"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:text="00:00" />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -404,22 +396,13 @@
                         android:text="@string/work_start_time" />
 
                     <TextView
+                        android:layout_alignParentRight="true"
                         android:id="@+id/work_start_time_day"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/activity_horizontal_margin"
-                        android:layout_toLeftOf="@+id/work_start_time_hour"
-                        android:text="@string/hint_time" />
+                        android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
-                    <TextView
-                        android:id="@+id/work_start_time_hour"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/activity_horizontal_margin"
-                        android:text="00:00" />
                 </RelativeLayout>
 
                 <View
@@ -440,22 +423,13 @@
                         android:text="@string/work_end_time" />
 
                     <TextView
+                        android:layout_alignParentRight="true"
                         android:id="@+id/work_end_time_day"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/activity_horizontal_margin"
-                        android:layout_toLeftOf="@+id/work_end_time_hour"
-                        android:text="@string/hint_time" />
+                        android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
-                    <TextView
-                        android:id="@+id/work_end_time_hour"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/activity_horizontal_margin"
-                        android:text="00:00" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -693,7 +667,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/tab_height"
                         android:gravity="center_vertical"
-                        android:text="@string/work_adress" />
+                        android:text="@string/work_part" />
 
                     <TextView
                         android:id="@+id/work_address_tv"
@@ -720,6 +694,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
+                        android:id="@+id/co"
                         style="@style/project_name_tv_style"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/tab_height"
@@ -727,6 +702,8 @@
                         android:text="@string/work_name" />
 
                     <TextView
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_toRightOf="@+id/co"
                         android:id="@+id/work_content_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -798,6 +775,7 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
+                    android:id="@+id/danger_work_rl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 

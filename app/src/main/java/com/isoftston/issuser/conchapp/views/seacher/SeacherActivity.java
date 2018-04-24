@@ -170,7 +170,7 @@ public class SeacherActivity extends BaseActivity<SeacherView,SeacherPresenter> 
                     Intent intent =new Intent(context,ItemDtailActivity.class);
                     startActivity(intent);
                 }else if(type.equals("1")){
-                    startActivity(ScanCodeActivity.getLauncher(context,new WorkBean()));
+                    startActivity(ScanCodeActivity.getLauncher(context,""));
                 }else if(type.equals("2")){
                     startActivity(CheckDeviceDetailActivity.getLauncher(context,new DeviceBean()));
                 }

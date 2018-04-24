@@ -259,5 +259,7 @@
     <string name="input_all_message">请填写完整</string>
     <string name="work_part">作业点</string>
     <string name="danger_work_type_item">有限空间作业</string>
+    <string name="scan_failed">扫码失败</string>
+    <string name="revoke_success">撤销成功</string>
 
 </resources>
