@@ -290,4 +290,15 @@ public class DateUtils {
         return date;
     }
 
+    /*时间戳转换成毫秒*/
+    public static long getDateToLongMS(String time) {
+        long date = 0;
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd HH:mm")
+                    .parse(time).getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
 }

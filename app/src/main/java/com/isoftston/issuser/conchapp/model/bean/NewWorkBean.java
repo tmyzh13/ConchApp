@@ -6,8 +6,8 @@ package com.isoftston.issuser.conchapp.model.bean;
 
 public class NewWorkBean {
     private String name;
-    private int startTime;
-    private int endTime;
+    private long startTime;
+    private long endTime;
     private int equipmentType;
     private String equipmentCode;
     private String equipmentName;
@@ -32,19 +32,19 @@ public class NewWorkBean {
         this.name = name;
     }
 
-    public int getStartTime() {
+    public long getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(int startTime) {
+    public void setStartTime(long startTime) {
         this.startTime = startTime;
     }
 
-    public int getEndTime() {
+    public long getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(int endTime) {
+    public void setEndTime(long endTime) {
         this.endTime = endTime;
     }
 

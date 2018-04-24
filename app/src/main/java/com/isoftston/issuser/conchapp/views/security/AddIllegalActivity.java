@@ -98,10 +98,10 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
         setBarColor(getResources().getColor(R.color.transparent_black));
 
         //设置栏目标题
-        input_illegal_name.setInputType(getString(R.string.illegal_detail_name));
-        input_find_company.setInputType(getString(R.string.hidden_trouble_find_company));
-        input_illegal_company.setInputType(getString(R.string.illeagl_company));
-        input_illegal_place.setInputType(getString(R.string.illegal_place));
+        input_illegal_name.setInputText(getString(R.string.illegal_detail_name),null);
+        input_find_company.setInputText(getString(R.string.hidden_trouble_find_company),null);
+        input_illegal_company.setInputText(getString(R.string.illeagl_company),null);
+        input_illegal_place.setInputText(getString(R.string.illegal_place),null);
 
         startTime= Tools.getCurrentTime();
         endTime=Tools.getCurrentTime();

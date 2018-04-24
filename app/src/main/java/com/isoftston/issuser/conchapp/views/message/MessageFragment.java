@@ -177,17 +177,17 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
 
             @Override
             public void onPageSelected(int position) {
-//                switch (position){
-//                    case 0:
-//                        presenter.getMessageListInfo("yh","");
-//                        break;
-//                    case 1:
-//                        presenter.getMessageListInfo("wz","");
-//                        break;
-//                    case 2:
-//                        presenter.getMessageListInfo("aq","");
-//                        break;
-//                }
+                switch (position){
+                    case 0:
+                        presenter.getMessageListInfo("yh","");
+                        break;
+                    case 1:
+                        presenter.getMessageListInfo("wz","");
+                        break;
+                    case 2:
+                        presenter.getMessageListInfo("aq","");
+                        break;
+                }
             }
 
             @Override
@@ -328,7 +328,6 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
     private void setLocationCity() {
         LocationUtils.getCNBylocation(getActivity());
         locationCityTv.setText(LocationUtils.cityName);
-        Log.e(TAG, "--CITY:" + LocationUtils.cityName);
     }
 
     @Override
@@ -354,6 +353,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
 
     @Override
     public void getMessageListResult(MessageListInfoBean data) {
+        Log.i("yh","----获取信息列表");
         Map<String,MessageItemBean> totle=data.totle;
         MessageItemBean bean1=totle.get("aq");
         Log.i("aq",bean1.getTotal()+"");

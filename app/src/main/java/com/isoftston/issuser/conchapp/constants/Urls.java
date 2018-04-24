@@ -6,9 +6,9 @@ package com.isoftston.issuser.conchapp.constants;
  */
 
 public class Urls {
-    public static final String ROOT="http://10.0.11.208:8099/conch/";//客户环境
+//    public static final String ROOT="http://10.0.11.208:8099/conch/";//客户环境
 
-//    public static final String ROOT="http://10.28.124.196:8099/conch/";//测试环境
+    public static final String ROOT="http://10.28.124.196:8099/conch/";//测试环境
 //    public static final String ROOT="http://10.28.124.188:8099/conch/";
 //    public static final String ROOT="http://10.28.124.116:8099/conch/";
 
@@ -56,7 +56,7 @@ public class Urls {
     //获取作业列表
     public static final String GET_WORK_TYPE_INFO="job/queryJob";
     //作业详细信息查询
-    public static final String GET_WORK_DETAIL_INFO="job/getJobDetail";
+    public static final String GET_WORK_DETAIL_INFO="job/getJob";
     //新建作业
     public static final String ADD_WORK="job/createJob ";
     //修改作业
@@ -80,5 +80,13 @@ public class Urls {
     public static final String CHANGE_PWD="updatePassword";
     //上传照片
     public static final String UPLOAD_IMAGE="upload/img";
+    //查询天气
+    public static final String QUERY_WEATHER="url:/getWeather";
+    //搜素用户
+    public static final String SEARCH_USER_ORG_LIST="job/getOrgUserList";
 
+    // 获取作业设备类型
+    public static final String GET_EQUPMENT_TYPE="device/getType";
+    // 通过设备类型获取设备信息
+    public static final String GET_EQUPMENT_INFO_BY_TYPE="device/queryByType";
 }

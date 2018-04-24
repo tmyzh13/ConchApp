@@ -24,66 +24,68 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:layout_marginTop="10dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
                 android:paddingBottom="5dp">
+
                 <RelativeLayout
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/ll_add_corner_bg">
+
                     <TextView
-                        style="@style/text_normal"
                         android:id="@+id/tv_trouble_name"
-                        android:text="@string/project_detail_name"
-                        android:textColor="@color/white"
-                        android:paddingLeft="15dp"
+                        style="@style/text_normal"
                         android:layout_centerVertical="true"
-                        />
+                        android:paddingLeft="15dp"
+                        android:text="@string/project_detail_name"
+                        android:textColor="@color/white" />
+
                     <LinearLayout
+                        android:id="@+id/ll_alter"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:orientation="vertical"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="10dp"
                         android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
                         android:background="@drawable/ll_oval_bg"
                         android:gravity="center"
-                        android:id="@+id/ll_alter"
-                        >
+                        android:orientation="vertical">
+
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/alter_icn"
-                            />
+                            android:src="@mipmap/alter_icn" />
                     </LinearLayout>
+
                     <EditText
-                        android:visibility="gone"
-                        android:layout_alignParentRight="true"
+                        android:id="@+id/et_name"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="5dp"
+                        android:layout_alignParentRight="true"
                         android:layout_marginBottom="8dp"
-                        android:layout_toRightOf="@id/tv_trouble_name"
                         android:layout_marginLeft="25dp"
-                        android:textColor="@color/app_light_blue"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@id/tv_trouble_name"
                         android:background="@drawable/et_add_inoput_white_bg"
                         android:gravity="center_vertical"
-                        android:id="@+id/et_name"
-                        android:singleLine="true"
                         android:paddingLeft="15dp"
-                        android:layout_marginRight="20dp" />
+                        android:singleLine="true"
+                        android:textColor="@color/app_light_blue"
+                        android:visibility="gone" />
+
                     <TextView
+                        android:id="@+id/tv_detail_name_content"
                         style="@style/text_normal"
-                        android:textColor="@color/white"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="15dp"
-                        android:id="@+id/tv_detail_name_content"
-                        />
+                        android:textColor="@color/white" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -91,7 +93,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/dp_25">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -119,6 +122,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_25"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
@@ -145,12 +149,305 @@
                 android:layout_height="1dp"
                 android:background="#c6c1c1"></View>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="#c6c1c1"></View>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp">
+
+                <TextView
+                    style="@style/text_normal"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/is_danger_work"
+                    android:textColor="@color/black" />
+
+                <RadioGroup
+                    android:id="@+id/rg_is_danger_work"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="80dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_yes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/illeagl_yes" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <RadioButton
+                        android:id="@+id/rb_no"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/illeagl_no" />
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#c6c1c1"></View>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp">
+
+                <TextView
+                    style="@style/text_normal"
+                    android:layout_centerVertical="true"
+                    android:text="@string/danger_work_type"
+                    android:textColor="@color/black" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/ll_corner_blue"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
+
+                    <TextView
+                        android:id="@+id/tv_illegal_type"
+                        style="@style/text_normal"
+                        android:text="@string/type1"
+                        android:textColor="@color/white" />
+
+                    <ImageView
+                        android:id="@+id/chose_danger_work_type_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/go_down" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/gray_trok_bg_shape"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dp_1"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/danger_work_type_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/danger_work_type" />
+
+                    <ImageView
+                        android:id="@+id/danger_work_type_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:background="@color/colorLine"
+                        android:paddingLeft="@dimen/dp_10"
+                        android:paddingRight="@dimen/dp_10"
+                        android:src="@mipmap/droparrow" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#c6c1c1"></View>
+
+            <RelativeLayout
+                android:id="@+id/rl_gas_checker"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp">
+
+                <TextView
+                    style="@style/text_normal"
+                    android:layout_centerVertical="true"
+                    android:text="@string/gas_checker"
+                    android:textColor="@color/black" />
+
+                <LinearLayout
+                    android:id="@+id/ll_gas_checker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/ll_corner_blue"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
+
+                    <TextView
+                        style="@style/text_normal"
+                        android:text="@string/gas_checker"
+                        android:textColor="@color/white" />
+
+                    <ImageView
+                        android:id="@+id/chose_gas_checker_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/go_down" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#c6c1c1"></View>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="#c6c1c1"></View>
+
+            <RelativeLayout
+                android:id="@+id/rl_charger"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp">
+
+                <TextView
+                    style="@style/text_normal"
+                    android:layout_centerVertical="true"
+                    android:text="@string/person_in_charge"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/charger_name_tv"
+                    style="@style/text_normal"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#c6c1c1"></View>
+
+            <RelativeLayout
+                android:id="@+id/rl_keeper"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp">
+
+                <TextView
+                    style="@style/text_normal"
+                    android:layout_centerVertical="true"
+                    android:text="@string/keeper"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/keeper_name_tv"
+                    style="@style/text_normal"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#c6c1c1"></View>
+
+            <RelativeLayout
+                android:id="@+id/rl_check_people"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp">
+
+                <TextView
+                    style="@style/text_normal"
+                    android:layout_centerVertical="true"
+                    android:text="@string/checker"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/checker_name_tv"
+                    style="@style/text_normal"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#c6c1c1"></View>
+
+            <RelativeLayout
+                android:id="@+id/rl_agree"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp">
+
+                <TextView
+                    style="@style/text_normal"
+                    android:layout_centerVertical="true"
+                    android:text="@string/authorize"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/authorize_name_tv"
+                    style="@style/text_normal"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="#c6c1c1"></View>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@drawable/shape_corner_green1"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -158,7 +455,7 @@
                     android:layout_gravity="center"
                     android:paddingLeft="10dp"
                     android:text="@string/manager"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/black" />
 
                 <EditText
                     android:layout_width="match_parent"
@@ -173,135 +470,102 @@
                     android:textColorHint="#A0BAFF"
                     android:textSize="14sp" />
             </LinearLayout>
+
+            <!-- 设备-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="#c6c1c1"></View>
+
+            <RelativeLayout
+                android:id="@+id/rl_equipment_type"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp">
+
+                <TextView
+                    style="@style/text_normal"
+                    android:layout_centerVertical="true"
+                    android:text="@string/equipment_type"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/equipment_type_tv"
+                    style="@style/text_normal"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+            </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#c6c1c1"></View>
 
             <RelativeLayout
+                android:id="@+id/rl_equipment_model"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@color/white"
-                android:id="@+id/rl_keeper"
                 android:paddingLeft="25dp"
-                android:paddingRight="25dp"
-                >
+                android:paddingRight="25dp">
+
                 <TextView
                     style="@style/text_normal"
                     android:layout_centerVertical="true"
-                    android:text="@string/keeper"
-                    android:textColor="@color/black"
-                    />
+                    android:text="@string/equipment_model"
+                    android:textColor="@color/black" />
+
                 <TextView
+                    android:id="@+id/equipment_model_tv"
                     style="@style/text_normal"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
-                    android:id="@+id/tv_check_people"
-                    />
-
-
+                    android:layout_centerVertical="true" />
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#c6c1c1"></View>
 
             <RelativeLayout
+                android:id="@+id/rl_equipment_name"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@color/white"
-                android:id="@+id/rl_check_people"
                 android:paddingLeft="25dp"
-                android:paddingRight="25dp"
-                >
+                android:paddingRight="25dp">
+
                 <TextView
                     style="@style/text_normal"
                     android:layout_centerVertical="true"
-                    android:text="@string/checker"
-                    android:textColor="@color/black"
-                    />
+                    android:text="@string/equipment_name"
+                    android:textColor="@color/black" />
+
                 <TextView
+                    android:id="@+id/equipment_name_tv"
                     style="@style/text_normal"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
-                    />
-
-
+                    android:layout_centerVertical="true" />
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#c6c1c1"></View>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/white"
-                android:id="@+id/rl_agree"
-                android:paddingLeft="25dp"
-                android:paddingRight="25dp"
-                >
-                <TextView
-                    style="@style/text_normal"
-                    android:layout_centerVertical="true"
-                    android:text="@string/authorize"
-                    android:textColor="@color/black"
-                    />
-                <TextView
-                    style="@style/text_normal"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    />
-
-
-            </RelativeLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginTop="@dimen/dp_10"
                 android:background="#c6c1c1"></View>
 
             <com.isoftston.issuser.conchapp.weight.InputView
-                android:id="@+id/sb_class"
+                android:id="@+id/work_zone_input"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></com.isoftston.issuser.conchapp.weight.InputView>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#c6c1c1"></View>
-
-            <com.isoftston.issuser.conchapp.weight.InputView
-                android:id="@+id/sb_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"></com.isoftston.issuser.conchapp.weight.InputView>
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#c6c1c1"></View>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/white"
-                android:id="@+id/rl_number"
-                android:paddingLeft="25dp"
-                android:paddingRight="25dp"
-                >
-                <TextView
-                    style="@style/text_normal"
-                    android:layout_centerVertical="true"
-                    android:text="@string/equipment_number"
-                    android:textColor="@color/black"
-                    />
-                <TextView
-                    style="@style/text_normal"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    />
-
-
-            </RelativeLayout>
+                android:layout_height="wrap_content" />
 
             <View
                 android:layout_width="match_parent"
@@ -309,23 +573,165 @@
                 android:background="#c6c1c1"></View>
 
             <com.isoftston.issuser.conchapp.weight.InputView
-                android:id="@+id/work_zone"
+                android:id="@+id/work_address_input"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></com.isoftston.issuser.conchapp.weight.InputView>
+                android:layout_height="wrap_content" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#c6c1c1"></View>
+
+
+            <RelativeLayout
+                android:id="@+id/rl_work_company"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp">
+
+                <TextView
+                    style="@style/text_normal"
+                    android:layout_centerVertical="true"
+                    android:text="@string/work_company"
+                    android:textColor="@color/black" />
+
+                <LinearLayout
+                    android:id="@+id/ll_company_chose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/ll_corner_blue"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
+
+                    <TextView
+                        style="@style/text_normal"
+                        android:text="@string/chose_company"
+                        android:textColor="@color/white" />
+
+                    <ImageView
+                        android:id="@+id/chose_worker_company_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/go_down" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#c6c1c1"></View>
+
+            <com.isoftston.issuser.conchapp.weight.InputView
+                android:id="@+id/worker_num_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#c6c1c1"></View>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="#c6c1c1"></View>
+
+            <RelativeLayout
+                android:id="@+id/rl_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="25dp"
+                android:paddingRight="@dimen/dp_15">
+
+                <TextView
+                    android:id="@+id/tv_illegal_describ_title"
+                    style="@style/text_normal"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/description_content"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/description_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="3dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_toRightOf="@id/tv_illegal_describ_title"
+                    android:background="@drawable/et_add_input_bg"
+                    android:gravity="left|top"
+                    android:imeOptions="actionDone"
+                    android:paddingLeft="15dp"
+                    android:singleLine="true"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_small"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/ll_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@id/tv_illegal_describ_title"
+                    android:gravity="center_vertical|right"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_illegal_descibe_content"
+                        style="@style/text_normal"
+                        android:layout_width="0dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:gravity="center|right"
+                        android:singleLine="true" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_edit"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/ll_oval_bg"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/alter_icn" />
+                    </LinearLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#c6c1c1"></View>
+
             <Button
                 android:id="@+id/bt_submit"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:text="@string/sure"
                 android:layout_gravity="center"
                 android:layout_margin="20dp"
+                android:background="@drawable/shape_corner_green"
+                android:text="@string/sure"
                 android:textColor="@color/white"
-                android:textSize="18sp"
-                android:background="@drawable/shape_corner_green"/>
+                android:textSize="18sp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

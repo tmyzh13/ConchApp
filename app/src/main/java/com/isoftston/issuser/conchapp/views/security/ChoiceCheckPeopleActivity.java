@@ -13,12 +13,17 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.corelibs.base.BaseActivity;
-import com.corelibs.base.BasePresenter;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.CheckPeopleAdapter;
 import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.CheckPeopleBean;
+import com.isoftston.issuser.conchapp.model.bean.ResponseUserBean;
+import com.isoftston.issuser.conchapp.model.bean.SearchUserBean;
+import com.isoftston.issuser.conchapp.model.bean.UserBean;
+import com.isoftston.issuser.conchapp.presenter.SeacherPresenter;
 import com.isoftston.issuser.conchapp.utils.Tools;
+import com.isoftston.issuser.conchapp.views.interfaces.SeacherView;
+import com.isoftston.issuser.conchapp.views.work.NewWorkActivity;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
 import java.util.ArrayList;
@@ -31,7 +36,7 @@ import butterknife.OnClick;
  * Created by john on 2018/4/15.
  */
 
-public class ChoiceCheckPeopleActivity extends BaseActivity{
+public class ChoiceCheckPeopleActivity extends BaseActivity<SeacherView,SeacherPresenter>implements SeacherView{
 
 
     @Bind(R.id.nav)
@@ -68,11 +73,6 @@ public class ChoiceCheckPeopleActivity extends BaseActivity{
 
         adapter=new CheckPeopleAdapter(context);
         list =new ArrayList<>();
-        for(int i=0;i<15;i++){
-            CheckPeopleBean  bean =new CheckPeopleBean();
-            bean.name="检修员"+i;
-            list.add(bean);
-        }
         adapter.addAll(list);
         lv_people.setAdapter(adapter);
         lv_people.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -80,7 +80,7 @@ public class ChoiceCheckPeopleActivity extends BaseActivity{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent =new Intent();
                 intent.putExtra(Constant.CHECK_PEOPLE,list.get(position).name);
-                setResult(10,intent);
+                setResult(NewWorkActivity.CHOSE_CHARGER_CODE,intent);
                 finish();
             }
         });
@@ -113,6 +113,21 @@ public class ChoiceCheckPeopleActivity extends BaseActivity{
             }
         });
     }
+
+    @Override
+    public void searchSuccess(ResponseUserBean userBean) {
+        List<UserBean> userList = userBean.list;
+        list.clear();
+        for(int i=0;i<userList.size();i++){
+            CheckPeopleBean  bean =new CheckPeopleBean();
+            bean.name=userList.get(i).userName;
+            list.add(bean);
+        }
+        adapter.clear();
+        adapter.addAll(list);
+        adapter.notifyDataSetChanged();
+    }
+
     /**
      * 搜索任务
      */
@@ -121,7 +136,11 @@ public class ChoiceCheckPeopleActivity extends BaseActivity{
         @Override
         public void run() {
             Log.e("---SearchTask---","开始查询");
-            getSeacherResult(searchContent);
+//            getSeacherResult(searchContent);
+            SearchUserBean bean = new SearchUserBean();
+            bean.setCondition(searchContent);
+            bean.setLastId("");
+            presenter.searchUserAction(bean);
         }
     }
 
@@ -136,8 +155,8 @@ public class ChoiceCheckPeopleActivity extends BaseActivity{
         adapter.notifyDataSetChanged();
     }
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected SeacherPresenter createPresenter() {
+        return new SeacherPresenter();
     }
 
     @OnClick(R.id.tv_cancel)

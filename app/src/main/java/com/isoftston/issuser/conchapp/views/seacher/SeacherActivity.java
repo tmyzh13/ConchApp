@@ -22,8 +22,10 @@ import com.corelibs.base.BaseActivity;
 import com.corelibs.utils.IMEUtil;
 import com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout;
 import com.isoftston.issuser.conchapp.adapters.DeviceAdapter;
+import com.isoftston.issuser.conchapp.model.bean.CheckPeopleBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
+import com.isoftston.issuser.conchapp.model.bean.ResponseUserBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkBean;
 import com.isoftston.issuser.conchapp.views.check.CheckDeviceDetailActivity;
 import com.isoftston.issuser.conchapp.views.message.ItemDtailActivity;
@@ -286,4 +288,8 @@ public class SeacherActivity extends BaseActivity<SeacherView,SeacherPresenter> 
 
     }
 
+    @Override
+    public void searchSuccess(ResponseUserBean userBean) {
+
+    }
 }

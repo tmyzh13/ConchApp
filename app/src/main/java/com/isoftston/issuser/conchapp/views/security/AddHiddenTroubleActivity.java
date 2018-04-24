@@ -104,14 +104,14 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
 
             //隐患
             navBar.setNavTitle(getString(R.string.hidden_trouble));
-            input_trouble_name.setInputType(getString(R.string.hidden_trouble_detail_name));
-            input_trouble_company.setInputType(getString(R.string.hidden_trouble_company));
-            input_place.setInputType(getString(R.string.hidden_trouble_place));
-            input_position.setInputType(getString(R.string.hidden_trouble_position));
-            input_source.setInputType(getString(R.string.hidden_trouble_source));
+            input_trouble_name.setInputText(getString(R.string.hidden_trouble_detail_name),null);
+            input_trouble_company.setInputText(getString(R.string.hidden_trouble_company),null);
+            input_place.setInputText(getString(R.string.hidden_trouble_place),null);
+            input_position.setInputText(getString(R.string.hidden_trouble_position),null);
+            input_source.setInputText(getString(R.string.hidden_trouble_source),null);
 
 
-        input_find_company.setInputType(getString(R.string.hidden_trouble_find_company));
+        input_find_company.setInputText(getString(R.string.hidden_trouble_find_company),null);
         starttime= Tools.getCurrentTime();
         endtime=Tools.getCurrentTime();
         tv_start_time.setText(starttime);

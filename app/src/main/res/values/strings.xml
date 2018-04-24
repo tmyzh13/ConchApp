@@ -249,4 +249,14 @@
     <string name="re_login">请重新登录</string>
     <string name="update_pwd_success">更改密码成功</string>
     <string name="fix_success">修改成功</string>
+
+
+    <string name="is_danger_work">是否危险作业</string>
+    <string name="description_content">描述内容</string>
+    <string name="chose_person">选择人员</string>
+    <string name="type1">类别1</string>
+    <string name="chose_company">选择单位</string>
+    <string name="input_all_message">请填写完整</string>
+    <string name="work_part">作业点</string>
+
 </resources>

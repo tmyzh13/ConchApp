@@ -2,6 +2,7 @@ package com.isoftston.issuser.conchapp.weight;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
@@ -65,7 +66,7 @@ public class InputView extends LinearLayout{
                 et_input.setVisibility(VISIBLE);
                 ll_right.setVisibility(GONE);
                 tv_type.setTextColor(getResources().getColor(R.color.white));
-                rl_all.setBackground(getResources().getDrawable(R.drawable.ll_input_selector_bg));
+                rl_all.setBackgroundDrawable(getResources().getDrawable(R.drawable.ll_input_selector_bg));
                 et_input.setFocusable(true);
                 et_input.setFocusableInTouchMode(true);
                 et_input.requestFocus();
@@ -111,7 +112,7 @@ public class InputView extends LinearLayout{
                     }
                     et_input.setVisibility(GONE);
                     ll_right.setVisibility(VISIBLE);
-                    rl_all.setBackground(null);
+                    rl_all.setBackgroundDrawable(null);
                     tv_type.setTextColor(getResources().getColor(R.color.black));
                     IMEUtil.closeIME(et_input,getContext());
                     return true;
@@ -134,15 +135,16 @@ public class InputView extends LinearLayout{
                     }
                     et_input.setVisibility(GONE);
                     ll_right.setVisibility(VISIBLE);
-                    rl_all.setBackground(null);
+                    rl_all.setBackgroundDrawable(null);
                     tv_type.setTextColor(getResources().getColor(R.color.black));
                 }
             }
         });
     }
 
-    public  void setInputType(String type){
-        tv_type.setText(type);
+    public  void setInputText(String title, Integer inputType){
+        tv_type.setText(title);
+//        et_input.setInputType(inputType == null ? InputType.TYPE_NULL : inputType);
     }
 
     /**

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
@@ -77,7 +78,9 @@ public class WorkFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.iv_add:
+                int item = viewPager.getCurrentItem();
                 Intent intent=new Intent(getActivity(),NewWorkActivity.class);
+                intent.putExtra("isDangerWork",item);
                 startActivity(intent);
                 break;
             case R.id.iv_seach:

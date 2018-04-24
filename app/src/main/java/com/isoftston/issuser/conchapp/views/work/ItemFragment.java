@@ -111,6 +111,7 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
 
     @Override
     public void getWorkListInfo(List<WorkBean> list) {
+        Log.i("dp","----getWorkListInfo:"+list.toString()+","+list.size());
         listMessage=list;
         adapter.addAll(listMessage);
         adapter.notifyDataSetChanged();

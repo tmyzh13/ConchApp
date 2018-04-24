@@ -28,6 +28,7 @@
     <!-- 自动聚焦权限 -->
     <!-- 扫码end -->
     <application
+        android:testOnly="false"
         android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
