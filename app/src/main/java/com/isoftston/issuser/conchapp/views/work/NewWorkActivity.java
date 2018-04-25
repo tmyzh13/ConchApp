@@ -66,12 +66,12 @@ import butterknife.OnClick;
 
 public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> implements WorkView, View.OnClickListener {
     private static final String TAG = NewWorkActivity.class.getSimpleName();
-    public static final int CHOSE_CHARGER_CODE = 100;
-    public static final int CHOSE_KEPPER_CODE = 101;
-    public static final int CHOSE_CHEKER_CODE = 102;
-    public static final int CHOSE_AGREE_CODE = 103;
+    public static final int CHOSE_CHARGER_CODE = 100;//负责人
+    public static final int CHOSE_KEPPER_CODE = 101;//监护人
+    public static final int CHOSE_CHEKER_CODE = 102;//审核人
+    public static final int CHOSE_AGREE_CODE = 103;//批准人
     public static final int CHOSE_DEVICE_CODE = 104;
-    public static final int CHOSE_NAME_CODE = 105;
+    public static final int CHOSE_NAME_CODE = 105;//设备名称
     @Bind(R.id.nav)
     NavBar nav;
 
@@ -137,6 +137,12 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     ImageView chose_gas_checker_iv;
     @Bind(R.id.chose_worker_company_iv)
     ImageView chose_worker_company_iv;
+    @Bind(R.id.work_zone_sp)
+    Spinner work_zone_sp;
+    @Bind(R.id.company_tv)
+    TextView company_tv;
+    @Bind(R.id.work_company_sp)
+    Spinner work_company_sp;
 
     @Bind(R.id.rl_gas_checker)
     RelativeLayout rl_gas_checker;
@@ -298,6 +304,53 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             }
 
         });
+        aboutSpinner();
+
+    }
+
+    private void aboutSpinner() {
+        //作业区域下拉选择
+        final ArrayAdapter<String> spAdapter;
+        List<String> areaList = new ArrayList<>();
+        areaList.add(getString(R.string.shuini));
+        areaList.add(getString(R.string.matou));
+        areaList.add(getString(R.string.kuangshan));
+        areaList.add(getString(R.string.build));
+        spAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, areaList);
+        spAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        work_zone_sp.setAdapter(spAdapter);
+        work_zone_sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e(TAG,"----"+spAdapter.getItem(position).toString());
+                area = spAdapter.getItem(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                work_zone_sp.setSelection(0);
+                area = getString(R.string.shuini);
+            }
+        });
+        //作业单位下拉选择
+        final ArrayAdapter<String> companyAdapter;
+        List<String> companyList = new ArrayList<>();
+        companyList.add(PreferencesHelper.getData(Constant.ORG_NAME));
+        companyAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, companyList);
+        companyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        work_company_sp.setAdapter(companyAdapter);
+        work_company_sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                company = companyAdapter.getItem(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                work_company_sp.setSelection(0);
+                company = companyAdapter.getItem(0).toString();
+            }
+        });
     }
 
     private void clicks() {
@@ -333,19 +386,19 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
                 showDatePickerDialog(tv_end_time, 2);
                 break;
             case R.id.rl_gas_checker:
-                startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context), CHOSE_CHARGER_CODE);
+                startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context,5), CHOSE_CHARGER_CODE);
                 break;
             case R.id.rl_charger:
-                startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context), CHOSE_CHARGER_CODE);
+                startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context,1), CHOSE_CHARGER_CODE);
                 break;
             case R.id.rl_agree:
-                startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context), CHOSE_AGREE_CODE);
+                startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context,4), CHOSE_AGREE_CODE);
                 break;
             case R.id.rl_check_people:
-                startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context), CHOSE_CHEKER_CODE);
+                startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context,3), CHOSE_CHEKER_CODE);
                 break;
             case R.id.rl_keeper:
-                startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context), CHOSE_KEPPER_CODE);
+                startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context,2), CHOSE_KEPPER_CODE);
                 break;
             case R.id.rl_dangerwork_type:
 
@@ -360,26 +413,6 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
                 break;
 
             case R.id.bt_submit:
-//                NewWorkBean bean = new NewWorkBean();
-//                bean.setName("test");
-//                bean.setStartTime(2222);
-//                bean.setEndTime(2222);
-//                bean.setEquipmentType(1);
-//                bean.setEquipmentCode("test");
-//                bean.setEquipmentName("test");
-//                bean.setArea(2222);
-//                bean.setPart("test");
-//                bean.setContent("test");
-//                bean.setCompany("test");
-//                bean.setNumberPeople(3);
-//                bean.setType(1);
-//                bean.setLeading("1");
-//                bean.setGuardian("2");
-//                bean.setAuditor("3");
-//                bean.setApprover("4");
-//                bean.setOrgId("1");
-//                bean.setIsDanger(0);
-//                presenter.addWork(bean);
                 getNewJobInfo();
                 break;
             case R.id.chose_gas_checker_iv:
@@ -401,6 +434,8 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     String guardian ;
     String auditor ;
     String approver ;
+    String area;
+    String company;
     private void getNewJobInfo() {
         NewWorkBean bean = new NewWorkBean();
         String name = et_name.getText().toString().trim();
@@ -415,10 +450,9 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         String equipmentType = "00";
         String equipmentCode = "11";
         String equipmentName = "002";
-        String area = work_zone_input.getContent().toString().trim();
         String part = work_address_input.getContent().toString().trim();
         String content = description_et.getText().toString().trim();
-        String company = PreferencesHelper.getData(Constant.ORG_NAME);//作业单位。用户所属公司
+        company = PreferencesHelper.getData(Constant.ORG_NAME);//作业单位。用户所属公司
         String numPeople = worker_num_input.getContent().toString().trim();
         int type = 0;//危险作业类型(手动选择)
 //        String leading = chagerNameTv.getText().toString();
@@ -443,7 +477,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         bean.setEquipmentType(Integer.parseInt(equipmentType));
         bean.setEquipmentCode(equipmentCode);
         bean.setEquipmentName(equipmentName);
-        bean.setArea(Integer.parseInt(area));
+        bean.setArea(area);
         bean.setPart(part);
         bean.setContent(content);
         bean.setCompany(company);
@@ -590,10 +624,10 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
                 leading=chosedUserId;
             } else if (requestCode == CHOSE_CHEKER_CODE) {
                 checkerNameTv.setText(chosedUserName);
-                guardian=chosedUserId;
+                auditor=chosedUserId;
             } else if (requestCode == CHOSE_KEPPER_CODE) {
                 keeperNameTv.setText(chosedUserName);
-                auditor=chosedUserId;
+                guardian=chosedUserId;
             } else if (requestCode == CHOSE_AGREE_CODE) {
                 authorizeNameTv.setText(chosedUserName);
                 approver=chosedUserId;

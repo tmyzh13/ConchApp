@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BaseFragment;
 import com.corelibs.utils.PreferencesHelper;
 import com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout;
@@ -107,6 +108,12 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
     TextView tv_aq_total;
     @Bind(R.id.tv_wz_total)
     TextView tv_wz_total;
+
+    @Bind(R.id.yh_unread_tv1)
+    TextView yh_unread_tv1;
+    @Bind(R.id.wz_unread_tv1)
+    TextView wz_unread_tv1;
+
     public static final int LOCATION_REQUEST_CODE = 100;
     public Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -133,7 +140,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        presenter.getUserInfo();
+//        presenter.getUserInfo();
         EventBus.getDefault().register(this);
         nav.setColorRes(R.color.app_blue);
         nav.setNavTitle(getString(R.string.main_message));
@@ -153,6 +160,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
 //        for(int i=0;i<10;i++){
 //            listMessage.add(new MessageBean());
 //        }
+        ((BaseActivity)getActivity()).getLoadingDialog().show();
         presenter.getMessageListInfo("all", "");
         mAdapter.addAll(listMessage);
         lv_message.setAdapter(mAdapter);
@@ -339,7 +347,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
 
     @Override
     public void onLoadingCompleted() {
-
+        hideLoading();
     }
 
     @Override
@@ -349,11 +357,13 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
 
     @Override
     public void getMessageDetailResult(MessageDetailBean bean) {
-
+        hideLoading();
     }
 
     @Override
     public void getMessageListResult(MessageListInfoBean data) {
+        ((BaseActivity)getActivity()).getLoadingDialog().dismiss();
+        hideLoading();
         Log.i("yh","----获取信息列表");
         Map<String,MessageItemBean> totle=data.totle;
         MessageItemBean bean1=totle.get("aq");
@@ -366,15 +376,30 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         tv_wz_total.setText(bean2.getTotal()+"");
         tv_yh_total.setText(bean3.getTotal()+"");
         tv_wzg_num.setText(bean3.getWzg()+"");
+
+        if (0 == bean1.getTotal()){
+            yh_unread_tv1.setVisibility(View.GONE);
+        }else {
+            yh_unread_tv1.setText(bean1.getTotal()+"");
+        }
+        if (0 == bean2.getTotal()){
+            wz_unread_tv1.setVisibility(View.GONE);
+        }else {
+            wz_unread_tv1.setText(bean2.getTotal()+"");
+        }
+
         listMessage=data.list;
         mAdapter.addAll(listMessage);
         mAdapter.notifyDataSetChanged();
         lv_message.setAdapter(mAdapter);
 
+        presenter.getUserInfo();
     }
 
     @Override
     public void getWorkError() {
+        ((BaseActivity)getActivity()).getLoadingDialog().dismiss();
+        hideLoading();
         startActivity(LoginActivity.getLauncher(getActivity()));
 
     }

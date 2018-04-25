@@ -156,7 +156,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="12"
                             android:textColor="@color/white"
                             android:textSize="28sp" />
 
@@ -178,7 +177,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:layout_toRightOf="@+id/unfix"
-                                android:text="3"
                                 android:textColor="@color/white"
                                 android:textSize="26sp" />
                         </RelativeLayout>
@@ -193,13 +191,13 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/yh_unread_tv1"
                     style="@style/text_normal"
                     android:layout_width="20dp"
                     android:layout_height="15dp"
                     android:layout_alignParentRight="true"
                     android:background="@drawable/tab_msg_bg"
                     android:gravity="center"
-                    android:text="5"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_small" />
             </RelativeLayout>
@@ -239,7 +237,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="9"
                             android:textColor="@color/white"
                             android:textSize="24sp" />
 
@@ -254,13 +251,13 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/wz_unread_tv1"
                     style="@style/text_normal"
                     android:layout_width="20dp"
                     android:layout_height="15dp"
                     android:layout_alignParentRight="true"
                     android:background="@drawable/tab_msg_bg"
                     android:gravity="center"
-                    android:text="2"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_small" />
             </RelativeLayout>
@@ -296,7 +293,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="8"
                         android:textColor="@color/white"
                         android:textSize="24sp" />
 

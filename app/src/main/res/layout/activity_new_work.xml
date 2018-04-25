@@ -548,7 +548,42 @@
             <com.isoftston.issuser.conchapp.weight.InputView
                 android:id="@+id/work_zone_input"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:paddingLeft="25dp"
+                android:paddingRight="@dimen/dp_20">
+
+                <TextView
+                    style="@style/text_normal"
+                    android:layout_centerVertical="true"
+                    android:text="@string/work_zone"
+                    android:textColor="@color/black" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/ll_corner_blue"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
+
+                    <Spinner
+                        android:id="@+id/work_zone_sp"
+                        android:theme="@style/SpnStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -572,7 +607,7 @@
                 android:layout_height="50dp"
                 android:background="@color/white"
                 android:paddingLeft="25dp"
-                android:paddingRight="25dp">
+                android:paddingRight="@dimen/dp_20">
 
                 <TextView
                     style="@style/text_normal"
@@ -594,16 +629,26 @@
                     android:paddingRight="10dp">
 
                     <TextView
+                        android:visibility="gone"
+                        android:id="@+id/company_tv"
                         style="@style/text_normal"
                         android:text="@string/chose_company"
                         android:textColor="@color/white" />
 
                     <ImageView
+                        android:visibility="gone"
                         android:id="@+id/chose_worker_company_iv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:src="@mipmap/go_down" />
+
+                    <Spinner
+                        android:visibility="visible"
+                        android:id="@+id/work_company_sp"
+                        android:theme="@style/SpnStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
                 </LinearLayout>
 
             </RelativeLayout>

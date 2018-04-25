@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BaseFragment;
 import com.corelibs.base.BasePresenter;
 import com.corelibs.utils.PreferencesHelper;
@@ -68,6 +69,7 @@ public class MineFragment extends BaseFragment<UserView, UserPresenter> implemen
     }
 
     private void showUserInfo() {
+        ((BaseActivity)getActivity()).getLoadingDialog().show();
         presenter.getUserInfo();
     }
 
@@ -115,7 +117,7 @@ public class MineFragment extends BaseFragment<UserView, UserPresenter> implemen
 
     @Override
     public void onLoadingCompleted() {
-
+        hideLoading();
     }
 
     @Override
@@ -125,6 +127,7 @@ public class MineFragment extends BaseFragment<UserView, UserPresenter> implemen
 
     @Override
     public void getUserInfo(UserInfoBean userInfoBean) {
+        hideLoading();
         userInfo=userInfoBean;
         if (userInfoBean.getSex()!=null){
             if (userInfoBean.getSex().equals("女")) {
@@ -138,7 +141,7 @@ public class MineFragment extends BaseFragment<UserView, UserPresenter> implemen
 
     @Override
     public void getUserInfoError() {
-
+        ((BaseActivity)getActivity()).getLoadingDialog().dismiss();
     }
 
     @Override

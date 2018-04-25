@@ -11,7 +11,7 @@ public class NewWorkBean {
     private int equipmentType;
     private String equipmentCode;
     private String equipmentName;
-    private int area;
+    private String jobArea;
     private String part;
     private String content;
     private String company;
@@ -72,12 +72,12 @@ public class NewWorkBean {
         this.equipmentName = equipmentName;
     }
 
-    public int getArea() {
-        return area;
+    public String getArea() {
+        return jobArea;
     }
 
-    public void setArea(int area) {
-        this.area = area;
+    public void setArea(String area) {
+        this.jobArea = area;
     }
 
     public String getPart() {

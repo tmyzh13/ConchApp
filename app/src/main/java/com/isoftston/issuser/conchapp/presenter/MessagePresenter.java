@@ -78,7 +78,7 @@ public class MessagePresenter extends ListPagePresenter<MessageView> {
         bean.type=type;
         bean.id=id;
         String token=SharePrefsUtils.getValue(getContext(),"token",null);
-        Log.i("token",token);//94c29a2eaf903a1f4b3cc5996385dcd2
+        Log.i("token","--getMessageDetailInfo"+token);//94c29a2eaf903a1f4b3cc5996385dcd2
         String token1=token.replaceAll("\"","");
         api.getMessageDetailInfo(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<MessageDetailBean>>bindToLifeCycle()))
@@ -120,7 +120,7 @@ public class MessagePresenter extends ListPagePresenter<MessageView> {
 
     public void getUserInfo(){
         String token= SharePrefsUtils.getValue(getContext(),"token",null);
-        Log.e("yzh","token--"+token);
+        Log.e("---getUserInfo--yzh","token--"+token);
         String token1=token.replaceAll("\"","");
         UserBean bean=new UserBean();
         api.getUserInfo(token1,bean)

@@ -194,7 +194,7 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
 
     @OnClick(R.id.ll_check_people)
     public void choiceCheckPeople(){
-        startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context),100);
+        startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context,7),100);
     }
 
     @OnClick(R.id.tv_illegal_type)

@@ -74,7 +74,7 @@ public class ChoiceDeviceTypeActivity extends BaseActivity<WorkView, WorkPresent
         presenter.getDeviceType(new FixWorkBean());
         adapter = new CheckDeviceAdapter(context);
         listdata = new ArrayList<>();
-        adapter.addAll(listdata);
+//        adapter.addAll(listdata);
         lv_device.setAdapter(adapter);
         lv_device.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -89,7 +89,7 @@ public class ChoiceDeviceTypeActivity extends BaseActivity<WorkView, WorkPresent
                 Log.i("datss",listdata_next.size()+"");
                 if (listdata_next != null && listdata_next.size() != 0) {
                     adapter.replaceAll(listdata_next);
-//                    adapter.addAll(listdata_next);
+                    adapter.addAll(listdata_next);
                     lv_device.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 }else {

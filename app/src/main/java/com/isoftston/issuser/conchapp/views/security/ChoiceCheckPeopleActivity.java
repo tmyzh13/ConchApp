@@ -52,9 +52,11 @@ public class ChoiceCheckPeopleActivity extends BaseActivity<SeacherView,SeacherP
     private List<String> list;
     private Handler mHandler;
 
+    private int code;
 
-    public static Intent getLaucnher(Context context){
+    public static Intent getLaucnher(Context context,int code){//根据code设置头部标题文字
         Intent intent =new Intent(context,ChoiceCheckPeopleActivity.class);
+        intent.putExtra("code",code);
         return intent;
     }
 
@@ -65,7 +67,20 @@ public class ChoiceCheckPeopleActivity extends BaseActivity<SeacherView,SeacherP
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        nav.setNavTitle(getString(R.string.choice_check_people));
+        code = getIntent().getIntExtra("code",11);
+        if (code==1){
+            nav.setNavTitle(getString(R.string.person_in_charge));
+        }else if (code == 2){
+            nav.setNavTitle(getString(R.string.guardian));
+        }else if (code == 3){
+            nav.setNavTitle(getString(R.string.auditor));
+        }else if (code == 4){
+            nav.setNavTitle(getString(R.string.approver));
+        }else if (code == 5){
+            nav.setNavTitle(getString(R.string.gas_checker));
+        }else {
+            nav.setNavTitle(getString(R.string.choice_check_people));
+        }
         nav.setColorRes(R.color.white);
         nav.setTitleColor(getResources().getColor(R.color.black));
         setBarColor(getResources().getColor(R.color.transparent_black));

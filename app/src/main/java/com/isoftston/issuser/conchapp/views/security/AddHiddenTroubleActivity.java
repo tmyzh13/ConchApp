@@ -166,7 +166,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
 
     @OnClick(R.id.rl_check_people)
     public void choiceCheckPeople(){
-        startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context),100);
+        startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context,6),100);
     }
 
     @Override

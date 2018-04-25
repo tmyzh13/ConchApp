@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -124,5 +124,9 @@
 
     <style name="Dialog">
         <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="SpnStyle">
+        <item name="android:colorControlNormal" tools:targetApi="lollipop">@color/white</item>
     </style>
 </resources>

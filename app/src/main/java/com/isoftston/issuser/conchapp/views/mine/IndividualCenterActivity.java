@@ -18,7 +18,9 @@ import android.widget.TextView;
 
 import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BasePresenter;
+import com.corelibs.utils.PreferencesHelper;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.presenter.UserPresenter;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
@@ -103,9 +105,7 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
         if (!"".equals(userInfo.getPhoneNum())) {
             userPhoneNumEt.setText(userInfo.getPhoneNum());
         }
-        if (!"".equals(userInfo.getCompanyName())) {
-            userCompanyTv.setText(userInfo.getCompanyName());
-        }
+            userCompanyTv.setText(PreferencesHelper.getData(Constant.ORG_NAME));
     }
 
     private void changeIcon() {
