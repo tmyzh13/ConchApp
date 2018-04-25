@@ -117,6 +117,7 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
         SharePrefsUtils.putValue(context,"token",data);
         startActivity(MainActivity.getLauncher(context));
         ToastUtils.showtoast(context,getString(R.string.login_success));
+
     }
 
     @Override

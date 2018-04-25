@@ -18,7 +18,10 @@ import com.isoftston.issuser.conchapp.model.bean.BaseData;
 import com.isoftston.issuser.conchapp.model.bean.CodeRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.ForgetPwdRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.LoginRequestBean;
+import com.isoftston.issuser.conchapp.model.bean.UserBean;
+import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.utils.MD5Utils;
+import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.utils.Tools;
 import com.isoftston.issuser.conchapp.views.interfaces.LoginView;
 import com.trello.rxlifecycle.ActivityEvent;
@@ -57,9 +60,13 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                     .subscribe(new ResponseSubscriber<BaseData<JsonObject>>(view) {
                         @Override
                         public void success(BaseData baseData) {
-                            JsonObject jsonObject= (JsonObject) baseData.data;
-                            String token= String.valueOf(jsonObject.get("Access-Token"));
-                            view.loginSuccess(token);
+                            if(baseData!=null&&baseData.data!=null){
+                                JsonObject jsonObject= (JsonObject) baseData.data;
+                                String token= String.valueOf(jsonObject.get("Access-Token"));
+
+                                view.loginSuccess(token);
+                            }
+
 
                         }
                     });
@@ -106,4 +113,5 @@ public class LoginPresenter extends BasePresenter<LoginView> {
 
         return true;
     }
+
 }

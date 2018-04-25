@@ -6,8 +6,11 @@ import com.isoftston.issuser.conchapp.model.bean.BaseData;
 import com.isoftston.issuser.conchapp.model.bean.CodeRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.ForgetPwdRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.LoginRequestBean;
+import com.isoftston.issuser.conchapp.model.bean.UserBean;
+import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 
 import retrofit2.http.Body;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -26,4 +29,5 @@ public interface LoginApi {
     //获取验证码
     @POST(Urls.GET_CODE)
     Observable<BaseData> getCode(@Body CodeRequestBean bean);
+
 }

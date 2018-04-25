@@ -6,6 +6,8 @@ import com.corelibs.api.ApiFactory;
 import com.corelibs.api.ResponseTransformer;
 import com.corelibs.pagination.presenter.ListPagePresenter;
 import com.corelibs.subscriber.ResponseSubscriber;
+import com.corelibs.utils.PreferencesHelper;
+import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.apis.MessageApi;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
 import com.isoftston.issuser.conchapp.model.bean.MessageDetailBean;
@@ -14,6 +16,8 @@ import com.isoftston.issuser.conchapp.model.bean.MessageListInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageListRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageQueryBean;
 import com.isoftston.issuser.conchapp.model.bean.QueryMessageRequestBean;
+import com.isoftston.issuser.conchapp.model.bean.UserBean;
+import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.MessageView;
@@ -111,6 +115,22 @@ public class MessagePresenter extends ListPagePresenter<MessageView> {
                     public void onError(Throwable e) {
                         super.onError(e);
                     }
+                });
+    }
+
+    public void getUserInfo(){
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        Log.e("yzh","token--"+token);
+        String token1=token.replaceAll("\"","");
+        UserBean bean=new UserBean();
+        api.getUserInfo(token1,bean)
+                .compose(new ResponseTransformer<>(this.<BaseData<UserInfoBean>>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData<UserInfoBean>>() {
+                    @Override
+                    public void success(BaseData<UserInfoBean> userInfoBeanBaseData) {
+                        PreferencesHelper.saveData(Constant.ORG_NAME,userInfoBeanBaseData.data.getOrgName());
+                    }
+
                 });
     }
 }

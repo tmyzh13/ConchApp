@@ -84,6 +84,7 @@ public class ChoiceCheckPeopleActivity extends BaseActivity<SeacherView,SeacherP
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent =new Intent();
                 intent.putExtra(Constant.CHECK_PEOPLE,list.get(position));
+                intent.putExtra(Constant.CHECK_PEOPLE_ID,list_checker.get(position).getId());
                 setResult(NewWorkActivity.CHOSE_CHARGER_CODE,intent);
                 finish();
             }
@@ -107,8 +108,11 @@ public class ChoiceCheckPeopleActivity extends BaseActivity<SeacherView,SeacherP
         });
     }
 
+    private List<CheckPeopleBean> list_checker;
+
     @Override
     public void searchSuccess(List<CheckPeopleBean> lists) {
+        list_checker=lists;
         list.clear();
         for(int i=0;i<lists.size();i++){
             list.add(lists.get(i).getUserName());

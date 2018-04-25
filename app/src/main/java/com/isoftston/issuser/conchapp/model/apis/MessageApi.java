@@ -8,6 +8,8 @@ import com.isoftston.issuser.conchapp.model.bean.MessageListInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageListRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageQueryBean;
 import com.isoftston.issuser.conchapp.model.bean.QueryMessageRequestBean;
+import com.isoftston.issuser.conchapp.model.bean.UserBean;
+import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 
 import retrofit2.http.Body;
 import retrofit2.http.Header;
@@ -29,4 +31,8 @@ public interface MessageApi {
 
     @POST(Urls.QUERY_MESSGAE_INFO)
     Observable<BaseData<MessageQueryBean>> queryMessageInfo(@Header("Access-Token") String token,@Body QueryMessageRequestBean bean);
+
+    //获取用户信息
+    @POST(Urls.GET_MY_INFO)
+    Observable<BaseData<UserInfoBean>> getUserInfo(@Header("Access-Token") String token, @Body UserBean bean);
 }

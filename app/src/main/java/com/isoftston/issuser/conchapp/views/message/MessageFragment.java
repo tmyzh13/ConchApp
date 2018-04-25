@@ -133,6 +133,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        presenter.getUserInfo();
         EventBus.getDefault().register(this);
         nav.setColorRes(R.color.app_blue);
         nav.setNavTitle(getString(R.string.main_message));

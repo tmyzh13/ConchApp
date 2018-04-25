@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BasePresenter;
 import com.corelibs.utils.IMEUtil;
+import com.corelibs.utils.PreferencesHelper;
 import com.corelibs.utils.ToastMgr;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
@@ -396,7 +397,10 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
                 break;
         }
     }
-
+    String leading  ;
+    String guardian ;
+    String auditor ;
+    String approver ;
     private void getNewJobInfo() {
         NewWorkBean bean = new NewWorkBean();
         String name = et_name.getText().toString().trim();
@@ -414,13 +418,13 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         String area = work_zone_input.getContent().toString().trim();
         String part = work_address_input.getContent().toString().trim();
         String content = description_et.getText().toString().trim();
-        String company = "0";//作业单位。用户所属公司
+        String company = PreferencesHelper.getData(Constant.ORG_NAME);//作业单位。用户所属公司
         String numPeople = worker_num_input.getContent().toString().trim();
         int type = 0;//危险作业类型(手动选择)
-        String leading = chagerNameTv.getText().toString();
-        String guardian = keeperNameTv.getText().toString();
-        String auditor = checkerNameTv.getText().toString();
-        String approver = authorizeNameTv.getText().toString();
+//        String leading = chagerNameTv.getText().toString();
+//        String guardian = keeperNameTv.getText().toString();
+//        String auditor = checkerNameTv.getText().toString();
+//        String approver = authorizeNameTv.getText().toString();
         String orgId = "1";
         String isDanger = "0";//1危险、0常规作业。前页面传递
 
@@ -573,21 +577,26 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     }
 
     private String chosedUserName;
-
+    private String chosedUserId;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == CHOSE_CHARGER_CODE) {
             chosedUserName = data.getStringExtra(Constant.CHECK_PEOPLE);
+            chosedUserId=data.getStringExtra(Constant.CHECK_PEOPLE_ID);
             if (requestCode == CHOSE_CHARGER_CODE) {
                 chagerNameTv.setText(chosedUserName);
                 tv_gas_checker.setText(chosedUserName);
+                leading=chosedUserId;
             } else if (requestCode == CHOSE_CHEKER_CODE) {
                 checkerNameTv.setText(chosedUserName);
+                guardian=chosedUserId;
             } else if (requestCode == CHOSE_KEPPER_CODE) {
                 keeperNameTv.setText(chosedUserName);
+                auditor=chosedUserId;
             } else if (requestCode == CHOSE_AGREE_CODE) {
                 authorizeNameTv.setText(chosedUserName);
+                approver=chosedUserId;
             }
         }else if (resultCode==CHOSE_DEVICE_CODE){
             if (requestCode==CHOSE_DEVICE_CODE){

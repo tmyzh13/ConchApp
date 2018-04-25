@@ -1,5 +1,7 @@
 package com.isoftston.issuser.conchapp.presenter;
 
+import android.util.Log;
+
 import com.corelibs.api.ApiFactory;
 import com.corelibs.api.ResponseTransformer;
 import com.corelibs.pagination.presenter.PagePresenter;
@@ -38,6 +40,7 @@ public class UserPresenter extends PagePresenter<UserView> {
      */
    public void getUserInfo(){
        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+       Log.e("yzh","token--"+token);
        String token1=token.replaceAll("\"","");
        UserBean bean=new UserBean();
         api.getUserInfo(token1,bean)

@@ -682,9 +682,9 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     }
 
     private void hideAllBtn() {
-//        revokeBtn.setVisibility(View.GONE);
-//        commitBtn.setVisibility(View.GONE);
-//        modifyBtn.setVisibility(View.GONE);
+        revokeBtn.setVisibility(View.GONE);
+        commitBtn.setVisibility(View.GONE);
+        modifyBtn.setVisibility(View.GONE);
     }
 
     private void showAllBtn() {
@@ -707,13 +707,14 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     @Override
     public void revokeJob(ResponseDataBean responseDataBean) {
         ToastMgr.show(R.string.revoke_success);
-        isCommited = true;
         hideAllBtn();
     }
 
     @Override
     public void submitJob(ResponseDataBean responseDataBean) {
         ToastMgr.show(R.string.submit_success);
+        isCommited = true;
+        hideAllBtn();
     }
 
     @Override

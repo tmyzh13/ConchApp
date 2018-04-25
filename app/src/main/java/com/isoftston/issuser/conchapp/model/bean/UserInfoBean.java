@@ -16,6 +16,15 @@ public class UserInfoBean implements Serializable {
     private String phoneNum;
     private String companyName;
     private String orgName;
+    private String orgId;
+
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
+    }
 
     public String getRealName() {
         return realName;

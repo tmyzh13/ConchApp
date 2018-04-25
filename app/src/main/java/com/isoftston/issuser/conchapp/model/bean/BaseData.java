@@ -13,7 +13,7 @@ import java.util.List;
 public class BaseData<T> implements Serializable,ResponseHandler.IBaseData {
 
     public int code;
-    public String msg;
+    public String mess;
     public T data;
     public Page page;
 
@@ -36,6 +36,6 @@ public class BaseData<T> implements Serializable,ResponseHandler.IBaseData {
 
     @Override
     public String msg() {
-        return msg;
+        return mess;
     }
 }

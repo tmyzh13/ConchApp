@@ -17,10 +17,13 @@ public class Constant {
     public static final String LOGIN_STATUE="login_staue";
     //检修人员
     public static final String CHECK_PEOPLE="check_people";
+    public static final String CHECK_PEOPLE_ID="check_people_id";
 
     public static final String CHECK_DEVICE_TYPE="check_type";
 
     public static final String CHECK_DEVICE_ID="check_id";
     //临时图片集合
     public static final String TEMP_PIC_LIST="temp_pic_list";
+
+    public static final String ORG_NAME="ORG_NAME";
 }
