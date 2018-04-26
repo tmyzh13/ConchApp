@@ -162,7 +162,10 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     @Bind(R.id.scan_layout_inner)//扫过二维码后显示的布局
             LinearLayout scanCodeLlInner;
     LinearLayout scanCodeInner;//扫码
+    View scanFlagIv;
     LinearLayout takePhotoInnerLayout;//拍照
+    View photoFlagIv;
+
     ImageView scanFlagIv2, photoFlagIv2;//第二轮扫码、拍照标记view
 
     @Bind(R.id.scan_info_lv)
@@ -461,7 +464,9 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     private void initView() {
         //没有扫描和拍照，显示布局
         scanCodeLayout = scanCodeLl.findViewById(R.id.scan_code_layout);
+        scanFlagIv = scanCodeLayout.findViewById(R.id.scan_flag_iv);
         takePhotoLayout = scanCodeLl.findViewById(R.id.take_photo_layout);
+        photoFlagIv = takePhotoLayout.findViewById(R.id.photo_flag_iv);
         //所有人扫过后按钮在内部显示
         scanCodeInner = scanCodeLlInner.findViewById(R.id.scan_code_layout);
         takePhotoInnerLayout = scanCodeLlInner.findViewById(R.id.take_photo_layout);
@@ -599,6 +604,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             } else {
                 isPhotoed1 = true;
             }
+            photoFlagIv.setVisibility(View.VISIBLE);
         }
     }
 
@@ -629,6 +635,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                 } else {
                     isScaned1 = true;
                 }
+                scanFlagIv.setVisibility(View.VISIBLE);
             }
         });
 
@@ -782,7 +789,6 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
 
     @Override
     public void onAllPageLoaded() {
-
     }
 
     @Override
@@ -792,15 +798,21 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                 presenter.revokeJob(jobId);
                 break;
             case R.id.commit_btn:
-                SubmitJobBody body = new SubmitJobBody();
-                body.code = equipmentModelTv.getText().toString();
-                body.jobId = jobId;
-                if (list.size() == 0) {
-                    return;
-                } else {
+                final boolean scaned = isScaned1 || isScaned2;
+                final boolean photoed = isPhotoed1 || isPhotoed2;
+                if (scaned && photoed) {
+                    SubmitJobBody body = new SubmitJobBody();
+                    body.code = equipmentModelTv.getText().toString();
+                    body.jobId = jobId;
+                    if (list.size() == 0) {
+                        return;
+                    } else {
 //                    body.imgs = list.toString();
+                    }
+                    presenter.submitJob(body);
+                } else {
+                    ToastUtils.showtoast(this, "扫描和拍照同时完成以后才可以提交！");
                 }
-                presenter.submitJob(body);
                 break;
         }
     }
