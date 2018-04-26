@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -41,6 +42,7 @@ import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailRequestBean;
 import com.isoftston.issuser.conchapp.presenter.WorkDetailPresenter;
 import com.isoftston.issuser.conchapp.utils.DateUtils;
+import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.WorkDetailView;
 import com.isoftston.issuser.conchapp.views.mine.adapter.ScanInfoAdapter;
 import com.isoftston.issuser.conchapp.views.security.ChoicePhotoActivity;
@@ -582,7 +584,12 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                 //取消扫码
                 ToastMgr.show(getString(R.string.check_manager_cancel_scan));
             } else {
-                showResultView(s);
+                if (TextUtils.equals(s, equipmentModelTv.getText().toString())) {
+                    showResultView(s);
+                } else {
+                    ToastUtils.showtoast(ScanCodeActivity.this, "您扫描的二维码有误，请扫描正确的二维码！");
+                }
+
             }
         } else if (requestCode == OPEN_ACTIVITY_TAKE_PHOTO_CODE && resultCode == 10) {
             list = data.getStringArrayListExtra(Constant.TEMP_PIC_LIST);
@@ -598,7 +605,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     /**
      * 提示扫码成功
      */
-    private void showResultView(String result) {
+    private void showResultView(final String result) {
         final Dialog dialog = new Dialog(this, R.style.Dialog);
         dialog.show();
         LayoutInflater inflater = LayoutInflater.from(this);
