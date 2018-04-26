@@ -28,4 +28,5 @@ public class Constant {
     public static final String ORG_NAME="ORG_NAME";
 
     public static final String AREA_ID="AREA_ID";
+    public static final String LOCATION_NAME = "loaction_name";
 }

@@ -5,7 +5,8 @@ package com.isoftston.issuser.conchapp.model.bean;
  */
 
 public class SubmitJobBody {
-    public String jobId;
+    public String workId;
     public String code;
     public String imgs;
+    public String location;
 }

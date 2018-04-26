@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.corelibs.base.BaseActivity;
+import com.corelibs.utils.PreferencesHelper;
 import com.corelibs.utils.ToastMgr;
 import com.google.zxing.client.android.CaptureActivity;
 import com.isoftston.issuser.conchapp.R;
@@ -36,6 +37,7 @@ import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailRequestBean;
 import com.isoftston.issuser.conchapp.presenter.WorkDetailPresenter;
 import com.isoftston.issuser.conchapp.utils.DateUtils;
+import com.isoftston.issuser.conchapp.utils.LocationUtils;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.WorkDetailView;
 import com.isoftston.issuser.conchapp.views.mine.adapter.ScanInfoAdapter;
@@ -793,15 +795,16 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             case R.id.commit_btn:
                 final boolean scaned = isScaned1 || isScaned2;
                 final boolean photoed = isPhotoed1 || isPhotoed2;
-                if (scaned && photoed) {
+                if (scaned && photoed && map != null && map.size() > 0) {
                     SubmitJobBody body = new SubmitJobBody();
                     body.code = equipmentModelTv.getText().toString();
-                    body.jobId = jobId;
-                    if (map.size() == 0) {
-                        return;
-                    } else {
-//                    body.imgs = map.toString();
+                    body.workId = jobId;
+                    body.location = PreferencesHelper.getData(Constant.LOCATION_NAME);
+                    StringBuilder stringBuilder = new StringBuilder();
+                    for (String path : map.values()) {
+                        stringBuilder.append(path).append(',');
                     }
+                    body.imgs = stringBuilder.toString();
                     presenter.submitJob(body);
                 } else {
                     ToastUtils.showtoast(this, "扫描和拍照同时完成以后才可以提交！");

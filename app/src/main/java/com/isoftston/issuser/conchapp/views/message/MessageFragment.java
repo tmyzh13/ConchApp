@@ -374,6 +374,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
     public void getUserChocedCity(MyEvent event) {
         //to
         locationCityTv.setText(event.cityName);
+        PreferencesHelper.saveData(Constant.LOCATION_NAME, LocationUtils.cityName);;
     }
 
     @Override
@@ -390,6 +391,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
     private void setLocationCity() {
         LocationUtils.getCNBylocation(getActivity());
         locationCityTv.setText(LocationUtils.cityName);
+        PreferencesHelper.saveData(Constant.LOCATION_NAME, LocationUtils.cityName);;
     }
 
     @Override
