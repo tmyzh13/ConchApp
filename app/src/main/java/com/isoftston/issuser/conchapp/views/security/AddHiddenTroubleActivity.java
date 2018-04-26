@@ -489,4 +489,9 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         comAdapter.notifyDataSetChanged();
 
     }
+
+    @Override
+    public void getOrgId(String orgId) {
+
+    }
 }

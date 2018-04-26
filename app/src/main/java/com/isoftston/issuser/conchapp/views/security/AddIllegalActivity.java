@@ -425,4 +425,9 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
         findAdapter.notifyDataSetChanged();
 
     }
+
+    @Override
+    public void getOrgId(String orgId) {
+
+    }
 }

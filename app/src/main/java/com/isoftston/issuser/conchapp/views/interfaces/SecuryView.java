@@ -20,4 +20,6 @@ public interface SecuryView extends BasePaginationView {
     void addFailed();
 
     void getSafeChoiceList(SecuritySearchBean bean);
+	
+	  void getOrgId(String orgId);
 }

@@ -1,6 +1,7 @@
 package com.isoftston.issuser.conchapp.views.interfaces;
 
 import com.corelibs.base.BasePaginationView;
+import com.isoftston.issuser.conchapp.model.bean.EachMessageInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageListInfoBean;
 
@@ -14,4 +15,6 @@ public interface MessageView extends BasePaginationView {
     void  getMessageListResult(MessageListInfoBean data);
     void getWorkError();
     void  reLogin();
+
+    void getEachMessageListResult(EachMessageInfoBean data);
 }

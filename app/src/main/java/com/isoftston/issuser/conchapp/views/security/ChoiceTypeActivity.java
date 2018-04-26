@@ -142,6 +142,12 @@ public class ChoiceTypeActivity extends BaseActivity<SecuryView,SecurityPresente
         adapter.notifyDataSetChanged();
 
     }
+
+    @Override
+    public void getOrgId(String orgId) {
+
+    }
+
     @OnClick(R.id.tv_cancel)
     public void cancelSeach() {
         finish();

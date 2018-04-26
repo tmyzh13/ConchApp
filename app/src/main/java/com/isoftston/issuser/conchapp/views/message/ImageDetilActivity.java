@@ -53,8 +53,12 @@ public class ImageDetilActivity extends BaseActivity{
     }
     @Override
     protected void init(Bundle savedInstanceState) {
-        for (int i=0;i<4;i++){
-            urls.add("http://pic29.photophoto.cn/20131204/0034034499213463_b.jpg");
+//        for (int i=0;i<4;i++){
+//            urls.add("http://pic29.photophoto.cn/20131204/0034034499213463_b.jpg");
+//        }
+        Bundle bundle=getIntent().getExtras();
+        if (bundle!=null){
+            urls = bundle.getStringArrayList("imagepath");
         }
         initImages();
         initDots();

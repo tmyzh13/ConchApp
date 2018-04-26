@@ -169,6 +169,8 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     private List<String> areaList;
     private List<WorkBean> workBeanList=new ArrayList<>();
    private ArrayAdapter<String> spAdapter;
+    private int isDanger;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_new_work;
@@ -448,13 +450,12 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         long startTime = TextUtils.isEmpty(String.valueOf(startTimeStr))? 0 : DateUtils.getDateToLongMS(startTimeStr);
         String endTimeStr = tv_end_time.getText().toString().trim();
         long endTime = TextUtils.isEmpty(String.valueOf(endTimeStr))? 0 : DateUtils.getDateToLongMS(endTimeStr);
-
+        String equipmentType=equipment_type_tv.getText().toString();
 //        String equipmentType = equipment_type_tv.getText().toString().trim();
 //        String equipmentCode = equipment_model_tv.getText().toString().trim();
 //        String equipmentName = equipment_name_tv.getText().toString().trim();
-        String equipmentType = "00";
-        String equipmentCode = "11";
-        String equipmentName = "002";
+        String equipmentCode = equipment_model_tv.getText().toString();
+        String equipmentName = equipment_name_tv.getText().toString();
         String part = work_address_input.getContent().toString().trim();
         String content = description_et.getText().toString().trim();
         company = PreferencesHelper.getData(Constant.ORG_NAME);//作业单位。用户所属公司
@@ -464,7 +465,13 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
 //        String guardian = keeperNameTv.getText().toString();
 //        String auditor = checkerNameTv.getText().toString();
 //        String approver = authorizeNameTv.getText().toString();
-        String isDanger = "0";//1危险、0常规作业。前页面传递
+
+        //1危险、0常规作业。前页面传递
+        if (rb_yes.isChecked()){
+            isDanger =1;
+        }else if (rb_no.isChecked()){
+            isDanger =0;
+        }
 
         if (TextUtils.isEmpty(name) || startTime == 0
                 || TextUtils.isEmpty(name) || TextUtils.isEmpty(equipmentType) || TextUtils.isEmpty(equipmentCode)
@@ -491,7 +498,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         bean.setGuardian(guardian);
         bean.setAuditor(auditor);
         bean.setApprover(approver);
-        bean.setIsDanger(Integer.parseInt(isDanger));
+        bean.setIsDanger(isDanger);
         presenter.addWork(bean);
     }
 

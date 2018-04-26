@@ -2,6 +2,7 @@ package com.isoftston.issuser.conchapp.model.apis;
 
 import com.isoftston.issuser.conchapp.constants.Urls;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
+import com.isoftston.issuser.conchapp.model.bean.EachMessageInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageDetailRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageListInfoBean;
@@ -25,6 +26,10 @@ public interface MessageApi {
     //@Header("Set-Cookie") String cookie,
     @POST(Urls.GET_MESSAGE_LIST)
     Observable<BaseData<MessageListInfoBean>> getMessageListInfo(@Header("Access-Token") String token, @Body MessageListRequestBean bean);
+
+    //@Header("Set-Cookie") String cookie,
+    @POST(Urls.GET_MESSAGE_LIST)
+    Observable<BaseData<EachMessageInfoBean>> getEachMessageListInfo(@Header("Access-Token") String token, @Body MessageListRequestBean bean);
 
     @POST(Urls.GET_MESSGAE_DETAIL_INFO)
     Observable<BaseData<MessageDetailBean>> getMessageDetailInfo(@Header("Access-Token") String token,@Body MessageDetailRequestBean bean);

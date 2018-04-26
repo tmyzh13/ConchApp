@@ -17,6 +17,8 @@ import com.corelibs.base.BaseActivity;
 import com.corelibs.views.roundedimageview.RoundedTransformationBuilder;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.mGridViewAdapter;
+import com.isoftston.issuser.conchapp.constants.Urls;
+import com.isoftston.issuser.conchapp.model.bean.EachMessageInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageListInfoBean;
 import com.isoftston.issuser.conchapp.presenter.MessageDetailPresenter;
@@ -50,6 +52,29 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
     MyGridView mGridView;
     @Bind(R.id.tv_user)
     TextView tv_yh_finder;
+    @Bind(R.id.tv_company)
+    TextView tv_company;
+    @Bind(R.id.tv_time)
+    TextView tv_time;
+    @Bind(R.id.sjdwmc_tv)
+    TextView sjdwmc_tv;
+    @Bind(R.id.yhdd_tv)
+    TextView yhdd_tv;
+    @Bind(R.id.yhbw_tv)
+    TextView yhbw_tv;
+    @Bind(R.id.yhjb_tv)
+    TextView yhjb_tv;
+    @Bind(R.id.yhlx_tv)
+    TextView yhlx_tv;
+    @Bind(R.id.zgqx_tv)
+    TextView zgqx_tv;
+    @Bind(R.id.yhzt_tv)
+    TextView yhzt_tv;
+    @Bind(R.id.msyh_tv)
+    TextView msyh_tv;
+    @Bind(R.id.yhly_tv)
+    TextView yhly_tv;
+
     private List<View> imageList;
     private ArrayList<View> dotsList;
 //    private int[] images = {R.drawable.aaa,R.drawable.bbb,R.drawable.ccc,R.drawable.ddd};
@@ -87,26 +112,6 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
             id = bundle.getString("id");
         }
         getData();
-        //初始化数据
-        initImages();
-        //初始化小圆点
-        initDots();
-        //适配器
-        VpAdapter adapter = new VpAdapter(imageList,handler);
-        vp.setPageMargin(10);
-        vp.setAdapter(adapter);
-        //初始化vp的位置
-        vp.setCurrentItem(0);
-        gridViewAdapter = new mGridViewAdapter(this, urls);
-        mGridView.setAdapter(gridViewAdapter);
-        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Map<String, Object> map = data_list.get(i);
-                Intent intent=new Intent(ItemDtailActivity.this,ImageDetilActivity.class);
-                startActivity(intent);
-            }
-        });
         //页面改变监听
         vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -132,9 +137,6 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
     }
 
     private void getData() {
-        for (int i=0;i<4;i++){
-            urls.add("http://pic29.photophoto.cn/20131204/0034034499213463_b.jpg");
-        }
         presenter.getMessageDetailInfo(type,id);
     }
 
@@ -196,7 +198,49 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
 
     @Override
     public void getMessageDetailResult(MessageDetailBean bean) {
+        initView(bean);
+        initImages();
+        //初始化小圆点
+        initDots();
+        //适配器
+        VpAdapter adapter = new VpAdapter(imageList,handler);
+        vp.setPageMargin(10);
+        vp.setAdapter(adapter);
+        //初始化vp的位置
+        vp.setCurrentItem(0);
+        gridViewAdapter = new mGridViewAdapter(this, urls);
+        mGridView.setAdapter(gridViewAdapter);
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Map<String, Object> map = data_list.get(i);
+                Intent intent=new Intent(ItemDtailActivity.this,ImageDetilActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putStringArrayList("imagepath", (ArrayList<String>) urls);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void initView(MessageDetailBean bean) {
         tv_yh_finder.setText(bean.getFxrmc());
+        String picPath[] = bean.getTplj().split(",");
+        for (String path : picPath){
+            urls.add(Urls.ROOT+path);
+        }
+        tv_company.setText(bean.getGsmc());
+        tv_time.setText(bean.getFxrq());
+        sjdwmc_tv.setText(bean.getSjdwmc());
+        yhdd_tv.setText(bean.getYhdd());
+        yhbw_tv.setText(bean.getYhbw());
+        yhly_tv.setText(bean.getYhly());
+        msyh_tv.setText(bean.getYhms());
+        if ("YBYH".equals(bean.getYhjb())){
+            yhjb_tv.setText("一般隐患");
+        }else{
+            yhjb_tv.setText("重大隐患");
+        }
     }
 
     @Override
@@ -211,6 +255,11 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
 
     @Override
     public void reLogin() {
+
+    }
+
+    @Override
+    public void getEachMessageListResult(EachMessageInfoBean data) {
 
     }
 }

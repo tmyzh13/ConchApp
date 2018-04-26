@@ -5,12 +5,22 @@ package com.isoftston.issuser.conchapp.model.bean;
  */
 
 public class MessageBean {
+
+    public String mId;
     public String id;
     public String type;
     public String content = "";
     public String location;
     public String createTime = "";
-    public String imags;
+    public String imgs;
+
+    public String getmId() {
+        return mId;
+    }
+
+    public void setmId(String mId) {
+        this.mId = mId;
+    }
 
     public String getId() {
         return id;
@@ -52,11 +62,11 @@ public class MessageBean {
         this.createTime = createTime;
     }
 
-    public String getImags() {
-        return imags;
+    public String getImgs() {
+        return imgs;
     }
 
-    public void setImags(String imags) {
-        this.imags = imags;
+    public void setImgs(String imgs) {
+        this.imgs = imgs;
     }
 }

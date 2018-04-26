@@ -10,6 +10,7 @@ import com.corelibs.utils.PreferencesHelper;
 import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.apis.MessageApi;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
+import com.isoftston.issuser.conchapp.model.bean.EachMessageInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageDetailRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageListInfoBean;
@@ -129,6 +130,31 @@ public class MessagePresenter extends ListPagePresenter<MessageView> {
                     @Override
                     public void success(BaseData<UserInfoBean> userInfoBeanBaseData) {
                         PreferencesHelper.saveData(Constant.ORG_NAME,userInfoBeanBaseData.data.getOrgName());
+                    }
+
+                });
+    }
+
+    public void getEachMessageListInfo(String type, String lastId) {
+        MessageListRequestBean bean=new MessageListRequestBean();
+        bean.type=type;
+        bean.lastId=lastId;
+        String token=SharePrefsUtils.getValue(getContext(),"token",null);
+        Log.i("token",token);//94c29a2eaf903a1f4b3cc5996385dcd2
+        String token1=token.replaceAll("\"","");
+        api.getEachMessageListInfo(token1,bean)
+                .compose(new ResponseTransformer<>(this.<BaseData<EachMessageInfoBean>>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData<EachMessageInfoBean>>() {
+
+                    @Override
+                    public void success(BaseData<EachMessageInfoBean> messageBaseData) {
+                        view.getEachMessageListResult(messageBaseData.data);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        view.getWorkError();
                     }
 
                 });

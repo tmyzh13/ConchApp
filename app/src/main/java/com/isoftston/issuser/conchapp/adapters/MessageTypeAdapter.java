@@ -1,6 +1,7 @@
 package com.isoftston.issuser.conchapp.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -68,10 +69,14 @@ public class MessageTypeAdapter extends QuickAdapter<MessageBean> {
                 helper.setText(R.id.item_time,time.format(new Date(Long.valueOf(item.getCreateTime()))));
             }
         }
-        Glide.with(context).load(Urls.ROOT+item.getImags())
-                .centerCrop()
-                .override(320,160)
-                .transform(new CenterCrop(context), new RoundedTransformationBuilder().cornerRadius(20).build(context))
-                .into(content_pic);
+        if (item.getImgs() != null){
+            String path[] = item.getImgs().split(",");
+            Log.d("path","path="+path[0]);
+            Glide.with(context).load(Urls.ROOT + path[0])
+                    .centerCrop()
+                    .override(320,160)
+                    .transform(new CenterCrop(context), new RoundedTransformationBuilder().cornerRadius(20).build(context))
+                    .into(content_pic);
+        }
     }
 }
