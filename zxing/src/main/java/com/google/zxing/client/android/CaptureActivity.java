@@ -167,7 +167,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
                 finish();
             }
         });
-        setBarColor(getColor(R.color.colorPrimaryDark));
+        setBarColor(getResources().getColor(R.color.colorPrimaryDark));
         handler = null;
         lastResult = null;
 
