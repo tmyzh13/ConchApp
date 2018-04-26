@@ -503,7 +503,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         takePhotoInnerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this, "1", map), OPEN_ACTIVITY_TAKE_PHOTO_CODE);
+                startActivityForResult(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this, "0", map), OPEN_ACTIVITY_TAKE_PHOTO_CODE);
             }
         });
     }
@@ -520,7 +520,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         takePhotoLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this, "1", map), OPEN_ACTIVITY_TAKE_PHOTO_CODE);
+                startActivityForResult(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this, "0", map), OPEN_ACTIVITY_TAKE_PHOTO_CODE);
             }
         });
     }
