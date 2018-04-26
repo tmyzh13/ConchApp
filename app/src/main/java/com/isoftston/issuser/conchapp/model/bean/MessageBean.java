@@ -7,9 +7,9 @@ package com.isoftston.issuser.conchapp.model.bean;
 public class MessageBean {
     public String id;
     public String type;
-    public String content;
+    public String content = "";
     public String location;
-    public String createTime;
+    public String createTime = "";
     public String imags;
 
     public String getId() {

@@ -7,7 +7,9 @@ import com.corelibs.api.ResponseTransformer;
 import com.corelibs.pagination.presenter.ListPagePresenter;
 import com.corelibs.subscriber.PaginationSubscriber;
 import com.corelibs.subscriber.ResponseSubscriber;
+import com.corelibs.utils.PreferencesHelper;
 import com.google.gson.JsonObject;
+import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.UserHelper;
 import com.isoftston.issuser.conchapp.model.apis.CheckApi;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
@@ -19,12 +21,17 @@ import com.isoftston.issuser.conchapp.model.bean.CheckDeviceRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.CheckOneDeviceBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceListBean;
+import com.isoftston.issuser.conchapp.model.bean.UserBean;
+import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
+import com.isoftston.issuser.conchapp.utils.LocationUtils;
 import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.CheckView;
 
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by issuser on 2018/4/16.
@@ -56,7 +63,10 @@ public class CheckPresenter extends ListPagePresenter<CheckView> {
         if(reload){
             view.showLoading();
         }
-        api.getDevices("1",getPageNo()+"")
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        Log.i("token",token);
+        String token1=token.replaceAll("\"","");
+        api.getDevices(token1,"1",getPageNo()+"")
                 .compose(new ResponseTransformer<>(this.<BaseData<DeviceListBean>>bindToLifeCycle()))
                 .subscribe(new PaginationSubscriber<BaseData<DeviceListBean>>(view,this,reload){
 
@@ -84,13 +94,23 @@ public class CheckPresenter extends ListPagePresenter<CheckView> {
      * 扫描之后获取设备信息
      * @param content
      */
-    public void checkDevice(String content){
+    public void checkDevice(String content,String cityName){
         CheckDeviceRequestBean bean =new CheckDeviceRequestBean();
-        bean.equipId=content;
+
+        Pattern pattern = Pattern.compile("[^0-9]");
+        Matcher matcher = pattern.matcher(content);
+        String all = matcher.replaceAll("");
+
+        bean.equipId=all;
 //        bean.userId=UserHelper.getUserId()+"";
-        bean.userId="1";
-        bean.location="湖北";
-        api.checkDevices(bean)
+        bean.userId= String.valueOf(UserHelper.getUserId());
+
+        bean.location=cityName;
+
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        Log.i("token",token);
+        String token1=token.replaceAll("\"","");
+        api.checkDevices(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<DeviceBean>>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData<DeviceBean>>() {
                     @Override
@@ -173,6 +193,25 @@ public class CheckPresenter extends ListPagePresenter<CheckView> {
                     @Override
                     public void success(BaseData<DeviceBean> deviceBeanBaseData) {
                         view.checkDeviceResult(deviceBeanBaseData.data);
+                    }
+
+                });
+    }
+
+    public void getUserInfo(){
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        Log.e("yzh","token--"+token);
+        String token1=token.replaceAll("\"","");
+        UserBean bean=new UserBean();
+        api.getUserInfo(token1,bean)
+                .compose(new ResponseTransformer<>(this.<BaseData<UserInfoBean>>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData<UserInfoBean>>() {
+                    @Override
+                    public void success(BaseData<UserInfoBean> userInfoBeanBaseData) {
+                        UserBean bean=new UserBean();
+                        bean.userId = userInfoBeanBaseData.data.getId();
+                        Log.i("yzh","saveUser--"+bean.userId);
+                        UserHelper.saveUser(bean);
                     }
 
                 });

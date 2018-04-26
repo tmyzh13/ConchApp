@@ -96,7 +96,7 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
         vp.setPageMargin(10);
         vp.setAdapter(adapter);
         //初始化vp的位置
-        vp.setCurrentItem(1);
+        vp.setCurrentItem(0);
         gridViewAdapter = new mGridViewAdapter(this, urls);
         mGridView.setAdapter(gridViewAdapter);
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

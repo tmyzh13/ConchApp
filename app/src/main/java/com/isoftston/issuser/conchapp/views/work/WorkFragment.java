@@ -17,7 +17,9 @@ import android.widget.TextView;
 
 import com.corelibs.base.BaseFragment;
 import com.corelibs.base.BasePresenter;
+import com.corelibs.utils.PreferencesHelper;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.views.seacher.SeacherActivity;
 import com.isoftston.issuser.conchapp.views.work.adpter.WorkTypeAdapter;
@@ -143,5 +145,6 @@ public class WorkFragment extends BaseFragment implements View.OnClickListener {
             child.invalidate();
         }
     }
+
 
 }

@@ -26,4 +26,6 @@ public class Constant {
     public static final String TEMP_PIC_LIST="temp_pic_list";
 
     public static final String ORG_NAME="ORG_NAME";
+
+    public static final String AREA_ID="AREA_ID";
 }

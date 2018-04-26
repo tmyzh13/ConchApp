@@ -13,7 +13,20 @@ public class AddYHBean {
     private String sjdwid;
     private String sjdwmc;
     private String yhly;
-
+    private String fxrmc;
+    private String fxrId;
+    private String fxrq;
+    private String cjsj;
+    private String yhlx;
+    private String yhjb;
+    private String yhdd;
+    private String yhbw;
+    private String yhlbb;
+    private String sfxczg;
+    private String yhms;
+    private String tplj;
+    private String knzchg;
+    private String ischoose;
     public String getGsId() {
         return gsId;
     }
@@ -29,20 +42,6 @@ public class AddYHBean {
     public void setFxrId(String fxrId) {
         this.fxrId = fxrId;
     }
-
-    private String fxrmc;
-    private String fxrId;
-    private String fxrq;
-    private String cjsj;
-    private String yhlx;
-    private String yhjb;
-    private String yhdd;
-    private String yhbw;
-    private String yhlbb;
-    private String sfxczg;
-    private String yhms;
-    private String tplj;
-    private String knzchg;
     public void setYhmc(String yhmc) {
         this.yhmc = yhmc;
     }
@@ -50,7 +49,13 @@ public class AddYHBean {
         return yhmc;
     }
 
+    public String getIschoose() {
+        return ischoose;
+    }
 
+    public void setIschoose(String ischoose) {
+        this.ischoose = ischoose;
+    }
 
     public void setJcdwid(String jcdwid) {
         this.jcdwid = jcdwid;

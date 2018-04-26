@@ -19,7 +19,7 @@ import java.net.URL;
 
 
 public  class  UploadImage {
-    public static void uploadFile(String uploadUrl,String uploadFilePath,String token) {
+    public static String uploadFile(String uploadUrl,String uploadFilePath,String token) {
         String end = "\r\n";
         String twoHyphens = "--";
         String boundary = "******";
@@ -60,15 +60,14 @@ public  class  UploadImage {
             InputStreamReader isr = new InputStreamReader(is, "utf-8");
             BufferedReader br = new BufferedReader(isr);
             String result = br.readLine();
-            ToastMgr.show(R.string.submit_success);
             Log.i("result",result);
             dos.close();
             is.close();
-
+            return result;
         } catch (Exception e) {
             e.printStackTrace();
 
         }
-
+        return null;
     }
 }

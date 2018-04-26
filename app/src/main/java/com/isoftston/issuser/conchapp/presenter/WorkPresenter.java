@@ -18,6 +18,7 @@ import com.isoftston.issuser.conchapp.model.bean.NewWorkBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkListBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkListRequestBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkListsBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkTypeRequestBean;
 import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.WorkView;
@@ -41,11 +42,8 @@ public class WorkPresenter extends BasePresenter<WorkView> {
     /**
      * 获取作业列表数据
      */
-    public void getWorkInfo(String type,String item,String lastid) {
+    public void getWorkInfo() {
         WorkListRequestBean bean=new WorkListRequestBean();
-        bean.type=type;
-        bean.item=item;
-        bean.lastId=lastid;
         String token= SharePrefsUtils.getValue(getContext(),"token",null);
         String token1=token.replaceAll("\"","");
         api.getWorkInfo(token1,bean)
@@ -66,18 +64,19 @@ public class WorkPresenter extends BasePresenter<WorkView> {
                 });
 
     }
-    public void getWorkTypeInfo(String lastid,String type) {
+    public void getWorkList(String lastid,int type,String item) {
         WorkTypeRequestBean bean=new WorkTypeRequestBean();
-        bean.userId= UserHelper.getUserId()+"";
         bean.lastId=lastid;
         bean.type=type;
-        api.getWorkTypeInfo(bean)
-                .compose(new ResponseTransformer<>(this.<BaseData<WorkListBean>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<WorkListBean>>() {
+        bean.item=item;
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        String token1=token.replaceAll("\"","");
+        api.getWorkTypeInfo(token1,bean)
+                .compose(new ResponseTransformer<>(this.<BaseData<WorkListsBean>>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData<WorkListsBean>>() {
                     @Override
-                    public void success(BaseData<WorkListBean> workBeanBaseData) {
-                        view.getWorkListInfo(workBeanBaseData.data.list);
-                        Log.i("zt",workBeanBaseData.data.list.size()+"");
+                    public void success(BaseData<WorkListsBean> workBeanBaseData) {
+                        view.getWorkList(workBeanBaseData.data.list);
                     }
 
                     @Override

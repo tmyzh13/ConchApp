@@ -6,35 +6,38 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.isoftston.issuser.conchapp.views.work.ItemFragment;
 
+import java.util.List;
+
 /**
  * Created by issuser on 2018/4/16.
  */
 
 public class WorkMessageAdapter  extends FragmentPagerAdapter {
-    private String[] mTitles;
+    private List<String> list;
     private int bigType;
-    public WorkMessageAdapter(FragmentManager fm, String[] mTitles, int i){
+
+    public WorkMessageAdapter(FragmentManager fm, List<String> list, int i){
         super(fm);
-        this.mTitles=mTitles;
+        this.list=list;
         this.bigType=i;
     }
 
-    public void setmTitles(String[] mTitles){
-        this.mTitles=mTitles;
+    public void setmTitles(List<String> list){
+        this.list=list;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return ItemFragment.newInstance(mTitles[position],bigType);
+        return ItemFragment.newInstance(list.get(position),bigType);
     }
 
     @Override
     public int getCount() {
-        return mTitles.length;
+        return list.size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return mTitles[position];
+        return list.get(position);
     }
 }

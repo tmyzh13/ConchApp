@@ -15,6 +15,7 @@ import com.isoftston.issuser.conchapp.model.bean.DeviceTypeBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceTypeRequstBean;
 import com.isoftston.issuser.conchapp.model.bean.FixWorkBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
 import com.isoftston.issuser.conchapp.presenter.WorkPresenter;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.WorkView;
@@ -94,6 +95,11 @@ public class FixWorkActivity extends BaseActivity<WorkView,WorkPresenter> implem
 
     @Override
     public void getWorkListInfo(List<WorkBean> list) {
+
+    }
+
+    @Override
+    public void getWorkList(List<WorkDetailBean> list) {
 
     }
 

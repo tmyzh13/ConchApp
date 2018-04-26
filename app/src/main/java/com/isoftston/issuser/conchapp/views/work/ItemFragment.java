@@ -8,18 +8,22 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.corelibs.base.BaseFragment;
+import com.corelibs.utils.PreferencesHelper;
 import com.corelibs.utils.ToastMgr;
 import com.corelibs.views.cube.ptr.PtrFrameLayout;
 import com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout;
 import com.corelibs.views.ptr.loadmore.widget.AutoLoadMoreListView;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.DangerTypeBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceTypeBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceTypeRequstBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
 import com.isoftston.issuser.conchapp.presenter.WorkPresenter;
+import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.WorkView;
 import com.isoftston.issuser.conchapp.views.work.adpter.WorkMessageItemAdapter;
@@ -43,9 +47,10 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
     PtrAutoLoadMoreLayout<AutoLoadMoreListView> ptrLayout;
 
     public WorkMessageItemAdapter adapter;
-    public List<WorkBean> listMessage;
+    public List<WorkDetailBean> listMessage;
     private String type;
     private int bType;
+    private String itemID;
     public static Fragment newInstance(String type, int bigType) {
         ItemFragment fragment =new ItemFragment();
         Bundle b =new Bundle();
@@ -63,18 +68,20 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
     @Override
     protected void init(Bundle savedInstanceState) {
         type=getArguments().getString("type");
+        Log.i("type",type);
         bType=getArguments().getInt("bigType");
         tv.setText(type);
         listMessage=new ArrayList<>();
-//        for(int i=0;i<10;i++){
-//            listMessage.add(new WorkBean());
-//        }
-        if (bType==0){
-            presenter.getWorkInfo("0","3","");
-        }else if (bType==1){
-            presenter.getWorkInfo("1","3","");
+        if (bType==2){
+            if (type.equals(getString(R.string.my_approve))){
+                presenter.getWorkList("",2,"0");
+            }else if (type.equals(getString(R.string.my_check))){
+                presenter.getWorkList("",2,"1");
+            }else {
+                presenter.getWorkList("",2,"2");
+            }
         }else {
-            presenter.getWorkInfo("2","3","");
+            presenter.getWorkInfo();
         }
         adapter=new WorkMessageItemAdapter(getContext());
         adapter.addAll(listMessage);
@@ -92,6 +99,22 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
             }
         });
         ptrLayout.setRefreshLoadCallback(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (bType==2){
+            if (type.equals(getString(R.string.my_approve))){
+                presenter.getWorkList("",2,"0");
+            }else if (type.equals(getString(R.string.my_check))){
+                presenter.getWorkList("",2,"1");
+            }else {
+                presenter.getWorkList("",2,"2");
+            }
+        }else {
+            presenter.getWorkInfo();
+        }
     }
 
     @Override
@@ -116,11 +139,22 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
 
     @Override
     public void getWorkListInfo(List<WorkBean> list) {
-        Log.i("dp","----getWorkListInfo:"+list.toString()+","+list.size());
-        listMessage=list;
-        adapter.addAll(listMessage);
-        adapter.notifyDataSetChanged();
+        for (WorkBean workBean:list){
+            if (type.equals(workBean.getName())){
+                presenter.getWorkList("",bType,String.valueOf(workBean.getId()));
+            }
+        }
 
+    }
+
+    @Override
+    public void getWorkList(List<WorkDetailBean> list) {
+        listMessage.clear();
+        listMessage=list;
+        Log.i("listMessage",listMessage.size()+"");
+        adapter.addAll(listMessage);
+        lv_message.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     @Override

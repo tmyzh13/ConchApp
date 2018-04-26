@@ -208,6 +208,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         scan();
         setData();
         scaned();
+
     }
 
     /**
@@ -723,7 +724,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             dangerWorkRl.setVisibility(View.GONE);
         }
         checkUserPosition(workDetailBean);
-
+        getLoadingDialog().dismiss();
     }
 
     private void hideAllBtn() {

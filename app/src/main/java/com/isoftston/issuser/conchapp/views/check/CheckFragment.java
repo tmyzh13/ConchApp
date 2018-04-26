@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -30,6 +33,7 @@ import com.isoftston.issuser.conchapp.model.bean.CheckAllDevicesBean;
 import com.isoftston.issuser.conchapp.model.bean.CheckBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceBean;
 import com.isoftston.issuser.conchapp.presenter.CheckPresenter;
+import com.isoftston.issuser.conchapp.utils.LocationUtils;
 import com.isoftston.issuser.conchapp.utils.Tools;
 import com.isoftston.issuser.conchapp.views.interfaces.CheckView;
 import com.isoftston.issuser.conchapp.views.seacher.SeacherActivity;
@@ -37,6 +41,7 @@ import com.isoftston.issuser.conchapp.views.work.ScanCodeActivity;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.Bind;
@@ -56,6 +61,10 @@ public class CheckFragment extends BaseFragment<CheckView,CheckPresenter> implem
     PtrAutoLoadMoreLayout<AutoLoadMoreListView> ptrLayout;
     @Bind(R.id.iv_icon)
     CircleImageView iv_icon;
+    @Bind(R.id.iv_time)
+    TextView tvTime;
+    @Bind(R.id.tnNum)
+    TextView tvNum;
 
     private DeviceAdapter adapter;
     private List<DeviceBean> mlist;
@@ -67,6 +76,7 @@ public class CheckFragment extends BaseFragment<CheckView,CheckPresenter> implem
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        presenter.getUserInfo();
         navBar.setColorRes(R.color.white);
         navBar.setTitleColor(getResources().getColor(R.color.black));
         navBar.setNavTitle(getString(R.string.check_manager));
@@ -100,7 +110,12 @@ public class CheckFragment extends BaseFragment<CheckView,CheckPresenter> implem
         Glide.with(getContext()).load("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524193800&di=ec7643dc32956b231ab9694a6c853c71&imgtype=jpg&er=1&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201503%2F05%2F20150305175720_urKVB.jpeg")
                 .override(320,320).into(iv_icon);
         ptrLayout.setRefreshLoadCallback(this);
-        presenter.getDevice(true);
+        //presenter.getDevice(true);
+
+        Calendar now = Calendar.getInstance();
+        String txt = now.get(Calendar.YEAR) + "年" + (now.get(Calendar.MONTH) + 1) + "月" + now.get(Calendar.DAY_OF_MONTH) + "日";
+        tvTime.setText(txt);
+
     }
 
     @Override
@@ -172,7 +187,9 @@ public class CheckFragment extends BaseFragment<CheckView,CheckPresenter> implem
                 ToastMgr.show(getString(R.string.check_manager_cancel_scan));
             }else{
                 ((BaseActivity)getActivity()).getLoadingDialog().show();
-                presenter.checkDevice(s);
+                LocationUtils.getCNBylocation(getActivity());
+                Log.i("yzh", "cityName:" + LocationUtils.cityName);
+                presenter.checkDevice(s,LocationUtils.cityName);
             }
         }
     }
@@ -209,6 +226,8 @@ public class CheckFragment extends BaseFragment<CheckView,CheckPresenter> implem
     @Override
     public void checkDeviceResult(DeviceBean bean) {
         ((BaseActivity)getActivity()).getLoadingDialog().dismiss();
+        presenter.getAllDeviceInfo("");
+        startActivity(CheckDeviceDetailActivity.getLauncher(getContext(),bean));
     }
 
     @Override
@@ -220,22 +239,24 @@ public class CheckFragment extends BaseFragment<CheckView,CheckPresenter> implem
     @Override
     public void CheckAllDeviceResult(List<DeviceBean> list) {
         this.mlist=list;
+        adapter.clear();
         adapter.addAll(mlist);
         lv_device.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        Log.i("yzh", "fresh size:" + list.size());
+        tvNum.setText(list.size() + "");
     }
 
 
     @Override
     public void onLoading(PtrFrameLayout frame) {
-        presenter.getDevice(false);
+        presenter.getAllDeviceInfo("");
     }
 
     @Override
     public void onRefreshing(PtrFrameLayout frame) {
         if(!frame.isAutoRefresh()){
             ptrLayout.enableLoading();
-            presenter.getDevice(true);
+            presenter.getAllDeviceInfo("");
         }
     }
 }

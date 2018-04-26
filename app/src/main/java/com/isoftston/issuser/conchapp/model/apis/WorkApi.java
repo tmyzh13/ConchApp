@@ -13,6 +13,7 @@ import com.isoftston.issuser.conchapp.model.bean.WorkBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkListBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkListRequestBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkListsBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkTypeRequestBean;
 
 import retrofit2.http.Body;
@@ -31,7 +32,7 @@ public interface WorkApi {
     Observable<BaseData<WorkListBean>> getWorkInfo(@Header("Access-Token") String token,@Body WorkListRequestBean bean);
 
     @POST(Urls.GET_WORK_TYPE_INFO)
-    Observable<BaseData<WorkListBean>> getWorkTypeInfo(@Body WorkTypeRequestBean bean);
+    Observable<BaseData<WorkListsBean>> getWorkTypeInfo(@Header("Access-Token") String token, @Body WorkTypeRequestBean bean);
 
     @POST(Urls.ADD_WORK)
     Observable<BaseData> addWork(@Header("Access-Token") String token,@Body NewWorkBean bean);
@@ -47,4 +48,5 @@ public interface WorkApi {
 
     @POST(Urls.GET_EQUPMENT_INFO_BY_TYPE)
     Observable<BaseData<DeviceNameCodeBean>> deviceName(@Header("Access-Token") String token, @Body DeviceNameBean bean);
+
 }

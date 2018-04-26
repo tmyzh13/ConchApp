@@ -160,31 +160,33 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
     public void confirmInfo(){
         AddYHBean bean=new AddYHBean();
 //        bean.setYhmc(input_illegal_name.getContent());
-        bean.setYhmc("1");
+        bean.setYhmc(input_illegal_name.getContent());
         bean.setGsId("1");
         bean.setJcdwid("1");
-        bean.setJcdwmc("1");
+        bean.setJcdwmc(input_find_company.getContent());
         bean.setSjdwid("1");
-        bean.setSjdwmc("1");
+        bean.setSjdwmc(input_illegal_company.getContent());
         bean.setYhly("1");
-        bean.setFxrmc("1");
+        bean.setFxrmc(tv_check_people.getText().toString());
         bean.setFxrId("1");
-        bean.setFxrq("1");
-        bean.setCjsj("1");
+        bean.setFxrq(tv_start_time.getText().toString());
+        bean.setCjsj(tv_end_time.getText().toString());
         bean.setYhlx("1");
         bean.setYhjb("1");
-        bean.setYhdd("1");
+        bean.setYhdd(input_illegal_place.getContent());
         bean.setYhbw("1");
         bean.setYhlbb("1");
         bean.setSfxczg("1");
-        bean.setYhms("1");
-        bean.setTplj("1");
+        bean.setYhms(et_description.getText().toString());
+        bean.setTplj(picString);
         bean.setKnzchg("1");
+        bean.setIschoose("1");
         presenter.addWZMessage(bean);
         finish();
     }
 
     private ArrayList<String> list=new ArrayList<>();
+    private String picString;
 
     @OnClick(R.id.rl_photo)
     public void choicePhoto(){
@@ -246,6 +248,12 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
         }else if(requestCode==110){
             if(resultCode==10){
                 list=data.getStringArrayListExtra(Constant.TEMP_PIC_LIST);
+                StringBuilder builder = new StringBuilder();
+                for (String path : list){
+                    builder.append(path);
+                    builder.append(",");
+                }
+                picString = builder.toString();
             }
         }
     }

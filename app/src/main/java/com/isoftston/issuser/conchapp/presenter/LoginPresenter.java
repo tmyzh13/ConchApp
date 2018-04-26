@@ -63,7 +63,6 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                             if(baseData!=null&&baseData.data!=null){
                                 JsonObject jsonObject= (JsonObject) baseData.data;
                                 String token= String.valueOf(jsonObject.get("Access-Token"));
-
                                 view.loginSuccess(token);
                             }
 

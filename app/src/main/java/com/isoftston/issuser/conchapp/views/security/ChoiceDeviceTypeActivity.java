@@ -22,6 +22,7 @@ import com.isoftston.issuser.conchapp.model.bean.DeviceTypeBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceTypeRequstBean;
 import com.isoftston.issuser.conchapp.model.bean.FixWorkBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
 import com.isoftston.issuser.conchapp.presenter.WorkPresenter;
 import com.isoftston.issuser.conchapp.views.interfaces.WorkView;
 import com.isoftston.issuser.conchapp.views.work.NewWorkActivity;
@@ -89,7 +90,7 @@ public class ChoiceDeviceTypeActivity extends BaseActivity<WorkView, WorkPresent
                 Log.i("datss",listdata_next.size()+"");
                 if (listdata_next != null && listdata_next.size() != 0) {
                     adapter.replaceAll(listdata_next);
-                    adapter.addAll(listdata_next);
+//                    adapter.addAll(listdata_next);
                     lv_device.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 }else {
@@ -126,6 +127,11 @@ public class ChoiceDeviceTypeActivity extends BaseActivity<WorkView, WorkPresent
 
     @Override
     public void getWorkListInfo(List<WorkBean> list) {
+
+    }
+
+    @Override
+    public void getWorkList(List<WorkDetailBean> list) {
 
     }
 

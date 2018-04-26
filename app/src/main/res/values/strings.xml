@@ -231,6 +231,7 @@
     <string name="sex_male">男</string>
     <string name="sex_female">女</string>
     <string name="submit_success">提交成功！</string>
+    <string name="submit_fail">提交失败！</string>
 
     <!--jpush-->
     <string name="get_cache_record_fail">获取缓存记录失败</string>

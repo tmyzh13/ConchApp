@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BasePresenter;
 import com.corelibs.views.NoScrollingGridView;
+import com.google.gson.JsonObject;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.SelectImageHelper;
 import com.isoftston.issuser.conchapp.constants.Constant;
@@ -25,8 +28,11 @@ import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.utils.UploadImage;
 import com.isoftston.issuser.conchapp.views.interfaces.SecuryView;
+import com.isoftston.issuser.conchapp.views.work.NewWorkActivity;
 import com.isoftston.issuser.conchapp.weight.ChooseImagePopupWindow;
 import com.isoftston.issuser.conchapp.weight.NavBar;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -143,31 +149,54 @@ public class ChoicePhotoActivity extends BaseActivity {
 
     @OnClick(R.id.tv_confirm)
     public void confirm() {
-        Intent intent = new Intent();
-        ArrayList<String> list = new ArrayList<>();
+        final ArrayList<String> list = new ArrayList<>();
         List<File> listFiles = helper.getChosenImages();
         for (int i = 0; i < listFiles.size(); i++) {
             list.add(listFiles.get(i).getPath());
         }
-        intent.putStringArrayListExtra(Constant.TEMP_PIC_LIST, list);
-        setResult(10, intent);
-        //上传图片
-        String token= SharePrefsUtils.getValue(context,"token",null);
-        final String token1=token.replaceAll("\"","");
-        for (final String path:list){
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    UploadImage.uploadFile(Urls.ROOT+Urls.UPLOAD_IMAGE,path,token1);
+
+        final Handler handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                if (msg.arg1 == 1){
+                    Intent intent =new Intent();
+                    intent.putStringArrayListExtra(Constant.TEMP_PIC_LIST, (ArrayList<String>) msg.obj);
+                    setResult(10, intent);
+                    ToastUtils.showtoast(context, getString(R.string.submit_success));
+                    finish();
+                }else {
+                    ToastUtils.showtoast(context, getString(R.string.submit_fail));
                 }
-            }).start();
 
-        }
-        finish();
-        ToastUtils.showtoast(context,getString(R.string.submit_success));
+            }
+        };
+
+        //上传图片
+        String token = SharePrefsUtils.getValue(context, "token", null);
+        final String token1 = token.replaceAll("\"", "");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<String> pathList = new ArrayList<>();
+                String picPath = "";
+                Message message = new Message();
+                for (final String path : list) {
+                    picPath = UploadImage.uploadFile(Urls.ROOT + Urls.UPLOAD_IMAGE, path, token1);
+                    if (picPath == null){
+                        message.arg1 = 0;
+                        handler.sendMessage(message);
+                        return;
+                    }
+                    com.alibaba.fastjson.JSONObject object = com.alibaba.fastjson.JSONObject.parseObject(picPath);
+                    pathList.add(object.getString("mess").toString());
+                }
+                message.arg1 = 1;
+                message.obj = pathList;
+                handler.sendMessage(message);
+            }
+        }).start();
     }
-
-
 
 
 }

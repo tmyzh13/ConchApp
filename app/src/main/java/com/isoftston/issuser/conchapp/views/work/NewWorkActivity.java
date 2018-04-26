@@ -38,6 +38,7 @@ import com.isoftston.issuser.conchapp.model.bean.DeviceTypeRequstBean;
 import com.isoftston.issuser.conchapp.model.bean.FixWorkBean;
 import com.isoftston.issuser.conchapp.model.bean.NewWorkBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
 import com.isoftston.issuser.conchapp.presenter.WorkPresenter;
 import com.isoftston.issuser.conchapp.utils.DateUtils;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
@@ -164,7 +165,10 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     private int isDangerWork = 0;
     private List<String> dangerTypeList=new ArrayList<>();
     private int device_id;
-
+    private String areaId;
+    private List<String> areaList;
+    private List<WorkBean> workBeanList=new ArrayList<>();
+   private ArrayAdapter<String> spAdapter;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_new_work;
@@ -310,12 +314,8 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
 
     private void aboutSpinner() {
         //作业区域下拉选择
-        final ArrayAdapter<String> spAdapter;
-        List<String> areaList = new ArrayList<>();
-        areaList.add(getString(R.string.shuini));
-        areaList.add(getString(R.string.matou));
-        areaList.add(getString(R.string.kuangshan));
-        areaList.add(getString(R.string.build));
+        areaList = new ArrayList<>();
+        presenter.getWorkInfo();
         spAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, areaList);
         spAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         work_zone_sp.setAdapter(spAdapter);
@@ -324,6 +324,11 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e(TAG,"----"+spAdapter.getItem(position).toString());
                 area = spAdapter.getItem(position).toString();
+                for (WorkBean bean:workBeanList){
+                    if (area.equals(bean.getName())){
+                        areaId=String.valueOf(bean.getId());
+                    }
+                }
             }
 
             @Override
@@ -459,7 +464,6 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
 //        String guardian = keeperNameTv.getText().toString();
 //        String auditor = checkerNameTv.getText().toString();
 //        String approver = authorizeNameTv.getText().toString();
-        String orgId = "1";
         String isDanger = "0";//1危险、0常规作业。前页面传递
 
         if (TextUtils.isEmpty(name) || startTime == 0
@@ -467,7 +471,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
                 || TextUtils.isEmpty(equipmentName) || TextUtils.isEmpty(area) || TextUtils.isEmpty(part)
                 || TextUtils.isEmpty(content) || TextUtils.isEmpty(company) || TextUtils.isEmpty(numPeople)
                 || TextUtils.isEmpty(String.valueOf(type)) || TextUtils.isEmpty(leading) || TextUtils.isEmpty(guardian)
-                || TextUtils.isEmpty(auditor) || TextUtils.isEmpty(approver) || TextUtils.isEmpty(orgId)) {
+                || TextUtils.isEmpty(auditor) || TextUtils.isEmpty(approver) ) {
             ToastMgr.show(R.string.input_all_message);
             return;
         }
@@ -477,7 +481,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         bean.setEquipmentType(Integer.parseInt(equipmentType));
         bean.setEquipmentCode(equipmentCode);
         bean.setEquipmentName(equipmentName);
-        bean.setArea(area);
+        bean.setArea(areaId);
         bean.setPart(part);
         bean.setContent(content);
         bean.setCompany(company);
@@ -487,7 +491,6 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         bean.setGuardian(guardian);
         bean.setAuditor(auditor);
         bean.setApprover(approver);
-        bean.setOrgId(orgId);
         bean.setIsDanger(Integer.parseInt(isDanger));
         presenter.addWork(bean);
     }
@@ -578,6 +581,16 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
 
     @Override
     public void getWorkListInfo(List<WorkBean> list) {
+        workBeanList = list;
+        areaList.clear();
+        for (int i=0;i<list.size();i++){
+            areaList.add(list.get(i).getName());
+        }
+        spAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void getWorkList(List<WorkDetailBean> list) {
 
     }
 

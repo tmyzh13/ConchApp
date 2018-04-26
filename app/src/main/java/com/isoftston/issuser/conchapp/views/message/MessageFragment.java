@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -81,6 +82,10 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
     LinearLayout ll_aq_detail;
     @Bind(R.id.bt_yh)
     Button bt_yh;
+    @Bind(R.id.yh_msg)
+    TextView yhMsg;
+    @Bind(R.id.wz_msg)
+    TextView wzMsg;
     @Bind(R.id.iv_dirict)
     ImageView iv_direc;
     @Bind(R.id.iv_back)
@@ -109,10 +114,6 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
     @Bind(R.id.tv_wz_total)
     TextView tv_wz_total;
 
-    @Bind(R.id.yh_unread_tv1)
-    TextView yh_unread_tv1;
-    @Bind(R.id.wz_unread_tv1)
-    TextView wz_unread_tv1;
 
     public static final int LOCATION_REQUEST_CODE = 100;
     public Handler handler = new Handler() {
@@ -129,7 +130,12 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
 
     private View view;
     public MessageTypeAdapter mAdapter;
-    public List<MessageBean> listMessage;
+    public List<MessageBean> listAllMessage = new ArrayList<>();
+    public List<MessageBean> listYhMessage = new ArrayList<>();
+    public List<MessageBean> listWzMessage = new ArrayList<>();
+    public List<MessageBean> listAqMessage = new ArrayList<>();
+    private int currrentPage;
+    private boolean isChange;
 
     @Override
     protected int getLayoutId() {
@@ -140,7 +146,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
 
     @Override
     protected void init(Bundle savedInstanceState) {
-//        presenter.getUserInfo();
+        presenter.getUserInfo();
         EventBus.getDefault().register(this);
         nav.setColorRes(R.color.app_blue);
         nav.setNavTitle(getString(R.string.main_message));
@@ -156,13 +162,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         VpAdapter adapter = new VpAdapter(list, handler);
         ll_main.setOnClickListener(this);
         mAdapter = new MessageTypeAdapter(getContext());
-        listMessage = new ArrayList<>();
-//        for(int i=0;i<10;i++){
-//            listMessage.add(new MessageBean());
-//        }
-        ((BaseActivity)getActivity()).getLoadingDialog().show();
         presenter.getMessageListInfo("all", "");
-        mAdapter.addAll(listMessage);
         lv_message.setAdapter(mAdapter);
         ptrLayout.disableLoading();
         ptrLayout.setCanRefresh(false);
@@ -188,12 +188,18 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
             public void onPageSelected(int position) {
                 switch (position){
 //                    case 0:
+//                        currrentPage = 1;
+//                        isChange = true;
 //                        presenter.getMessageListInfo("yh","");
 //                        break;
 //                    case 1:
+//                        currrentPage = 2;
+//                        isChange = true;
 //                        presenter.getMessageListInfo("wz","");
 //                        break;
 //                    case 2:
+//                        currrentPage = 3;
+//                        isChange = true;
 //                        presenter.getMessageListInfo("aq","");
 //                        break;
                 }
@@ -209,13 +215,51 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getActivity(), ItemDtailActivity.class);
                 Bundle bundle=new Bundle();
-                bundle.putString("type",listMessage.get(i).getType());
-                bundle.putString("id",listMessage.get(i).getId());
+                if (currrentPage == 0){
+                    bundle.putString("type",listAllMessage.get(i).getType());
+                    bundle.putString("id",listAllMessage.get(i).getId());
+                }else if (currrentPage == 1){
+                    bundle.putString("type",listYhMessage.get(i).getType());
+                    bundle.putString("id",listYhMessage.get(i).getId());
+                }else if (currrentPage == 2){
+                    bundle.putString("type",listWzMessage.get(i).getType());
+                    bundle.putString("id",listWzMessage.get(i).getId());
+                }else {
+                    bundle.putString("type",listAqMessage.get(i).getType());
+                    bundle.putString("id",listAqMessage.get(i).getId());
+                }
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
+        lv_message.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (firstVisibleItem + visibleItemCount >= totalItemCount  && totalItemCount != 0&& totalItemCount!=lv_message.getHeaderViewsCount()
+                        + lv_message.getFooterViewsCount() && mAdapter.getCount() > 0) {
+                    loadNextPage();
+                }
+            }
+        });
         checkLocationPermission();
+
+    }
+
+    private void loadNextPage(){
+        if (currrentPage == 0){
+            presenter.getMessageListInfo("all","");
+        }else if (currrentPage == 1){
+            presenter.getMessageListInfo("yh","");
+        }else if (currrentPage == 2){
+            presenter.getMessageListInfo("wz","");
+        }else {
+            presenter.getMessageListInfo("aq","");
+        }
     }
 
     private void checkLocationPermission() {
@@ -282,14 +326,23 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
             case R.id.bt_yh:
             case R.id.yh_detail:
                 changeCurrent(0);
+                currrentPage = 1;
+                isChange = true;
+//                presenter.getMessageListInfo("yh","");
                 break;
             case R.id.bt_wz:
             case R.id.wz_detail:
                 changeCurrent(1);
+                currrentPage = 2;
+                isChange = true;
+//                presenter.getMessageListInfo("wz","");
                 break;
             case R.id.bt_aq:
             case R.id.aq_detail:
                 changeCurrent(2);
+                currrentPage = 3;
+                isChange = true;
+//                presenter.getMessageListInfo("aq","");
                 break;
             case R.id.iv_back:
                 nav.setNavTitle(getString(R.string.main_message));
@@ -376,24 +429,27 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         tv_wz_total.setText(bean2.getTotal()+"");
         tv_yh_total.setText(bean3.getTotal()+"");
         tv_wzg_num.setText(bean3.getWzg()+"");
-
-        if (0 == bean1.getTotal()){
-            yh_unread_tv1.setVisibility(View.GONE);
+        if (currrentPage == 0){
+            listAllMessage.clear();
+            listAllMessage = data.list;
+        }else if (currrentPage == 1){
+            listYhMessage.clear();
+            listYhMessage = data.list;
+        }else if (currrentPage == 2){
+            listWzMessage.clear();
+            listWzMessage = data.list;
         }else {
-            yh_unread_tv1.setText(bean1.getTotal()+"");
+            listAqMessage.clear();
+            listAqMessage = data.list;
         }
-        if (0 == bean2.getTotal()){
-            wz_unread_tv1.setVisibility(View.GONE);
-        }else {
-            wz_unread_tv1.setText(bean2.getTotal()+"");
+        if (isChange){
+            mAdapter.getData().clear();
+            isChange = false;
         }
-
-        listMessage=data.list;
-        mAdapter.addAll(listMessage);
+        mAdapter.addAll(data.list);
         mAdapter.notifyDataSetChanged();
         lv_message.setAdapter(mAdapter);
 
-        presenter.getUserInfo();
     }
 
     @Override

@@ -10,6 +10,9 @@ import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.utils.Tools;
 import com.isoftston.issuser.conchapp.views.work.adpter.WorkMessageAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Bind;
 
 /**
@@ -21,7 +24,7 @@ public class MineMessageFragment extends BaseFragment {
     TabLayout tabLayout;
     @Bind(R.id.viewPagerMy)
     ViewPager viewPager;
-    public String[] tabs;
+    public List<String> tabs=new ArrayList<>();
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_my_msg;
@@ -29,8 +32,10 @@ public class MineMessageFragment extends BaseFragment {
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        tabs=new String[]{getString(R.string.my_approve), getString(R.string.my_check),getString(R.string.my_release)};
-        WorkMessageAdapter adapter=new WorkMessageAdapter(getActivity().getSupportFragmentManager(),tabs, 0);
+        tabs.add(getString(R.string.my_approve));
+        tabs.add(getString(R.string.my_check));
+        tabs.add(getString(R.string.my_release));
+        WorkMessageAdapter adapter=new WorkMessageAdapter(getActivity().getSupportFragmentManager(),tabs, 2);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         Tools.setIndicator(tabLayout,10,10);

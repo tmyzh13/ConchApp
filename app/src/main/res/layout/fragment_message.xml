@@ -191,13 +191,15 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/yh_unread_tv1"
                     style="@style/text_normal"
+                    android:id="@+id/yh_msg"
                     android:layout_width="20dp"
                     android:layout_height="15dp"
                     android:layout_alignParentRight="true"
                     android:background="@drawable/tab_msg_bg"
                     android:gravity="center"
+                    android:text="5"
+                    android:visibility="gone"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_small" />
             </RelativeLayout>
@@ -251,13 +253,15 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/wz_unread_tv1"
                     style="@style/text_normal"
+                    android:id="@+id/wz_msg"
                     android:layout_width="20dp"
                     android:layout_height="15dp"
                     android:layout_alignParentRight="true"
                     android:background="@drawable/tab_msg_bg"
                     android:gravity="center"
+                    android:text="2"
+                    android:visibility="gone"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_small" />
             </RelativeLayout>

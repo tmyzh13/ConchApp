@@ -59,6 +59,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:text="2018-4-17"
+            android:id="@+id/iv_time"
             />
     </RelativeLayout>
     <View
@@ -121,7 +122,8 @@
                 style="@style/text_normal"
                 android:textSize="@dimen/text_huge"
                 android:textColor="@color/app_light_blue"
-                android:text="32"
+                android:text=""
+                android:id="@+id/tnNum"
                 />
         </LinearLayout>
     </RelativeLayout>
