@@ -12,8 +12,10 @@ import com.corelibs.views.ptr.loadmore.widget.AutoLoadMoreListView;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.MessageTypeAdapter;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
+import com.isoftston.issuser.conchapp.model.bean.OrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
+import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
 import com.isoftston.issuser.conchapp.presenter.SecurityPresenter;
 import com.isoftston.issuser.conchapp.views.interfaces.SecuryView;
 import com.isoftston.issuser.conchapp.views.message.ItemDtailActivity;
@@ -130,6 +132,11 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
 
     @Override
     public void addFailed() {
+
+    }
+
+    @Override
+    public void getSafeChoiceList(SecuritySearchBean bean) {
 
     }
 }

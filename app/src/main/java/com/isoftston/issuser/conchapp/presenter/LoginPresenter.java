@@ -55,6 +55,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
             bean.password= MD5Utils.encode(password);
             bean.phoneType=Tools.getPhoneType();
             bean.phoneCode=Tools.getIMEI(getContext());
+            view.showLoading();
             api.login(bean)
                     .compose(new ResponseTransformer<>(this.<BaseData<JsonObject>>bindUntilEvent(ActivityEvent.DESTROY)))
                     .subscribe(new ResponseSubscriber<BaseData<JsonObject>>(view) {

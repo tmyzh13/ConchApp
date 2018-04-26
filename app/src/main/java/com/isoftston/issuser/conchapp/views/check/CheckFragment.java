@@ -227,13 +227,21 @@ public class CheckFragment extends BaseFragment<CheckView,CheckPresenter> implem
     public void checkDeviceResult(DeviceBean bean) {
         ((BaseActivity)getActivity()).getLoadingDialog().dismiss();
         presenter.getAllDeviceInfo("");
+        if(bean == null)
+        {
+            ToastMgr.show("设备不存在");
+            return;
+        }
+        ToastMgr.show("扫描成功");
         startActivity(CheckDeviceDetailActivity.getLauncher(getContext(),bean));
+
     }
 
     @Override
     public void checkDeviceResultError() {
         //防止网络请求失败，或者返回数据异常导致无法触发loading消失操作
         ((BaseActivity)getActivity()).getLoadingDialog().dismiss();
+        ToastMgr.show("扫描失败");
     }
 
     @Override

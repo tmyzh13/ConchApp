@@ -87,14 +87,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <LinearLayout
+<!--        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_corner_pink1"
             android:layout_margin="10dp"
             android:padding="2dp"
-            android:orientation="horizontal">
-            <TextView
+            android:orientation="horizontal">-->
+            <!--<TextView
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -106,9 +106,9 @@
                 android:paddingLeft="1dp"
                 android:textColor="@color/white"
                 android:paddingStart="10dp"
-                android:layout_marginRight="10dp" />
-        </LinearLayout>
-        <LinearLayout
+                android:layout_marginRight="10dp" />-->
+<!--        </LinearLayout>-->
+<!--        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_corner_pink2"
@@ -128,6 +128,6 @@
                 android:textColor="@color/white"
                 android:paddingStart="10dp"
                 android:layout_marginRight="10dp" />
-        </LinearLayout>
+        </LinearLayout>-->
     </LinearLayout>
 </LinearLayout>

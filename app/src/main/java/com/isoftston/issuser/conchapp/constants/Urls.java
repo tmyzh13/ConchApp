@@ -95,5 +95,6 @@ public class Urls {
     public static final String DANGER_WORK_TYPE="dictionaries/WXZYLB";
     //设备类型
     public static final String DEVICE_TYPE="device/getType";
-
+    //隐患界面 发现单位
+    public static final String FIND_COMPANY="safety/searchParam";
 }

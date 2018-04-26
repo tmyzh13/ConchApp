@@ -22,6 +22,7 @@ import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.AddYHBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
+import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
 import com.isoftston.issuser.conchapp.presenter.SecurityPresenter;
 import com.isoftston.issuser.conchapp.utils.DateUtils;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
@@ -334,5 +335,10 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
     @Override
     public void addFailed() {
         finish();
+    }
+
+    @Override
+    public void getSafeChoiceList(SecuritySearchBean bean) {
+
     }
 }

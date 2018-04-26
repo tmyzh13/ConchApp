@@ -68,8 +68,8 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
     @Override
     protected void init(Bundle savedInstanceState) {
         type=getArguments().getString("type");
-        Log.i("type",type);
         bType=getArguments().getInt("bigType");
+        Log.i("type",type+"--"+bType);
         tv.setText(type);
         listMessage=new ArrayList<>();
         if (bType==2){

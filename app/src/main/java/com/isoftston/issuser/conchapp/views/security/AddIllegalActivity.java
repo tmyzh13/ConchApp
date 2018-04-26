@@ -20,7 +20,9 @@ import com.corelibs.utils.ToastMgr;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.AddYHBean;
+import com.isoftston.issuser.conchapp.model.bean.OrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
+import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
 import com.isoftston.issuser.conchapp.presenter.SecurityPresenter;
 import com.isoftston.issuser.conchapp.utils.DateUtils;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
@@ -350,6 +352,11 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
 
     @Override
     public void addFailed() {
+
+    }
+
+    @Override
+    public void getSafeChoiceList(SecuritySearchBean bean) {
 
     }
 }

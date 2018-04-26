@@ -67,7 +67,7 @@ public class ChoiceDeviceTypeActivity extends BaseActivity<WorkView, WorkPresent
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        nav.setNavTitle(getString(R.string.choice_check_people));
+        nav.setNavTitle(getString(R.string.choice_device_type));
         nav.setColorRes(R.color.white);
         nav.setTitleColor(getResources().getColor(R.color.black));
         setBarColor(getResources().getColor(R.color.transparent_black));
@@ -91,15 +91,15 @@ public class ChoiceDeviceTypeActivity extends BaseActivity<WorkView, WorkPresent
                 if (listdata_next != null && listdata_next.size() != 0) {
                     adapter.replaceAll(listdata_next);
 //                    adapter.addAll(listdata_next);
-                    lv_device.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
-                }else {
-                    Intent intent =new Intent();
-                    intent.putExtra(Constant.CHECK_PEOPLE,adapter.getItem(position).getName());
-                    intent.putExtra(Constant.CHECK_DEVICE_ID,id);
-                    setResult(NewWorkActivity.CHOSE_DEVICE_CODE,intent);
-                    finish();
-                }
+                lv_device.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }else {
+                Intent intent =new Intent();
+                intent.putExtra(Constant.CHECK_PEOPLE,adapter.getItem(position).getName());
+                intent.putExtra(Constant.CHECK_DEVICE_ID,id);
+                setResult(NewWorkActivity.CHOSE_DEVICE_CODE,intent);
+                finish();
+            }
 
             }
         });

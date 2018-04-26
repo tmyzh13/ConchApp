@@ -144,7 +144,7 @@
     <string name="hour">时</string>
     <string name="minute">分</string>
     <string name="information">结束时间必须大于开始时间</string>
-    <string name="time">2018年4月5日 20：02</string>
+    <string name="time">2018-4-5 20：02</string>
     <string name="find_place">发现地点</string>
     <string name="all">全部</string>
     <string name="shuini">水泥</string>
@@ -262,5 +262,7 @@
     <string name="danger_work_type_item">有限空间作业</string>
     <string name="scan_failed">扫码失败</string>
     <string name="revoke_success">撤销成功</string>
+    <string name="choice_device_type">选择设备类型</string>
+    <string name="choice_device_name">选择设备名称</string>
 
 </resources>

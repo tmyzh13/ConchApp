@@ -5,6 +5,7 @@ import com.isoftston.issuser.conchapp.model.bean.AddYHBean;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeRequestBean;
+import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
 
 import java.io.File;
 
@@ -26,4 +27,6 @@ public interface SecurityApi {
     Observable<BaseData<SafeListBean>> getSefeMessageList(@Header("Access-Token") String token, @Body SafeRequestBean bean );
     @POST(Urls.UPLOAD_IMAGE)
     Observable<BaseData> uploadImage(@Header("Access-Token") String token, @Body File file );
+    @POST(Urls.FIND_COMPANY)
+    Observable<BaseData<SecuritySearchBean>> findCompanyList(@Header("Access-Token") String token, @Body SafeRequestBean bean);
 }

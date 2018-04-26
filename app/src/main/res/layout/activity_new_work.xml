@@ -3,6 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/et_gray"
     android:orientation="vertical">
 
     <com.isoftston.issuser.conchapp.weight.NavBar
@@ -89,17 +90,16 @@
                 </RelativeLayout>
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
+                android:background="@drawable/ll_hidden_trouble_bg"
                 android:paddingLeft="@dimen/dp_25">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
+                    android:paddingTop="@dimen/dp_10"
                     android:text="@string/start_work_time"
                     android:textColor="#000"
                     android:textSize="14sp" />
@@ -108,28 +108,30 @@
                     android:id="@+id/start_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="120dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/dp_25"
                     android:padding="10dp"
-                    android:text="2017-5-12 07:50"
+                    android:text="@string/time"
                     android:textSize="14sp" />
-            </LinearLayout>
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#c6c1c1"></View>
+                android:background="@color/et_gray"></View>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_25"
+                android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                android:background="@drawable/ll_hidden_trouble_bg"
+                android:paddingLeft="@dimen/dp_25">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
+                    android:paddingTop="@dimen/dp_10"
                     android:text="@string/end_work_time"
                     android:textColor="#000"
                     android:textSize="14sp" />
@@ -138,27 +140,28 @@
                     android:id="@+id/end_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="120dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/dp_25"
                     android:padding="10dp"
-                    android:text="2017-5-12 07:50"
+                    android:text="@string/time"
                     android:textSize="14sp" />
-            </LinearLayout>
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#c6c1c1"></View>
+                android:background="@color/et_gray"></View>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="@dimen/dp_10"
-                android:background="#c6c1c1"></View>
+                android:background="@color/et_gray"></View>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/white"
+                android:background="@drawable/ll_hidden_trouble_bg"
                 android:orientation="horizontal"
                 android:paddingLeft="25dp"
                 android:paddingRight="25dp">
@@ -202,13 +205,13 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#c6c1c1"></View>
+                android:background="@color/et_gray"></View>
 
             <RelativeLayout
                 android:id="@+id/rl_dangerwork_type"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/white"
+                android:background="@drawable/ll_hidden_trouble_bg"
                 android:paddingLeft="25dp"
                 android:paddingRight="25dp">
 
@@ -218,13 +221,14 @@
                     android:layout_centerVertical="true"
                     android:text="@string/danger_work_type"
                     android:textColor="@color/black" />
-                    <Spinner
-                        android:layout_centerVertical="true"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/spinner"
-                        android:layout_alignParentRight="true"
-                        />
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -259,13 +263,13 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#c6c1c1"></View>
+                android:background="@color/et_gray"></View>
 
             <RelativeLayout
                 android:id="@+id/rl_gas_checker"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/white"
+                android:background="@drawable/ll_hidden_trouble_bg"
                 android:paddingLeft="25dp"
                 android:paddingRight="25dp">
 
@@ -306,19 +310,19 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#c6c1c1"></View>
+                android:background="@color/et_gray"></View>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="@dimen/dp_10"
-                android:background="#c6c1c1"></View>
+                android:background="@color/et_gray"></View>
 
             <RelativeLayout
                 android:id="@+id/rl_charger"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/white"
+                android:background="@drawable/ll_hidden_trouble_bg"
                 android:paddingLeft="25dp"
                 android:paddingRight="25dp">
 
@@ -340,13 +344,13 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#c6c1c1"></View>
+                android:background="@color/et_gray"></View>
 
             <RelativeLayout
                 android:id="@+id/rl_keeper"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/white"
+                android:background="@drawable/ll_hidden_trouble_bg"
                 android:paddingLeft="25dp"
                 android:paddingRight="25dp">
 
@@ -368,13 +372,13 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#c6c1c1"></View>
+                android:background="@color/et_gray"></View>
 
             <RelativeLayout
                 android:id="@+id/rl_check_people"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/white"
+                android:background="@drawable/ll_hidden_trouble_bg"
                 android:paddingLeft="25dp"
                 android:paddingRight="25dp">
 
@@ -395,13 +399,13 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#c6c1c1"></View>
+                android:background="@color/et_gray"></View>
 
             <RelativeLayout
                 android:id="@+id/rl_agree"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/white"
+                android:background="@drawable/ll_hidden_trouble_bg"
                 android:paddingLeft="25dp"
                 android:paddingRight="25dp">
 
@@ -423,7 +427,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="@dimen/dp_10"
-                android:background="#c6c1c1"></View>
+                android:background="@color/et_gray"></View>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -459,13 +463,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="@dimen/dp_10"
-                android:background="#c6c1c1"></View>
+                android:background="@color/et_gray"></View>
 
             <RelativeLayout
                 android:id="@+id/rl_equipment_type"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/white"
+                android:background="@drawable/ll_hidden_trouble_bg"
                 android:paddingLeft="25dp"
                 android:paddingRight="25dp">
 
@@ -485,39 +489,13 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#c6c1c1"></View>
-
-            <RelativeLayout
-                android:id="@+id/rl_equipment_model"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/white"
-                android:paddingLeft="25dp"
-                android:paddingRight="25dp">
-
-                <TextView
-                    style="@style/text_normal"
-                    android:layout_centerVertical="true"
-                    android:text="@string/equipment_model"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/equipment_model_tv"
-                    style="@style/text_normal"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#c6c1c1"></View>
+                android:background="@color/et_gray"></View>
 
             <RelativeLayout
                 android:id="@+id/rl_equipment_name"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/white"
+                android:background="@drawable/ll_hidden_trouble_bg"
                 android:paddingLeft="25dp"
                 android:paddingRight="25dp">
 
@@ -537,19 +515,45 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#c6c1c1"></View>
+                android:background="@color/et_gray"></View>
+
+            <RelativeLayout
+                android:id="@+id/rl_equipment_model"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/ll_hidden_trouble_bg"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp">
+
+                <TextView
+                    style="@style/text_normal"
+                    android:layout_centerVertical="true"
+                    android:text="@string/equipment_model"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/equipment_model_tv"
+                    style="@style/text_normal"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/et_gray"></View>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="@dimen/dp_10"
-                android:background="#c6c1c1"></View>
+                android:background="@color/et_gray"></View>
 
             <com.isoftston.issuser.conchapp.weight.InputView
                 android:id="@+id/work_zone_input"
                 android:layout_width="match_parent"
-                android:visibility="gone"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -578,9 +582,9 @@
 
                     <Spinner
                         android:id="@+id/work_zone_sp"
-                        android:theme="@style/SpnStyle"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:theme="@style/SpnStyle" />
                 </LinearLayout>
 
             </RelativeLayout>
@@ -588,17 +592,18 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#c6c1c1"></View>
+                android:background="@color/et_gray"></View>
 
             <com.isoftston.issuser.conchapp.weight.InputView
                 android:id="@+id/work_address_input"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:background="@drawable/ll_hidden_trouble_bg" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#c6c1c1"></View>
+                android:background="@color/et_gray"></View>
 
 
             <RelativeLayout
@@ -629,26 +634,26 @@
                     android:paddingRight="10dp">
 
                     <TextView
-                        android:visibility="gone"
                         android:id="@+id/company_tv"
                         style="@style/text_normal"
                         android:text="@string/chose_company"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white"
+                        android:visibility="gone" />
 
                     <ImageView
-                        android:visibility="gone"
                         android:id="@+id/chose_worker_company_iv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:src="@mipmap/go_down" />
+                        android:src="@mipmap/go_down"
+                        android:visibility="gone" />
 
                     <Spinner
-                        android:visibility="visible"
                         android:id="@+id/work_company_sp"
-                        android:theme="@style/SpnStyle"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:theme="@style/SpnStyle"
+                        android:visibility="visible" />
                 </LinearLayout>
 
             </RelativeLayout>
@@ -656,28 +661,30 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#c6c1c1"></View>
+                android:background="@color/et_gray"></View>
 
             <com.isoftston.issuser.conchapp.weight.InputView
                 android:id="@+id/worker_num_input"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:background="@drawable/ll_hidden_trouble_bg" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#c6c1c1"></View>
+                android:background="@color/et_gray"></View>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="@dimen/dp_10"
-                android:background="#c6c1c1"></View>
+                android:background="@color/et_gray"></View>
 
             <RelativeLayout
                 android:id="@+id/rl_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/ll_hidden_trouble_bg"
                 android:paddingLeft="25dp"
                 android:paddingRight="@dimen/dp_15">
 
@@ -748,7 +755,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#c6c1c1"></View>
+                android:background="@color/et_gray"></View>
 
             <Button
                 android:id="@+id/bt_submit"
