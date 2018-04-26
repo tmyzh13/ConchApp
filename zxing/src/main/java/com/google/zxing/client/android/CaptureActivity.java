@@ -329,7 +329,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
     public void handleZbarResult(String result) {
         Intent intent = new Intent();
-        intent.putExtra("result", "from Zbar:" + result);
+        intent.putExtra("result", result);
         setResult(RESULT_OK, intent);
        /*关闭摄像头资源*/
         cameraManager.stopPreview();

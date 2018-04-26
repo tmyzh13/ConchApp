@@ -219,7 +219,18 @@ public class ChoicePhotoActivity extends BaseActivity {
                             handler.sendMessage(message);
                             return;
                         }
-                        com.alibaba.fastjson.JSONObject object = com.alibaba.fastjson.JSONObject.parseObject(picPath);
+                        com.alibaba.fastjson.JSONObject object = null;
+                        try {
+                            object = com.alibaba.fastjson.JSONObject.parseObject(picPath);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        if (object == null){
+                            message.arg1 = 0;
+                            handler.sendMessage(message);
+                            return;
+                        }
+
                         uploadPath = object.getString("mess").toString();
                     }
                     // 上传过就直接使用地址
