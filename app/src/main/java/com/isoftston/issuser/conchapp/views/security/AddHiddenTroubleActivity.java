@@ -8,9 +8,13 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,8 +25,10 @@ import com.corelibs.utils.ToastMgr;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.AddYHBean;
+import com.isoftston.issuser.conchapp.model.bean.OrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
 import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
+import com.isoftston.issuser.conchapp.model.bean.YhlyBean;
 import com.isoftston.issuser.conchapp.presenter.SecurityPresenter;
 import com.isoftston.issuser.conchapp.utils.DateUtils;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
@@ -40,6 +46,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -54,18 +61,15 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
     NavBar navBar;
     @Bind(R.id.input_trouble_name)
     InputView input_trouble_name;
-    @Bind(R.id.input_find_company)
-    InputView input_find_company;
-    @Bind(R.id.input_trouble_company)
-    InputView input_trouble_company;
+    @Bind(R.id.tv_yh_type)
+    TextView tv_yh_type;
     @Bind(R.id.tv_check_people)
-   TextView tv_check_people;
+    TextView tv_check_people;
     @Bind(R.id.input_place)
     InputView input_place;
     @Bind(R.id.input_position)
     InputView input_position;
-    @Bind(R.id.input_source)
-    InputView input_source;
+
     @Bind(R.id.et_yh_description)
     EditText et_description;
     @Bind(R.id.rl_description)
@@ -80,11 +84,38 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
     TextView tv_illegal_describ_title;
     @Bind(R.id.tv_illegal_descibe_content)
     TextView tv_illegal_descibe_content;
+    @Bind(R.id.spinner)
+    Spinner mSpinner;
+    @Bind(R.id.spinner1)
+    Spinner comSpinner;
+    @Bind(R.id.spinner3)
+    Spinner fromSpinner;
+    @Bind(R.id.male_rb)
+    RadioButton male_rb;
+    @Bind(R.id.famale_rb)
+    RadioButton famale_rb;
+    @Bind(R.id.fix_yes)
+    RadioButton fix_yes;
+    @Bind(R.id.fix_no)
+    RadioButton fix_no;
     public String startTime,endTime;
-
+    private List<String> findCompanyList=new ArrayList<>();
+    private List<String> checkCompanyList=new ArrayList<>();
+    private List<String> fromList=new ArrayList<>();
     private Context context =AddHiddenTroubleActivity.this;
     //0隐患 1违章
     private String type;
+    private ArrayAdapter<String> adapter;
+    private ArrayAdapter<String> comAdapter;
+    private ArrayAdapter<String> fromAdapter;
+    private String find_company;
+    private String yh_company;
+    private String yh_from;
+    private String yh_grade=null;
+    private String fix;
+    private List<OrgBean> org=new ArrayList<>();
+    private String find_company_id;
+    private String yh_company_id;
 
     public static Intent getLauncher(Context context){
         Intent intent =new Intent(context,AddHiddenTroubleActivity.class);
@@ -107,13 +138,13 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
             //隐患
             navBar.setNavTitle(getString(R.string.hidden_trouble));
             input_trouble_name.setInputText(getString(R.string.hidden_trouble_detail_name),null);
-            input_trouble_company.setInputText(getString(R.string.hidden_trouble_company),null);
+
             input_place.setInputText(getString(R.string.hidden_trouble_place),null);
             input_position.setInputText(getString(R.string.hidden_trouble_position),null);
-            input_source.setInputText(getString(R.string.hidden_trouble_source),null);
 
 
-        input_find_company.setInputText(getString(R.string.hidden_trouble_find_company),null);
+
+//        input_find_company.setInputText(getString(R.string.hidden_trouble_find_company),null);
         starttime= Tools.getCurrentTime();
         endtime=Tools.getCurrentTime();
         tv_start_time.setText(starttime);
@@ -159,6 +190,69 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
                 return false;
             }
         });
+        presenter.getCompanyChoiceList();
+        initSpinner();
+        //样式为原安卓里面有的android.R.layout.simple_spinner_item，让这个数组适配器装list内容。
+
+
+    }
+
+    private void initSpinner() {
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, findCompanyList);
+        //2.为适配器设置下拉菜单样式。adapter.setDropDownViewResource
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //3.以上声明完毕后，建立适配器,有关于sipnner这个控件的建立。用到myspinner
+        mSpinner.setAdapter(adapter);
+        mSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                find_company = adapter.getItem(i).toString();
+                find_company_id = org.get(i).getID_();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+
+        });
+        comAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, checkCompanyList);
+        //2.为适配器设置下拉菜单样式。adapter.setDropDownViewResource
+        comAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //3.以上声明完毕后，建立适配器,有关于sipnner这个控件的建立。用到myspinner
+        comSpinner.setAdapter(comAdapter);
+        comSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                yh_company = comAdapter.getItem(i).toString();
+                yh_company_id = org.get(i).getID_();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+
+        });
+        fromAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, fromList);
+        //2.为适配器设置下拉菜单样式。adapter.setDropDownViewResource
+        fromAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //3.以上声明完毕后，建立适配器,有关于sipnner这个控件的建立。用到myspinner
+        fromSpinner.setAdapter(fromAdapter);
+        fromSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                yh_from = fromAdapter.getItem(i).toString();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+
+        });
+
     }
 
     @Override
@@ -169,6 +263,10 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
     @OnClick(R.id.rl_check_people)
     public void choiceCheckPeople(){
         startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context,6),100);
+    }
+    @OnClick(R.id.ll_yh_type)
+    public void choiceType(){
+        startActivityForResult(ChoiceTypeActivity.getLaucnher(context),110);
     }
 
     @Override
@@ -190,6 +288,9 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
                     builder.append(",");
                 }
                 picString = builder.toString();
+            }else if (resultCode==104){
+                String name=data.getStringExtra(Constant.CHECK_PEOPLE);
+                tv_yh_type.setText(name);
             }
         }
     }
@@ -217,16 +318,43 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
     @OnClick(R.id.ll_confirm)
     public void confirmInfo(){
         //提交新增信息 暂时结束页面
+        String yh_name=input_trouble_name.getContent().trim();
+        String startTimeStr = tv_start_time.getText().toString().trim();
+        long startTime = TextUtils.isEmpty(String.valueOf(startTimeStr))? 0 : DateUtils.getDateToLongMS(startTimeStr);
+        String endTimeStr = tv_end_time.getText().toString().trim();
+        long endTime = TextUtils.isEmpty(String.valueOf(endTimeStr))? 0 : DateUtils.getDateToLongMS(endTimeStr);
+        String check_people=tv_check_people.getText().toString();
+        if (male_rb.isChecked()){
+            yh_grade = male_rb.getText().toString();
+        }else if (famale_rb.isChecked()){
+            yh_grade=famale_rb.getText().toString();
+        }
+        String yh_address=input_place.getContent().trim();
+        String yh_position=input_position.getContent().trim();
+        String yh_type=tv_yh_type.getText().toString();
+        String yh_describle=et_description.getText().toString().trim();
+        if (fix_yes.isChecked()){
+            fix = fix_yes.getText().toString();
+        }else if (fix_no.isChecked()){
+            fix=fix_no.getText().toString();
+        }
+        if (TextUtils.isEmpty(yh_name)||TextUtils.isEmpty(find_company)||TextUtils.isEmpty(yh_company)||
+                TextUtils.isEmpty(check_people)||TextUtils.isEmpty(yh_grade)||TextUtils.isEmpty(yh_address)||
+                TextUtils.isEmpty(yh_position)||TextUtils.isEmpty(yh_from)||TextUtils.isEmpty(yh_type)
+                ||TextUtils.isEmpty(fix)||TextUtils.isEmpty(yh_describle)){
+            ToastMgr.show(R.string.input_all_message);
+            return;
+        }
+
         AddYHBean bean=new AddYHBean();
-//        bean.setYhmc(input_trouble_name.getContent());
-        bean.setYhmc(input_trouble_name.getContent());
-        bean.setGsId("1");
-        bean.setJcdwid("1");
-        bean.setJcdwmc(input_find_company.getContent());
-        bean.setSjdwid("1");
-        bean.setSjdwmc(input_trouble_company.getContent());
-        bean.setYhly(input_source.getContent());
-        bean.setFxrmc(tv_check_people.getText().toString());
+        bean.setYhmc(yh_name);
+//        bean.setGsId("1");
+        bean.setJcdwid(find_company_id);
+        bean.setJcdwmc(find_company);
+        bean.setSjdwid(yh_company_id);
+        bean.setSjdwmc(yh_company);
+        bean.setYhly(yh_from);
+        bean.setFxrmc(check_people);
         bean.setFxrId("1");
         bean.setFxrq(tv_start_time.getText().toString());
         bean.setCjsj(tv_end_time.getText().toString());
@@ -338,7 +466,21 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
     }
 
     @Override
-    public void getSafeChoiceList(SecuritySearchBean bean) {
+    public void getSafeChoiceList(SecuritySearchBean bean ) {
+        checkCompanyList.clear();
+        org = bean.ORG;
+        for (OrgBean orgBean: org){
+            checkCompanyList.add(orgBean.getORG_NAME_());
+            findCompanyList.add(orgBean.getORG_NAME_());
+        }
+        List<YhlyBean> YHLY=bean.YHLY;
+
+        for (YhlyBean yhlyBean:YHLY){
+            fromList.add(yhlyBean.getNAME_());
+        }
+        adapter.notifyDataSetChanged();
+        fromAdapter.notifyDataSetChanged();
+        comAdapter.notifyDataSetChanged();
 
     }
 }

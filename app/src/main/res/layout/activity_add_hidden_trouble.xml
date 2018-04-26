@@ -88,52 +88,93 @@
                         android:text="2018-3-22 00:00"/>
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
-                android:layout_marginTop="3dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/ll_hidden_trouble_bg">
-                <com.isoftston.issuser.conchapp.weight.InputView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/input_find_company"
-                    />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dip"
-                    android:background="@color/et_gray"
-                    />
-                <com.isoftston.issuser.conchapp.weight.InputView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/input_trouble_company"
-                    />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dip"
-                    android:background="@color/et_gray"
-                    />
+                android:layout_marginTop="3dp"
+                android:background="@drawable/ll_hidden_trouble_bg"
+                android:orientation="vertical">
+                <!--<com.isoftston.issuser.conchapp.weight.InputView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/input_find_company"-->
+                <!--/>-->
                 <RelativeLayout
+                    android:id="@+id/rl_find_company"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:background="@color/white"
-                    android:id="@+id/rl_check_people"
+                    android:background="@drawable/ll_hidden_trouble_bg"
                     android:paddingLeft="25dp"
-                    android:paddingRight="25dp"
-                    >
+                    android:paddingRight="25dp">
+
+                    <TextView
+                        android:id="@+id/danger_title"
+                        style="@style/text_normal"
+                        android:layout_centerVertical="true"
+                        android:text="@string/hidden_trouble_find_company"
+                        android:textColor="@color/black" />
+
+                    <Spinner
+                        android:id="@+id/spinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:background="@color/et_gray" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_trouble_company"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/ll_hidden_trouble_bg"
+                    android:paddingLeft="25dp"
+                    android:paddingRight="25dp">
+
+                    <TextView
+                        android:id="@+id/input_trouble_company"
+                        style="@style/text_normal"
+                        android:layout_centerVertical="true"
+                        android:text="@string/hidden_trouble_company"
+                        android:textColor="@color/black" />
+
+                    <Spinner
+                        android:id="@+id/spinner1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:background="@color/et_gray" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_check_people"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:paddingLeft="25dp"
+                    android:paddingRight="25dp">
+
                     <TextView
                         style="@style/text_normal"
                         android:layout_centerVertical="true"
                         android:text="@string/hidden_trouble_check"
-                        android:textColor="@color/black"
-                        />
+                        android:textColor="@color/black" />
+
                     <TextView
-                        style="@style/text_normal"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
                         android:id="@+id/tv_check_people"
-                        />
+                        style="@style/text_normal"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true" />
 
 
                 </RelativeLayout>
@@ -141,49 +182,52 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dip"
-                    android:background="@color/et_gray"
-                    />
+                    android:background="@color/et_gray" />
+
                 <com.isoftston.issuser.conchapp.weight.InputView
+                    android:id="@+id/input_illegal_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/input_illegal_type"
-                    android:visibility="gone"
-                    />
+                    android:visibility="gone" />
+
                 <LinearLayout
+                    android:id="@+id/ll_range"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:orientation="horizontal"
                     android:gravity="center_vertical"
+                    android:orientation="horizontal"
                     android:paddingLeft="25dp"
-                    android:paddingRight="25dp"
-                    android:id="@+id/ll_range"
-                    >
+                    android:paddingRight="25dp">
+
                     <TextView
                         style="@style/text_normal"
-                        android:textColor="@color/black"
                         android:text="@string/hidden_trouble_range"
-                        />
+                        android:textColor="@color/black" />
+
                     <RadioGroup
-                        android:layout_marginLeft="80dp"
+                        android:id="@+id/sex_rg"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/sex_rg"
+                        android:layout_marginLeft="80dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
+
                         <RadioButton
+                            android:id="@+id/male_rb"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/hidden_trouble_major"
-                            android:id="@+id/male_rb"/>
+                            android:text="@string/hidden_trouble_major" />
+
                         <View
                             android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
                         <RadioButton
+                            android:id="@+id/famale_rb"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/hidden_trouble_normal"
-                            android:id="@+id/famale_rb"/>
+                            android:text="@string/hidden_trouble_normal" />
                     </RadioGroup>
                 </LinearLayout>
             </LinearLayout>
@@ -249,20 +293,36 @@
                     android:layout_height="1dip"
                     android:background="@color/et_gray"
                     />
-                <com.isoftston.issuser.conchapp.weight.InputView
+
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/input_source"
-                    />
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="25dp"
+                    android:paddingRight="25dp"
+                    >
+                    <TextView
+                        style="@style/text_normal"
+                        android:textColor="@color/black"
+                        android:text="@string/yh_from"
+                        />
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/spinner3"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/dp_10"
+                        />
+                </RelativeLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dip"
                     android:background="@color/et_gray"
                     />
-                <LinearLayout
+                <RelativeLayout
+                    android:id="@+id/ll_yh_type"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:orientation="horizontal"
                     android:gravity="center_vertical"
                     android:paddingLeft="25dp"
                     android:paddingRight="25dp"
@@ -273,14 +333,14 @@
                         android:text="@string/yh_varies"
                         />
 
-                    <Spinner
+                    <TextView
+                        android:layout_alignParentRight="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/spinner2"
-                        android:layout_marginLeft="150dp"
-                        android:entries="@array/spingarr"
+                        android:id="@+id/tv_yh_type"
+                        android:layout_marginRight="@dimen/dp_10"
                         />
-                </LinearLayout>
+                </RelativeLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dip"
