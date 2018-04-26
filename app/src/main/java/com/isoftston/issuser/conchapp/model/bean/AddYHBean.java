@@ -15,8 +15,8 @@ public class AddYHBean {
     private String yhly;
     private String fxrmc;
     private String fxrId;
-    private String fxrq;
-    private String cjsj;
+    private long fxrq;
+    private long cjsj;
     private String yhlx;
     private String yhjb;
     private String yhdd;
@@ -101,17 +101,17 @@ public class AddYHBean {
 
 
 
-    public void setFxrq(String fxrq) {
+    public void setFxrq(long fxrq) {
         this.fxrq = fxrq;
     }
-    public String getFxrq() {
+    public long getFxrq() {
         return fxrq;
     }
 
-    public void setCjsj(String cjsj) {
+    public void setCjsj(long cjsj) {
         this.cjsj = cjsj;
     }
-    public String getCjsj() {
+    public long getCjsj() {
         return cjsj;
     }
 

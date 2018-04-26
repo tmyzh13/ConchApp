@@ -116,6 +116,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
     private List<OrgBean> org=new ArrayList<>();
     private String find_company_id;
     private String yh_company_id;
+    private String check_peole_id;
 
     public static Intent getLauncher(Context context){
         Intent intent =new Intent(context,AddHiddenTroubleActivity.class);
@@ -275,6 +276,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         if(requestCode==100){
             if(resultCode==100){
                 String result=data.getStringExtra(Constant.CHECK_PEOPLE);
+                check_peole_id = data.getStringExtra(Constant.CHECK_PEOPLE_ID);
                 if(!TextUtils.isEmpty(result)){
                     tv_check_people.setText(result);
                 }
@@ -355,18 +357,21 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         bean.setSjdwmc(yh_company);
         bean.setYhly(yh_from);
         bean.setFxrmc(check_people);
-        bean.setFxrId("1");
-        bean.setFxrq(tv_start_time.getText().toString());
-        bean.setCjsj(tv_end_time.getText().toString());
-        bean.setYhlx("1");
-        bean.setYhjb("1");
-        bean.setYhdd(input_place.getContent());
-        bean.setYhbw(input_position.getContent());
-        bean.setYhlbb("1");
-        bean.setSfxczg("1");
-        bean.setYhms(et_description.getText().toString());
+        bean.setFxrId(check_peole_id);
+        bean.setFxrq(startTime);
+        bean.setCjsj(endTime);
+        bean.setYhlx(yh_type);
+        bean.setYhjb(yh_grade);
+        bean.setYhdd(yh_address);
+        bean.setYhbw(yh_position);
+        if (fix.equals("是")){
+            bean.setSfxczg("1");
+        }else {
+            bean.setSfxczg("0");
+        }
+        bean.setYhms(yh_describle);
         bean.setTplj(picString);
-        bean.setKnzchg("1");
+//        bean.setKnzchg("1");
         presenter.addYHMessage(bean);
     }
 

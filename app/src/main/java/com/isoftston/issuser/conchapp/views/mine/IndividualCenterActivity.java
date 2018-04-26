@@ -89,23 +89,26 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
      */
     private void showUserInfo() {
         userInfo = (UserInfoBean) getIntent().getSerializableExtra("userInfo");
-        userNameEt.setText(userInfo.getRealName());
-        if (!"".equals(userInfo.getPhoneNum())) {
-            userRoleTv.setText(userInfo.getUserRole());
-        }
-        if ("女".equals(userInfo.getSex())) {
-            radioButtonWoman.setChecked(true);
-            radioButtonMan.setClickable(false);
-            radioButtonMan.setChecked(false);
-        } else if ("男".equals(userInfo.getSex())) {
-            radioButtonMan.setChecked(true);
-            radioButtonWoman.setChecked(false);
-            radioButtonWoman.setClickable(false);
-        }
-        if (!"".equals(userInfo.getPhoneNum())) {
-            userPhoneNumEt.setText(userInfo.getPhoneNum());
-        }
+        if(userInfo!=null){
+            userNameEt.setText(userInfo.getRealName());
+            if (!"".equals(userInfo.getPhoneNum())) {
+                userRoleTv.setText(userInfo.getUserRole());
+            }
+            if ("女".equals(userInfo.getSex())) {
+                radioButtonWoman.setChecked(true);
+                radioButtonMan.setClickable(false);
+                radioButtonMan.setChecked(false);
+            } else if ("男".equals(userInfo.getSex())) {
+                radioButtonMan.setChecked(true);
+                radioButtonWoman.setChecked(false);
+                radioButtonWoman.setClickable(false);
+            }
+            if (!"".equals(userInfo.getPhoneNum())) {
+                userPhoneNumEt.setText(userInfo.getPhoneNum());
+            }
             userCompanyTv.setText(PreferencesHelper.getData(Constant.ORG_NAME));
+        }
+
     }
 
     private void changeIcon() {

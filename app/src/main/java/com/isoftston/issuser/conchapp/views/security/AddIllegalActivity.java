@@ -7,9 +7,12 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,8 +60,6 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
     TextView tv_start_time;
     @Bind(R.id.tv_end_time)
     TextView tv_end_time;
-    @Bind(R.id.input_find_company)
-    InputView input_find_company;
     @Bind(R.id.input_illegal_company)
     InputView input_illegal_company;
     @Bind(R.id.tv_check_people)
@@ -77,7 +78,14 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
     TextView tv_illegal_describ_title;
     @Bind(R.id.tv_illegal_descibe_content)
     TextView tv_illegal_descibe_content;
-
+    @Bind(R.id.spinner)
+    Spinner find_spinner;
+    @Bind(R.id.spinner2)
+    Spinner wz_spinner;
+    private List<String> findList=new ArrayList<>();
+    private List<String> wzList=new ArrayList<>();
+    private ArrayAdapter<String> findAdapter;
+    private ArrayAdapter<String> wzAdapter;
     private Context context=AddIllegalActivity.this;
     private String startTime,endTime;
     private ChooseListPopupWindow window;
@@ -102,7 +110,6 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
 
         //设置栏目标题
         input_illegal_name.setInputText(getString(R.string.illegal_detail_name),null);
-        input_find_company.setInputText(getString(R.string.hidden_trouble_find_company),null);
         input_illegal_company.setInputText(getString(R.string.illeagl_company),null);
         input_illegal_place.setInputText(getString(R.string.illegal_place),null);
 
@@ -152,6 +159,28 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
                 return false;
             }
         });
+        presenter.getCompanyChoiceList();
+        initSpinner();
+    }
+
+    private void initSpinner() {
+        findAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, findList);
+        //2.为适配器设置下拉菜单样式。adapter.setDropDownViewResource
+        findAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //3.以上声明完毕后，建立适配器,有关于sipnner这个控件的建立。用到myspinner
+        find_spinner.setAdapter(findAdapter);
+        find_spinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+
+        });
     }
 
     @Override
@@ -166,14 +195,14 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
         bean.setYhmc(input_illegal_name.getContent());
         bean.setGsId("1");
         bean.setJcdwid("1");
-        bean.setJcdwmc(input_find_company.getContent());
+        bean.setJcdwmc("");
         bean.setSjdwid("1");
         bean.setSjdwmc(input_illegal_company.getContent());
         bean.setYhly("1");
         bean.setFxrmc(tv_check_people.getText().toString());
         bean.setFxrId("1");
-        bean.setFxrq(tv_start_time.getText().toString());
-        bean.setCjsj(tv_end_time.getText().toString());
+        bean.setFxrq(2l);
+        bean.setCjsj(1l);
         bean.setYhlx("1");
         bean.setYhjb("1");
         bean.setYhdd(input_illegal_place.getContent());
