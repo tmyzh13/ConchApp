@@ -100,21 +100,22 @@ public class ChoicePhotoActivity extends BaseActivity {
                     //如果没有授权，则请求授权
                     ActivityCompat.requestPermissions(ChoicePhotoActivity.this, new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CALL_CAMERA);
                 } else {
-                    if (window == null)
-                        window = new ChooseImagePopupWindow(context);
-
-                    window.setOnTypeChosenListener(new ChooseImagePopupWindow.OnTypeChosenListener() {
-                        @Override
-                        public void onCamera() {
-                            helper.openCamera(position, "");
-                        }
-
-                        @Override
-                        public void onGallery() {
-                            helper.openGallery(position, "");
-                        }
-                    });
-                    window.showAtBottom(navBar);
+                    helper.openCamera(position, "");
+//                    if (window == null)
+//                        window = new ChooseImagePopupWindow(context);
+//
+//                    window.setOnTypeChosenListener(new ChooseImagePopupWindow.OnTypeChosenListener() {
+//                        @Override
+//                        public void onCamera() {
+//                            helper.openCamera(position, "");
+//                        }
+//
+//                        @Override
+//                        public void onGallery() {
+//                            helper.openGallery(position, "");
+//                        }
+//                    });
+//                    window.showAtBottom(navBar);
                 }
             }
         });
