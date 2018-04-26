@@ -35,6 +35,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -185,12 +186,12 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
         finish();
     }
 
-    private ArrayList<String> list=new ArrayList<>();
+    private HashMap<String, String> map = new HashMap<>();
     private String picString;
 
     @OnClick(R.id.rl_photo)
     public void choicePhoto(){
-        startActivityForResult(ChoicePhotoActivity.getLauncher(context,"0",list),110);
+        startActivityForResult(ChoicePhotoActivity.getLauncher(context,"0",map),110);
     }
 
 
@@ -247,9 +248,9 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
             }
         }else if(requestCode==110){
             if(resultCode==10){
-                list=data.getStringArrayListExtra(Constant.TEMP_PIC_LIST);
+                map = (HashMap<String, String>) data.getSerializableExtra(Constant.TEMP_PIC_LIST);
                 StringBuilder builder = new StringBuilder();
-                for (String path : list){
+                for (String path : map.values()){
                     builder.append(path);
                     builder.append(",");
                 }

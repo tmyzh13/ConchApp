@@ -5,14 +5,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
@@ -26,7 +22,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.corelibs.base.BaseActivity;
 import com.corelibs.utils.ToastMgr;
@@ -37,7 +32,6 @@ import com.isoftston.issuser.conchapp.model.bean.ResponseDataBean;
 import com.isoftston.issuser.conchapp.model.bean.ScanInfo;
 import com.isoftston.issuser.conchapp.model.bean.SubmitJobBody;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
-import com.isoftston.issuser.conchapp.model.bean.WorkBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailRequestBean;
 import com.isoftston.issuser.conchapp.presenter.WorkDetailPresenter;
@@ -48,9 +42,8 @@ import com.isoftston.issuser.conchapp.views.mine.adapter.ScanInfoAdapter;
 import com.isoftston.issuser.conchapp.views.security.ChoicePhotoActivity;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -508,12 +501,12 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         takePhotoInnerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this, "1", list), OPEN_ACTIVITY_TAKE_PHOTO_CODE);
+                startActivityForResult(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this, "1", map), OPEN_ACTIVITY_TAKE_PHOTO_CODE);
             }
         });
     }
 
-    private ArrayList<String> list = new ArrayList<>();
+    private HashMap<String, String> map = new HashMap<>();
 
     private void scan() {//没有扫过二维码
         scanCodeLayout.setOnClickListener(new View.OnClickListener() {
@@ -525,7 +518,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         takePhotoLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this, "1", list), OPEN_ACTIVITY_TAKE_PHOTO_CODE);
+                startActivityForResult(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this, "1", map), OPEN_ACTIVITY_TAKE_PHOTO_CODE);
             }
         });
     }
@@ -597,8 +590,8 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
 
             }
         } else if (requestCode == OPEN_ACTIVITY_TAKE_PHOTO_CODE && resultCode == 10) {
-            list = data.getStringArrayListExtra(Constant.TEMP_PIC_LIST);
-            Log.e(TAG, "----size:" + list.size() + ",--" + list.toString());
+            map = (HashMap<String, String>) data.getSerializableExtra(Constant.TEMP_PIC_LIST);
+            Log.e(TAG, "----size:" + map.size() + ",--" + map.toString());
             if (status == 5) {
                 isPhotoed2 = true;
             } else {
@@ -804,10 +797,10 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                     SubmitJobBody body = new SubmitJobBody();
                     body.code = equipmentModelTv.getText().toString();
                     body.jobId = jobId;
-                    if (list.size() == 0) {
+                    if (map.size() == 0) {
                         return;
                     } else {
-//                    body.imgs = list.toString();
+//                    body.imgs = map.toString();
                     }
                     presenter.submitJob(body);
                 } else {

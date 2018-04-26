@@ -11,6 +11,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -35,7 +36,9 @@ import com.isoftston.issuser.conchapp.weight.NavBar;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -60,12 +63,13 @@ public class ChoicePhotoActivity extends BaseActivity {
     private String type;
     //需要图片数量
     private int count;
-    private ArrayList<String> currentFiles;
 
-    public static Intent getLauncher(Context context, String type, ArrayList<String> list) {
+    private HashMap<String, String> mFiles;
+
+    public static Intent getLauncher(Context context, String type, HashMap<String, String> map) {
         Intent intent = new Intent(context, ChoicePhotoActivity.class);
         intent.putExtra("type", type);
-        intent.putStringArrayListExtra("files", list);
+        intent.putExtra("files", map);
         return intent;
     }
 
@@ -83,7 +87,10 @@ public class ChoicePhotoActivity extends BaseActivity {
         navBar.showBack(2);
 
         type = getIntent().getStringExtra("type");
-        currentFiles = getIntent().getStringArrayListExtra("files");
+        mFiles = (HashMap<String, String>) getIntent().getSerializableExtra("files");
+        if (mFiles == null) {
+            mFiles = new HashMap<>();
+        }
 
         if (type.equals("0")) {
             count = 3;
@@ -119,9 +126,13 @@ public class ChoicePhotoActivity extends BaseActivity {
                 }
             }
         });
-        if (currentFiles != null && currentFiles.size() != 0) {
+        if (mFiles != null && mFiles.size() != 0) {
             Log.e("yzh", "currentFile");
-            helper.setPicFiles(currentFiles);
+            ArrayList<String> localFiles = new ArrayList<>();
+            for (String path : mFiles.keySet()) {
+                localFiles.add(path);
+            }
+            helper.setPicFiles(localFiles);
         }
 
     }
@@ -156,20 +167,37 @@ public class ChoicePhotoActivity extends BaseActivity {
             list.add(listFiles.get(i).getPath());
         }
 
+        if (list.size() == 0) {
+            ToastUtils.showtoast(context, "还未上传图片");
+            finish();
+            return;
+        }
+
+        showLoading();
+
         final Handler handler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                if (msg.arg1 == 1){
-                    Intent intent =new Intent();
-                    intent.putStringArrayListExtra(Constant.TEMP_PIC_LIST, (ArrayList<String>) msg.obj);
-                    setResult(10, intent);
-                    ToastUtils.showtoast(context, getString(R.string.submit_success));
-                    finish();
-                }else {
-                    ToastUtils.showtoast(context, getString(R.string.submit_fail));
-                }
+                hideLoading();
 
+                switch (msg.arg1) {
+                    case 1:
+                        HashMap<String, String> map = (HashMap<String, String>) msg.obj;
+                        if (map != null && map.size() > 0) {
+                            Intent intent =new Intent();
+                            intent.putExtra(Constant.TEMP_PIC_LIST, map);
+                            setResult(10, intent);
+                            ToastUtils.showtoast(context, getString(R.string.submit_success));
+                            finish();
+                        } else {
+                            ToastUtils.showtoast(context, getString(R.string.submit_fail));
+                        }
+                        break;
+                    case 0:
+                        ToastUtils.showtoast(context, getString(R.string.submit_fail));
+                        break;
+                }
             }
         };
 
@@ -179,25 +207,28 @@ public class ChoicePhotoActivity extends BaseActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                List<String> pathList = new ArrayList<>();
                 String picPath = "";
                 Message message = new Message();
+                HashMap<String, String> files = new HashMap<>();
                 for (final String path : list) {
-                    picPath = UploadImage.uploadFile(Urls.ROOT + Urls.UPLOAD_IMAGE, path, token1);
-                    if (picPath == null){
-                        message.arg1 = 0;
-                        handler.sendMessage(message);
-                        return;
+                    String uploadPath = mFiles.get(path);
+                    if (TextUtils.isEmpty(uploadPath)) { // 没上传过就上传
+                        picPath = UploadImage.uploadFile(Urls.ROOT + Urls.UPLOAD_IMAGE, path, token1);
+                        if (picPath == null){
+                            message.arg1 = 0;
+                            handler.sendMessage(message);
+                            return;
+                        }
+                        com.alibaba.fastjson.JSONObject object = com.alibaba.fastjson.JSONObject.parseObject(picPath);
+                        uploadPath = object.getString("mess").toString();
                     }
-                    com.alibaba.fastjson.JSONObject object = com.alibaba.fastjson.JSONObject.parseObject(picPath);
-                    pathList.add(object.getString("mess").toString());
+                    // 上传过就直接使用地址
+                    files.put(path, uploadPath);
                 }
                 message.arg1 = 1;
-                message.obj = pathList;
+                message.obj = files;
                 handler.sendMessage(message);
             }
         }).start();
     }
-
-
 }

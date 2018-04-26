@@ -38,6 +38,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -181,9 +182,9 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
             }
         }else if(requestCode==110){
             if(resultCode==10){
-                list=data.getStringArrayListExtra(Constant.TEMP_PIC_LIST);
+                map= (HashMap<String, String>) data.getSerializableExtra(Constant.TEMP_PIC_LIST);
                 StringBuilder builder = new StringBuilder();
-                for (String path : list){
+                for (String path : map.values()){
                     builder.append(path);
                     builder.append(",");
                 }
@@ -191,13 +192,13 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
             }
         }
     }
-    private ArrayList<String> list=new ArrayList<>();
+    private HashMap<String, String> map =new HashMap<>();
     private String picString;
 
     @OnClick(R.id.rl_photo)
     public void goPhoto(){
         //进入照片选择界面
-        startActivityForResult(ChoicePhotoActivity.getLauncher(context,"0",list),110);
+        startActivityForResult(ChoicePhotoActivity.getLauncher(context,"0",map),110);
     }
 
 
