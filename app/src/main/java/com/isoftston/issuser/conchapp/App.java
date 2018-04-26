@@ -30,7 +30,6 @@ public class App extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         init();
-
     }
 
     private void init(){
@@ -72,5 +71,10 @@ public class App extends MultiDexApplication {
             public void onFailure(String s, String s1) {
             }
         });
+
+        // 拦截SDK默认的处理 交给我们自己去处理
+        mPushAgent.setPushIntentServiceClass(GetThumbService.class);
     }
 }
+
+

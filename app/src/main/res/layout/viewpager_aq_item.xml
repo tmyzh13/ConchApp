@@ -102,6 +102,7 @@
                 android:textColor="@color/white"
                 android:text="@string/notic"/>
             <TextView
+                android:id="@+id/gg_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="1dp"
@@ -124,6 +125,7 @@
                 android:textColor="@color/white"
                 android:text="@string/award"/>
             <TextView
+                android:id="@+id/jl_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="5dp"
@@ -146,6 +148,7 @@
                 android:textColor="@color/white"
                 android:text="@string/pubish"/>
             <TextView
+                android:id="@+id/cf_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="5dp"

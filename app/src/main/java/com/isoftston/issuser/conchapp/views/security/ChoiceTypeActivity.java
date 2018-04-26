@@ -42,9 +42,10 @@ public class ChoiceTypeActivity extends BaseActivity<SecuryView,SecurityPresente
     private List<YhlxBean> yhlList=new ArrayList<>();
     private List<YhlxBean> yhList=new ArrayList<>();
     private CheckTypeAdapter adapter;
-
-    public static Intent getLaucnher(Context context){//根据code设置头部标题文字
+    private int mark;
+    public static Intent getLaucnher(Context context,int i){//根据code设置头部标题文字
         Intent intent =new Intent(context,ChoiceTypeActivity.class);
+        intent.putExtra("mark",i);
         return intent;
     }
     @Override
@@ -59,6 +60,7 @@ public class ChoiceTypeActivity extends BaseActivity<SecuryView,SecurityPresente
         nav.setTitleColor(getResources().getColor(R.color.black));
         setBarColor(getResources().getColor(R.color.transparent_black));
         nav.showBack(2);
+        mark=getIntent().getIntExtra("mark",-1);
         presenter.getCompanyChoiceList();
         adapter = new CheckTypeAdapter(context);
         lv_device.setAdapter(adapter);
@@ -119,10 +121,21 @@ public class ChoiceTypeActivity extends BaseActivity<SecuryView,SecurityPresente
 
     @Override
     public void getSafeChoiceList(SecuritySearchBean bean) {
-        yhlxList = bean.YHLX;
-        for (int i=0;i<yhlxList.size();i++){
-            if (TextUtils.isEmpty(yhlxList.get(i).getPCODE_())||null==yhlxList.get(i).getPCODE_()||" ".equals(yhlxList.get(i).getPCODE_())){
-                yhlList.add(yhlxList.get(i));
+        yhlList.clear();
+        if (mark == 1) {
+            yhlxList = bean.YHLX;
+            for (int i=0;i<yhlxList.size();i++){
+                if (TextUtils.isEmpty(yhlxList.get(i).getPCODE_())||null==yhlxList.get(i).getPCODE_()||" ".equals(yhlxList.get(i).getPCODE_())){
+                    yhlList.add(yhlxList.get(i));
+                }
+            }
+
+        }else if (mark==2){
+            yhlxList=bean.SFYXCZG;
+            for (int i=0;i<yhlxList.size();i++){
+                if (TextUtils.isEmpty(yhlxList.get(i).getPCODE_())||null==yhlxList.get(i).getPCODE_()||" ".equals(yhlxList.get(i).getPCODE_())){
+                    yhlList.add(yhlxList.get(i));
+                }
             }
         }
         adapter.addAll(yhlList);

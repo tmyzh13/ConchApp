@@ -160,6 +160,7 @@
             <View
                 style="@style/view_line"/>
             <RelativeLayout
+                android:id="@+id/rl_wz_type"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@color/white"
@@ -176,7 +177,6 @@
                     <TextView
                         style="@style/text_normal"
                         android:layout_centerVertical="true"
-                        android:text="@string/illegal_please_choice"
                         android:layout_alignParentRight="true"
                          android:id="@+id/tv_illegal_type"
                         />

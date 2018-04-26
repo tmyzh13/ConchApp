@@ -170,6 +170,41 @@
                             android:textColor="#262626"
                             android:textStyle="bold" />
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/sjdwmc_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/hidden_trouble_company"
+                            android:textColor="#262626"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/yhdd_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:text="@string/yh_adress"
+                            android:textColor="#262626"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/yhbw_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/yh_point"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:textColor="#262626"
+                            android:textStyle="bold" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <View
@@ -200,6 +235,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/yhjb_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
@@ -208,6 +244,7 @@
                         android:textColor="@color/text_gray1" />
 
                     <TextView
+                        android:id="@+id/yhlx_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="30dp"
@@ -247,6 +284,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/zgqx_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
@@ -275,6 +313,7 @@
                         android:src="@mipmap/fixed" />
 
                     <TextView
+                        android:id="@+id/yhzt_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/fixed"
@@ -301,6 +340,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/msyh_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="60dp"
@@ -359,6 +399,7 @@
                     android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/yhly_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"

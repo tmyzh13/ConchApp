@@ -267,7 +267,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
     }
     @OnClick(R.id.ll_yh_type)
     public void choiceType(){
-        startActivityForResult(ChoiceTypeActivity.getLaucnher(context),110);
+        startActivityForResult(ChoiceTypeActivity.getLaucnher(context,1),110);
     }
 
     @Override
@@ -473,6 +473,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
     @Override
     public void getSafeChoiceList(SecuritySearchBean bean ) {
         checkCompanyList.clear();
+        findCompanyList.clear();
         org = bean.ORG;
         for (OrgBean orgBean: org){
             checkCompanyList.add(orgBean.getORG_NAME_());

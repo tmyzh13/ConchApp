@@ -83,6 +83,9 @@
             </intent-filter>
 
         </service>
+        <!-- UMESSAGE SERVICE -->
+        <service android:name=".GetThumbService"/>
+
         <!-- since 3.1.0 Required SDK 核心功能-->
         <provider
             android:authorities="com.isoftston.issuser.conchapp.DownloadProvider"
@@ -139,9 +142,13 @@
         <!-- Required  . Enable it you can get statistics data with channel -->
         <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
         <meta-data android:name="JPUSH_APPKEY" android:value="729a71e093416e55286236e3" />
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5ad6ae01f29d981e84000090"/>
 
-
-
+        <meta-data
+            android:name="UMENG_MESSAGE_SECRET"
+            android:value="e520eb3804e7fb231c773620b5a478ad"/>
 
         <!-- 相机拍照 -->
         <provider

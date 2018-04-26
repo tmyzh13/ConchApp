@@ -60,8 +60,6 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
     TextView tv_start_time;
     @Bind(R.id.tv_end_time)
     TextView tv_end_time;
-    @Bind(R.id.input_illegal_company)
-    InputView input_illegal_company;
     @Bind(R.id.tv_check_people)
     TextView tv_check_people;
     @Bind(R.id.tv_illegal_type)
@@ -89,6 +87,11 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
     private Context context=AddIllegalActivity.this;
     private String startTime,endTime;
     private ChooseListPopupWindow window;
+    private List<OrgBean> org;
+    private String find_company;
+    private String find_company_id;
+    private String wz_company;
+    private String wz_company_id;
 
     public static Intent getLauncher(Context context){
         Intent intent =new Intent(context,AddIllegalActivity.class);
@@ -110,7 +113,6 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
 
         //设置栏目标题
         input_illegal_name.setInputText(getString(R.string.illegal_detail_name),null);
-        input_illegal_company.setInputText(getString(R.string.illeagl_company),null);
         input_illegal_place.setInputText(getString(R.string.illegal_place),null);
 
         startTime= Tools.getCurrentTime();
@@ -172,7 +174,26 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
         find_spinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                find_company = findAdapter.getItem(i);
+                find_company_id = org.get(i).getID_();
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+
+        });
+        wzAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, wzList);
+        //2.为适配器设置下拉菜单样式。adapter.setDropDownViewResource
+        wzAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //3.以上声明完毕后，建立适配器,有关于sipnner这个控件的建立。用到myspinner
+        wz_spinner.setAdapter(wzAdapter);
+        wz_spinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                wz_company = wzAdapter.getItem(i);
+                wz_company_id = org.get(i).getID_();
             }
 
             @Override
@@ -190,6 +211,7 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
 
     @OnClick(R.id.ll_confirm)
     public void confirmInfo(){
+
         AddYHBean bean=new AddYHBean();
 //        bean.setYhmc(input_illegal_name.getContent());
         bean.setYhmc(input_illegal_name.getContent());
@@ -197,7 +219,7 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
         bean.setJcdwid("1");
         bean.setJcdwmc("");
         bean.setSjdwid("1");
-        bean.setSjdwmc(input_illegal_company.getContent());
+        bean.setSjdwmc("");
         bean.setYhly("1");
         bean.setFxrmc(tv_check_people.getText().toString());
         bean.setFxrId("1");
@@ -264,7 +286,10 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
         rl_description.setBackgroundResource(R.drawable.ll_input_selector_bg);
         tv_illegal_describ_title.setTextColor(getResources().getColor(R.color.white));
     }
-
+    @OnClick(R.id.rl_wz_type)
+    public void choiceWZType(){
+        startActivityForResult(ChoiceTypeActivity.getLaucnher(context,2),110);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -286,6 +311,9 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
                     builder.append(",");
                 }
                 picString = builder.toString();
+            }else if (resultCode==104){
+                String name=data.getStringExtra(Constant.CHECK_PEOPLE);
+                tv_illegal_type.setText(name);
             }
         }
     }
@@ -386,6 +414,15 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
 
     @Override
     public void getSafeChoiceList(SecuritySearchBean bean) {
+        findList.clear();
+        wzList.clear();
+        org = bean.ORG;
+        for (OrgBean orgBean: org){
+            findList.add(orgBean.getORG_NAME_());
+            wzList.add(orgBean.getORG_NAME_());
+        }
+        wzAdapter.notifyDataSetChanged();
+        findAdapter.notifyDataSetChanged();
 
     }
 }
