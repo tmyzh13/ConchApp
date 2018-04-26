@@ -136,7 +136,7 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
     }
 
     @Override
-    public void getSafeChoiceList(SecuritySearchBean bean) {
+    public void getSafeChoiceList(SecuritySearchBean b) {
 
     }
 

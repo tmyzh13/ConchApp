@@ -264,5 +264,7 @@
     <string name="revoke_success">撤销成功</string>
     <string name="choice_device_type">选择设备类型</string>
     <string name="choice_device_name">选择设备名称</string>
+    <string name="exsit">确定要退出么？</string>
+    <string name="information_tips">提示！</string>
 
 </resources>

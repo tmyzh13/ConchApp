@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -80,6 +81,10 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
     Spinner find_spinner;
     @Bind(R.id.spinner2)
     Spinner wz_spinner;
+    @Bind(R.id.male_rb)
+    RadioButton male_rb;
+    @Bind(R.id.famale_rb)
+    RadioButton famale_rb;
     private List<String> findList=new ArrayList<>();
     private List<String> wzList=new ArrayList<>();
     private ArrayAdapter<String> findAdapter;
@@ -92,6 +97,7 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
     private String find_company_id;
     private String wz_company;
     private String wz_company_id;
+    private int nm;
 
     public static Intent getLauncher(Context context){
         Intent intent =new Intent(context,AddIllegalActivity.class);
@@ -211,30 +217,42 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
 
     @OnClick(R.id.ll_confirm)
     public void confirmInfo(){
-
+        String name=input_illegal_name.getContent().trim();
+        String startTimeStr = tv_start_time.getText().toString().trim();
+        long startTime = TextUtils.isEmpty(String.valueOf(startTimeStr))? 0 : DateUtils.getDateToLongMS(startTimeStr);
+        String endTimeStr = tv_end_time.getText().toString().trim();
+        long endTime = TextUtils.isEmpty(String.valueOf(endTimeStr))? 0 : DateUtils.getDateToLongMS(endTimeStr);
+        String check_people=tv_check_people.getText().toString();
+        String wz_type=tv_illegal_type.getText().toString();
+        String wz_address=input_illegal_place.getContent().trim();
+        String wz_describle=et_description.getText().toString().trim();
+        if (male_rb.isChecked()){
+            nm = 1;
+        }else if (famale_rb.isChecked()){
+            nm=0;
+        }
         AddYHBean bean=new AddYHBean();
-//        bean.setYhmc(input_illegal_name.getContent());
-        bean.setYhmc(input_illegal_name.getContent());
-        bean.setGsId("1");
-        bean.setJcdwid("1");
-        bean.setJcdwmc("");
-        bean.setSjdwid("1");
-        bean.setSjdwmc("");
-        bean.setYhly("1");
-        bean.setFxrmc(tv_check_people.getText().toString());
-        bean.setFxrId("1");
-        bean.setFxrq(2l);
-        bean.setCjsj(1l);
-        bean.setYhlx("1");
-        bean.setYhjb("1");
-        bean.setYhdd(input_illegal_place.getContent());
-        bean.setYhbw("1");
-        bean.setYhlbb("1");
-        bean.setSfxczg("1");
-        bean.setYhms(et_description.getText().toString());
+        bean.setYhmc(name);
+//        bean.setGsId("1");//公司id
+//        bean.setJcdwid("1");//公司名称
+        bean.setJcdwmc(find_company);
+        bean.setSjdwid(wz_company_id);
+        bean.setSjdwmc(wz_company);
+//        bean.setYhly("1");
+        bean.setFxrmc(check_people);
+        bean.setFxrId("");
+        bean.setFxrq(startTime);
+        bean.setCjsj(endTime);
+//        bean.setYhlx("1");
+//        bean.setYhjb("1");
+        bean.setYhdd(wz_address);
+//        bean.setYhbw("1");
+//        bean.setYhlbb("1");
+//        bean.setSfxczg("1");
+        bean.setYhms(wz_describle);
         bean.setTplj(picString);
-        bean.setKnzchg("1");
-        bean.setIschoose("1");
+//        bean.setKnzchg("1");
+//        bean.setIschoose("1");
         presenter.addWZMessage(bean);
         finish();
     }

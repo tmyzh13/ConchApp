@@ -568,23 +568,40 @@
                     android:text="@string/work_zone"
                     android:textColor="@color/black" />
 
+                <Spinner
+                    android:id="@+id/work_zone_sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/ll_corner_blue"
-                    android:gravity="center"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp">
+                    android:background="@drawable/gray_trok_bg_shape"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dp_1"
+                    android:visibility="gone">
 
-                    <Spinner
-                        android:id="@+id/work_zone_sp"
+                    <TextView
+                        android:id="@+id/danger_work_type"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:theme="@style/SpnStyle" />
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/danger_work_type" />
+
+                    <ImageView
+                        android:id="@+id/danger_work_typy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:background="@color/colorLine"
+                        android:paddingLeft="@dimen/dp_10"
+                        android:paddingRight="@dimen/dp_10"
+                        android:src="@mipmap/droparrow" />
                 </LinearLayout>
 
             </RelativeLayout>
@@ -620,40 +637,75 @@
                     android:text="@string/work_company"
                     android:textColor="@color/black" />
 
-                <LinearLayout
-                    android:id="@+id/ll_company_chose"
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/ll_company_chose"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_marginBottom="10dp"-->
+                    <!--android:layout_marginTop="10dp"-->
+                    <!--android:gravity="center"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:paddingRight="10dp">-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/company_tv"-->
+                        <!--style="@style/text_normal"-->
+                        <!--android:text="@string/chose_company"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:visibility="gone" />-->
+
+                    <!--<ImageView-->
+                        <!--android:id="@+id/chose_worker_company_iv"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:src="@mipmap/go_down"-->
+                        <!--android:visibility="gone" />-->
+
+                    <!--<Spinner-->
+                        <!--android:id="@+id/work_company_sp"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:theme="@style/SpnStyle"-->
+                        <!--android:visibility="visible" />-->
+                    <!---->
+                <!--</LinearLayout>-->
+                <Spinner
+                    android:id="@+id/work_company_sp"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/ll_corner_blue"
-                    android:gravity="center"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp">
+                    android:background="@drawable/gray_trok_bg_shape"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dp_1"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/company_tv"
-                        style="@style/text_normal"
-                        android:text="@string/chose_company"
-                        android:textColor="@color/white"
-                        android:visibility="gone" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/danger_work_type" />
 
                     <ImageView
                         android:id="@+id/chose_worker_company_iv"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:src="@mipmap/go_down"
-                        android:visibility="gone" />
-
-                    <Spinner
-                        android:id="@+id/work_company_sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:theme="@style/SpnStyle"
-                        android:visibility="visible" />
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:background="@color/colorLine"
+                        android:paddingLeft="@dimen/dp_10"
+                        android:paddingRight="@dimen/dp_10"
+                        android:src="@mipmap/droparrow" />
                 </LinearLayout>
 
             </RelativeLayout>

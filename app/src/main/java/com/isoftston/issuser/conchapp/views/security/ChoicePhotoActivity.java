@@ -1,9 +1,12 @@
 package com.isoftston.issuser.conchapp.views.security;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +16,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.corelibs.base.BaseActivity;
@@ -25,6 +31,7 @@ import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.constants.Urls;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
 import com.isoftston.issuser.conchapp.presenter.SecurityPresenter;
+import com.isoftston.issuser.conchapp.utils.FileSizeUtil;
 import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.utils.UploadImage;
@@ -49,12 +56,14 @@ import rx.functions.Action1;
  * Created by issuser on 2018/4/11.
  */
 
-public class ChoicePhotoActivity extends BaseActivity {
+public class ChoicePhotoActivity extends BaseActivity implements View.OnClickListener {
 
     @Bind(R.id.nav)
     NavBar navBar;
     @Bind(R.id.gv_pic)
     NoScrollingGridView gv_pic;
+    @Bind(R.id.iv_back)
+    ImageView iv_back;
     private AsyncTask asyncTask;
     private Context context = ChoicePhotoActivity.this;
     private SelectImageHelper helper;
@@ -63,7 +72,8 @@ public class ChoicePhotoActivity extends BaseActivity {
     private String type;
     //需要图片数量
     private int count;
-
+    private ArrayList<String> list = new ArrayList<>();
+    private ArrayList<String> historylist;
     private HashMap<String, String> mFiles;
 
     public static Intent getLauncher(Context context, String type, HashMap<String, String> map) {
@@ -85,7 +95,7 @@ public class ChoicePhotoActivity extends BaseActivity {
         setBarColor(getResources().getColor(R.color.transparent_black));
         navBar.setNavTitle(getString(R.string.choice_photo));
         navBar.showBack(2);
-
+        iv_back.setOnClickListener(this);
         type = getIntent().getStringExtra("type");
         mFiles = (HashMap<String, String>) getIntent().getSerializableExtra("files");
         if (mFiles == null) {
@@ -107,22 +117,22 @@ public class ChoicePhotoActivity extends BaseActivity {
                     //如果没有授权，则请求授权
                     ActivityCompat.requestPermissions(ChoicePhotoActivity.this, new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CALL_CAMERA);
                 } else {
-                    helper.openCamera(position, "");
-//                    if (window == null)
-//                        window = new ChooseImagePopupWindow(context);
-//
-//                    window.setOnTypeChosenListener(new ChooseImagePopupWindow.OnTypeChosenListener() {
-//                        @Override
-//                        public void onCamera() {
-//                            helper.openCamera(position, "");
-//                        }
-//
-//                        @Override
-//                        public void onGallery() {
-//                            helper.openGallery(position, "");
-//                        }
-//                    });
-//                    window.showAtBottom(navBar);
+//                    helper.openCamera(position, "");
+                    if (window == null)
+                        window = new ChooseImagePopupWindow(context);
+
+                    window.setOnTypeChosenListener(new ChooseImagePopupWindow.OnTypeChosenListener() {
+                        @Override
+                        public void onCamera() {
+                            helper.openCamera(position, "");
+                        }
+
+                        @Override
+                        public void onGallery() {
+                            helper.openGallery(position, "");
+                        }
+                    });
+                    window.showAtBottom(navBar);
                 }
             }
         });
@@ -159,12 +169,14 @@ public class ChoicePhotoActivity extends BaseActivity {
         return new SecurityPresenter();
     }
 
+
     @OnClick(R.id.tv_confirm)
     public void confirm() {
-        final ArrayList<String> list = new ArrayList<>();
+
         List<File> listFiles = helper.getChosenImages();
         for (int i = 0; i < listFiles.size(); i++) {
-            list.add(listFiles.get(i).getPath());
+            String path = FileSizeUtil.compressImage(listFiles.get(i).getPath());
+            list.add(path);
         }
 
         if (list.size() == 0) {
@@ -175,7 +187,7 @@ public class ChoicePhotoActivity extends BaseActivity {
 
         showLoading();
 
-        final Handler handler = new Handler(){
+        final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
@@ -185,7 +197,7 @@ public class ChoicePhotoActivity extends BaseActivity {
                     case 1:
                         HashMap<String, String> map = (HashMap<String, String>) msg.obj;
                         if (map != null && map.size() > 0) {
-                            Intent intent =new Intent();
+                            Intent intent = new Intent();
                             intent.putExtra(Constant.TEMP_PIC_LIST, map);
                             setResult(10, intent);
                             ToastUtils.showtoast(context, getString(R.string.submit_success));
@@ -214,7 +226,7 @@ public class ChoicePhotoActivity extends BaseActivity {
                     String uploadPath = mFiles.get(path);
                     if (TextUtils.isEmpty(uploadPath)) { // 没上传过就上传
                         picPath = UploadImage.uploadFile(Urls.ROOT + Urls.UPLOAD_IMAGE, path, token1);
-                        if (picPath == null){
+                        if (picPath == null) {
                             message.arg1 = 0;
                             handler.sendMessage(message);
                             return;
@@ -225,7 +237,7 @@ public class ChoicePhotoActivity extends BaseActivity {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        if (object == null){
+                        if (object == null) {
                             message.arg1 = 0;
                             handler.sendMessage(message);
                             return;
@@ -241,5 +253,43 @@ public class ChoicePhotoActivity extends BaseActivity {
                 handler.sendMessage(message);
             }
         }).start();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            showDialogView();
+            return false;
+        }else {
+            return super.onKeyDown(keyCode, event);
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_back:
+                showDialogView();
+                break;
+        }
+    }
+
+    private void showDialogView() {
+        AlertDialog alert = new AlertDialog.Builder(context).setTitle(R.string.information_tips)
+                .setMessage(R.string.exsit)
+                .setPositiveButton(R.string.sure, new DialogInterface.OnClickListener() {
+                    @Override//处理确定按钮点击事件
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .setNegativeButton(R.string.cancel_action, new DialogInterface.OnClickListener() {
+                    @Override//取消按钮点击事件
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();//对话框关闭。
+                    }
+                }).create();
+
+        alert.show();
     }
 }

@@ -7,6 +7,7 @@ import android.widget.GridView;
 
 
 import com.isoftston.issuser.conchapp.model.bean.ChosenImageFile;
+import com.isoftston.issuser.conchapp.utils.FileSizeUtil;
 
 import java.io.File;
 import java.util.ArrayList;

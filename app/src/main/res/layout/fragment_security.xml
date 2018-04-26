@@ -43,7 +43,7 @@
                 android:layout_height="15dp"
                 android:layout_alignParentRight="true"
                 android:background="@drawable/tab_msg_bg"
-                android:text="5"
+                android:text=""
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_small" />
@@ -73,7 +73,7 @@
                 android:layout_height="15dp"
                 android:layout_alignParentRight="true"
                 android:background="@drawable/tab_msg_bg"
-                android:text="5"
+                android:text=""
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_small"

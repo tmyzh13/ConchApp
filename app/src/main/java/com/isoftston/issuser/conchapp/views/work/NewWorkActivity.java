@@ -317,6 +317,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     private void aboutSpinner() {
         //作业区域下拉选择
         areaList = new ArrayList<>();
+        areaList.add("");
         presenter.getWorkInfo();
         spAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, areaList);
         spAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
