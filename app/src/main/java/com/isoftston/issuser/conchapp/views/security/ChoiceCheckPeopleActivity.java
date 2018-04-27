@@ -127,6 +127,8 @@ public class ChoiceCheckPeopleActivity extends BaseActivity<SeacherView,SeacherP
 
     @Override
     public void searchSuccess(List<CheckPeopleBean> lists) {
+        Log.e("DP","----searchSuccess");
+        Log.e("DP","----searchSuccess:"+lists.size());
         list_checker=lists;
         list.clear();
         for(int i=0;i<lists.size();i++){

@@ -103,7 +103,7 @@ public class CheckPresenter extends ListPagePresenter<CheckView> {
 
         bean.equipId=all;
 //        bean.userId=UserHelper.getUserId()+"";
-        bean.userId= String.valueOf(UserHelper.getUserId());
+//        bean.userId= String.valueOf(UserHelper.getUserId());
 
         bean.location=cityName;
 

@@ -28,8 +28,8 @@ public class FileSizeUtil {
      *
      * @param filePath
      *            文件路径
-     * @param sizeType
-     *            获取大小的类型1为B、2为KB、3为MB、4为GB
+     * @param
+     *    //获取大小的类型1为B、2为KB、3为MB、4为GB
      * @return double值的大小
      */
     @RequiresApi(api = Build.VERSION_CODES.N)

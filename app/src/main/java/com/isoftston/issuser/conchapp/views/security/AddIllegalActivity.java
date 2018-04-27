@@ -254,7 +254,7 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
 //        bean.setKnzchg("1");
 //        bean.setIschoose("1");
         presenter.addWZMessage(bean);
-        finish();
+//        finish();
     }
 
     private HashMap<String, String> map = new HashMap<>();

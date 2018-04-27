@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
@@ -462,10 +464,6 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         company = PreferencesHelper.getData(Constant.ORG_NAME);//作业单位。用户所属公司
         String numPeople = worker_num_input.getContent().toString().trim();
         int type = 0;//危险作业类型(手动选择)
-//        String leading = chagerNameTv.getText().toString();
-//        String guardian = keeperNameTv.getText().toString();
-//        String auditor = checkerNameTv.getText().toString();
-//        String approver = authorizeNameTv.getText().toString();
 
         //1危险、0常规作业。前页面传递
         if (rb_yes.isChecked()){
