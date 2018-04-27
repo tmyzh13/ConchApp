@@ -6,12 +6,12 @@ package com.isoftston.issuser.conchapp.model.bean;
 
 public class MessageQueryBean {
     /**
-     * ²éÑ¯Àà±ğ
+     * æŸ¥è¯¢ç±»åˆ«
      */
     private String type;
 
     /**
-     * ²éÑ¯¹Ø¼ü×Ö
+     * æŸ¥è¯¢å…³é”®å­—
      */
     private String title;
 
