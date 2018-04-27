@@ -81,7 +81,7 @@
                 android:layout_height="match_parent"
                 android:src="@mipmap/delete_icn"
                 android:scaleType="center"
-                />
+                android:visibility="gone"/>
         </RelativeLayout>
         <com.isoftston.issuser.conchapp.weight.FlowLayout
             android:layout_width="match_parent"

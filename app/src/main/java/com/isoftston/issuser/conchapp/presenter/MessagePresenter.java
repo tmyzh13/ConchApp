@@ -157,6 +157,14 @@ public class MessagePresenter extends ListPagePresenter<MessageView> {
                         view.getWorkError();
                     }
 
+                    @Override
+                    public boolean operationError(BaseData<EachMessageInfoBean> messageListInfoBeanBaseData, int status, String message) {
+                        if (status==-200){
+                            view.reLogin();
+                        }
+                        return false;
+                    }
+
                 });
     }
 }

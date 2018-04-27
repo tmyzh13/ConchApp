@@ -21,7 +21,9 @@ import android.widget.TextView;
 import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BaseFragment;
 import com.corelibs.utils.PreferencesHelper;
+import com.corelibs.views.cube.ptr.PtrFrameLayout;
 import com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout;
+import com.corelibs.views.ptr.loadmore.OnScrollListener;
 import com.corelibs.views.ptr.loadmore.widget.AutoLoadMoreListView;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.MessageTypeAdapter;
@@ -137,6 +139,8 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
     private int currrentPage;
     private boolean isChange;
     private int lastCount;
+    private boolean isUpRefresh;
+    private boolean isDownRefresh;
 
     @Override
     protected int getLayoutId() {
@@ -165,8 +169,27 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         mAdapter = new MessageTypeAdapter(getContext());
         presenter.getMessageListInfo("all", "");
         lv_message.setAdapter(mAdapter);
-        ptrLayout.disableLoading();
-        ptrLayout.setCanRefresh(false);
+        ptrLayout.setLoading();
+        ptrLayout.setRefreshLoadCallback(new PtrAutoLoadMoreLayout.RefreshLoadCallback() {
+            @Override
+            public void onLoading(PtrFrameLayout frame) {
+            }
+
+            @Override
+            public void onRefreshing(PtrFrameLayout frame) {
+                isUpRefresh = true;
+                if (currrentPage == 0){
+                    presenter.getMessageListInfo("all","");
+                }else if (currrentPage == 1){
+                    presenter.getEachMessageListInfo("yh","");
+                }else if (currrentPage == 2){
+                    presenter.getEachMessageListInfo("wz","");
+                }else {
+                    presenter.getEachMessageListInfo("aq","");
+                }
+            }
+        });
+
         iv_direc.setOnClickListener(this);
         bt_yh.setOnClickListener(this);
         bt_aq.setOnClickListener(this);
@@ -252,14 +275,16 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
     }
 
     private void loadNextPage(int totalItemCount){
+        ptrLayout.setLoading();
+        isDownRefresh = true;
         if (currrentPage == 0){
             presenter.getMessageListInfo("all",""+mAdapter.getData().get(totalItemCount-1).getmId());
         }else if (currrentPage == 1){
-            presenter.getEachMessageListInfo("yh",""+mAdapter.getData().get(totalItemCount-1).getId());
+            presenter.getEachMessageListInfo("yh",""+mAdapter.getData().get(totalItemCount-1).getmId());
         }else if (currrentPage == 2){
-            presenter.getEachMessageListInfo("wz",""+mAdapter.getData().get(totalItemCount-1).getId());
+            presenter.getEachMessageListInfo("wz",""+mAdapter.getData().get(totalItemCount-1).getmId());
         }else {
-            presenter.getEachMessageListInfo("aq",""+listAqMessage.get(totalItemCount-1).getId());
+            presenter.getEachMessageListInfo("aq",""+listAqMessage.get(totalItemCount-1).getmId());
         }
     }
 
@@ -473,6 +498,15 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
             mAdapter.getData().clear();
             isChange = false;
         }
+        if (isUpRefresh){
+            mAdapter.clear();
+            isUpRefresh = false;
+            ptrLayout.complete();
+        }
+        if (isDownRefresh){
+            isDownRefresh = false;
+            ptrLayout.complete();
+        }
         if (data.list.size() == 0 && mAdapter.getCount() > 0){
             return;
         }
@@ -485,6 +519,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
 
     @Override
     public void getWorkError() {
+        ptrLayout.complete();
         ((BaseActivity)getActivity()).getLoadingDialog().dismiss();
         hideLoading();
         startActivity(LoginActivity.getLauncher(getActivity()));
@@ -493,6 +528,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
 
     @Override
     public void reLogin() {
+        ptrLayout.complete();
         ToastUtils.showtoast(getActivity(),getString(R.string.re_login));
         PreferencesHelper.saveData(Constant.LOGIN_STATUE,"");
         startActivity(LoginActivity.getLauncher(getActivity()));
@@ -523,8 +559,17 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
             listWzMessage = data.list;
         }
         if (isChange){
-            mAdapter.getData().clear();
+            mAdapter.clear();
             isChange = false;
+        }
+        if (isUpRefresh){
+            mAdapter.clear();
+            isUpRefresh = false;
+            ptrLayout.complete();
+        }
+        if (isDownRefresh){
+            isDownRefresh = false;
+            ptrLayout.complete();
         }
         if (data.list.size() == 0 && mAdapter.getCount() > 0){
             return;

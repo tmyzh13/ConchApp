@@ -17,6 +17,7 @@ import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.CheckPeopleAdapter;
 import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.CheckPeopleBean;
+import com.isoftston.issuser.conchapp.model.bean.EachMessageInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.ResponseUserBean;
 import com.isoftston.issuser.conchapp.model.bean.SearchUserBean;
 import com.isoftston.issuser.conchapp.model.bean.UserBean;
@@ -139,6 +140,20 @@ public class ChoiceCheckPeopleActivity extends BaseActivity<SeacherView,SeacherP
         adapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void getEachMessageListResult(EachMessageInfoBean data) {
+
+    }
+
+    @Override
+    public void getWorkError() {
+
+    }
+
+    @Override
+    public void reLogin() {
+
+    }
 
 
     public void getSeacherResult(String searchContent){

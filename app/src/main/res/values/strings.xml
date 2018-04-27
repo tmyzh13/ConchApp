@@ -24,6 +24,7 @@
     <string name="search_all">全部</string>
     <string name="search_hidden_trouble">隐患</string>
     <string name="search_illegal">违章</string>
+    <string name="search_security">安全</string>
     <string name="search_my_send">我的发布</string>
     <string name="search_histroy">历史搜索</string>
 

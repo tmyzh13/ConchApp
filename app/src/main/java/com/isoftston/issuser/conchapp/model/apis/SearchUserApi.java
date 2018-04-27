@@ -3,6 +3,9 @@ package com.isoftston.issuser.conchapp.model.apis;
 import com.isoftston.issuser.conchapp.constants.Urls;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
 import com.isoftston.issuser.conchapp.model.bean.CheckPeopleBean;
+import com.isoftston.issuser.conchapp.model.bean.EachMessageInfoBean;
+import com.isoftston.issuser.conchapp.model.bean.MessageListRequestBean;
+import com.isoftston.issuser.conchapp.model.bean.MessageQueryBean;
 import com.isoftston.issuser.conchapp.model.bean.ResponseUserBean;
 import com.isoftston.issuser.conchapp.model.bean.SearchUserBean;
 
@@ -18,4 +21,7 @@ import rx.Observable;
 public interface SearchUserApi {
     @POST(Urls.SEARCH_USER_ORG_LIST)
     Observable<BaseData<ResponseUserBean>> searchUser(@Header("Access-Token") String token, @Body SearchUserBean bean);
+
+    @POST(Urls.SEARCH_MESSGAE_INFO)
+    Observable<BaseData<EachMessageInfoBean>> searchMessageListInfo(@Header("Access-Token") String token, @Body MessageQueryBean bean);
 }

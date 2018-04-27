@@ -13,6 +13,7 @@ public class MessageBean {
     public String location;
     public String createTime = "";
     public String imgs;
+    private String yhjb;
 
     public String getmId() {
         return mId;
@@ -68,5 +69,13 @@ public class MessageBean {
 
     public void setImgs(String imgs) {
         this.imgs = imgs;
+    }
+
+    public String getYhjb() {
+        return yhjb;
+    }
+
+    public void setYhjb(String yhjb) {
+        this.yhjb = yhjb;
     }
 }

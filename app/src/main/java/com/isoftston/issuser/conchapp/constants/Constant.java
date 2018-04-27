@@ -29,4 +29,8 @@ public class Constant {
 
     public static final String AREA_ID="AREA_ID";
     public static final String LOCATION_NAME = "loaction_name";
+
+    public static final String  MESSAGE_SEARCH = "message_search";
+    public static final String  WORK_SEARCH = "work_search";
+    public static final String  CHECK_SEARCH = "check_search";
 }

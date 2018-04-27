@@ -15,19 +15,26 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.corelibs.base.BaseActivity;
 import com.corelibs.utils.IMEUtil;
+import com.corelibs.utils.PreferencesHelper;
 import com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout;
 import com.isoftston.issuser.conchapp.adapters.DeviceAdapter;
+import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.CheckPeopleBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceBean;
+import com.isoftston.issuser.conchapp.model.bean.EachMessageInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
 import com.isoftston.issuser.conchapp.model.bean.ResponseUserBean;
 import com.isoftston.issuser.conchapp.model.bean.UserBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkBean;
+import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
+import com.isoftston.issuser.conchapp.utils.ToastUtils;
+import com.isoftston.issuser.conchapp.views.LoginActivity;
 import com.isoftston.issuser.conchapp.views.check.CheckDeviceDetailActivity;
 import com.isoftston.issuser.conchapp.views.message.ItemDtailActivity;
 import com.isoftston.issuser.conchapp.views.work.ScanCodeActivity;
@@ -43,6 +50,7 @@ import com.isoftston.issuser.conchapp.weight.FlowLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -67,10 +75,11 @@ public class SeacherActivity extends BaseActivity<SeacherView,SeacherPresenter> 
     AutoLoadMoreListView lv_message;
     @Bind(R.id.ptrLayout)
     PtrAutoLoadMoreLayout<AutoLoadMoreListView> ptrLayout;
+    @Bind(R.id.iv_delete)
+    ImageView deleteHistory;
 
-    private  Context context=SeacherActivity.this;
-    private String historys[]={"安全","事件1","我的发布","项目中的隐患"
-                                ,"重大违章事故的发生"};
+    private Context context = SeacherActivity.this;
+    private String historys[];
 
     //0 隐患 1 作业 2 搜索
     private String type;
@@ -80,6 +89,12 @@ public class SeacherActivity extends BaseActivity<SeacherView,SeacherPresenter> 
     private MessageTypeAdapter messageTypeAdapter;
     private ListviewAdapter listViewAdapter;
     private DeviceAdapter deviceAdapter;
+    private String historyString;
+    private int selectTab;
+    public List<MessageBean> listAllMessageTab = new ArrayList<>();
+    public List<MessageBean> listYhMessageTab = new ArrayList<>();
+    public List<MessageBean> listWzMessageTab = new ArrayList<>();
+    public List<MessageBean> listAqMessageTab = new ArrayList<>();
 
     public static Intent getLauncher(Context context,String type){
         Intent intent =new Intent(context,SeacherActivity.class);
@@ -107,6 +122,12 @@ public class SeacherActivity extends BaseActivity<SeacherView,SeacherPresenter> 
         list_trouble.add(bean);
         list_trouble.add(bean1);
         list_trouble.add(bean2);
+        if (("0").equals(type)){
+            TabBean bean3 = new TabBean();
+            bean3.name = getString(R.string.search_security);
+            list_trouble.add(bean3);
+        }
+
 
         list_work=new ArrayList<>();
         TabBean workBean=new TabBean();
@@ -119,68 +140,60 @@ public class SeacherActivity extends BaseActivity<SeacherView,SeacherPresenter> 
         list_work.add(workBean1);
         list_work.add(workBean2);
 
-        ViewGroup.LayoutParams lp =viewStatue.getLayoutParams();
-        lp.height= Tools.getStatueHeight(context);
+        ViewGroup.LayoutParams lp = viewStatue.getLayoutParams();
+        lp.height = Tools.getStatueHeight(context);
         viewStatue.setLayoutParams(lp);
 
         setBarColor(getResources().getColor(R.color.transparent_black));
 
-        ArrayList list =new ArrayList();
+        ArrayList list = new ArrayList();
         for (int i = 0; i < 10; i++) {
             list.add("我这是假数据假数据假数据" + i + "itme");
         }
-        listViewAdapter=new ListviewAdapter(context,list);
+        listViewAdapter = new ListviewAdapter(context, list);
 
-        List<MessageBean> list1=new ArrayList<>();
-        for(int i=0;i<10;i++){
-            MessageBean messageBean=new MessageBean();
-            list1.add(messageBean);
-        }
-        messageTypeAdapter=new MessageTypeAdapter(context);
-        messageTypeAdapter.addAll(list1);
+        messageTypeAdapter = new MessageTypeAdapter(context);
 
-        List<DeviceBean> list2 =new ArrayList<>();
-        for(int i=0;i<10;i++){
-            DeviceBean deviceBean=new DeviceBean();
+        List<DeviceBean> list2 = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            DeviceBean deviceBean = new DeviceBean();
             list2.add(deviceBean);
         }
-        deviceAdapter=new DeviceAdapter(context);
+        deviceAdapter = new DeviceAdapter(context);
         deviceAdapter.addAll(list2);
 
 
-        if(type.equals("0")){
-            for(int i=0;i<list_trouble.size();i++){
+        if (type.equals("0")) {
+            historyString = SharePrefsUtils.getValue(context, Constant.MESSAGE_SEARCH, "");
+            for (int i = 0; i < list_trouble.size(); i++) {
                 tabLayout.addTab(tabLayout.newTab().setText(list_trouble.get(i).name));
             }
             lv_message.setAdapter(messageTypeAdapter);
-        }else if(type.equals("1")){
-            for(int i=0;i<list_work.size();i++){
+        } else if (type.equals("1")) {
+            historyString = SharePrefsUtils.getValue(context, Constant.WORK_SEARCH, "");
+            for (int i = 0; i < list_work.size(); i++) {
                 tabLayout.addTab(tabLayout.newTab().setText(list_work.get(i).name));
             }
             lv_message.setAdapter(listViewAdapter);
-        } else if(type.equals("2")){
+        } else if (type.equals("2")) {
+            historyString = SharePrefsUtils.getValue(context, Constant.CHECK_SEARCH, "");
             tabLayout.setVisibility(View.GONE);
             lv_message.setAdapter(deviceAdapter);
         }
-
-        lv_message.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(type.equals("0")){
-                    Intent intent =new Intent(context,ItemDtailActivity.class);
-                    startActivity(intent);
-                }else if(type.equals("1")){
-                    startActivity(ScanCodeActivity.getLauncher(context,""));
-                }else if(type.equals("2")){
-                    startActivity(CheckDeviceDetailActivity.getLauncher(context,new DeviceBean()));
-                }
-            }
-        });
-
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-//                Log.e("yzh","---"+tab.getPosition());
+                ll_histroy.setVisibility(View.VISIBLE);
+                ptrLayout.setVisibility(View.GONE);
+                selectTab = tab.getPosition();
+                if (type.equals("0")) {
+                    messageTypeAdapter.clear();
+                    messageTypeAdapter.notifyDataSetChanged();
+                } else if (type.equals("1")) {
+
+                } else if (type.equals("2")) {
+
+                }
             }
 
             @Override
@@ -193,19 +206,79 @@ public class SeacherActivity extends BaseActivity<SeacherView,SeacherPresenter> 
 
             }
         });
-        initData();
+        lv_message.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (type.equals("0")) {
+                    Intent intent = new Intent(SeacherActivity.this, ItemDtailActivity.class);
+                    Bundle bundle=new Bundle();
+                    if (selectTab == 0){
+                        bundle.putString("type",listAllMessageTab.get(position).getType());
+                        bundle.putString("id",listAllMessageTab.get(position).getId());
+                    }else if (selectTab == 1){
+                        bundle.putString("type",listYhMessageTab.get(position).getType());
+                        bundle.putString("id",listYhMessageTab.get(position).getId());
+                    }else if (selectTab == 2){
+                        bundle.putString("type",listWzMessageTab.get(position).getType());
+                        bundle.putString("id",listWzMessageTab.get(position).getId());
+                    }else {
+                        bundle.putString("type",listAqMessageTab.get(position).getType());
+                        bundle.putString("id",listAqMessageTab.get(position).getId());
+                    }
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                } else if (type.equals("1")) {
+                    startActivity(ScanCodeActivity.getLauncher(context, ""));
+                } else if (type.equals("2")) {
+                    startActivity(CheckDeviceDetailActivity.getLauncher(context, new DeviceBean()));
+                }
+            }
+        });
 
+        if (!"".equals(historyString)) {
+            historys = historyString.split(",");
+            deleteHistory.setVisibility(View.VISIBLE);
+            initData();
+        }
         et_seach.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
-                if(actionId== EditorInfo.IME_ACTION_DONE||actionId==EditorInfo.IME_ACTION_SEARCH){
-                    if(!TextUtils.isEmpty(et_seach.getText().toString().trim())){
-                        alterHistroySeach(et_seach.getText().toString().trim());
+                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    String searchText = et_seach.getText().toString().trim();
+                    if (!TextUtils.isEmpty(searchText)) {
+                        alterHistroySeach(searchText);
                         ll_histroy.setVisibility(View.GONE);
                         ptrLayout.setVisibility(View.VISIBLE);
+                        if (historys != null && historys.length == 10) {
+                            historyString = historyString.substring(historyString.indexOf(",") + 1, historyString.length());
+                        }
+                        if ("".equals(historyString)) {
+                            if (type.equals("0")) {
+                                SharePrefsUtils.putValue(context, Constant.MESSAGE_SEARCH, searchText + ",");
+                            } else if (type.equals("1")) {
+                                SharePrefsUtils.putValue(context, Constant.WORK_SEARCH, searchText + ",");
+                            } else if (type.equals("2")) {
+                                SharePrefsUtils.putValue(context, Constant.CHECK_SEARCH, searchText + ",");
+                            }
+                        }
+                        if (type.equals("0")) {
+                            boolean isHaveKey = false;
+                            for (String history : historys){
+                                if (history.equals(searchText)){
+                                    isHaveKey = true;
+                                }
+                            }
+                            if (!isHaveKey){
+                                SharePrefsUtils.putValue(context, Constant.MESSAGE_SEARCH, historyString + searchText + ",");
+                            }
+                        } else if (type.equals("1")) {
+                            SharePrefsUtils.putValue(context, Constant.WORK_SEARCH, historyString + searchText + ",");
+                        } else if (type.equals("2")) {
+                            SharePrefsUtils.putValue(context, Constant.CHECK_SEARCH, historyString + searchText + ",");
+                        }
                     }
-                    IMEUtil.closeIME(et_seach,context);
+                    IMEUtil.closeIME(et_seach, context);
                     return true;
                 }
                 return false;
@@ -225,7 +298,7 @@ public class SeacherActivity extends BaseActivity<SeacherView,SeacherPresenter> 
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(TextUtils.isEmpty(s.toString())){
+                if (TextUtils.isEmpty(s.toString())) {
                     ll_histroy.setVisibility(View.VISIBLE);
                     ptrLayout.setVisibility(View.GONE);
                 }
@@ -236,7 +309,7 @@ public class SeacherActivity extends BaseActivity<SeacherView,SeacherPresenter> 
         ptrLayout.setCanRefresh(false);
     }
 
-    private void initData(){
+    private void initData() {
         for (int i = 0; i < historys.length; i++) {
             TextView tv = (TextView) getLayoutInflater().inflate(
                     R.layout.search_label_tv, flowLayout, false);
@@ -260,17 +333,41 @@ public class SeacherActivity extends BaseActivity<SeacherView,SeacherPresenter> 
 
 
     @OnClick(R.id.iv_delete)
-    public void deletaHistory(){
-        for(int i=0;i<historys.length;i++){
+    public void deletaHistory() {
+        if (type.equals("0")) {
+            SharePrefsUtils.putValue(context, Constant.MESSAGE_SEARCH, "");
+        } else if (type.equals("1")) {
+            SharePrefsUtils.putValue(context, Constant.WORK_SEARCH, "");
+        } else if (type.equals("2")) {
+            SharePrefsUtils.putValue(context, Constant.CHECK_SEARCH, "");
+        }
+        for (int i = 0; i < historys.length; i++) {
             flowLayout.removeAllViews();
         }
     }
 
     /**
      * 修改界面的历史搜索
+     *
      * @param key
      */
-    private void alterHistroySeach(String key){
+    private void alterHistroySeach(String key) {
+        if (type.equals("0")){
+            String searchType;
+            if (selectTab == 0){
+                searchType = "all";
+            }else if (selectTab == 1){
+                searchType = "yh";
+            }else if (selectTab == 2){
+                searchType = "wz";
+            }else {
+                searchType = "aq";
+            }
+            showLoading();
+            presenter.searchMessage(searchType,key);
+        }else {
+
+        }
 
     }
 
@@ -280,17 +377,46 @@ public class SeacherActivity extends BaseActivity<SeacherView,SeacherPresenter> 
     }
 
     @OnClick(R.id.tv_cancel)
-    public void cancelSeach(){
+    public void cancelSeach() {
         finish();
-    }
-
-    @OnClick(R.id.iv_delete)
-    public void deletehistory(){
-
     }
 
     @Override
     public void searchSuccess(List<CheckPeopleBean> list) {
 
+    }
+
+    @Override
+    public void getEachMessageListResult(EachMessageInfoBean data) {
+        hideLoading();
+        if (selectTab == 0){
+            listAllMessageTab.clear();
+            listAllMessageTab = data.list;
+        }else if (selectTab == 1){
+            listYhMessageTab.clear();
+            listYhMessageTab = data.list;
+        }else if (selectTab == 2) {
+            listWzMessageTab.clear();
+            listWzMessageTab = data.list;
+        }else {
+            listAqMessageTab.clear();
+            listAqMessageTab = data.list;
+        }
+        messageTypeAdapter.addAll(data.list);
+        messageTypeAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void getWorkError() {
+        getLoadingDialog().dismiss();
+        hideLoading();
+        startActivity(LoginActivity.getLauncher(this));
+    }
+
+    @Override
+    public void reLogin() {
+        ToastUtils.showtoast(context,getString(R.string.re_login));
+        PreferencesHelper.saveData(Constant.LOGIN_STATUE,"");
+        startActivity(LoginActivity.getLauncher(this));
     }
 }

@@ -32,12 +32,14 @@
                     android:text="@string/yh_message"
                     android:textColor="@color/text_main"
                     />
+
                 <ImageView
-                    android:layout_marginLeft="10dp"
                     android:id="@+id/item_mark"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@mipmap/mark"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:visibility="gone"
+                    android:src="@mipmap/mark" />
                 <TextView
                     android:id="@+id/item_time"
                     android:layout_width="0dp"
@@ -63,6 +65,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
                     android:text="@string/project_address"/>
             </LinearLayout>
             <TextView
