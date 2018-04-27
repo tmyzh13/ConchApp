@@ -266,5 +266,6 @@
     <string name="choice_device_name">选择设备名称</string>
     <string name="exsit">确定要退出么？</string>
     <string name="information_tips">提示！</string>
+    <string name="tips">手机号不能为空</string>
 
 </resources>

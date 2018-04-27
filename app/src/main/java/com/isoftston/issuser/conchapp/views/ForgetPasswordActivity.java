@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.widget.EditText;
@@ -32,8 +33,8 @@ public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordView,Forg
 
     @Bind(R.id.nav)
     NavBar nav;
-    @Bind(R.id.et_acount)
-    EditText et_email;
+//    @Bind(R.id.et_acount)
+//    EditText et_email;
     @Bind(R.id.tv_hint)
     TextView tv_hint;
     @Bind(R.id.et_code)
@@ -42,7 +43,8 @@ public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordView,Forg
     EditText et_password;
     @Bind(R.id.tv_get_code)
     TextView tv_get_code;
-
+    @Bind(R.id.et_acount)
+    EditText et_phone;
     private Context context=ForgetPasswordActivity.this;
 
     public static Intent getLaucner(Context context){
@@ -87,8 +89,12 @@ public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordView,Forg
 
     @OnClick(R.id.tv_get_code)
     public void getCode(){
-
+        if (TextUtils.isEmpty(et_phone.getText().toString())){
+            ToastMgr.show(R.string.tips);
+            return;
+        }
         new MyCountDownTimer(context,tv_get_code, 60 * 1000, 1000,true).start();
+        //调接口
 
     }
 }
