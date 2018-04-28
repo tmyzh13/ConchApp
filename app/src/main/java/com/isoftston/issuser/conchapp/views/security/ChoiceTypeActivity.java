@@ -55,12 +55,22 @@ public class ChoiceTypeActivity extends BaseActivity<SecuryView,SecurityPresente
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        nav.setNavTitle(getString(R.string.yh_varies));
+
         nav.setColorRes(R.color.white);
         nav.setTitleColor(getResources().getColor(R.color.black));
         setBarColor(getResources().getColor(R.color.transparent_black));
         nav.showBack(2);
         mark=getIntent().getIntExtra("mark",-1);
+
+        if(1 == mark)
+        {
+            nav.setNavTitle(getString(R.string.yh_varies));
+        }
+        else if(2 == mark)
+        {
+            nav.setNavTitle(getString(R.string.illegal_type));
+        }
+
         presenter.getCompanyChoiceList();
         adapter = new CheckTypeAdapter(context);
         lv_device.setAdapter(adapter);
@@ -82,6 +92,7 @@ public class ChoiceTypeActivity extends BaseActivity<SecuryView,SecurityPresente
                 }else {
                     Intent intent =new Intent();
                     intent.putExtra(Constant.CHECK_PEOPLE,adapter.getItem(i).getNAME_());
+                    intent.putExtra(Constant.CHECK_PEOPLE_ID,adapter.getItem(i).getCODE_());
                     setResult(NewWorkActivity.CHOSE_DEVICE_CODE,intent);
                     finish();
                 }

@@ -102,6 +102,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
     private List<String> findCompanyList=new ArrayList<>();
     private List<String> checkCompanyList=new ArrayList<>();
     private List<String> fromList=new ArrayList<>();
+    private List<String> fromListId=new ArrayList<>();
     private Context context =AddHiddenTroubleActivity.this;
     //0隐患 1违章
     private String type;
@@ -111,6 +112,8 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
     private String find_company;
     private String yh_company;
     private String yh_from;
+    private String yh_from_id;
+    private String yh_lx_id;
     private String yh_grade=null;
     private String fix;
     private List<OrgBean> org=new ArrayList<>();
@@ -244,7 +247,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 yh_from = fromAdapter.getItem(i).toString();
-
+                yh_from_id = fromListId.get(i);
             }
 
             @Override
@@ -292,7 +295,9 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
                 picString = builder.toString();
             }else if (resultCode==104){
                 String name=data.getStringExtra(Constant.CHECK_PEOPLE);
+                String id=data.getStringExtra(Constant.CHECK_PEOPLE_ID);
                 tv_yh_type.setText(name);
+                yh_lx_id = id;
             }
         }
     }
@@ -327,9 +332,11 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         long endTime = TextUtils.isEmpty(String.valueOf(endTimeStr))? 0 : DateUtils.getDateToLongMS(endTimeStr);
         String check_people=tv_check_people.getText().toString();
         if (male_rb.isChecked()){
-            yh_grade = male_rb.getText().toString();
+            //yh_grade = male_rb.getText().toString();
+            yh_grade="ZDYH";
         }else if (famale_rb.isChecked()){
-            yh_grade=famale_rb.getText().toString();
+            //yh_grade=famale_rb.getText().toString();
+            yh_grade="YBYH";
         }
         String yh_address=input_place.getContent().trim();
         String yh_position=input_position.getContent().trim();
@@ -355,12 +362,14 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         bean.setJcdwmc(find_company);
         bean.setSjdwid(yh_company_id);
         bean.setSjdwmc(yh_company);
-        bean.setYhly(yh_from);
+        //bean.setYhly(yh_from);
+        bean.setYhly(yh_from_id);
         bean.setFxrmc(check_people);
         bean.setFxrId(check_peole_id);
         bean.setFxrq(startTime);
         bean.setCjsj(endTime);
-        bean.setYhlx(yh_type);
+        //bean.setYhlx(yh_type);
+        bean.setYhlx(yh_lx_id);
         bean.setYhjb(yh_grade);
         bean.setYhdd(yh_address);
         bean.setYhbw(yh_position);
@@ -483,6 +492,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
 
         for (YhlyBean yhlyBean:YHLY){
             fromList.add(yhlyBean.getNAME_());
+            fromListId.add(yhlyBean.getCODE_());
         }
         adapter.notifyDataSetChanged();
         fromAdapter.notifyDataSetChanged();
