@@ -149,7 +149,10 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             LinearLayout scanCodeLl;
     LinearLayout scanCodeLayout;////扫码
     LinearLayout takePhotoLayout;//拍照
-    ImageView scanFlagIv1, photoFlagIv1;//第一轮扫码、拍照标记view
+    @Bind(R.id.scan_flag_iv)
+    ImageView scanFlagIv1;//第一轮扫码、拍照标记view
+    @Bind(R.id.photo_flag_iv)
+    ImageView photoFlagIv1;
     private boolean isScaned1 = false;//是否扫过
     private boolean isPhotoed1 = false;//是否拍过照
 
@@ -161,9 +164,10 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     View scanFlagIv;
     LinearLayout takePhotoInnerLayout;//拍照
     View photoFlagIv;
-
-    ImageView scanFlagIv2, photoFlagIv2;//第二轮扫码、拍照标记view
-
+    @Bind(R.id.scan_flag_iv1)
+    ImageView scanFlagIv2;//第二轮扫码、拍照标记view
+    @Bind(R.id.photo_flag_iv1)
+    ImageView photoFlagIv2;
     @Bind(R.id.scan_info_lv)
     ListView mListView;
     private List<ScanInfo> datas;
@@ -249,6 +253,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         setData();
         scaned();
 
+
     }
 
     /**
@@ -287,14 +292,15 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             isAuditorPerson = true;
         } else if (userId.equals(bean.approver)) {
             isApproverPerson = true;
-        } else {
         }
+
         if (status == 5) {
             isOneTurnDone = true;
         } else if (status == 4) {
             isChargePersonScaned = true;
             isChargePersonPhotoed = true;
         }
+        
         //第一轮扫码是否完成
         if (isOneTurnDone) {
             changeScanLayout();
@@ -400,6 +406,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                 scanCodeLl.setVisibility(View.GONE);
             }
         }
+//        modifyBtn.setVisibility(View.VISIBLE);
     }
 
     private void changeApproversToGreen() {
@@ -504,12 +511,12 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     private void clicks() {
         revokeBtn.setOnClickListener(this);
         commitBtn.setOnClickListener(this);
-        modifyBtn.setOnClickListener(this);
     }
 
     @OnClick(R.id.modify_btn)
     public void modify() {//修改
         Intent intent = new Intent(this, FixWorkActivity.class);
+        intent.putExtra("id",jobId);
         startActivity(intent);
     }
 
@@ -728,7 +735,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         String chargeName = workDetailBean.leadingName;
         if (chargeName != null) {
             chargePersonRelnameTv.setText(chargeName);
-            chargePersonTv.setText(chargeName);
+            personInChargeNmaeTv.setText(chargeName);
         }
         String guardianName = workDetailBean.guardianName;
         if (guardianName != null) {
@@ -738,12 +745,12 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         String auditorName = workDetailBean.auditorName;
         if (auditorName != null) {
             auditorRelnameTv.setText(auditorName);
-            auditorTv.setText(auditorName);
+            auditorNameTv.setText(auditorName);
         }
         String approverName = workDetailBean.approverName;
         if (approverName != null) {
             approverRelnameTv.setText(approverName);
-            approverTv.setText(approverName);
+            approverNameTv.setText(approverName);
         }
         equipmentTypeTv.setText(String.valueOf(workDetailBean.equipmentType));
         equipmentModelTv.setText(workDetailBean.equipmentCode);
@@ -775,7 +782,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     }
 
     private void showAllBtn() {
-        revokeBtn.setVisibility(View.GONE);
+        revokeBtn.setVisibility(View.VISIBLE);
         commitBtn.setVisibility(View.VISIBLE);
         modifyBtn.setVisibility(View.VISIBLE);
     }
@@ -783,10 +790,16 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     @Override
     public void responseError(int type) {
         if (type == 0) {
+            ToastMgr.show(R.string.internet_error);
+            getLoadingDialog().dismiss();
             Log.e(TAG, "----获取作业详细信息失败");
         } else if (type == 1) {
+            ToastMgr.show(R.string.back_failed);
+            getLoadingDialog().dismiss();
             Log.e(TAG, "----撤销作业失败");
         } else if (type == 2) {
+            ToastMgr.show(R.string.subimt_failed);
+            getLoadingDialog().dismiss();
             Log.e(TAG, "----提交作业失败");
         }
     }

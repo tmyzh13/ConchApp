@@ -75,6 +75,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     public static final int CHOSE_AGREE_CODE = 103;//批准人
     public static final int CHOSE_DEVICE_CODE = 104;
     public static final int CHOSE_NAME_CODE = 105;//设备名称
+    private static final int CHOSE_CHARGERNAME_CODE =99 ;
     @Bind(R.id.nav)
     NavBar nav;
 
@@ -172,6 +173,8 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     private List<WorkBean> workBeanList=new ArrayList<>();
    private ArrayAdapter<String> spAdapter;
     private int isDanger;
+    private List<DangerTypeBean> totalist=new ArrayList<>();
+    private int type;
 
     @Override
     protected int getLayoutId() {
@@ -294,16 +297,18 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         //3.以上声明完毕后，建立适配器,有关于sipnner这个控件的建立。用到myspinner
         mySpinner.setAdapter(adapter);
         mySpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (adapter.getItem(i)!=null&&adapter.getItem(i).equals(getString(R.string.danger_work_type_item))){
+
                     rl_charger.setVisibility(View.GONE);
                     rl_gas_checker.setVisibility(View.VISIBLE);
                 }else {
                     rl_charger.setVisibility(View.VISIBLE);
                     rl_gas_checker.setVisibility(View.GONE);
                 }
-
+                type = Integer.parseInt(totalist.get(i+1).getCode());
             }
 
             @Override
@@ -399,7 +404,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
                 startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context,5), CHOSE_CHARGER_CODE);
                 break;
             case R.id.rl_charger:
-                startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context,1), CHOSE_CHARGER_CODE);
+                startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context,1), CHOSE_CHARGERNAME_CODE);
                 break;
             case R.id.rl_agree:
                 startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context,4), CHOSE_AGREE_CODE);
@@ -462,8 +467,8 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         String part = work_address_input.getContent().toString().trim();
         String content = description_et.getText().toString().trim();
         company = PreferencesHelper.getData(Constant.ORG_NAME);//作业单位。用户所属公司
-        String numPeople = worker_num_input.getContent().toString().trim();
-        int type = 0;//危险作业类型(手动选择)
+        String numPeople = worker_num_input.getContent().trim();
+//        int type = 0;//危险作业类型(手动选择)
 
         //1危险、0常规作业。前页面传递
         if (rb_yes.isChecked()){
@@ -473,18 +478,18 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         }
 
         if (TextUtils.isEmpty(name) || startTime == 0
-                || TextUtils.isEmpty(name) || TextUtils.isEmpty(equipmentType) || TextUtils.isEmpty(equipmentCode)
-                || TextUtils.isEmpty(equipmentName) || TextUtils.isEmpty(area) || TextUtils.isEmpty(part)
-                || TextUtils.isEmpty(content) || TextUtils.isEmpty(company) || TextUtils.isEmpty(numPeople)
-                || TextUtils.isEmpty(String.valueOf(type)) || TextUtils.isEmpty(leading) || TextUtils.isEmpty(guardian)
-                || TextUtils.isEmpty(auditor) || TextUtils.isEmpty(approver) ) {
-            ToastMgr.show(R.string.input_all_message);
+                    || TextUtils.isEmpty(name) || TextUtils.isEmpty(equipmentType) || TextUtils.isEmpty(equipmentCode)
+                    || TextUtils.isEmpty(equipmentName) || TextUtils.isEmpty(area) || TextUtils.isEmpty(part)
+                    || TextUtils.isEmpty(content) || TextUtils.isEmpty(company) || TextUtils.isEmpty(numPeople)
+                    || TextUtils.isEmpty(String.valueOf(type)) || TextUtils.isEmpty(leading) || TextUtils.isEmpty(guardian)
+                    || TextUtils.isEmpty(auditor) || TextUtils.isEmpty(approver) ) {
+                ToastMgr.show(R.string.input_all_message);
             return;
         }
         bean.setName(name);
         bean.setStartTime(startTime);
         bean.setEndTime(endTime);
-        bean.setEquipmentType(Integer.parseInt(equipmentType));
+        bean.setEquipmentType(device_id);
         bean.setEquipmentCode(equipmentCode);
         bean.setEquipmentName(equipmentName);
         bean.setArea(areaId);
@@ -498,6 +503,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         bean.setAuditor(auditor);
         bean.setApprover(approver);
         bean.setIsDanger(isDanger);
+//        bean.setOrgId("1");
         presenter.addWork(bean);
     }
 
@@ -613,6 +619,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
 
     @Override
     public void getDangerWorkTypeResult(List<DangerTypeBean> list) {
+        totalist = list;
         for (DangerTypeBean bean:list){
             dangerTypeList.add(bean.getName());
         }
@@ -638,7 +645,6 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             chosedUserName = data.getStringExtra(Constant.CHECK_PEOPLE);
             chosedUserId=data.getStringExtra(Constant.CHECK_PEOPLE_ID);
             if (requestCode == CHOSE_CHARGER_CODE) {
-                chagerNameTv.setText(chosedUserName);
                 tv_gas_checker.setText(chosedUserName);
                 leading=chosedUserId;
             } else if (requestCode == CHOSE_CHEKER_CODE) {
@@ -650,6 +656,9 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             } else if (requestCode == CHOSE_AGREE_CODE) {
                 authorizeNameTv.setText(chosedUserName);
                 approver=chosedUserId;
+            }else if (requestCode==CHOSE_CHARGERNAME_CODE){
+                chagerNameTv.setText(chosedUserName);
+                leading=chosedUserId;
             }
         }else if (resultCode==CHOSE_DEVICE_CODE){
             if (requestCode==CHOSE_DEVICE_CODE){

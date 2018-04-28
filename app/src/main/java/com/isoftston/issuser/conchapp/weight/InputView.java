@@ -17,6 +17,8 @@ import android.widget.TextView;
 import com.corelibs.utils.IMEUtil;
 import com.isoftston.issuser.conchapp.R;
 
+import java.math.BigInteger;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 

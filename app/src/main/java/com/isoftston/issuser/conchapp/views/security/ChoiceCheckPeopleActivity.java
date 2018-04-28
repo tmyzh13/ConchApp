@@ -51,6 +51,7 @@ public class ChoiceCheckPeopleActivity extends BaseActivity<SeacherView,SeacherP
     private CheckPeopleAdapter adapter;
     private String searchContent="";
     private List<String> list;
+    private List<String> search_list=new ArrayList<>();
     private Handler mHandler;
 
     private int code;
@@ -114,7 +115,17 @@ public class ChoiceCheckPeopleActivity extends BaseActivity<SeacherView,SeacherP
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                String search_content=et_seach.getText().toString().trim();
+                search_list.clear();
+                if (null!=search_content){
+                    for (String name:list){
+                        if (name.contains(search_content)){
+                            search_list.add(name);
+                        }
+                    }
+                    adapter.replaceAll(search_list);
+                    adapter.notifyDataSetChanged();
+                }
             }
 
             @Override

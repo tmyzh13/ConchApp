@@ -44,7 +44,7 @@ public class DangerMessageFragment extends BaseFragment<WorkView,WorkPresenter> 
     @Override
     protected void init(Bundle savedInstanceState) {
         presenter.getWorkInfo();
-        adapter = new WorkMessageAdapter(getActivity().getSupportFragmentManager(),tabs,0);
+        adapter = new WorkMessageAdapter(getActivity().getSupportFragmentManager(),tabs,1);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         Tools.setIndicator(tabLayout,10,10);

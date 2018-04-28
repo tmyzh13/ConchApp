@@ -5,13 +5,13 @@ package com.isoftston.issuser.conchapp.model.bean;
  */
 
 public class DeviceNameBean {
-    private String type;
+    private String lastId;
 
-    public String getType() {
-        return type;
+    public String getLastId() {
+        return lastId;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setLastId(String lastId) {
+        this.lastId = lastId;
     }
 }

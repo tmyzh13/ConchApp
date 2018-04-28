@@ -702,8 +702,6 @@
                         android:text="@string/work_name" />
 
                     <TextView
-                        android:layout_marginLeft="@dimen/dp_10"
-                        android:layout_toRightOf="@+id/co"
                         android:id="@+id/work_content_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

@@ -108,6 +108,7 @@ public class WorkPresenter extends BasePresenter<WorkView> {
     public void fixWork(FixWorkBean bean){
         String token= SharePrefsUtils.getValue(getContext(),"token",null);
         String token1=token.replaceAll("\"","");
+        view.showLoading();
         api.fixWork(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData>() {
@@ -116,9 +117,14 @@ public class WorkPresenter extends BasePresenter<WorkView> {
                         view.addWorkSuccess();
                     }
 
+
                     @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
+                    public boolean operationError(BaseData baseData, int status, String message) {
+                        if (status==0){
+                            view.hideLoading();
+                            view.getWorkError();
+                        }
+                        return super.operationError(baseData, status, message);
                     }
                 });
     }

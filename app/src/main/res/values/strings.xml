@@ -269,5 +269,8 @@
     <string name="exsit">确定要退出么？</string>
     <string name="information_tips">提示！</string>
     <string name="tips">手机号不能为空</string>
-
+    <string name="internet_error">网络连接超时</string>
+    <string name="back_failed">撤销作业失败</string>
+    <string name="subimt_failed">提交失败</string>
+    <string name="modify_failed">修改失败</string>
 </resources>

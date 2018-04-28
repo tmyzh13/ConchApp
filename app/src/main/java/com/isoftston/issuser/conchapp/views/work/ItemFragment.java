@@ -47,7 +47,7 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
     PtrAutoLoadMoreLayout<AutoLoadMoreListView> ptrLayout;
 
     public WorkMessageItemAdapter adapter;
-    public List<WorkDetailBean> listMessage;
+    public List<WorkDetailBean> listMessage=new ArrayList<>();
     private String type;
     private int bType;
     private String itemID;
@@ -71,7 +71,6 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
         bType=getArguments().getInt("bigType");
         Log.i("type",type+"--"+bType);
         tv.setText(type);
-        listMessage=new ArrayList<>();
         if (bType==2){
             if (type.equals(getString(R.string.my_approve))){
                 presenter.getWorkList("",2,"0");
@@ -152,7 +151,7 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
         listMessage.clear();
         listMessage=list;
         Log.i("listMessage",listMessage.size()+"");
-        adapter.addAll(listMessage);
+        adapter.replaceAll(listMessage);
         lv_message.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }

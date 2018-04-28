@@ -47,6 +47,7 @@ public class WorkDetailPresenter extends BasePresenter<WorkDetailView> {
         bean.jobId = jobId;
         String token= SharePrefsUtils.getValue(getContext(),"token",null);
         String token1=token.replaceAll("\"","");
+        view.showLoading();
         api.getWorkDetailInfo(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<WorkDetailRequestBean>>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData<WorkDetailRequestBean>>() {
@@ -125,6 +126,7 @@ public class WorkDetailPresenter extends BasePresenter<WorkDetailView> {
         String token= SharePrefsUtils.getValue(getContext(),"token",null);
         String token1=token.replaceAll("\"","");
         UserBean bean=new UserBean();
+        view.showLoading();
         api.getUserInfo(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<UserInfoBean>>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData<UserInfoBean>>() {

@@ -11,9 +11,18 @@ public class FixWorkBean {
     public String guardian;//监护人ID
     public String auditor;//审核人ID
     public String approver;//批准人ID
+    public int numberPeople;
 
     public String getId() {
         return id;
+    }
+
+    public int getNumberPeople() {
+        return numberPeople;
+    }
+
+    public void setNumberPeople(int numberPeople) {
+        this.numberPeople = numberPeople;
     }
 
     public void setId(String id) {
