@@ -24,6 +24,7 @@ import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.presenter.UserPresenter;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
+import com.isoftston.issuser.conchapp.views.LoginActivity;
 import com.isoftston.issuser.conchapp.views.interfaces.UserView;
 
 import butterknife.Bind;
@@ -82,6 +83,7 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
         showUserInfo();
         clicks();
         changeIcon();
+        addPwdListen();
     }
 
     /**
@@ -109,6 +111,31 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
             userCompanyTv.setText(PreferencesHelper.getData(Constant.ORG_NAME));
         }
 
+    }
+
+    private void addPwdListen(){
+        userPwdEt.addTextChangedListener(new TextWatcher(){
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s != null && s.length() != 0) {
+                    sureTv.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    sureTv.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
     }
 
     private void changeIcon() {
@@ -207,7 +234,15 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
     @Override
     public void updatePwdSuccess() {
         ToastUtils.showtoast(IndividualCenterActivity.this, getString(R.string.update_pwd_success));
+        PreferencesHelper.remove(Constant.LOGIN_STATUE);
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
         finish();
+    }
 
+    @Override
+    public void updatePwdError(){
+        ToastUtils.showtoast(IndividualCenterActivity.this, getString(R.string.update_pwd_failure));
+        finish();
     }
 }

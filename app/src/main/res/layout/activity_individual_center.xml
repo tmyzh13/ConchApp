@@ -297,7 +297,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                app:srcCompat="@mipmap/noedit" />
+                app:srcCompat="@mipmap/edite" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

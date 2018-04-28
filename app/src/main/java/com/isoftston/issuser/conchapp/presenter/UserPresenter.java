@@ -94,7 +94,10 @@ public class UserPresenter extends PagePresenter<UserView> {
                         view.updatePwdSuccess();
                     }
 
-
+                    @Override
+                    public void onError(Throwable e) {
+                        view.updatePwdError();
+                    }
                 });
     }
 }
