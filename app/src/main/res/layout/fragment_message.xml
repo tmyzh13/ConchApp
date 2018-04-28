@@ -123,13 +123,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/shape_corner">
+                android:clipToPadding="false"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp">
 
                 <LinearLayout
                     android:id="@+id/ll_yh_message"
                     style="@style/text_normal"
                     android:layout_width="115dp"
-                    android:layout_centerVertical="true"
+                    android:background="@drawable/shape_corner"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:text="@string/hidden_trouble_msg">
@@ -175,12 +177,12 @@
                                 android:id="@+id/tv_wzg_num"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="3dp"
                                 android:layout_marginLeft="8dp"
+                                android:layout_marginTop="3dp"
                                 android:layout_toRightOf="@+id/unfix"
+                                android:text="10"
                                 android:textColor="@color/white"
-                                android:textSize="18sp"
-                                android:text="10"/>
+                                android:textSize="18sp" />
                         </RelativeLayout>
 
                         <TextView
@@ -193,17 +195,19 @@
                 </LinearLayout>
 
                 <TextView
-                    style="@style/text_normal"
                     android:id="@+id/yh_msg"
+                    style="@style/text_normal"
                     android:layout_width="20dp"
                     android:layout_height="15dp"
                     android:layout_alignParentRight="true"
+                    android:layout_marginRight="-5dp"
+                    android:layout_marginTop="-5dp"
                     android:background="@drawable/tab_msg_bg"
                     android:gravity="center"
                     android:text="5"
-                    android:visibility="gone"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_small" />
+                    android:textSize="@dimen/text_small"
+                    android:visibility="gone" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -211,7 +215,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_weight="1"
-                android:background="@drawable/shape_corner_red">
+                android:clipToPadding="false"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -255,63 +261,86 @@
                 </LinearLayout>
 
                 <TextView
-                    style="@style/text_normal"
                     android:id="@+id/wz_msg"
+                    style="@style/text_normal"
                     android:layout_width="20dp"
                     android:layout_height="15dp"
                     android:layout_alignParentRight="true"
+                    android:layout_marginRight="-5dp"
+                    android:layout_marginTop="-5dp"
                     android:background="@drawable/tab_msg_bg"
                     android:gravity="center"
                     android:text="2"
-                    android:visibility="gone"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_small" />
+                    android:textSize="@dimen/text_small"
+                    android:visibility="gone" />
             </RelativeLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_weight="1"
-                android:background="@drawable/shape_corner_blue"
-                android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/bt_aq"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:gravity="center"
-                    android:text="@string/aq_message"
-                    android:textColor="@color/white" />
+                android:clipToPadding="false"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp">
 
                 <LinearLayout
-                    android:id="@+id/aq_detail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="140dp"
-                    android:layout_gravity="center"
-                    android:orientation="vertical"
-                    android:padding="10dp"
-                    android:visibility="gone">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_corner_blue"
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tv_aq_total"
+                    <Button
+                        android:id="@+id/bt_aq"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textColor="@color/white"
-                        android:textSize="24sp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="48dp"
+                        android:background="@null"
                         android:gravity="center"
                         android:text="@string/aq_message"
                         android:textColor="@color/white" />
-                </LinearLayout>
-            </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/aq_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="140dp"
+                        android:layout_gravity="center"
+                        android:orientation="vertical"
+                        android:padding="10dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/tv_aq_total"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:textSize="24sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="48dp"
+                            android:gravity="center"
+                            android:text="@string/aq_message"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/aq_msg"
+                    style="@style/text_normal"
+                    android:layout_width="20dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="-5dp"
+                    android:layout_marginTop="-5dp"
+                    android:background="@drawable/tab_msg_bg"
+                    android:gravity="center"
+                    android:text="2"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_small"
+                    android:visibility="gone" />
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
 
@@ -337,16 +366,16 @@
 
             <com.corelibs.views.ptr.loadmore.widget.AutoLoadMoreListView
                 android:id="@+id/lv_message"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:listSelector="#00000000"
-                android:scrollbars="none"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
                 android:divider="@color/transparent"
                 android:dividerHeight="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"/>
+                android:listSelector="#00000000"
+                android:scrollbars="none" />
 
         </com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout>
     </LinearLayout>
