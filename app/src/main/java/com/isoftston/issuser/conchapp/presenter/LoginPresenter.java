@@ -18,6 +18,7 @@ import com.isoftston.issuser.conchapp.model.bean.BaseData;
 import com.isoftston.issuser.conchapp.model.bean.CodeRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.ForgetPwdRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.LoginRequestBean;
+import com.isoftston.issuser.conchapp.model.bean.PushBean;
 import com.isoftston.issuser.conchapp.model.bean.UserBean;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.utils.MD5Utils;
@@ -112,6 +113,26 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         }
 
         return true;
+    }
+
+    public void getPushTag() {
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        Log.e("---getUserInfo--yzh","token--"+token);
+        String token1=token.replaceAll("\"","");
+        api.getPushTag(token1)
+                .compose(new ResponseTransformer<>(this.<BaseData<PushBean>>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData<PushBean>>() {
+                    @Override
+                    public void success(BaseData<PushBean> pushBesn) {
+
+                        if(pushBesn!=null&&pushBesn.isSuccess()){
+                            view.returnTag(pushBesn.isSuccess(),pushBesn.data.getTag());
+                        }
+
+
+                    }
+
+                });
     }
 
 }

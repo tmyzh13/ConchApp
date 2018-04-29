@@ -11,4 +11,5 @@ public interface LoginView extends BaseView {
     void loginSuccess(String data);
     void changePwdSuccess();
     void getCodeSuccess();
+    void returnTag(boolean isSuccess,String tag);
 }

@@ -6,10 +6,12 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BasePresenter;
@@ -19,16 +21,21 @@ import com.corelibs.views.tab.InterceptedFragmentTabHost;
 import com.corelibs.views.tab.TabChangeInterceptor;
 import com.corelibs.views.tab.TabNavigator;
 import com.isoftston.issuser.conchapp.constants.Constant;
+import com.isoftston.issuser.conchapp.presenter.LoginPresenter;
 import com.isoftston.issuser.conchapp.views.LoginActivity;
 import com.isoftston.issuser.conchapp.views.check.CheckFragment;
+import com.isoftston.issuser.conchapp.views.interfaces.LoginView;
 import com.isoftston.issuser.conchapp.views.message.MessageFragment;
 import com.isoftston.issuser.conchapp.views.mine.MineFragment;
 import com.isoftston.issuser.conchapp.views.security.SecurityFragment;
 import com.isoftston.issuser.conchapp.views.work.WorkFragment;
+import com.umeng.message.PushAgent;
+import com.umeng.message.common.inter.ITagManager;
+import com.umeng.message.tag.TagManager;
 
 import butterknife.Bind;
 
-public class MainActivity extends BaseActivity implements TabNavigator.TabNavigatorContent{
+public class MainActivity extends BaseActivity<LoginView,LoginPresenter> implements TabNavigator.TabNavigatorContent,LoginView {
 
     @Bind(android.R.id.tabhost)
     InterceptedFragmentTabHost tabHost;
@@ -78,11 +85,22 @@ public class MainActivity extends BaseActivity implements TabNavigator.TabNaviga
             public void onTabIntercepted(String tabId) {
             }
         });
+
+//        presenter = createPresenter();
+//        if(presenter!=null){
+//            presenter.getPushTag();
+//        }
     }
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    protected LoginPresenter createPresenter() {
+        return new LoginPresenter();
     }
 
     @Override
@@ -152,4 +170,93 @@ public class MainActivity extends BaseActivity implements TabNavigator.TabNaviga
             }
         }, 2000);
     }
+
+    @Override
+    public void loginSuccess(String data) {
+
+    }
+
+    @Override
+    public void changePwdSuccess() {
+
+    }
+
+    @Override
+    public void getCodeSuccess() {
+
+    }
+
+    @Override
+    public void returnTag(boolean isSuccess,String tag) {
+        if(isSuccess){
+            addTag(tag);
+        }else{
+            deleteTag(tag);
+        }
+    }
+
+
+    private void addTag(String username) {
+        final String tag = username;
+        if (TextUtils.isEmpty(tag)) {
+            //Toast.makeText(this, "请先输入tag", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        PushAgent mPushAgent = PushAgent.getInstance(this);
+        mPushAgent.onAppStart();
+        mPushAgent.getTagManager().addTags(new TagManager.TCallBack() {
+            @Override
+            public void onMessage(final boolean isSuccess, final ITagManager.Result result) {
+
+                Log.i("isSuccess", String.valueOf(isSuccess));
+            /*handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    inputTag.setText("");
+                    if (isSuccess) {
+                        sharedPref.edit().putInt(TAG_REMAIN, result.remain).apply();
+                        tagRemain.setText(String.valueOf(result.remain));
+                        PushDialogFragment.newInstance(0, 1, getString(R.string.push_add_success), tag).show(
+                                getFragmentManager(), "addTag");
+                    } else {
+                        PushDialogFragment.newInstance(0, 0, getString(R.string.push_add_fail), tag).show(
+                                getFragmentManager(), "addTag");
+                    }
+                }
+            });*/
+            }
+        }, tag);
+    }
+
+
+    private void deleteTag(String tag) {
+        // final String tag = inputTag.getText().toString();
+        if (TextUtils.isEmpty(tag)) {
+            //Toast.makeText(this, "请先输入tag", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        PushAgent mPushAgent = PushAgent.getInstance(this);
+        mPushAgent.onAppStart();
+        mPushAgent.getTagManager().deleteTags(new TagManager.TCallBack() {
+            @Override
+            public void onMessage(final boolean isSuccess, final ITagManager.Result result) {
+             /*   handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        inputTag.setText("");
+                        if (isSuccess) {
+                            sharedPref.edit().putInt(TAG_REMAIN, result.remain).apply();
+                            tagRemain.setText(String.valueOf(result.remain));
+                            PushDialogFragment.newInstance(0, 1,
+                                    getString(R.string.push_delete_success), tag).show(getFragmentManager(), "deleteTag");
+                        } else {
+                            PushDialogFragment.newInstance(0, 0,
+                                    getString(R.string.push_delete_fail), tag).show(getFragmentManager(), "deleteTag");
+                        }
+                    }
+                });*/
+            }
+        }, tag);
+    }
+
 }
