@@ -120,7 +120,7 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
         loginUserBean.save();
         PreferencesHelper.saveData(Constant.LOGIN_STATUE,"1");
         SharePrefsUtils.putValue(context,"token",data);
-        presenter.getPushTag();
+        //presenter.getPushTag();
 
         startActivity(MainActivity.getLauncher(context));
         ToastUtils.showtoast(context,getString(R.string.login_success));
