@@ -31,6 +31,7 @@ import com.corelibs.utils.ToastMgr;
 import com.google.zxing.client.android.CaptureActivity;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
+import com.isoftston.issuser.conchapp.model.bean.ImageInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.ResponseDataBean;
 import com.isoftston.issuser.conchapp.model.bean.ScanInfo;
 import com.isoftston.issuser.conchapp.model.bean.SubmitJobBody;
@@ -59,6 +60,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     private static final int REQUEST_STORAGE_PERMISSION_CODE = 101;
     private static final int OPEN_ACTIVITY_SCAN_CODE = 102;
     private static final int OPEN_ACTIVITY_TAKE_PHOTO_CODE = 103;
+    private static final int MODIFY_CODE = 104;
 
     @Bind(R.id.nav)
     NavBar nav;
@@ -164,13 +166,14 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     View scanFlagIv;
     LinearLayout takePhotoInnerLayout;//拍照
     View photoFlagIv;
-    @Bind(R.id.scan_flag_iv1)
+    //    @Bind(R.id.scan_flag_iv1)
     ImageView scanFlagIv2;//第二轮扫码、拍照标记view
-    @Bind(R.id.photo_flag_iv1)
+    //    @Bind(R.id.photo_flag_iv1)
     ImageView photoFlagIv2;
+
     @Bind(R.id.scan_info_lv)
     ListView mListView;
-    private List<ScanInfo> datas;
+    private List<ImageInfoBean> datas = new ArrayList<>();
     private ScanInfoAdapter mAdapter;
     private boolean isScaned2 = false;
     private boolean isPhotoed2 = false;
@@ -188,29 +191,42 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     private String jobId = "";
     private String userId = "";
 
+    private boolean isChargePersonDown = false;//负责人是否提交
+    private boolean isNoneJob = false;//有没有职位（不在四个职位之内）
+    private static final int SCANED1 = 1;
+    private static final int PHOTED1 = 2;
+    private static final int SCANED2 = 3;
+    private static final int PHOTED2 = 4;
+    private boolean flage1 = false;
+    private boolean flage2 = false;
+    private boolean flage3 = false;
+
     public Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             switch (msg.what) {
-                case 1:
+                case SCANED1:
                     isScaned1 = true;
                     hintScan1Success();
                     break;
-                case 2:
+                case PHOTED1:
                     isPhotoed1 = true;
                     hintPhoto1Success();
                     break;
-                case 3:
+                case SCANED2:
                     isScaned2 = true;
                     hintScan2Success();
                     break;
-                case 4:
+                case PHOTED2:
                     isPhotoed2 = true;
                     hintPhoto2Success();
                     break;
-                case 5:
+                case 5://当前用户提交后改变ui
                     isCommited = true;
-                    if (isChargePerson){
+                    hideAllBtn();
+                    scanCodeLl.setVisibility(View.GONE);
+                    scanedLayout.setVisibility(View.GONE);
+                    if (isChargePerson) {
                         changeChargersToGreen();
                     }else if (isGurdianPerson){
                         changeGuardiansToGreen();
@@ -226,6 +242,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             return true;
         }
     });
+    private WorkDetailBean workDetailBean;
 
     @Override
     protected int getLayoutId() {
@@ -249,9 +266,9 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         presenter.getUserInfo();
         //获取作业详情
         presenter.getWorkDetailInfo(jobId);
-        scan();
-        setData();
-        scaned();
+//        scan();
+//        setData();
+//        scaned();
 
 
     }
@@ -260,11 +277,6 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
      * 测试数据
      */
     private void setData() {
-        datas = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            ScanInfo info = new ScanInfo("上次扫码时间：" + i, "武汉");
-            datas.add(info);
-        }
         mAdapter = new ScanInfoAdapter(this, datas);
         mListView.setAdapter(mAdapter);
         setListViewHeightBasedOnChildren(mListView);
@@ -277,136 +289,196 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
      */
     int status;
 
+    private int turn = 1;
+    int guardianCount = 0;
+    int auditorCount = 0;
+    int approverCount = 0;
     private void checkUserPosition(WorkDetailBean bean) {
         hideAllBtn();
         status = bean.status;
-        if (status == 2 && isChargePerson) {
-            revokeBtn.setVisibility(View.VISIBLE);
+        switch (status) {
+            case 0://新建：
+                if (userId.equals(bean.leading)) {
+                    showAllBtn();
+                } else if (userId.equals(bean.approver) || bean.equals(bean.auditor)
+                        || userId.equals(bean.guardian)) {
+                    commitBtn.setVisibility(View.VISIBLE);
+                } else {
+                    scanCodeLl.setVisibility(View.GONE);
+                }
+                break;
+            case 1://撤销：仅显示UI
+                hideAllBtn();
+                scanCodeLl.setVisibility(View.GONE);
+                break;
+            case 2://负责人开工扫描：第一轮负责人已提交了
+                //改变负责人相关UI
+                changeChargersToGreen();
+                if (userId.equals(bean.leading)) {
+                    hideAllBtn();
+                }
+                isChargePersonDown = true;
+                for (ImageInfoBean imageInfoBean : datas) {
+                    if (imageInfoBean.getUserId().equals(bean.guardian)) {
+                        changeGuardiansToGreen();
+                        flage1 = true;
+                    } else if (imageInfoBean.getUserId().equals(bean.auditor)) {
+                        changeAuditorsToGreen();
+                        flage2 = true;
+                    } else if (imageInfoBean.getUserId().equals(bean.approver)) {
+                        changeApproversToGreen();
+                        flage3 = true;
+                    }
+                }
+                break;
+            case 3://第一轮完成
+                turn = 2;
+                changeScanLayout();
+                flage1 = true;
+                flage2 = true;
+                flage3 = true;
+                isOneTurnDone = true;
+                if (!userId.equals(bean.leading)) {
+                    scanedLayout.setVisibility(View.VISIBLE);
+                    scanCodeLlInner.setVisibility(View.GONE);
+                    commitBtn.setVisibility(View.GONE);
+                } else {
+                    commitBtn.setVisibility(View.VISIBLE);
+                    scanedLayout.setVisibility(View.VISIBLE);
+                }
+                break;
+            case 4://负责人结束扫描:第二轮负责人已提交
+                turn = 2;
+                changeChargersToBlue();
+                isChargePersonDown = true;
+                //1.根据历史信息改变相关人员的UI， 2.根据当前用户展示不同按钮
+                for (ImageInfoBean imageInfoBean : datas) {
+                    if (imageInfoBean.getUserId().equals(bean.guardian)) {
+                        guardianCount++;
+                    } else if (imageInfoBean.getUserId().equals(bean.auditor)) {
+                        auditorCount++;
+                    } else if (imageInfoBean.getUserId().equals(bean.approver)) {
+                        approverCount++;
+                    }
+                }
+
+                break;
+            case 5://完成:两轮都完成
+                //隐藏所以功能按钮
+                hideAllBtn();
+                changeChargersToGreen();
+                changeGuardiansToGreen();
+                changeAuditorsToGreen();
+                changeApproversToGreen();
+                scanCodeLl.setVisibility(View.GONE);
+                scanedLayout.setVisibility(View.GONE);
+                break;
+            default:
+                break;
+        }
+
+        if (turn == 2) {
+            scanedLayout.setVisibility(View.VISIBLE);
+            scanCodeLl.setVisibility(View.GONE);
+            scanCodeLlInner.setVisibility(View.GONE);
+            commitBtn.setVisibility(View.GONE);
+        }
+        if (guardianCount==1){
+            commitBtn.setVisibility(View.VISIBLE);
+            scanCodeLlInner.setVisibility(View.VISIBLE);
+        }else if (guardianCount==2){
+            changeGuardiansToBlue();
+        }
+        if (auditorCount==1){
+            commitBtn.setVisibility(View.VISIBLE);
+            scanCodeLlInner.setVisibility(View.VISIBLE);
+        }else if (auditorCount==2){
+            changeAuditorsToBlue();
+        }
+        if (approverCount==1){
+            commitBtn.setVisibility(View.VISIBLE);
+            scanCodeLlInner.setVisibility(View.VISIBLE);
+        }else if (approverCount==2){
+            changeApproversToBlue();
         }
         //比对自己的职位
         if (userId.equals(bean.leading)) {
             isChargePerson = true;
         } else if (userId.equals(bean.guardian)) {
             isGurdianPerson = true;
-        } else if (userId.equals(bean.auditor)) {
-            isAuditorPerson = true;
-        } else if (userId.equals(bean.approver)) {
-            isApproverPerson = true;
-        }
-
-        if (status == 5) {
-            isOneTurnDone = true;
-        } else if (status == 4) {
-            isChargePersonScaned = true;
-            isChargePersonPhotoed = true;
-        }
-        
-        //第一轮扫码是否完成
-        if (isOneTurnDone) {
-            changeScanLayout();
-            if (isChargePerson) {//负责人
-                showOrHideCommitBtn();
-                if (bean.status == 4) {
-                    showAllBtn();
-                    hintScan2Success();
-                }
-                if (isChargePersonPhotoed) {
-                    hintPhoto2Success();
-                }
-                if (isChargePersonScaned && isChargePersonPhotoed) {
-                    changeChargersToGreen();
-                }
-            } else if (isGurdianPerson) {//监护人
-                showOrHideCommitBtn();
-                if (isChargePersonScaned) {//改变ui
-                    if (isScaned2) {
-                        hintScan2Success();
-                    } else if (isPhotoed2) {
-                        hintPhoto2Success();
-                    }
-                    if (isScaned2 && isPhotoed2) {
-                        changeGuardiansToGreen();
-                    }
-                }
-            } else if (isAuditorPerson) {//审核人
-                showOrHideCommitBtn();
-                if (isChargePersonScaned) {
-                    if (isScaned2) {
-                        hintScan2Success();
-                    } else if (isPhotoed2) {
-                        hintPhoto2Success();
-                    }
-                    if (isScaned2 && isPhotoed2) {
-                        changeAuditorsToGreen();
-                    }
-                }
-            } else if (isApproverPerson) {//批准人
-                showOrHideCommitBtn();
-                if (isScaned2) {
-                    hintScan2Success();
-                } else if (isPhotoed2) {
-                    hintPhoto2Success();
-                }
-                if (isScaned2 && isPhotoed2) {
-                    changeApproversToGreen();
-                }
+            if (!flage1) {
+                commitBtn.setVisibility(View.VISIBLE);
             } else {
-                hideAllBtn();
-                scanCodeLlInner.setVisibility(View.GONE);
-            }
-        } else {//第一轮操作
-            if (isChargePerson) {//负责人
-                showOrHideCommitBtn();
-                if (isChargePersonScaned) {
-                    showAllBtn();
-                    hintScan1Success();
-                }
-                if (isChargePersonPhotoed) {
-                    hintPhoto1Success();
-                }
-                if (isChargePersonScaned && isChargePersonPhotoed) {
-                    changeChargersToGreen();
-                }
-            } else if (isGurdianPerson) {//监护人
-                showOrHideCommitBtn();
-                if (isChargePersonScaned) {//改变ui
-                    if (isScaned1) {
-                        hintScan1Success();
-                    } else if (isPhotoed1) {
-                        hintPhoto1Success();
-                    }
-                    if (isScaned1 && isPhotoed1) {
-                        changeGuardiansToGreen();
-                    }
-                }
-            } else if (isAuditorPerson) {//审核人
-                showOrHideCommitBtn();
-                if (isChargePersonScaned) {
-                    if (isScaned1) {
-                        hintScan1Success();
-                    } else if (isPhotoed1) {
-                        hintPhoto1Success();
-                    }
-                    if (isScaned1 && isPhotoed1) {
-                        changeAuditorsToGreen();
-                    }
-                }
-            } else if (isApproverPerson) {//批准人
-                showOrHideCommitBtn();
-                if (isScaned1) {
-                    hintScan1Success();
-                } else if (isPhotoed1) {
-                    hintPhoto1Success();
-                }
-                if (isScaned1 && isPhotoed1) {
-                    changeApproversToGreen();
-                }
-            } else {
-                hideAllBtn();
                 scanCodeLl.setVisibility(View.GONE);
             }
+            if (guardianCount==2){
+                commitBtn.setVisibility(View.GONE);
+                scanCodeLlInner.setVisibility(View.GONE);
+            }
+        } else if (userId.equals(bean.auditor)) {
+            isAuditorPerson = true;
+            if (!flage2) {
+                commitBtn.setVisibility(View.VISIBLE);
+            } else {
+                scanCodeLl.setVisibility(View.GONE);
+            }
+            if (auditorCount==2){
+                commitBtn.setVisibility(View.GONE);
+                scanCodeLlInner.setVisibility(View.GONE);
+            }
+
+        } else if (userId.equals(bean.approver)) {
+            isApproverPerson = true;
+            if (!flage3) {
+                commitBtn.setVisibility(View.VISIBLE);
+            } else {
+                scanCodeLl.setVisibility(View.GONE);
+            }
+            if (approverCount==2){
+                commitBtn.setVisibility(View.GONE);
+                scanCodeLlInner.setVisibility(View.GONE);
+            }
+
+        } else {
+            isNoneJob = true;
         }
-//        modifyBtn.setVisibility(View.VISIBLE);
+        if (isNoneJob) {
+            hideAllBtn();
+            scanCodeLl.setVisibility(View.GONE);
+            scanedLayout.setVisibility(View.VISIBLE);
+            scanCodeLlInner.setVisibility(View.GONE);
+        }
+        Log.i("test","---test:"+approverCount+"---"+auditorCount+"---"+guardianCount);
+        scan();
+        scaned();
+    }
+
+    private void changeGuardiansToBlue() {
+        guardianPersonIv.setImageResource(R.drawable.dots_blue);
+        guardianTv.setTextColor(getResources().getColor(R.color.colorDarkBlue));
+        guardianRelnameTv.setTextColor(getResources().getColor(R.color.colorDarkBlue));
+        guardianNameTv.setTextColor(getResources().getColor(R.color.colorDarkBlue));
+    }
+
+    private void changeAuditorsToBlue() {
+        auditorPersonIv.setImageResource(R.drawable.dots_blue);
+        auditorTv.setTextColor(getResources().getColor(R.color.colorDarkBlue));
+        auditorRelnameTv.setTextColor(getResources().getColor(R.color.colorDarkBlue));
+        auditorNameTv.setTextColor(getResources().getColor(R.color.colorDarkBlue));
+    }
+
+    private void changeApproversToBlue() {
+        approverPersonIv.setImageResource(R.drawable.dots_blue);
+        approverTv.setTextColor(getResources().getColor(R.color.colorDarkBlue));
+        approverRelnameTv.setTextColor(getResources().getColor(R.color.colorDarkBlue));
+        approverNameTv.setTextColor(getResources().getColor(R.color.colorDarkBlue));
+    }
+
+    private void changeChargersToBlue() {
+        chargePersonIv.setImageResource(R.drawable.dots_blue);
+        chargePersonTv.setTextColor(getResources().getColor(R.color.colorDarkBlue));
+        chargePersonRelnameTv.setTextColor(getResources().getColor(R.color.colorDarkBlue));
+        personInChargeNmaeTv.setTextColor(getResources().getColor(R.color.colorDarkBlue));
     }
 
     private void changeApproversToGreen() {
@@ -462,25 +534,25 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     }
 
     private void showOldUi() {
-        chargePersonIv.setImageResource(R.drawable.dots_normal);
-        chargePersonTv.setTextColor(getResources().getColor(R.color.text_gray));
-        chargePersonRelnameTv.setTextColor(getResources().getColor(R.color.text_gray));
-        personInChargeNmaeTv.setTextColor(getResources().getColor(R.color.text_gray));
+        chargePersonIv.setImageResource(R.drawable.dots_green);
+        chargePersonTv.setTextColor(getResources().getColor(R.color.colorGreen));
+        chargePersonRelnameTv.setTextColor(getResources().getColor(R.color.colorGreen));
+        personInChargeNmaeTv.setTextColor(getResources().getColor(R.color.colorGreen));
 
-        guardianPersonIv.setImageResource(R.drawable.dots_normal);
-        guardianTv.setTextColor(getResources().getColor(R.color.text_gray));
-        guardianRelnameTv.setTextColor(getResources().getColor(R.color.text_gray));
-        guardianNameTv.setTextColor(getResources().getColor(R.color.text_gray));
+        guardianPersonIv.setImageResource(R.drawable.dots_green);
+        guardianTv.setTextColor(getResources().getColor(R.color.colorGreen));
+        guardianRelnameTv.setTextColor(getResources().getColor(R.color.colorGreen));
+        guardianNameTv.setTextColor(getResources().getColor(R.color.colorGreen));
 
-        auditorPersonIv.setImageResource(R.drawable.dots_normal);
-        auditorTv.setTextColor(getResources().getColor(R.color.text_gray));
-        auditorRelnameTv.setTextColor(getResources().getColor(R.color.text_gray));
-        auditorNameTv.setTextColor(getResources().getColor(R.color.text_gray));
+        auditorPersonIv.setImageResource(R.drawable.dots_green);
+        auditorTv.setTextColor(getResources().getColor(R.color.colorGreen));
+        auditorRelnameTv.setTextColor(getResources().getColor(R.color.colorGreen));
+        auditorNameTv.setTextColor(getResources().getColor(R.color.colorGreen));
 
-        approverPersonIv.setImageResource(R.drawable.dots_normal);
-        approverTv.setTextColor(getResources().getColor(R.color.text_gray));
-        approverRelnameTv.setTextColor(getResources().getColor(R.color.text_gray));
-        approverNameTv.setTextColor(getResources().getColor(R.color.text_gray));
+        approverPersonIv.setImageResource(R.drawable.dots_green);
+        approverTv.setTextColor(getResources().getColor(R.color.colorGreen));
+        approverRelnameTv.setTextColor(getResources().getColor(R.color.colorGreen));
+        approverNameTv.setTextColor(getResources().getColor(R.color.colorGreen));
     }
 
     private void showOrHideCommitBtn() {
@@ -500,11 +572,11 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         //所有人扫过后按钮在内部显示
         scanCodeInner = scanCodeLlInner.findViewById(R.id.scan_code_layout);
         takePhotoInnerLayout = scanCodeLlInner.findViewById(R.id.take_photo_layout);
+        scanFlagIv2 = scanCodeLlInner.findViewById(R.id.scan_flag_iv);
+        photoFlagIv2 = scanCodeLlInner.findViewById(R.id.photo_flag_iv);
 
         jobId = getIntent().getStringExtra("jobId");
-        if (jobId == null) {
-            hideAllBtn();
-        }
+        Log.e(TAG, "----jobId:" + jobId);
         clicks();
     }
 
@@ -516,8 +588,11 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     @OnClick(R.id.modify_btn)
     public void modify() {//修改
         Intent intent = new Intent(this, FixWorkActivity.class);
-        intent.putExtra("id",jobId);
-        startActivity(intent);
+        intent.putExtra("id", jobId);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("fixbean", workDetailBean);
+        intent.putExtras(bundle);
+        startActivityForResult(intent, MODIFY_CODE);
     }
 
     /**
@@ -629,14 +704,20 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         } else if (requestCode == OPEN_ACTIVITY_TAKE_PHOTO_CODE && resultCode == 10) {
             map = (HashMap<String, String>) data.getSerializableExtra(Constant.TEMP_PIC_LIST);
             Log.e(TAG, "----size:" + map.size() + ",--" + map.toString());
-            if (status == 5) {
-                isPhotoed2 = true;
-                handler.sendEmptyMessage(4);
+//            if (status == 4) {
+//                handler.sendEmptyMessage(PHOTED2);
+//            } else if (status == 2) {
+            Message message = new Message();
+
+            if (status == 2) {
+                message.what = PHOTED1;
             } else {
-                isPhotoed1 = true;
-                handler.sendEmptyMessage(3);
+                message.what = PHOTED2;
             }
-            photoFlagIv.setVisibility(View.VISIBLE);
+            handler.sendMessage(message);
+//            }
+        } else if (requestCode == MODIFY_CODE) {
+            presenter.getWorkDetailInfo(jobId);
         }
     }
 
@@ -662,14 +743,18 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             @Override
             public void onClick(View v) {
                 dialog.cancel();
-                if (status == 5) {
-                    isScaned2 = true;
-                    handler.sendEmptyMessage(2);
+//                if (status == 4) {
+//                    handler.sendEmptyMessage(SCANED2);
+//                } else if (status == 2) {
+                Message message = new Message();
+//                message.what=SCANED1;
+                if (status == 2) {
+                    message.what = SCANED1;
                 } else {
-                    isScaned1 = true;
-                    handler.sendEmptyMessage(1);
+                    message.what = SCANED2;
                 }
-                scanFlagIv.setVisibility(View.VISIBLE);
+                handler.sendMessage(message);
+//                }
             }
         });
 
@@ -679,14 +764,11 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
      * 所有人扫过后显示布局
      */
     private void changeScanLayout() {
-        if (status == 5) {
-            scanCodeLl.setVisibility(View.GONE);
-            scanedLayout.setVisibility(View.VISIBLE);
-            scanCodeInner.setBackgroundResource(R.drawable.scaned_code_btn_shape);
-            takePhotoInnerLayout.setBackgroundResource(R.drawable.scaned_code_btn_shape);
-            isOneTurnDone = true;
-            showOldUi();
-        }
+        scanCodeLl.setVisibility(View.GONE);
+        scanedLayout.setVisibility(View.GONE);
+        scanCodeInner.setBackgroundResource(R.drawable.scaned_code_btn_shape);
+        takePhotoInnerLayout.setBackgroundResource(R.drawable.scaned_code_btn_shape);
+        showOldUi();
     }
 
     public static void setListViewHeightBasedOnChildren(ListView listView) {
@@ -718,7 +800,13 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     @Override
     public void getWorkDetailInfo(WorkDetailRequestBean workBean) {
         //填充数据
-        WorkDetailBean workDetailBean = workBean.work;
+        workDetailBean = workBean.work;
+        //查看提交过的信息、图片
+        datas.clear();
+        if (workBean.list.size() > 0) {
+            datas = workBean.list;
+            setData();
+        }
 //        work_start_time_day
         if (workDetailBean.status == 1 || workDetailBean.status == 5) {
             hideAllBtn();
@@ -808,14 +896,24 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     public void revokeJob(ResponseDataBean responseDataBean) {
         ToastMgr.show(R.string.revoke_success);
         hideAllBtn();
+        scanCodeLl.setVisibility(View.GONE);
     }
 
     @Override
     public void submitJob(ResponseDataBean responseDataBean) {
         ToastMgr.show(R.string.submit_success);
-        isCommited = true;
-        hideAllBtn();
         handler.sendEmptyMessage(5);
+        hideAllBtn();
+        scanSuccessHintLayout.setVisibility(View.GONE);
+        if (status > 2) {
+            scanedLayout.setVisibility(View.VISIBLE);
+            scanCodeLlInner.setVisibility(View.GONE);
+        } else {
+            scanCodeLl.setVisibility(View.GONE);
+        }
+        if (turn==2){
+            presenter.getWorkDetailInfo(jobId);
+        }
     }
 
     @Override

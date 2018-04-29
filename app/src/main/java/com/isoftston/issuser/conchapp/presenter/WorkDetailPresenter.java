@@ -60,15 +60,16 @@ public class WorkDetailPresenter extends BasePresenter<WorkDetailView> {
 
                     @Override
                     public void onError(Throwable e) {
-                        super.onError(e);
                         view.responseError(0);
+                        super.onError(e);
+
                     }
 
-                    @Override
-                    public boolean operationError(BaseData<WorkDetailRequestBean> workDetailBeanBaseData, int status, String message) {
-                        view.responseError(0);
-                        return super.operationError(workDetailBeanBaseData, status, message);
-                    }
+//                    @Override
+//                    public boolean operationError(BaseData<WorkDetailRequestBean> workDetailBeanBaseData, int status, String message) {
+//                        view.responseError(0);
+//                        return super.operationError(workDetailBeanBaseData, status, message);
+//                    }
                 });
     }
 

@@ -27,11 +27,11 @@ public class WorkDetailBean implements Serializable{
     public String leading;//负责人id
     public String leadingName;//负责人id
     public String guardian;//监护人id
-    public String guardianName;//监护人id
+    public String guardianName;//监护人
     public String auditor;//审核人id
     public String auditorName;//审核人id
     public String approver;//批准人id
-    public String approverName;//批准人id
+    public String approverName;//批准人
     public String createId;//创建id
     public long createTime;//创建时间
     public int status;//状态状态(0:新建，1:撤销，2：负责人开工扫描，3：开工，4:负责人结束扫描,5:完成)
