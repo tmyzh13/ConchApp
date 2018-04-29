@@ -87,14 +87,15 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
         });
 
         //presenter = createPresenter();
-        if(presenter!=null){
-            presenter.getPushTag();
-        }
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        if(presenter!=null){
+            presenter.getPushTag();
+        }
 
     }
 
