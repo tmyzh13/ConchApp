@@ -69,7 +69,8 @@ public class CommonMessageFragment extends BaseFragment<WorkView,WorkPresenter> 
 
     @Override
     public void getWorkListInfo(List<WorkBean> list) {
-
+        tabs.clear();
+        tabs.add(getString(R.string.all));
         if (list!=null&&list.size()!=0){
             for (int i=0;i<list.size();i++){
                 String name=list.get(i).getName();

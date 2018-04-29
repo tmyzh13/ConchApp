@@ -92,8 +92,8 @@ public class Urls {
 
     // 获取作业设备类型
     public static final String GET_EQUPMENT_TYPE="device/getType";
-    // 通过设备类型获取设备信息
-    public static final String GET_EQUPMENT_INFO_BY_TYPE="device/totalExamine ";
+    // 通过设备类型获取设备名称
+    public static final String GET_EQUPMENT_INFO_BY_TYPE="device/queryByType";
     //危险作业类别
     public static final String DANGER_WORK_TYPE="dictionaries/WXZYLB";
     //设备类型

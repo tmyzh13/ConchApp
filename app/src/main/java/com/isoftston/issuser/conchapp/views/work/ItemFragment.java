@@ -80,7 +80,8 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
                 presenter.getWorkList("",2,"2");
             }
         }else {
-            presenter.getWorkInfo();
+                presenter.getWorkInfo();
+
         }
         adapter=new WorkMessageItemAdapter(getContext());
         adapter.addAll(listMessage);
@@ -139,7 +140,9 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
     @Override
     public void getWorkListInfo(List<WorkBean> list) {
         for (WorkBean workBean:list){
-            if (type.equals(workBean.getName())){
+            if (type.equals(getString(R.string.all))){
+                presenter.getWorkList("",bType,"");
+            }else if (type.equals(workBean.getName())){
                 presenter.getWorkList("",bType,String.valueOf(workBean.getId()));
             }
         }

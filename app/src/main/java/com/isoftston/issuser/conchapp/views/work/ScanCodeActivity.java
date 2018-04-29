@@ -226,6 +226,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             return true;
         }
     });
+    private WorkDetailBean workDetailBean;
 
     @Override
     protected int getLayoutId() {
@@ -278,135 +279,162 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     int status;
 
     private void checkUserPosition(WorkDetailBean bean) {
-        hideAllBtn();
-        status = bean.status;
-        if (status == 2 && isChargePerson) {
-            revokeBtn.setVisibility(View.VISIBLE);
-        }
-        //比对自己的职位
-        if (userId.equals(bean.leading)) {
-            isChargePerson = true;
-        } else if (userId.equals(bean.guardian)) {
-            isGurdianPerson = true;
-        } else if (userId.equals(bean.auditor)) {
-            isAuditorPerson = true;
-        } else if (userId.equals(bean.approver)) {
-            isApproverPerson = true;
-        }
-
-        if (status == 5) {
-            isOneTurnDone = true;
-        } else if (status == 4) {
-            isChargePersonScaned = true;
-            isChargePersonPhotoed = true;
-        }
-        
-        //第一轮扫码是否完成
-        if (isOneTurnDone) {
-            changeScanLayout();
-            if (isChargePerson) {//负责人
-                showOrHideCommitBtn();
-                if (bean.status == 4) {
-                    showAllBtn();
-                    hintScan2Success();
-                }
-                if (isChargePersonPhotoed) {
-                    hintPhoto2Success();
-                }
-                if (isChargePersonScaned && isChargePersonPhotoed) {
-                    changeChargersToGreen();
-                }
-            } else if (isGurdianPerson) {//监护人
-                showOrHideCommitBtn();
-                if (isChargePersonScaned) {//改变ui
-                    if (isScaned2) {
-                        hintScan2Success();
-                    } else if (isPhotoed2) {
-                        hintPhoto2Success();
-                    }
-                    if (isScaned2 && isPhotoed2) {
-                        changeGuardiansToGreen();
-                    }
-                }
-            } else if (isAuditorPerson) {//审核人
-                showOrHideCommitBtn();
-                if (isChargePersonScaned) {
-                    if (isScaned2) {
-                        hintScan2Success();
-                    } else if (isPhotoed2) {
-                        hintPhoto2Success();
-                    }
-                    if (isScaned2 && isPhotoed2) {
-                        changeAuditorsToGreen();
-                    }
-                }
-            } else if (isApproverPerson) {//批准人
-                showOrHideCommitBtn();
-                if (isScaned2) {
-                    hintScan2Success();
-                } else if (isPhotoed2) {
-                    hintPhoto2Success();
-                }
-                if (isScaned2 && isPhotoed2) {
-                    changeApproversToGreen();
-                }
-            } else {
-                hideAllBtn();
-                scanCodeLlInner.setVisibility(View.GONE);
-            }
-        } else {//第一轮操作
-            if (isChargePerson) {//负责人
-                showOrHideCommitBtn();
-                if (isChargePersonScaned) {
-                    showAllBtn();
-                    hintScan1Success();
-                }
-                if (isChargePersonPhotoed) {
-                    hintPhoto1Success();
-                }
-                if (isChargePersonScaned && isChargePersonPhotoed) {
-                    changeChargersToGreen();
-                }
-            } else if (isGurdianPerson) {//监护人
-                showOrHideCommitBtn();
-                if (isChargePersonScaned) {//改变ui
-                    if (isScaned1) {
-                        hintScan1Success();
-                    } else if (isPhotoed1) {
-                        hintPhoto1Success();
-                    }
-                    if (isScaned1 && isPhotoed1) {
-                        changeGuardiansToGreen();
-                    }
-                }
-            } else if (isAuditorPerson) {//审核人
-                showOrHideCommitBtn();
-                if (isChargePersonScaned) {
-                    if (isScaned1) {
-                        hintScan1Success();
-                    } else if (isPhotoed1) {
-                        hintPhoto1Success();
-                    }
-                    if (isScaned1 && isPhotoed1) {
-                        changeAuditorsToGreen();
-                    }
-                }
-            } else if (isApproverPerson) {//批准人
-                showOrHideCommitBtn();
-                if (isScaned1) {
-                    hintScan1Success();
-                } else if (isPhotoed1) {
-                    hintPhoto1Success();
-                }
-                if (isScaned1 && isPhotoed1) {
-                    changeApproversToGreen();
-                }
-            } else {
-                hideAllBtn();
-                scanCodeLl.setVisibility(View.GONE);
-            }
-        }
-//        modifyBtn.setVisibility(View.VISIBLE);
+        modifyBtn.setVisibility(View.VISIBLE);
+//        hideAllBtn();
+//        status = bean.status;
+//        switch (status){
+//            case 0:
+//                if (userId.equals(bean.leading)){
+//                    showAllBtn();
+//                }else if (userId.equals(bean.approver)||bean.equals(bean.auditor)
+//                        ||userId.equals(bean.guardian)){
+//                    commitBtn.setVisibility(View.VISIBLE);
+//                }
+//                break;
+//            case 1:
+//                break;
+//            case 2:
+//                if (userId.equals(bean.leading)){
+//                    commitBtn.setVisibility(View.VISIBLE);
+//                }else if (userId.equals(bean.approver)||bean.equals(bean.auditor)
+//                        ||userId.equals(bean.guardian)){
+//
+//                }
+//                break;
+//            case 3:
+//                isOneTurnDone = true;
+//
+//                break;
+//            case 4:
+//                break;
+//            case 5:
+//                break;
+//        }
+//        if (status == 2 && isChargePerson) {
+//            revokeBtn.setVisibility(View.VISIBLE);
+//        }
+//        //比对自己的职位
+//        if (userId.equals(bean.leading)) {
+//            isChargePerson = true;
+//        } else if (userId.equals(bean.guardian)) {
+//            isGurdianPerson = true;
+//        } else if (userId.equals(bean.auditor)) {
+//            isAuditorPerson = true;
+//         } else if (userId.equals(bean.approver)) {
+//            isApproverPerson = true;
+//        }
+//        if (status == 5) {
+//            isOneTurnDone = true;
+//        } else if (status == 4) {
+//            isChargePersonScaned = true;
+//            isChargePersonPhotoed = true;
+//        }
+//
+//        //第一轮扫码是否完成
+//        if (isOneTurnDone) {
+//            changeScanLayout();
+//            if (isChargePerson) {//负责人
+//                showOrHideCommitBtn();
+//                if (bean.status == 4) {
+//                    showAllBtn();
+//                    hintScan2Success();
+//                }
+//                if (isChargePersonPhotoed) {
+//                    hintPhoto2Success();
+//                }
+//                if (isChargePersonScaned && isChargePersonPhotoed) {
+//                    changeChargersToGreen();
+//                }
+//            } else if (isGurdianPerson) {//监护人
+//                showOrHideCommitBtn();
+//                if (isChargePersonScaned) {//改变ui
+//                    if (isScaned2) {
+//                        hintScan2Success();
+//                    } else if (isPhotoed2) {
+//                        hintPhoto2Success();
+//                    }
+//                    if (isScaned2 && isPhotoed2) {
+//                        changeGuardiansToGreen();
+//                    }
+//                }
+//            } else if (isAuditorPerson) {//审核人
+//                showOrHideCommitBtn();
+//                if (isChargePersonScaned) {
+//                    if (isScaned2) {
+//                        hintScan2Success();
+//                    } else if (isPhotoed2) {
+//                        hintPhoto2Success();
+//                    }
+//                    if (isScaned2 && isPhotoed2) {
+//                        changeAuditorsToGreen();
+//                    }
+//                }
+//            } else if (isApproverPerson) {//批准人
+//                showOrHideCommitBtn();
+//                if (isScaned2) {
+//                    hintScan2Success();
+//                } else if (isPhotoed2) {
+//                    hintPhoto2Success();
+//                }
+//                if (isScaned2 && isPhotoed2) {
+//                    changeApproversToGreen();
+//                }
+//            } else {
+//                hideAllBtn();
+//                scanCodeLlInner.setVisibility(View.GONE);
+//            }
+//        } else {//第一轮操作
+//            if (isChargePerson) {//负责人
+//                showOrHideCommitBtn();
+//                if (isChargePersonScaned) {
+//                    showAllBtn();
+//                    hintScan1Success();
+//                }
+//                if (isChargePersonPhotoed) {
+//                    hintPhoto1Success();
+//                }
+//                if (isChargePersonScaned && isChargePersonPhotoed) {
+//                    changeChargersToGreen();
+//                }
+//            } else if (isGurdianPerson) {//监护人
+//                showOrHideCommitBtn();
+//                if (isChargePersonScaned) {//改变ui
+//                    if (isScaned1) {
+//                        hintScan1Success();
+//                    } else if (isPhotoed1) {
+//                        hintPhoto1Success();
+//                    }
+//                    if (isScaned1 && isPhotoed1) {
+//                        changeGuardiansToGreen();
+//                    }
+//                }
+//            } else if (isAuditorPerson) {//审核人
+//                showOrHideCommitBtn();
+//                if (isChargePersonScaned) {
+//                    if (isScaned1) {
+//                        hintScan1Success();
+//                    } else if (isPhotoed1) {
+//                        hintPhoto1Success();
+//                    }
+//                    if (isScaned1 && isPhotoed1) {
+//                        changeAuditorsToGreen();
+//                    }
+//                }
+//            } else if (isApproverPerson) {//批准人
+//                showOrHideCommitBtn();
+//                if (isScaned1) {
+//                    hintScan1Success();
+//                } else if (isPhotoed1) {
+//                    hintPhoto1Success();
+//                }
+//                if (isScaned1 && isPhotoed1) {
+//                    changeApproversToGreen();
+//                }
+//            } else {
+//                hideAllBtn();
+//                scanCodeLl.setVisibility(View.GONE);
+//            }
+//        }
     }
 
     private void changeApproversToGreen() {
@@ -517,6 +545,9 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     public void modify() {//修改
         Intent intent = new Intent(this, FixWorkActivity.class);
         intent.putExtra("id",jobId);
+        Bundle bundle=new Bundle();
+        bundle.putSerializable("fixbean",workDetailBean);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 
@@ -718,8 +749,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     @Override
     public void getWorkDetailInfo(WorkDetailRequestBean workBean) {
         //填充数据
-        WorkDetailBean workDetailBean = workBean.work;
-//        work_start_time_day
+        workDetailBean = workBean.work;
         if (workDetailBean.status == 1 || workDetailBean.status == 5) {
             hideAllBtn();
         }
@@ -782,7 +812,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     }
 
     private void showAllBtn() {
-        revokeBtn.setVisibility(View.VISIBLE);
+        revokeBtn.setVisibility(View.GONE);
         commitBtn.setVisibility(View.VISIBLE);
         modifyBtn.setVisibility(View.VISIBLE);
     }
@@ -830,6 +860,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
 
     @Override
     public void onAllPageLoaded() {
+
     }
 
     @Override
