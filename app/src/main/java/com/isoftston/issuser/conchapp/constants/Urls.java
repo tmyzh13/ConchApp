@@ -103,4 +103,7 @@ public class Urls {
     public static final String DEVICE_TYPE="device/getType";
     //隐患界面 发现单位
     public static final String FIND_COMPANY="safety/searchParam";
+
+    //隐患界面 发现单位继续递归
+    public static final String FIND_COMPANY_NEXT="safety/searchDepartments";
 }

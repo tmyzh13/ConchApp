@@ -144,7 +144,7 @@ public class ChoiceCheckPeopleActivity extends BaseActivity<SeacherView,SeacherP
         list_checker=lists;
         list.clear();
         for(int i=0;i<lists.size();i++){
-            list.add(lists.get(i).getUserName());
+            list.add(lists.get(i).getRealName());
         }
         adapter.addAll(list);
         lv_people.setAdapter(adapter);

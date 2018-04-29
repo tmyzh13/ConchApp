@@ -12,6 +12,7 @@ import com.corelibs.views.ptr.loadmore.widget.AutoLoadMoreListView;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.MessageTypeAdapter;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
+import com.isoftston.issuser.conchapp.model.bean.OrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
 import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
@@ -140,6 +141,11 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
 
     @Override
     public void getSafeChoiceList(SecuritySearchBean b) {
+
+    }
+
+    @Override
+    public void getOrgList(List<OrgBean> bean) {
 
     }
 

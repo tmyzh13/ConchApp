@@ -236,6 +236,8 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".views.security.ChoiceTypeActivity"
             android:screenOrientation="portrait"></activity>
+        <activity android:name=".views.security.OrgActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

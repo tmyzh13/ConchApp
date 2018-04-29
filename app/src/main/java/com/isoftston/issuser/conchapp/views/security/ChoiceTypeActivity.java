@@ -14,6 +14,7 @@ import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.CheckDeviceAdapter;
 import com.isoftston.issuser.conchapp.adapters.CheckTypeAdapter;
 import com.isoftston.issuser.conchapp.constants.Constant;
+import com.isoftston.issuser.conchapp.model.bean.OrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
 import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
 import com.isoftston.issuser.conchapp.model.bean.YhlxBean;
@@ -137,20 +138,32 @@ public class ChoiceTypeActivity extends BaseActivity<SecuryView,SecurityPresente
             yhlxList = bean.YHLX;
             for (int i=0;i<yhlxList.size();i++){
                 if (TextUtils.isEmpty(yhlxList.get(i).getPCODE_())||null==yhlxList.get(i).getPCODE_()||" ".equals(yhlxList.get(i).getPCODE_())){
+                    if(yhlxList.get(i).getPCODE_().equals("RDBAQXW") || yhlxList.get(i).getCODE_().equals("RDBAQXW"))
+                    {
+                        continue;
+                    }
                     yhlList.add(yhlxList.get(i));
                 }
             }
 
         }else if (mark==2){
-            yhlxList=bean.SFYXCZG;
+            yhlxList=bean.YHLX;
             for (int i=0;i<yhlxList.size();i++){
                 if (TextUtils.isEmpty(yhlxList.get(i).getPCODE_())||null==yhlxList.get(i).getPCODE_()||" ".equals(yhlxList.get(i).getPCODE_())){
-                    yhlList.add(yhlxList.get(i));
+                    if(yhlxList.get(i).getPCODE_().equals("RDBAQXW") || yhlxList.get(i).getCODE_().equals("RDBAQXW"))
+                    {
+                        yhlList.add(yhlxList.get(i));
+                    }
                 }
             }
         }
         adapter.addAll(yhlList);
         adapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void getOrgList(List<OrgBean> bean) {
 
     }
 
