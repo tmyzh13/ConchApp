@@ -135,6 +135,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
     private int lastCount;
     private boolean isUpRefresh;
     private boolean isDownRefresh;
+    private boolean  isLastRow = false;
 
     @Override
     protected int getLayoutId() {
@@ -233,6 +234,8 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getActivity(), ItemDtailActivity.class);
                 Bundle bundle=new Bundle();
+                View  readStatus= view.findViewById(R.id.view_read_statue);
+                readStatus.setVisibility(View.GONE);
                 if (currrentPage == 0){
                     bundle.putString("type",listAllMessage.get(i).getType());
                     bundle.putString("id",listAllMessage.get(i).getId());
@@ -252,15 +255,20 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         });
         lv_message.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
-
+            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+                //当滚到最后一行且停止滚动时，执行加载
+                if (isLastRow && scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    //加载元素
+                    loadNextPage(mAdapter.getCount());
+                    isLastRow = false;
+                }
             }
 
             @Override
             public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (firstVisibleItem + visibleItemCount >= totalItemCount  && totalItemCount != 0&& totalItemCount!=lv_message.getHeaderViewsCount()
-                        + lv_message.getFooterViewsCount() && mAdapter.getCount() > 0) {
-//                    loadNextPage(mAdapter.getCount());
+                //判断是否滚到最后一行
+                if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount > 0) {
+                    isLastRow = true;
                 }
             }
         });
@@ -508,8 +516,6 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         lastCount = mAdapter.getCount()-1;
         mAdapter.addAll(data.list);
         mAdapter.notifyDataSetChanged();
-        lv_message.setAdapter(mAdapter);
-        lv_message.setSelection(lastCount);
         setConcerMark();
     }
 

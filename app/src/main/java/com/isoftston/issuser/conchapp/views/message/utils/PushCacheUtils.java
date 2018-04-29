@@ -41,15 +41,15 @@ public class PushCacheUtils {
     /**
      * 缓存推送的消息
      * @param context
-     * @param bean
+     * @param list
      */
-    public void writePushLocalCache(Context context, MessageBean bean) {
-        List<MessageBean> list = readPushLocalCache(context);
-        if(list == null){
-            list = new ArrayList<>();
+    public void writePushLocalCache(Context context, List<MessageBean> list) {
+        List<MessageBean> listLocal = readPushLocalCache(context);
+        if(listLocal == null){
+            listLocal = new ArrayList<>();
         }
-        list.add(bean);
-        SharePrefsUtils.putValue(context, Constant.PUSH_MESSAGE, JSONObject.toJSONString(list));
+        listLocal.addAll(list);
+        SharePrefsUtils.putValue(context, Constant.PUSH_MESSAGE, JSONObject.toJSONString(listLocal));
     }
 
     /**
@@ -57,7 +57,7 @@ public class PushCacheUtils {
      * @param type
      * */
     public int getTypeMessageCount(List<MessageBean> list, String type) {
-        if(list != null){
+        if(list != null && list.size()>= 0){
             int count =0 ;
             if("all".equals(type)){
                 return list.size();
@@ -75,7 +75,7 @@ public class PushCacheUtils {
 
     public void compareLocalPushMessage(Context context, List<MessageBean> list) {
         List<MessageBean> localList = readPushLocalCache(context);
-        if(localList == null){
+        if(localList == null || localList.size()==0){
             return;
         }
         for (MessageBean localBean : localList){
@@ -99,5 +99,6 @@ public class PushCacheUtils {
                 break;
             }
         }
+        writePushLocalCache(context,localList);
     }
 }

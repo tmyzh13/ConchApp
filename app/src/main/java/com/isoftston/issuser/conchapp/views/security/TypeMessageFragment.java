@@ -87,6 +87,8 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //进入消息详情界面
                 Intent intent =new Intent(getActivity(),ItemDtailActivity.class);
+                View  readStatus= view.findViewById(R.id.view_read_statue);
+                readStatus.setVisibility(View.GONE);
                 Bundle bundle=new Bundle();
                 bundle.putString("type",listMessage.get(position).getType());
                 bundle.putString("id",listMessage.get(position).getId());

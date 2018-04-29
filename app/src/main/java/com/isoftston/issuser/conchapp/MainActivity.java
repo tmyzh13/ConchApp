@@ -114,7 +114,9 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
     }
 
     private void writeLocalPushMessage(MessageBean obj) {
-        PushCacheUtils.getInstance().writePushLocalCache(this,obj);
+        List<MessageBean> list = new ArrayList<>();
+        list.add(obj);
+        PushCacheUtils.getInstance().writePushLocalCache(this,list);
     }
 
 
