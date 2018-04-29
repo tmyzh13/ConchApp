@@ -21,11 +21,10 @@ import com.isoftston.issuser.conchapp.constants.Urls;
 import com.isoftston.issuser.conchapp.model.bean.EachMessageInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageListInfoBean;
-import com.isoftston.issuser.conchapp.presenter.MessageDetailPresenter;
 import com.isoftston.issuser.conchapp.presenter.MessagePresenter;
-import com.isoftston.issuser.conchapp.views.interfaces.MessageDetailView;
 import com.isoftston.issuser.conchapp.views.interfaces.MessageView;
 import com.isoftston.issuser.conchapp.views.message.adpter.VpAdapter;
+import com.isoftston.issuser.conchapp.views.message.utils.PushCacheUtils;
 import com.isoftston.issuser.conchapp.weight.MyGridView;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
@@ -138,6 +137,7 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
 
     private void getData() {
         presenter.getMessageDetailInfo(type,id);
+        PushCacheUtils.getInstance().removePushIdMessage(this,id);
     }
 
 

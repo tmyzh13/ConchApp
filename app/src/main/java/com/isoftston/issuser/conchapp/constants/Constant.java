@@ -33,4 +33,5 @@ public class Constant {
     public static final String  MESSAGE_SEARCH = "message_search";
     public static final String  WORK_SEARCH = "work_search";
     public static final String  CHECK_SEARCH = "check_search";
+    public static final String  PUSH_MESSAGE = "push_message";
 }

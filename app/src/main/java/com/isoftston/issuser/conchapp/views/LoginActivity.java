@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.corelibs.base.BaseActivity;
 import com.corelibs.common.AppManager;
@@ -124,7 +123,6 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
 
         startActivity(MainActivity.getLauncher(context));
         ToastUtils.showtoast(context,getString(R.string.login_success));
-
     }
 
     @Override
