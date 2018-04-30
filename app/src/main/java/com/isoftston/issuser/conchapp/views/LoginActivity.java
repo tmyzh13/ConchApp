@@ -24,6 +24,7 @@ import com.isoftston.issuser.conchapp.MainActivity;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.LoginUserBean;
+import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
 import com.isoftston.issuser.conchapp.presenter.LoginPresenter;
 import com.isoftston.issuser.conchapp.utils.MD5Utils;
 import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
@@ -142,6 +143,11 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
         }else{
             deleteTag(tag);
         }
+
+    }
+
+    @Override
+    public void getSafeChoiceList(SecuritySearchBean bean) {
 
     }
 

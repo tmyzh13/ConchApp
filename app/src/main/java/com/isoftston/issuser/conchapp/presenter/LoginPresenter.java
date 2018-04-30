@@ -19,6 +19,8 @@ import com.isoftston.issuser.conchapp.model.bean.CodeRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.ForgetPwdRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.LoginRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.PushBean;
+import com.isoftston.issuser.conchapp.model.bean.SafeRequestBean;
+import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
 import com.isoftston.issuser.conchapp.model.bean.UserBean;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.utils.MD5Utils;
@@ -134,5 +136,28 @@ public class LoginPresenter extends BasePresenter<LoginView> {
 
                 });
     }
+
+    public void getCompanyChoiceList(){
+        SafeRequestBean bean =new SafeRequestBean();
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        Log.i("token",token);
+        String token1=token.replaceAll("\"","");
+        api.findCompanyList(token1,bean)
+                .compose(new ResponseTransformer<>(this.<BaseData<SecuritySearchBean>>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData<SecuritySearchBean>>() {
+
+                    @Override
+                    public void success(BaseData<SecuritySearchBean> messageBeanBaseData) {
+                        view.getSafeChoiceList(messageBeanBaseData.data);
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                    }
+                });
+    }
+
 
 }

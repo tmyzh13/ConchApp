@@ -51,6 +51,115 @@ public class MessageDetailBean {
     private String tplj;
     private String ts;
     private String ispush;
+
+/*"id":294,"fxrmc":"孙武","fxrCompany":"安全环保处","findByUnit":"吊车班","dangerSite":"北京","dangerPart":
+        "新疆","dangerLevel":"ZDYH","dangerType":"TFKQZLBLQY","fxsj":"1525072920000","zgqx":null,"yhzgzt"
+        :null,"yhly":"4","yhms":"太垃圾了，太垃圾了。","dangerPhoto":"upload/20180430/524e5101f5f142f98f2c61f709bac3f4.jpg," +
+        "upload/20180430/e4922f8758634d20af9dd3a4d8391057.jpg," +
+        "upload/20180430/0074c87ec19140b69731887cb2559020.jpg,","repairPhoto":null*/
+    private String fxrCompany;
+    private String findByUnit;
+    private String dangerSite;
+    private String dangerPart;
+
+    public String getDangerLevel() {
+        return dangerLevel;
+    }
+
+    public void setDangerLevel(String dangerLevel) {
+        this.dangerLevel = dangerLevel;
+    }
+
+    public String getFxrCompany() {
+        return fxrCompany;
+    }
+
+    public void setFxrCompany(String fxrCompany) {
+        this.fxrCompany = fxrCompany;
+    }
+
+    public String getFindByUnit() {
+        return findByUnit;
+    }
+
+    public void setFindByUnit(String findByUnit) {
+        this.findByUnit = findByUnit;
+    }
+
+    public String getDangerSite() {
+        return dangerSite;
+    }
+
+    public void setDangerSite(String dangerSite) {
+        this.dangerSite = dangerSite;
+    }
+
+    public String getDangerPart() {
+        return dangerPart;
+    }
+
+    public void setDangerPart(String dangerPart) {
+        this.dangerPart = dangerPart;
+    }
+
+    public String getDangerType() {
+        return dangerType;
+    }
+
+    public void setDangerType(String dangerType) {
+        this.dangerType = dangerType;
+    }
+
+    public String getFxsj() {
+        return fxsj;
+    }
+
+    public void setFxsj(String fxsj) {
+        this.fxsj = fxsj;
+    }
+
+    public String getZgqx() {
+        return zgqx;
+    }
+
+    public void setZgqx(String zgqx) {
+        this.zgqx = zgqx;
+    }
+
+    public String getYhzgzt() {
+        return yhzgzt;
+    }
+
+    public void setYhzgzt(String yhzgzt) {
+        this.yhzgzt = yhzgzt;
+    }
+
+    public String getDangerPhoto() {
+        return dangerPhoto;
+    }
+
+    public void setDangerPhoto(String dangerPhoto) {
+        this.dangerPhoto = dangerPhoto;
+    }
+
+    public String getRepairPhoto() {
+        return repairPhoto;
+    }
+
+    public void setRepairPhoto(String repairPhoto) {
+        this.repairPhoto = repairPhoto;
+    }
+
+    private String dangerLevel;
+    private String dangerType;
+    private String fxsj;
+    private String zgqx;
+    private String yhzgzt;
+    private String dangerPhoto;
+    private String repairPhoto;
+
+
+
     public void setId(int id) {
         this.id = id;
     }
