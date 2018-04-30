@@ -20,20 +20,28 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BaseFragment;
 import com.corelibs.utils.PreferencesHelper;
+import com.corelibs.utils.ToastMgr;
 import com.corelibs.views.cube.ptr.PtrFrameLayout;
 import com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout;
 import com.corelibs.views.ptr.loadmore.widget.AutoLoadMoreListView;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.MessageTypeAdapter;
 import com.isoftston.issuser.conchapp.constants.Constant;
+import com.isoftston.issuser.conchapp.model.bean.AirResponseBean;
+import com.isoftston.issuser.conchapp.model.bean.CountryModelBean;
 import com.isoftston.issuser.conchapp.model.bean.EachMessageInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageItemBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageListInfoBean;
+import com.isoftston.issuser.conchapp.model.bean.WeatherResponseBean;
 import com.isoftston.issuser.conchapp.model.event.MyEvent;
 import com.isoftston.issuser.conchapp.presenter.MessagePresenter;
 import com.isoftston.issuser.conchapp.utils.LocationUtils;
@@ -50,12 +58,15 @@ import com.isoftston.issuser.conchapp.weight.NavBar;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import jxl.Sheet;
+import jxl.Workbook;
 
 /**
  * Created by issuser on 2018/4/9.
@@ -113,6 +124,43 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
     @Bind(R.id.tv_wz_total)
     TextView tv_wz_total;
 
+    @Bind(R.id.tv_temp)
+    TextView tv_temp;
+
+    @Bind(R.id.tv_weather)
+    TextView tv_weather;
+
+    @Bind(R.id.tv_humidity)
+    TextView tv_humidity;
+
+    @Bind(R.id.air)
+    TextView tv_air;
+
+    //声明AMapLocationClient类对象
+    public AMapLocationClient mLocationClient = null;
+    //声明定位回调监听器
+    public AMapLocationListener mLocationListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation aMapLocation) {
+            Log.i(TAG,"map address:" + aMapLocation.getAddress() + ",cityName:" + aMapLocation.getCity());
+            locationCityTv.setText(aMapLocation.getCity());
+            PreferencesHelper.saveData(Constant.LOCATION_NAME, aMapLocation.getCity());
+            for(CountryModelBean bean:countryList)
+            {
+                if(aMapLocation.getCity().contains(bean.getChineseName()) && (aMapLocation.getCity().length() == bean.getChineseName().length() + 1))
+                {
+                    Log.i(TAG,"map english:" + bean.getEnglishName() + ",cityName:" + aMapLocation.getCity() + ",weather city code:" + bean.getCityCode());
+                    presenter.getWeatherInfo(bean.getCityCode());
+                    presenter.getAirInfo(bean.getEnglishName());
+                    break;
+                }
+            }
+        }
+    };
+    //声明AMapLocationClientOption对象
+    public AMapLocationClientOption mLocationOption = null;
+
+
     public static final int LOCATION_REQUEST_CODE = 100;
     public Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -135,6 +183,8 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
     private boolean isDownRefresh;
     private boolean  isLastRow = false;
 
+    private List<CountryModelBean> countryList = new ArrayList<>();
+
     private PushBroadcastReceiver broadcastReceiver;
 
     private Handler mHander = new Handler(){
@@ -151,6 +201,9 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
 
     @Override
     protected void init(Bundle savedInstanceState) {
+
+        countryList = readXls();
+
         presenter.getUserInfo();
         EventBus.getDefault().register(this);
         nav.setColorRes(R.color.app_blue);
@@ -163,6 +216,31 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
                 startActivity(SeacherActivity.getLauncher(getContext(), "0"));
             }
         });
+
+        //初始化定位
+        mLocationClient = new AMapLocationClient(getContext().getApplicationContext());
+        //设置定位回调监听
+        mLocationClient.setLocationListener(mLocationListener);
+        //初始化AMapLocationClientOption对象
+        mLocationOption = new AMapLocationClientOption();
+
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+
+        mLocationOption.setOnceLocation(true);
+
+        //获取最近3s内精度最高的一次定位结果：
+        //设置setOnceLocationLatest(boolean b)接口为true，启动定位时SDK会返回最近3s内精度最高的一次定位结果。如果设置其为true，setOnceLocation(boolean b)接口也会被设置为true，反之不会，默认为false。
+        mLocationOption.setOnceLocationLatest(true);
+
+        //关闭缓存机制
+        mLocationOption.setLocationCacheEnable(false);
+
+        //获取地理位置
+        //给定位客户端对象设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
+
+        //启动定位
+        mLocationClient.startLocation();
 
         final VpAdapter adapter = new VpAdapter(list, handler);
         ll_main.setOnClickListener(this);
@@ -268,12 +346,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
             }
         });
         checkLocationPermission();
-    }
 
-    private void registerBroadcast() {
-        broadcastReceiver = new PushBroadcastReceiver(mHander);
-        IntentFilter intentFilter = new IntentFilter("home_push");
-        getActivity().registerReceiver(broadcastReceiver, intentFilter);
     }
 
     private void loadNextPage(int totalItemCount){
@@ -296,8 +369,6 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
                 && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 //            //申请摄像头权限
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
-        } else {
-            setLocationCity();
         }
     }
 
@@ -508,12 +579,6 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         setConcerMark();
     }
 
-    public void updateList(){
-        setConcerMark();
-        PushCacheUtils.getInstance().compareLocalPushMessage(getContext(),mAdapter.getData());
-        mAdapter.notifyDataSetChanged();
-    }
-
     private void setConcerMark() {
         List<MessageBean> list = PushCacheUtils.getInstance().readPushLocalCache(getContext());
         int yhCpunt = PushCacheUtils.getInstance().getTypeMessageCount(list,"1");
@@ -551,6 +616,22 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         ToastUtils.showtoast(getActivity(),getString(R.string.re_login));
         PreferencesHelper.saveData(Constant.LOGIN_STATUE,"");
         startActivity(LoginActivity.getLauncher(getActivity()));
+    }
+
+    @Override
+    public void refreshWeather(WeatherResponseBean bean) {
+        if(bean.getStatus().equals("0"))
+        {
+            //温度
+            String txt = bean.getTemp() + "°";
+            tv_temp.setText(txt);
+            tv_humidity.setText(bean.getHumidity());
+            tv_weather.setText(bean.getWeather());
+        }
+        else
+        {
+            ToastMgr.show("获取天气失败");
+        }
     }
 
     @Override
@@ -596,6 +677,51 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         lv_message.setSelection(lastCount);
     }
 
+    @Override
+    public void refreshAir(AirResponseBean bean) {
+        tv_air.setText(bean.getLevel());
+
+    }
+
+    public List<CountryModelBean> readXls() {
+        InputStream myFile = null;
+        myFile = getResources().openRawResource(R.raw.citycode);
+
+        List<CountryModelBean> list = new ArrayList<>();
+
+        try {
+            Workbook workbook = Workbook.getWorkbook(myFile);
+            Sheet sheet = workbook.getSheet(0);
+
+            int sheetNum = workbook.getNumberOfSheets();
+            int sheetRows = sheet.getRows();
+            int sheetColumns = sheet.getColumns();
+
+            Log.d(TAG, "the num of sheets is " + sheetNum);
+            Log.d(TAG, "the name of sheet is  " + sheet.getName());
+            Log.d(TAG, "total rows is 行=" + sheetRows);
+            Log.d(TAG, "total cols is 列=" + sheetColumns);
+
+            for (int i = 0; i < sheetRows; i++) {
+                CountryModelBean countryModel = new CountryModelBean();
+                countryModel.setId(sheet.getCell(0, i).getContents());
+                countryModel.setCityCode(sheet.getCell(1, i).getContents());
+                countryModel.setEnglishName(sheet.getCell(2, i).getContents());
+                countryModel.setReadmeName(sheet.getCell(3, i).getContents());
+                countryModel.setChineseName(sheet.getCell(4, i).getContents());
+                countryModel.setCountry(sheet.getCell(5, i).getContents());
+
+                list.add(countryModel);
+            }
+
+            workbook.close();
+
+        } catch (Exception e) {
+            Log.e(TAG, "read error=" + e, e);
+        }
+
+        return list;
+    }
     @Override
     public void onResume() {
         registerBroadcast();

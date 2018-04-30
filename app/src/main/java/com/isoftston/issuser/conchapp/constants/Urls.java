@@ -110,5 +110,8 @@ public class Urls {
     public static final String FIND_COMPANY_NEXT="safety/searchDepartments";
 
     //天气
-    public static final String WEATHER = "http://wthrcdn.etouch.cn/weather_mini";
+    public static final String WEATHER = "http://api.help.bj.cn/apis/weather";
+
+    //天气质量
+    public static final String AIR = "http://api.help.bj.cn/apis/aqi3";
 }
