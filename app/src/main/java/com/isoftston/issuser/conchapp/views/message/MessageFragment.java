@@ -193,6 +193,8 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
             updateList();
         }
     };
+
+
     @Override
     protected int getLayoutId() {
         initDate();
@@ -347,6 +349,17 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         });
         checkLocationPermission();
 
+    }
+
+    private void updateList() {
+        setConcerMark();
+        PushCacheUtils.getInstance().compareLocalPushMessage(getContext(),mAdapter.getData());
+        mAdapter.notifyDataSetChanged();
+    }
+    private void registerBroadcast() {
+        broadcastReceiver = new PushBroadcastReceiver(mHander);
+        IntentFilter intentFilter = new IntentFilter("home_push");
+        getActivity().registerReceiver(broadcastReceiver, intentFilter);
     }
 
     private void loadNextPage(int totalItemCount){
@@ -583,11 +596,13 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         List<MessageBean> list = PushCacheUtils.getInstance().readPushLocalCache(getContext());
         int yhCpunt = PushCacheUtils.getInstance().getTypeMessageCount(list,"1");
         yhReadTv.setText(yhCpunt+"");
+        yhMsg.setVisibility(View.GONE);
         if(yhCpunt > 0){
             yhMsg.setVisibility(View.VISIBLE);
             yhMsg.setText(yhCpunt+"");
         }
         int aqCpunt = PushCacheUtils.getInstance().getTypeMessageCount(list,"3");
+        aqMsg.setVisibility(View.GONE);
         aqReadTv.setText(aqCpunt+"");
         if(aqCpunt > 0){
             aqMsg.setVisibility(View.VISIBLE);
@@ -595,6 +610,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         }
         int wzCpunt = PushCacheUtils.getInstance().getTypeMessageCount(list,"2");
         wzReadTv.setText(wzCpunt+"");
+        wzMsg.setVisibility(View.GONE);
         if(wzCpunt > 0){
             wzMsg.setVisibility(View.VISIBLE);
             wzMsg.setText(wzCpunt+"");
