@@ -3,6 +3,7 @@ package com.isoftston.issuser.conchapp.views.mine.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.constants.Urls;
 import com.isoftston.issuser.conchapp.model.bean.ImageInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.ScanInfo;
 import com.isoftston.issuser.conchapp.utils.DateUtils;
@@ -66,17 +68,20 @@ public class ScanInfoAdapter extends BaseAdapter {
         holder.time.setText(DateUtils.format_yyyy_MM_dd_china.format(scanInfo.getCreateTime()));
         holder.address.setText(scanInfo.getLocation());
         final ArrayList<String> list = new ArrayList<>();
-//        for (int i = 0; i < scanInfo.getImgs().length; i++) {
-//            list.add(scanInfo.getImgs()[i]);
-//        }
+        String images=scanInfo.getImgs();
+        String[] itemPath=images.split("[,]");
+        Log.i("imagePath","imagePath----"+itemPath[0].replace("\\","/"));
+        for (int i = 0; i < itemPath.length; i++) {
+            list.add(Urls.ROOT+itemPath[0].replace("\\","/"));
+        }
         holder.lookPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(context, ImageDetilActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putStringArrayList("imagepath", list);
-//                intent.putExtras(bundle);
-//                context.startActivity(intent);
+                Intent intent = new Intent(context, ImageDetilActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList("imagepath", list);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
             }
         });
         return convertView;

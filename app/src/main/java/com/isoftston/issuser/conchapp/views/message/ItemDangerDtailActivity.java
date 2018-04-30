@@ -19,9 +19,11 @@ import com.isoftston.issuser.conchapp.MainActivity;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.mGridViewAdapter;
 import com.isoftston.issuser.conchapp.constants.Urls;
+import com.isoftston.issuser.conchapp.model.bean.AirResponseBean;
 import com.isoftston.issuser.conchapp.model.bean.EachMessageInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageListInfoBean;
+import com.isoftston.issuser.conchapp.model.bean.WeatherResponseBean;
 import com.isoftston.issuser.conchapp.presenter.MessagePresenter;
 import com.isoftston.issuser.conchapp.utils.DateUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.MessageView;
@@ -311,7 +313,17 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
     }
 
     @Override
+    public void refreshWeather(WeatherResponseBean bean) {
+
+    }
+
+    @Override
     public void getEachMessageListResult(EachMessageInfoBean data) {
+
+    }
+
+    @Override
+    public void refreshAir(AirResponseBean bean) {
 
     }
 }
