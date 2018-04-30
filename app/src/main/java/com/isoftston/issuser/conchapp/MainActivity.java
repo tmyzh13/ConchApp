@@ -1,37 +1,44 @@
 package com.isoftston.issuser.conchapp;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.corelibs.base.BaseActivity;
-import com.corelibs.base.BasePresenter;
 import com.corelibs.common.AppManager;
 import com.corelibs.utils.PreferencesHelper;
 import com.corelibs.views.tab.InterceptedFragmentTabHost;
 import com.corelibs.views.tab.TabChangeInterceptor;
 import com.corelibs.views.tab.TabNavigator;
 import com.isoftston.issuser.conchapp.constants.Constant;
+import com.isoftston.issuser.conchapp.model.bean.MessageBean;
 import com.isoftston.issuser.conchapp.presenter.LoginPresenter;
 import com.isoftston.issuser.conchapp.views.LoginActivity;
 import com.isoftston.issuser.conchapp.views.check.CheckFragment;
 import com.isoftston.issuser.conchapp.views.interfaces.LoginView;
 import com.isoftston.issuser.conchapp.views.message.MessageFragment;
+import com.isoftston.issuser.conchapp.views.message.utils.PushCacheUtils;
 import com.isoftston.issuser.conchapp.views.mine.MineFragment;
 import com.isoftston.issuser.conchapp.views.security.SecurityFragment;
 import com.isoftston.issuser.conchapp.views.work.WorkFragment;
 import com.umeng.message.PushAgent;
 import com.umeng.message.common.inter.ITagManager;
 import com.umeng.message.tag.TagManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 
@@ -43,6 +50,8 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
     private TabNavigator navigator = new TabNavigator();
     private String[] tabTags;
     private Context context=MainActivity.this;
+    private MyBroadcastReceiver myBroadcastReceiver;
+
     private int bgRecourse[] = new int[]{
             R.drawable.tab_msg,
             R.drawable.tab_trouble,
@@ -50,6 +59,17 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
             R.drawable.tab_check,
             R.drawable.tab_mine
     };
+
+    private Handler mhander = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what == 1001){
+                writeLocalPushMessage((MessageBean)msg.obj);
+            }
+        }
+    };
+
+
 
     public static Intent getLauncher(Context context){
         Intent intent=new Intent(context,MainActivity.class);
@@ -88,7 +108,15 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
 
         //presenter = createPresenter();
 
+        registerBroadcast();
     }
+
+    private void writeLocalPushMessage(MessageBean obj) {
+        List<MessageBean> list = new ArrayList<>();
+        list.add(obj);
+        PushCacheUtils.getInstance().writePushLocalCache(this,list);
+    }
+
 
     @Override
     protected void onResume() {
@@ -111,12 +139,38 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
         ImageView icon = (ImageView) view.findViewById(R.id.iv_tab_icon);
         TextView text = (TextView) view.findViewById(R.id.tv_tab_text);
         TextView tv_msg_count=view.findViewById(R.id.tv_msg_count);
-        if(position!=0){
-            tv_msg_count.setVisibility(View.GONE);
-        }
+        compareCornerMark(position, tv_msg_count);
         icon.setImageResource(bgRecourse[position]);
         text.setText(tabTags[position]);
         return view;
+    }
+
+    private void registerBroadcast() {
+        myBroadcastReceiver = new MyBroadcastReceiver(mhander);
+        IntentFilter intentFilter = new IntentFilter("getThumbService");
+        registerReceiver(myBroadcastReceiver, intentFilter);
+    }
+
+    private void compareCornerMark(int position, TextView tv_msg_count) {
+        tv_msg_count.setVisibility(View.GONE);
+        List<MessageBean> list = PushCacheUtils.getInstance().readPushLocalCache(this);
+        switch (position) {
+            case 0: //信息tab未读角标
+                int allCount = PushCacheUtils.getInstance().getTypeMessageCount(list,"all");
+                if (allCount > 0) {
+                    tv_msg_count.setVisibility(View.VISIBLE);
+                    tv_msg_count.setText(allCount + "");
+                }
+                break;
+            case 1://安全tab未读角标
+                int wzCount = PushCacheUtils.getInstance().getTypeMessageCount(list,"2");
+                int yhCount = PushCacheUtils.getInstance().getTypeMessageCount(list,"1");
+                if (wzCount + yhCount > 0) {
+                    tv_msg_count.setVisibility(View.VISIBLE);
+                    tv_msg_count.setText((yhCount + wzCount) + "");
+                }
+                break;
+        }
     }
 
     @Override
@@ -262,4 +316,36 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
         }, tag);
     }
 
+    private class MyBroadcastReceiver  extends BroadcastReceiver {
+
+        private Handler mHandler;
+
+        public MyBroadcastReceiver(Handler mhander) {
+            this.mHandler = mhander;
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String id = intent.getStringExtra("id");
+            String type = intent.getStringExtra("type");
+            if(!TextUtils.isEmpty(id) && !TextUtils.isEmpty(type)){
+                MessageBean bean = new MessageBean();
+                bean.setType(type);
+                bean.setId(id);
+                Message msg = new Message();
+                msg.what = 1001;
+                msg.obj = bean;
+                mHandler.sendMessage(msg);
+            }
+
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(myBroadcastReceiver != null){
+            unregisterReceiver(myBroadcastReceiver);
+        }
+        super.onDestroy();
+    }
 }

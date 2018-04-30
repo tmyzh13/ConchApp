@@ -33,4 +33,12 @@ public class Constant {
     public static final String  MESSAGE_SEARCH = "message_search";
     public static final String  WORK_SEARCH = "work_search";
     public static final String  CHECK_SEARCH = "check_search";
+    //发现单位
+    public static final String FIND_COMPANY_ID="find_company_id";
+    public static final String FIND_COMPANY_NAME="find_company_name";
+
+    //隐患单位
+    public static final String DANGER_COMPANY_ID="danger_company_id";
+    public static final String DANGER_COMPANY_NAME="danger_company_name";
+    public static final String  PUSH_MESSAGE = "push_message";
 }

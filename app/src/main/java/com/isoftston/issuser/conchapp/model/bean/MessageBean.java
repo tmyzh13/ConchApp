@@ -14,6 +14,7 @@ public class MessageBean {
     public String createTime = "";
     public String imgs;
     private String yhjb;
+    private boolean isRead = true; //是否已读
 
     public String getmId() {
         return mId;
@@ -77,5 +78,13 @@ public class MessageBean {
 
     public void setYhjb(String yhjb) {
         this.yhjb = yhjb;
+    }
+
+    public boolean isRead() {
+        return isRead;
+    }
+
+    public void setRead(boolean read) {
+        isRead = read;
     }
 }

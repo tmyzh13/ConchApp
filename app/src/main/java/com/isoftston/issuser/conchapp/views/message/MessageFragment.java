@@ -23,7 +23,6 @@ import com.corelibs.base.BaseFragment;
 import com.corelibs.utils.PreferencesHelper;
 import com.corelibs.views.cube.ptr.PtrFrameLayout;
 import com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout;
-import com.corelibs.views.ptr.loadmore.OnScrollListener;
 import com.corelibs.views.ptr.loadmore.widget.AutoLoadMoreListView;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.MessageTypeAdapter;
@@ -36,11 +35,11 @@ import com.isoftston.issuser.conchapp.model.bean.MessageListInfoBean;
 import com.isoftston.issuser.conchapp.model.event.MyEvent;
 import com.isoftston.issuser.conchapp.presenter.MessagePresenter;
 import com.isoftston.issuser.conchapp.utils.LocationUtils;
-import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.views.LoginActivity;
 import com.isoftston.issuser.conchapp.views.interfaces.MessageView;
 import com.isoftston.issuser.conchapp.views.message.adpter.VpAdapter;
+import com.isoftston.issuser.conchapp.views.message.utils.PushCacheUtils;
 import com.isoftston.issuser.conchapp.views.seacher.SeacherActivity;
 import com.isoftston.issuser.conchapp.views.work.CityLocationActivity;
 import com.isoftston.issuser.conchapp.weight.NavBar;
@@ -48,19 +47,12 @@ import com.isoftston.issuser.conchapp.weight.NavBar;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * Created by issuser on 2018/4/9.
@@ -92,6 +84,8 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
     ImageView iv_direc;
     @Bind(R.id.iv_back)
     ImageView iv_back;
+    @Bind(R.id.aq_msg)
+    TextView aqMsg;
     @Bind(R.id.bt_aq)
     Button bt_aq;
     @Bind(R.id.bt_wz)
@@ -141,6 +135,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
     private int lastCount;
     private boolean isUpRefresh;
     private boolean isDownRefresh;
+    private boolean  isLastRow = false;
 
     @Override
     protected int getLayoutId() {
@@ -239,6 +234,8 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getActivity(), ItemDtailActivity.class);
                 Bundle bundle=new Bundle();
+                View  readStatus= view.findViewById(R.id.view_read_statue);
+                readStatus.setVisibility(View.GONE);
                 if (currrentPage == 0){
                     bundle.putString("type",listAllMessage.get(i).getType());
                     bundle.putString("id",listAllMessage.get(i).getId());
@@ -258,15 +255,20 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         });
         lv_message.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
-
+            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+                //当滚到最后一行且停止滚动时，执行加载
+                if (isLastRow && scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    //加载元素
+                    loadNextPage(mAdapter.getCount());
+                    isLastRow = false;
+                }
             }
 
             @Override
             public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (firstVisibleItem + visibleItemCount >= totalItemCount  && totalItemCount != 0&& totalItemCount!=lv_message.getHeaderViewsCount()
-                        + lv_message.getFooterViewsCount() && mAdapter.getCount() > 0) {
-                    loadNextPage(mAdapter.getCount());
+                //判断是否滚到最后一行
+                if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount > 0) {
+                    isLastRow = true;
                 }
             }
         });
@@ -510,13 +512,35 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         if (data.list.size() == 0 && mAdapter.getCount() > 0){
             return;
         }
+        PushCacheUtils.getInstance().compareLocalPushMessage(getContext(),data.list);
         lastCount = mAdapter.getCount()-1;
         mAdapter.addAll(data.list);
         mAdapter.notifyDataSetChanged();
-        lv_message.setAdapter(mAdapter);
-        lv_message.setSelection(lastCount);
+        setConcerMark();
     }
 
+    private void setConcerMark() {
+        List<MessageBean> list = PushCacheUtils.getInstance().readPushLocalCache(getContext());
+        int yhCpunt = PushCacheUtils.getInstance().getTypeMessageCount(list,"1");
+        yhReadTv.setText(yhCpunt+"");
+        if(yhCpunt > 0){
+            yhMsg.setVisibility(View.VISIBLE);
+            yhMsg.setText(yhCpunt+"");
+        }
+        int aqCpunt = PushCacheUtils.getInstance().getTypeMessageCount(list,"3");
+        aqReadTv.setText(aqCpunt+"");
+        if(aqCpunt > 0){
+            aqMsg.setVisibility(View.VISIBLE);
+            aqMsg.setText(aqCpunt+"");
+        }
+        int wzCpunt = PushCacheUtils.getInstance().getTypeMessageCount(list,"2");
+        wzReadTv.setText(wzCpunt+"");
+        if(wzCpunt > 0){
+            wzMsg.setVisibility(View.VISIBLE);
+            wzMsg.setText(wzCpunt+"");
+
+        }
+    }
     @Override
     public void getWorkError() {
         ptrLayout.complete();

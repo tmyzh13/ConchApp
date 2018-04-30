@@ -3,11 +3,14 @@ package com.isoftston.issuser.conchapp.model.apis;
 import com.isoftston.issuser.conchapp.constants.Urls;
 import com.isoftston.issuser.conchapp.model.bean.AddYHBean;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
+import com.isoftston.issuser.conchapp.model.bean.OrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeRequestBean;
+import com.isoftston.issuser.conchapp.model.bean.SafeRequestOrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
 
 import java.io.File;
+import java.util.List;
 
 import retrofit2.http.Body;
 import retrofit2.http.Header;
@@ -29,4 +32,6 @@ public interface SecurityApi {
     Observable<BaseData> uploadImage(@Header("Access-Token") String token, @Body File file );
     @POST(Urls.FIND_COMPANY)
     Observable<BaseData<SecuritySearchBean>> findCompanyList(@Header("Access-Token") String token, @Body SafeRequestBean bean);
+    @POST(Urls.FIND_COMPANY_NEXT)
+    Observable<BaseData<List<OrgBean>>> findCompanyListNext(@Header("Access-Token") String token, @Body SafeRequestOrgBean bean);
 }

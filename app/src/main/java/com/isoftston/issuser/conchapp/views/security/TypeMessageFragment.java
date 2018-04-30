@@ -19,6 +19,7 @@ import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
 import com.isoftston.issuser.conchapp.presenter.SecurityPresenter;
 import com.isoftston.issuser.conchapp.views.interfaces.SecuryView;
 import com.isoftston.issuser.conchapp.views.message.ItemDtailActivity;
+import com.isoftston.issuser.conchapp.views.message.utils.PushCacheUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +88,8 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //进入消息详情界面
                 Intent intent =new Intent(getActivity(),ItemDtailActivity.class);
+                View  readStatus= view.findViewById(R.id.view_read_statue);
+                readStatus.setVisibility(View.GONE);
                 Bundle bundle=new Bundle();
                 bundle.putString("type",listMessage.get(position).getType());
                 bundle.putString("id",listMessage.get(position).getId());
@@ -125,6 +128,7 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
     public void getSafeListSuccess(SafeListBean data) {
         SafeBean bean=data.total;
         listMessage=data.list;
+        PushCacheUtils.getInstance().compareLocalPushMessage(getContext(),listMessage);
         adapter.addAll(listMessage);
         adapter.notifyDataSetChanged();
         lv_message.setAdapter(adapter);
@@ -137,6 +141,11 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
 
     @Override
     public void getSafeChoiceList(SecuritySearchBean b) {
+
+    }
+
+    @Override
+    public void getOrgList(List<OrgBean> bean) {
 
     }
 

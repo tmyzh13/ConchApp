@@ -273,4 +273,6 @@
     <string name="back_failed">撤销作业失败</string>
     <string name="subimt_failed">提交失败</string>
     <string name="modify_failed">修改失败</string>
+    <string name="find_company">发现单位</string>
+    <string name="trouble_company">隐患单位</string>
 </resources>

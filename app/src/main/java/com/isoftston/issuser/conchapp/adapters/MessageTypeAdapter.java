@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -12,16 +11,11 @@ import com.corelibs.utils.adapter.BaseAdapterHelper;
 import com.corelibs.utils.adapter.normal.QuickAdapter;
 import com.corelibs.views.roundedimageview.RoundedTransformationBuilder;
 import com.isoftston.issuser.conchapp.R;
-import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.constants.Urls;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
-import com.isoftston.issuser.conchapp.utils.DateUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.SimpleFormatter;
-
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /**
  * Created by issuser on 2018/4/11.
@@ -40,7 +34,7 @@ public class MessageTypeAdapter extends QuickAdapter<MessageBean> {
         ImageView item_icon=helper.getView(R.id.item_icon);
         ImageView item_mark=helper.getView(R.id.item_mark);
         ImageView content_pic=helper.getView(R.id.content_pic);
-
+        View readStatus = helper.getView(R.id.view_read_statue);
         if ("wz".equals(item.getType())){
             item_icon.setImageResource(R.mipmap.illegal_icon);
             helper.setText(R.id.item_title,context.getString(R.string.wz_message))
@@ -65,6 +59,11 @@ public class MessageTypeAdapter extends QuickAdapter<MessageBean> {
             if (!"".equals(item.getCreateTime())){
                 helper.setText(R.id.item_time,time.format(new Date(Long.valueOf(item.getCreateTime()))));
             }
+        }
+        if(!item.isRead()){
+            readStatus.setVisibility(View.VISIBLE);
+        }else{
+            readStatus.setVisibility(View.GONE);
         }
         if (item.getYhjb() != null && ("ZDYH").equals(item.getYhjb())){
             item_mark.setVisibility(View.VISIBLE);

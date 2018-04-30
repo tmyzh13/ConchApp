@@ -49,6 +49,10 @@ public class GetThumbService extends UmengMessageService {
             if(!"".equals(msg.text)){
                 broadcaseIntent.putExtra("getThumbService.content" , msg.text);
             }
+            if (!"".equals(msg.extra)) {
+                broadcaseIntent.putExtra("getThumbService.id", msg.extra.get("id"));
+                broadcaseIntent.putExtra("getThumbService.type", msg.extra.get("type"));
+            }
 
             //实例化通知管理器
             NotificationManager notificationManager= (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

@@ -84,10 +84,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
     TextView tv_illegal_describ_title;
     @Bind(R.id.tv_illegal_descibe_content)
     TextView tv_illegal_descibe_content;
-    @Bind(R.id.spinner)
-    Spinner mSpinner;
-    @Bind(R.id.spinner1)
-    Spinner comSpinner;
+
     @Bind(R.id.spinner3)
     Spinner fromSpinner;
     @Bind(R.id.male_rb)
@@ -98,6 +95,13 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
     RadioButton fix_yes;
     @Bind(R.id.fix_no)
     RadioButton fix_no;
+
+    @Bind(R.id.tv_find_company)
+    TextView tv_find_company;
+
+    @Bind(R.id.tv_trouble_company)
+    TextView tv_trouble_company;
+
     public String startTime,endTime;
     private List<String> findCompanyList=new ArrayList<>();
     private List<String> checkCompanyList=new ArrayList<>();
@@ -205,39 +209,11 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, findCompanyList);
         //2.为适配器设置下拉菜单样式。adapter.setDropDownViewResource
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //3.以上声明完毕后，建立适配器,有关于sipnner这个控件的建立。用到myspinner
-        mSpinner.setAdapter(adapter);
-        mSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                find_company = adapter.getItem(i).toString();
-                find_company_id = org.get(i).getID_();
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-
-        });
         comAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, checkCompanyList);
         //2.为适配器设置下拉菜单样式。adapter.setDropDownViewResource
         comAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //3.以上声明完毕后，建立适配器,有关于sipnner这个控件的建立。用到myspinner
-        comSpinner.setAdapter(comAdapter);
-        comSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                yh_company = comAdapter.getItem(i).toString();
-                yh_company_id = org.get(i).getID_();
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-
-        });
         fromAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, fromList);
         //2.为适配器设置下拉菜单样式。adapter.setDropDownViewResource
         fromAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -273,6 +249,16 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         startActivityForResult(ChoiceTypeActivity.getLaucnher(context,1),110);
     }
 
+    @OnClick(R.id.rl_find_company)
+    public void findOrg(){
+        startActivityForResult(OrgActivity.getLaucnher(context,0),120);
+    }
+
+    @OnClick(R.id.rl_trouble_company)
+    public void findTroubleOrg(){
+        startActivityForResult(OrgActivity.getLaucnher(context,1),120);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -298,6 +284,21 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
                 String id=data.getStringExtra(Constant.CHECK_PEOPLE_ID);
                 tv_yh_type.setText(name);
                 yh_lx_id = id;
+            }
+        }else if(requestCode==120)
+        {
+            if(resultCode == 130)
+            {
+                find_company_id=data.getStringExtra(Constant.FIND_COMPANY_ID);
+                find_company = data.getStringExtra(Constant.FIND_COMPANY_NAME);
+                tv_find_company.setText(find_company);
+
+            }
+            else if(resultCode == 131)
+            {
+                yh_company_id = data.getStringExtra(Constant.DANGER_COMPANY_ID);
+                yh_company = data.getStringExtra(Constant.DANGER_COMPANY_NAME);
+                tv_trouble_company.setText(yh_company);
             }
         }
     }
@@ -497,6 +498,11 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         adapter.notifyDataSetChanged();
         fromAdapter.notifyDataSetChanged();
         comAdapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void getOrgList(List<OrgBean> bean) {
 
     }
 

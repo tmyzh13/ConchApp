@@ -161,7 +161,7 @@
                 android:resource="@xml/filepath" />
         </provider>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:launchMode="singleTask">
 
         </activity>
         <activity android:name=".views.LoginActivity"
@@ -236,6 +236,8 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".views.security.ChoiceTypeActivity"
             android:screenOrientation="portrait"></activity>
+        <activity android:name=".views.security.OrgActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
