@@ -56,4 +56,5 @@ dependencies {
     compile 'com.umeng.sdk:push:4.1.0'
     compile 'com.alibaba:fastjson:1.1.68.android'
     compile 'com.amap.api:location:latest.integration'
+    compile 'com.hynnet:jxl:2.6.12.1'
 }

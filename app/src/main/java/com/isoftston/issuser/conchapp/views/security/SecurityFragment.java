@@ -1,7 +1,10 @@
 package com.isoftston.issuser.conchapp.views.security;
 
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.util.TypedValue;
 import android.view.View;
@@ -14,6 +17,7 @@ import com.isoftston.issuser.conchapp.adapters.IllegalTypeAdapter;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
 import com.isoftston.issuser.conchapp.presenter.SecurityPresenter;
 import com.isoftston.issuser.conchapp.views.interfaces.SecuryView;
+import com.isoftston.issuser.conchapp.views.message.utils.PushBroadcastReceiver;
 import com.isoftston.issuser.conchapp.views.message.utils.PushCacheUtils;
 import com.isoftston.issuser.conchapp.views.seacher.SeacherActivity;
 import com.isoftston.issuser.conchapp.weight.MyViewPager;
@@ -58,6 +62,14 @@ public class SecurityFragment extends BaseFragment<SecuryView, SecurityPresenter
         return R.layout.fragment_security;
     }
 
+    private PushBroadcastReceiver broadcastReceiver;
+    IllegalTypeAdapter adapter;
+    private Handler mHander = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            setConcerMark();
+        }
+    };
 
     @Override
     protected void init(Bundle savedInstanceState) {
@@ -87,21 +99,22 @@ public class SecurityFragment extends BaseFragment<SecuryView, SecurityPresenter
             }
         });
 
-        //未读已读消息对比
-        IllegalTypeAdapter adapter = new IllegalTypeAdapter(getActivity().getSupportFragmentManager());
+        adapter = new IllegalTypeAdapter(getActivity().getSupportFragmentManager());
 
         myViewPager.setAdapter(adapter);
         setConcerMark();
     }
 
+
     private void setConcerMark() {
         List<MessageBean> list = PushCacheUtils.getInstance().readPushLocalCache(getContext());
         int yhCpunt = PushCacheUtils.getInstance().getTypeMessageCount(list, "1");
+        tv_hidden_trouble_count.setVisibility(View.GONE);
         if (yhCpunt > 0) {
             tv_hidden_trouble_count.setVisibility(View.VISIBLE);
             tv_hidden_trouble_count.setText(yhCpunt + "");
         }
-
+        tv_illegal_count.setVisibility(View.GONE);
         int wzCpunt = PushCacheUtils.getInstance().getTypeMessageCount(list, "2");
         if (wzCpunt > 0) {
             tv_illegal_count.setVisibility(View.VISIBLE);
@@ -147,10 +160,25 @@ public class SecurityFragment extends BaseFragment<SecuryView, SecurityPresenter
         }
     }
 
+    private void registerBroadcast() {
+        broadcastReceiver = new PushBroadcastReceiver(mHander);
+        IntentFilter intentFilter = new IntentFilter("home_push");
+        getActivity().registerReceiver(broadcastReceiver, intentFilter);
+    }
+
     @Override
     public void onResume() {
         setConcerMark();
+        registerBroadcast();
         super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        if (broadcastReceiver != null) {
+            getActivity().unregisterReceiver(broadcastReceiver);
+        }
+        super.onPause();
     }
 
     @OnClick(R.id.tv_hidden_trouble)
@@ -192,5 +220,6 @@ public class SecurityFragment extends BaseFragment<SecuryView, SecurityPresenter
         type = "wd";
         myViewPager.setCurrentItem(2);
     }
+
 
 }

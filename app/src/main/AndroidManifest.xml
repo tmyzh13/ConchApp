@@ -62,7 +62,7 @@
         <!--高德-->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="请输入您的用户Key"/>
+            android:value="1bf45bcf8dc1452fb258b544d89a6bf2"/>
 
         <service android:name="com.amap.api.location.APSService"></service>
 
