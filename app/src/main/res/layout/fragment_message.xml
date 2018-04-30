@@ -44,7 +44,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:padding="5dp"
-                android:text="芜湖市"
                 android:textSize="10sp" />
 
             <ImageView
