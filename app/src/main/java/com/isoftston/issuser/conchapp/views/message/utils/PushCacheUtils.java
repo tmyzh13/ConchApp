@@ -70,7 +70,7 @@ public class PushCacheUtils {
     /**
      * 获取对应类型未读消息的数量
      *
-     * @param type
+     * @param type 1是隐患   2是违章  3是安全
      */
     public int getTypeMessageCount(List<MessageBean> list, String type) {
         if (list != null && list.size() >= 0) {

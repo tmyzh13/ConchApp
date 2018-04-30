@@ -1,5 +1,6 @@
 package com.isoftston.issuser.conchapp.views.security;
 
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
@@ -63,7 +64,7 @@ public class SecurityFragment extends BaseFragment<SecuryView, SecurityPresenter
 
     private PushBroadcastReceiver broadcastReceiver;
     IllegalTypeAdapter adapter;
-    private Handler mHander = new Handler(){
+    private Handler mHander = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             setConcerMark();
@@ -159,10 +160,25 @@ public class SecurityFragment extends BaseFragment<SecuryView, SecurityPresenter
         }
     }
 
+    private void registerBroadcast() {
+        broadcastReceiver = new PushBroadcastReceiver(mHander);
+        IntentFilter intentFilter = new IntentFilter("home_push");
+        getActivity().registerReceiver(broadcastReceiver, intentFilter);
+    }
+
     @Override
     public void onResume() {
         setConcerMark();
+        registerBroadcast();
         super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        if (broadcastReceiver != null) {
+            getActivity().unregisterReceiver(broadcastReceiver);
+        }
+        super.onPause();
     }
 
     @OnClick(R.id.tv_hidden_trouble)
@@ -204,7 +220,6 @@ public class SecurityFragment extends BaseFragment<SecuryView, SecurityPresenter
         type = "wd";
         myViewPager.setCurrentItem(2);
     }
-
 
 
 }

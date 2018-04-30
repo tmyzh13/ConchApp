@@ -340,8 +340,6 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
         }, tag);
     }
 
-
-
     @Override
     protected void onDestroy() {
         if(pushBroadcastReceiver != null){
