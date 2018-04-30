@@ -49,7 +49,7 @@ public class GetThumbService extends UmengMessageService {
             if(!"".equals(msg.text)){
                 broadcaseIntent.putExtra("getThumbService.content" , msg.text);
             }
-            if (!"".equals(msg.extra)) {
+            if (msg.extra != null) {
                 if(msg.extra.containsKey("id") && msg.extra.containsKey("type")){
                     broadcaseIntent.putExtra("getThumbService.id", msg.extra.get("id"));
                     broadcaseIntent.putExtra("getThumbService.type", msg.extra.get("type"));
