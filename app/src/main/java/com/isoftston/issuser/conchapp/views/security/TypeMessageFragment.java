@@ -15,6 +15,7 @@ import com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout;
 import com.corelibs.views.ptr.loadmore.widget.AutoLoadMoreListView;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.SecurityAdapter;
+import com.isoftston.issuser.conchapp.model.bean.MsgTotalCountBean;
 import com.isoftston.issuser.conchapp.model.bean.OrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
@@ -30,6 +31,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import android.util.Log;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by issuser on 2018/4/10.
@@ -43,6 +47,8 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
     AutoLoadMoreListView lv_message;
     @Bind(R.id.ptrLayout)
     PtrAutoLoadMoreLayout<AutoLoadMoreListView> ptrLayout;
+
+    private final String TAG = TypeMessageFragment.class.getSimpleName();
 
     public String type;
     public SecurityAdapter adapter;
@@ -78,6 +84,7 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
     protected void init(Bundle savedInstanceState) {
         type=getArguments().getString("type");
         bType=getArguments().getInt("bigType");
+        Log.i(TAG,"type:" + type + ",bType:" + bType);
 //        ToastUtils.showtoast(getActivity(),type);
         tv.setText(type);
         String item = "";
@@ -179,6 +186,11 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
     public void getSafeListSuccess(SafeListBean data) {
         SafeBean bean=data.total;
         listMessage=data.list;
+        MsgTotalCountBean msg = new MsgTotalCountBean();
+        msg.setYhCount(data.total.getYH());
+        msg.setWzCount(data.total.getWZ());
+        msg.setIsUpdate(0);
+        EventBus.getDefault().post(msg);
         PushCacheUtils.getInstance().compareLocalSecurityPushMessage(getContext(),listMessage);
         adapter.addAll(listMessage);
         adapter.notifyDataSetChanged();

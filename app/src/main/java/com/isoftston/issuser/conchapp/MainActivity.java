@@ -41,6 +41,8 @@ import com.isoftston.issuser.conchapp.views.work.WorkFragment;
 import com.umeng.message.PushAgent;
 import com.umeng.message.common.inter.ITagManager;
 import com.umeng.message.tag.TagManager;
+import com.isoftston.issuser.conchapp.model.bean.MsgTotalCountBean;
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,6 +84,20 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
         public void handleMessage(Message msg) {
             if(msg.what == PushBroadcastReceiver.MESS_PUSH_CODE){
                 writeLocalPushMessage((MessageBean)msg.obj);
+
+                //更新总数
+                MsgTotalCountBean bean = new MsgTotalCountBean();
+                MessageBean msgBean = ((MessageBean) msg.obj);
+                if("1".equals(msgBean.getType()))
+                {
+                    bean.setYhCount(1);
+                }
+                else if("2".equals(msgBean.getType()))
+                {
+                    bean.setWdCount(1);
+                }
+                bean.setIsUpdate(1);
+                EventBus.getDefault().post(bean);
             }
         }
     };
