@@ -97,7 +97,7 @@ public class PushCacheUtils {
     }
 
     /**
-     * 对比缓存中的消息
+     * 对比缓存中的消息 ,安全模块
      * @param context
      * @param list
      * */

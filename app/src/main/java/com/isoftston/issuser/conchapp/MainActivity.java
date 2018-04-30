@@ -59,6 +59,7 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
             R.drawable.tab_check,
             R.drawable.tab_mine
     };
+    private List<View> naviList = new ArrayList<>();
 
     private Handler mhander = new Handler(){
         @Override
@@ -115,7 +116,13 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
         List<MessageBean> list = new ArrayList<>();
         list.add(obj);
         PushCacheUtils.getInstance().writePushLocalCache(this,list);
+        for(int position =0 ; position < naviList.size() ; position++){
+            TextView tv_msg_count=naviList.get(position).findViewById(R.id.tv_msg_count);
+            compareCornerMark(position, tv_msg_count);
+        }
+
     }
+
 
 
     @Override
@@ -142,6 +149,7 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
         compareCornerMark(position, tv_msg_count);
         icon.setImageResource(bgRecourse[position]);
         text.setText(tabTags[position]);
+        naviList.add(view);
         return view;
     }
 

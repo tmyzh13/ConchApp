@@ -110,7 +110,6 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
     @Bind(R.id.tv_wz_total)
     TextView tv_wz_total;
 
-
     public static final int LOCATION_REQUEST_CODE = 100;
     public Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -137,7 +136,6 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
     protected int getLayoutId() {
         initDate();
         return R.layout.fragment_message;
-
     }
 
     @Override
