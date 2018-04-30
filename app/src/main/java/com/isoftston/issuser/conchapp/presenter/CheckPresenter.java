@@ -30,6 +30,7 @@ import com.isoftston.issuser.conchapp.views.interfaces.CheckView;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -158,7 +159,15 @@ public class CheckPresenter extends ListPagePresenter<CheckView> {
                     @Override
                     public void success(BaseData<DeviceListBean> deviceBeanBaseData) {
                         Log.i("zt",deviceBeanBaseData.data.list.size()+"");
-                        view.CheckAllDeviceResult(deviceBeanBaseData.data.list);
+                        view.CheckAllDeviceResult(deviceBeanBaseData.data.list,deviceBeanBaseData.data.total);
+                    }
+
+                    @Override
+                    public boolean operationError(BaseData<DeviceListBean> deviceBeanBaseData, int status, String message) {
+                        if (status==-200){
+                            view.reLogin();
+                        }
+                        return false;
                     }
 
                 });
@@ -174,7 +183,7 @@ public class CheckPresenter extends ListPagePresenter<CheckView> {
                 .subscribe(new ResponseSubscriber<BaseData<DeviceListBean>>() {
                     @Override
                     public void success(BaseData<DeviceListBean> deviceBeanBaseData) {
-                        view.CheckAllDeviceResult(deviceBeanBaseData.data.list);
+                        view.CheckAllDeviceResult(deviceBeanBaseData.data.list,deviceBeanBaseData.data.total);
                     }
 
                 });
@@ -195,6 +204,14 @@ public class CheckPresenter extends ListPagePresenter<CheckView> {
                         view.checkDeviceResult(deviceBeanBaseData.data);
                     }
 
+                    @Override
+                    public boolean operationError(BaseData<DeviceBean> deviceBeanBaseData, int status, String message) {
+                        if (status==-200){
+                            view.reLogin();
+                        }
+                        return false;
+                    }
+
                 });
     }
 
@@ -208,10 +225,40 @@ public class CheckPresenter extends ListPagePresenter<CheckView> {
                 .subscribe(new ResponseSubscriber<BaseData<UserInfoBean>>() {
                     @Override
                     public void success(BaseData<UserInfoBean> userInfoBeanBaseData) {
-                        UserBean bean=new UserBean();
-                        bean.userId = userInfoBeanBaseData.data.getId();
-                        Log.i("yzh","saveUser--"+bean.userId);
-                        UserHelper.saveUser(bean);
+                        Log.i("yzh","saveUser--"+userInfoBeanBaseData);
+                        view.setUserInfo(userInfoBeanBaseData.data);
+                    }
+
+                    @Override
+                    public boolean operationError(BaseData<UserInfoBean> userInfoBeanBaseData, int status, String message) {
+                        if (status==-200){
+                            view.reLogin();
+                        }
+                        return false;
+                    }
+
+                });
+    }
+
+    public void getDescription(Map<String,String> descId){
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        Log.e("yzh","token--"+token);
+        String token1=token.replaceAll("\"","");
+        api.getDeviceDescription(token1,descId)
+                .compose(new ResponseTransformer<>(this.<BaseData<String>>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData<String>>() {
+                    @Override
+                    public void success(BaseData<String> description) {
+                        Log.i("yzh","description--"+description);
+                        view.setDescription(description.data);
+                    }
+
+                    @Override
+                    public boolean operationError(BaseData<String> description, int status, String message) {
+                        if (status==-200){
+                            view.reLogin();
+                        }
+                        return false;
                     }
 
                 });

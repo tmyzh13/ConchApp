@@ -42,14 +42,16 @@
                 >
                 <TextView
                     style="@style/text_normal"
+                    android:id="@+id/tv_name"
                     android:textColor="@color/black"
-                    android:text="姓名"
+                    android:text=""
                     />
                 <TextView
                     android:layout_marginTop="2dp"
                     style="@style/text_normal"
+                    android:id="@+id/tv_company"
                     android:textSize="@dimen/text_small"
-                    android:text="公司名称"
+                    android:text=""
                     />
             </LinearLayout>
         </LinearLayout>
@@ -122,7 +124,7 @@
                 style="@style/text_normal"
                 android:textSize="@dimen/text_huge"
                 android:textColor="@color/app_light_blue"
-                android:text=""
+                android:text="0"
                 android:id="@+id/tnNum"
                 />
         </LinearLayout>

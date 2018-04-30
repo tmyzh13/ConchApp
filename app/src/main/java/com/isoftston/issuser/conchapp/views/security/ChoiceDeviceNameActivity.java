@@ -67,14 +67,14 @@ public class ChoiceDeviceNameActivity extends BaseActivity<WorkView, WorkPresent
 
     @Override
     protected void init(Bundle savedInstanceState) {
-//        String device_id=getIntent().getStringExtra("device_id");
+        String device_id=getIntent().getStringExtra("device_id");
         nav.setNavTitle(getString(R.string.choice_device_name));
         nav.setColorRes(R.color.white);
         nav.setTitleColor(getResources().getColor(R.color.black));
         setBarColor(getResources().getColor(R.color.transparent_black));
         nav.showBack(2);
             DeviceNameBean bean=new DeviceNameBean();
-            bean.setLastId("");
+            bean.setType(Integer.parseInt(device_id));
             presenter.getDeviceName(bean);
         adapter = new DeviceNameAdapter(context);
         listdata = new ArrayList<>();

@@ -2,7 +2,9 @@ package com.isoftston.issuser.conchapp.views.security;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
@@ -11,11 +13,13 @@ import com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout;
 import com.corelibs.views.ptr.loadmore.widget.AutoLoadMoreListView;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.MessageTypeAdapter;
+import com.isoftston.issuser.conchapp.adapters.SecurityAdapter;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
 import com.isoftston.issuser.conchapp.model.bean.OrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
 import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
+import com.isoftston.issuser.conchapp.model.bean.SecurityTroubleBean;
 import com.isoftston.issuser.conchapp.presenter.SecurityPresenter;
 import com.isoftston.issuser.conchapp.views.interfaces.SecuryView;
 import com.isoftston.issuser.conchapp.views.message.ItemDtailActivity;
@@ -40,9 +44,10 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
     PtrAutoLoadMoreLayout<AutoLoadMoreListView> ptrLayout;
 
     public String type;
-    public MessageTypeAdapter adapter;
-    public List<MessageBean> listMessage;
+    public SecurityAdapter adapter;
+    public List<SecurityTroubleBean> listMessage;
     private int bType;
+    private int currrentPage;
 
     public static TypeMessageFragment newInstance(String type, int bigType){
         TypeMessageFragment fragment =new TypeMessageFragment();
@@ -65,18 +70,36 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
         bType=getArguments().getInt("bigType");
 //        ToastUtils.showtoast(getActivity(),type);
         tv.setText(type);
+        String item = "";
+        if (getString(R.string.alls).equals(type)){
+            item = "all";
+        }else if(getString(R.string.send).equals(type)){
+            item = "fb";
+        }else if (getString(R.string.not_alter).equals(type)){
+            item = "wzg";
+        }else if (getString(R.string.overdue).equals(type)){
+            item = "yq";
+        }else if (getString(R.string.altered).equals(type)){
+            item = "yzg";
+        }else if (getString(R.string.not_check).equals(type)){
+            item = "wys";
+        }else if (getString(R.string.weizhang).equals(type)){
+            item = "wz";
+        }else if (getString(R.string.trouble).equals(type)){
+            item = "yh";
+        }
 
-        adapter=new MessageTypeAdapter(getContext());
+        adapter=new SecurityAdapter(getContext());
         listMessage=new ArrayList<>();
 //        for(int i=0;i<10;i++){
 //            listMessage.add(new MessageBean());
 //        }
         if (bType==0){
-            presenter.getSafeMessageList("yh","wzg","");
+            presenter.getSafeMessageList("yh",item,"");
         }else if (bType==1){
-            presenter.getSafeMessageList("wz","","");
+            presenter.getSafeMessageList("wz",item,"");
         }else {
-            presenter.getSafeMessageList("wz","wzg","");
+            presenter.getSafeMessageList("wd",item,"");
         }
         adapter.addAll(listMessage);
         lv_message.setAdapter(adapter);
@@ -91,7 +114,15 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
                 View  readStatus= view.findViewById(R.id.view_read_statue);
                 readStatus.setVisibility(View.GONE);
                 Bundle bundle=new Bundle();
-                bundle.putString("type",listMessage.get(position).getType());
+                String troubleType = "";
+                if ("ZYZYWZBD".equals(listMessage.get(position).getYhlx())||"QT".equals(listMessage.get(position).getYhlx())
+                        || "YHSW".equals(listMessage.get(position).getYhlx())||"WCZWZZY".equals(listMessage.get(position).getYhlx())
+                        ||"ZHSWWZZH".equals(listMessage.get(position).getYhlx())||"GRFHZBBQ".equals(listMessage.get(position).getYhlx())){
+                    troubleType = "wz";
+                }else {
+                    troubleType = "yh";
+                }
+                bundle.putString("type",troubleType);
                 bundle.putString("id",listMessage.get(position).getId());
                 startActivity(intent);
                 //test
@@ -128,7 +159,8 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
     public void getSafeListSuccess(SafeListBean data) {
         SafeBean bean=data.total;
         listMessage=data.list;
-        PushCacheUtils.getInstance().compareLocalPushMessage(getContext(),listMessage);
+//TODO:
+//        PushCacheUtils.getInstance().compareLocalPushMessage(getContext(),listMessage);
         adapter.addAll(listMessage);
         adapter.notifyDataSetChanged();
         lv_message.setAdapter(adapter);

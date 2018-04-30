@@ -34,6 +34,7 @@ public class DeviceBean implements Serializable{
     private String powerSystem;
     private String examine;
     private String isolationId;
+    private String isolation;
     private String createTime;
     private String showTime;
     private String equipCode;
@@ -167,6 +168,14 @@ public class DeviceBean implements Serializable{
 
     public void setDescId(String descId) {
         this.descId = descId;
+    }
+
+    public String getIsolation() {
+        return isolation;
+    }
+
+    public void setIsolation(String isolation) {
+        this.isolation = isolation;
     }
 
     public String getLocation() {

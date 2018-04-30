@@ -14,6 +14,7 @@ import com.isoftston.issuser.conchapp.model.bean.UserBean;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.http.Body;
 import retrofit2.http.Header;
@@ -48,5 +49,10 @@ public interface CheckApi {
     //获取用户信息
     @POST(Urls.GET_MY_INFO)
     Observable<BaseData<UserInfoBean>> getUserInfo(@Header("Access-Token") String token, @Body UserBean bean);
+
+    //获取描述
+    @POST(Urls.GET_DEVICE_DESCRIPTION)
+    Observable<BaseData<String>> getDeviceDescription(@Header("Access-Token") String token,@Body Map<String,String> descId );
+
 
 }
