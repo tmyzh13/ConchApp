@@ -53,7 +53,7 @@ public class Urls {
     public static final String GET_SECURITY_DATAS="info/conditionsearch";
 
     //违章界面 添加违章信息
-    public static final String ADD_WZ_MESSAGE="info/addBreakRule";
+    public static final String ADD_WZ_MESSAGE="safety/addBreakRule";
 
     //违章界面 添加隐患信息
     public static final String ADD_YH_MESSAGE="safety/addHiddenDanger";
@@ -108,4 +108,7 @@ public class Urls {
 
     //隐患界面 发现单位继续递归
     public static final String FIND_COMPANY_NEXT="safety/searchDepartments";
+
+    //天气
+    public static final String WEATHER = "http://wthrcdn.etouch.cn/weather_mini";
 }
