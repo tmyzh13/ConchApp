@@ -135,6 +135,9 @@ public class PushCacheUtils {
      * @param id      删除的信息id
      */
     public void removePushIdMessage(Context context, String id) {
+        if(TextUtils.isEmpty(id)){
+            return;
+        }
         List<MessageBean> localList = readPushLocalCache(context);
         if (localList == null) {
             return;

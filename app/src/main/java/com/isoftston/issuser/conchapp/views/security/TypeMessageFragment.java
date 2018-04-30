@@ -134,6 +134,7 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
                 }
                 bundle.putString("type",troubleType);
                 bundle.putString("id",listMessage.get(position).getId());
+                intent.putExtras(bundle);
                 startActivity(intent);
                 //test
 //                Log.e("yzh","onItemclick");
