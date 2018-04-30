@@ -2,9 +2,11 @@ package com.isoftston.issuser.conchapp.views.message;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v13.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
@@ -39,6 +41,7 @@ import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.views.LoginActivity;
 import com.isoftston.issuser.conchapp.views.interfaces.MessageView;
 import com.isoftston.issuser.conchapp.views.message.adpter.VpAdapter;
+import com.isoftston.issuser.conchapp.views.message.utils.PushBroadcastReceiver;
 import com.isoftston.issuser.conchapp.views.message.utils.PushCacheUtils;
 import com.isoftston.issuser.conchapp.views.seacher.SeacherActivity;
 import com.isoftston.issuser.conchapp.views.work.CityLocationActivity;
@@ -132,6 +135,14 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
     private boolean isDownRefresh;
     private boolean  isLastRow = false;
 
+    private PushBroadcastReceiver broadcastReceiver;
+
+    private Handler mHander = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            updateList();
+        }
+    };
     @Override
     protected int getLayoutId() {
         initDate();
@@ -257,7 +268,12 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
             }
         });
         checkLocationPermission();
+    }
 
+    private void registerBroadcast() {
+        broadcastReceiver = new PushBroadcastReceiver(mHander);
+        IntentFilter intentFilter = new IntentFilter("home_push");
+        getActivity().registerReceiver(broadcastReceiver, intentFilter);
     }
 
     private void loadNextPage(int totalItemCount){
@@ -492,6 +508,12 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         setConcerMark();
     }
 
+    public void updateList(){
+        setConcerMark();
+        PushCacheUtils.getInstance().compareLocalPushMessage(getContext(),mAdapter.getData());
+        mAdapter.notifyDataSetChanged();
+    }
+
     private void setConcerMark() {
         List<MessageBean> list = PushCacheUtils.getInstance().readPushLocalCache(getContext());
         int yhCpunt = PushCacheUtils.getInstance().getTypeMessageCount(list,"1");
@@ -572,5 +594,26 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         mAdapter.notifyDataSetChanged();
         lv_message.setAdapter(mAdapter);
         lv_message.setSelection(lastCount);
+    }
+
+    @Override
+    public void onResume() {
+        registerBroadcast();
+        setConcerMark();
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        if(broadcastReceiver != null){
+            getActivity().unregisterReceiver(broadcastReceiver);
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
     }
 }

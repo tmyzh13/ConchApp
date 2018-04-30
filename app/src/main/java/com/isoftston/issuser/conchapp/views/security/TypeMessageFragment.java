@@ -1,7 +1,10 @@
 package com.isoftston.issuser.conchapp.views.security;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
@@ -19,6 +22,7 @@ import com.isoftston.issuser.conchapp.model.bean.SecurityTroubleBean;
 import com.isoftston.issuser.conchapp.presenter.SecurityPresenter;
 import com.isoftston.issuser.conchapp.views.interfaces.SecuryView;
 import com.isoftston.issuser.conchapp.views.message.ItemDtailActivity;
+import com.isoftston.issuser.conchapp.views.message.utils.PushBroadcastReceiver;
 import com.isoftston.issuser.conchapp.views.message.utils.PushCacheUtils;
 
 import java.util.ArrayList;
@@ -44,6 +48,15 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
     public List<SecurityTroubleBean> listMessage;
     private int bType;
     private int currrentPage;
+
+    private PushBroadcastReceiver broadcastReceiver;
+
+    private Handler mHander = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            updateList();
+        }
+    };
 
     public static TypeMessageFragment newInstance(String type, int bigType){
         TypeMessageFragment fragment =new TypeMessageFragment();
@@ -126,9 +139,18 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
 //                RxBus.getDefault().send(new Object(),"ssss");
             }
         });
-
-
     }
+
+    private void registerBroadcast() {
+        broadcastReceiver = new PushBroadcastReceiver(mHander);
+        IntentFilter intentFilter = new IntentFilter("home_push");
+        getActivity().registerReceiver(broadcastReceiver, intentFilter);
+    }
+    public void updateList(){
+        PushCacheUtils.getInstance().compareLocalSecurityPushMessage(getContext(),adapter.getData());
+        adapter.notifyDataSetChanged();
+    }
+
 
     @Override
     protected SecurityPresenter createPresenter() {
@@ -180,4 +202,19 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
     public void getOrgId(String orgId) {
 
     }
+
+    @Override
+    public void onResume() {
+        registerBroadcast();
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        if(broadcastReceiver != null){
+            getActivity().unregisterReceiver(broadcastReceiver);
+        }
+        super.onPause();
+    }
+
 }

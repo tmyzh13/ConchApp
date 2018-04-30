@@ -29,6 +29,7 @@ import com.isoftston.issuser.conchapp.views.LoginActivity;
 import com.isoftston.issuser.conchapp.views.check.CheckFragment;
 import com.isoftston.issuser.conchapp.views.interfaces.LoginView;
 import com.isoftston.issuser.conchapp.views.message.MessageFragment;
+import com.isoftston.issuser.conchapp.views.message.utils.PushBroadcastReceiver;
 import com.isoftston.issuser.conchapp.views.message.utils.PushCacheUtils;
 import com.isoftston.issuser.conchapp.views.mine.MineFragment;
 import com.isoftston.issuser.conchapp.views.security.SecurityFragment;
@@ -50,7 +51,7 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
     private TabNavigator navigator = new TabNavigator();
     private String[] tabTags;
     private Context context=MainActivity.this;
-    private MyBroadcastReceiver myBroadcastReceiver;
+    private PushBroadcastReceiver pushBroadcastReceiver;
 
     private int bgRecourse[] = new int[]{
             R.drawable.tab_msg,
@@ -64,7 +65,7 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
     private Handler mhander = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            if(msg.what == 1001){
+            if(msg.what == PushBroadcastReceiver.MESS_PUSH_CODE){
                 writeLocalPushMessage((MessageBean)msg.obj);
             }
         }
@@ -116,22 +117,37 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
         List<MessageBean> list = new ArrayList<>();
         list.add(obj);
         PushCacheUtils.getInstance().writePushLocalCache(this,list);
+        updateNavTab();
+        sendPushBroadcastReceiver();
+    }
+
+    private void sendPushBroadcastReceiver() {
+        Intent intent = new  Intent();
+        //设置intent的动作为home_push，可以任意定义
+        intent.setAction("home_push");
+        //发送无序广播
+        sendOrderedBroadcast(intent, null);
+
+    }
+
+    /**
+     * 更新首页底部tab未读数量角标
+     * */
+    public void updateNavTab(){
         for(int position =0 ; position < naviList.size() ; position++){
             TextView tv_msg_count=naviList.get(position).findViewById(R.id.tv_msg_count);
             compareCornerMark(position, tv_msg_count);
         }
-
     }
-
 
 
     @Override
     protected void onResume() {
         super.onResume();
+        updateNavTab();
         if(presenter!=null){
             presenter.getPushTag();
         }
-
     }
 
     @Override
@@ -154,9 +170,9 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
     }
 
     private void registerBroadcast() {
-        myBroadcastReceiver = new MyBroadcastReceiver(mhander);
+        pushBroadcastReceiver = new PushBroadcastReceiver(mhander);
         IntentFilter intentFilter = new IntentFilter("getThumbService");
-        registerReceiver(myBroadcastReceiver, intentFilter);
+        registerReceiver(pushBroadcastReceiver, intentFilter);
     }
 
     private void compareCornerMark(int position, TextView tv_msg_count) {
@@ -324,35 +340,12 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
         }, tag);
     }
 
-    private class MyBroadcastReceiver  extends BroadcastReceiver {
 
-        private Handler mHandler;
-
-        public MyBroadcastReceiver(Handler mhander) {
-            this.mHandler = mhander;
-        }
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String id = intent.getStringExtra("id");
-            String type = intent.getStringExtra("type");
-            if(!TextUtils.isEmpty(id) && !TextUtils.isEmpty(type)){
-                MessageBean bean = new MessageBean();
-                bean.setType(type);
-                bean.setId(id);
-                Message msg = new Message();
-                msg.what = 1001;
-                msg.obj = bean;
-                mHandler.sendMessage(msg);
-            }
-
-        }
-    }
 
     @Override
     protected void onDestroy() {
-        if(myBroadcastReceiver != null){
-            unregisterReceiver(myBroadcastReceiver);
+        if(pushBroadcastReceiver != null){
+            unregisterReceiver(pushBroadcastReceiver);
         }
         super.onDestroy();
     }
