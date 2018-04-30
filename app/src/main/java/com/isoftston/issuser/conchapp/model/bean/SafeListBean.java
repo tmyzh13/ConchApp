@@ -8,6 +8,6 @@ import java.util.List;
 
 public class SafeListBean {
     public SafeBean total;
-    public List<MessageBean> list;
+    public List<SecurityTroubleBean> list;
 
 }

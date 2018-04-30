@@ -36,23 +36,23 @@ public class HiddenTroubleMessageFragment extends BaseFragment {
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        tabs=new String[]{getString(R.string.not_alter),getString(R.string.overdue)
+        tabs=new String[]{getString(R.string.alls),getString(R.string.send),getString(R.string.not_alter),getString(R.string.overdue)
                 ,getString(R.string.altered),getString(R.string.not_check)};
         final MessageTypePageAdapter adapter=new MessageTypePageAdapter(getActivity().getSupportFragmentManager(),tabs,0);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         Tools.setIndicator(tabLayout,10,10);
-        RxBus.getDefault().toObservable(Object.class,"ssss")
-                .compose(this.bindToLifecycle())
-                .subscribe(new RxBusSubscriber<Object>() {
-                    @Override
-                    public void receive(Object data) {
-                        Log.e("yzh","recevie");
-                        tabs[1]=getString(R.string.overdue)+12;
-                        adapter.setmTitles(tabs);
-                        tabLayout.getTabAt(1).setText(tabs[1]);
-                    }
-                });
+//        RxBus.getDefault().toObservable(Object.class,"ssss")
+//                .compose(this.bindToLifecycle())
+//                .subscribe(new RxBusSubscriber<Object>() {
+//                    @Override
+//                    public void receive(Object data) {
+//                        Log.e("yzh","recevie");
+//                        tabs[1]=getString(R.string.overdue);
+//                        adapter.setmTitles(tabs);
+//                        tabLayout.getTabAt(1).setText(tabs[1]);
+//                    }
+//                });
     }
 
     @Override

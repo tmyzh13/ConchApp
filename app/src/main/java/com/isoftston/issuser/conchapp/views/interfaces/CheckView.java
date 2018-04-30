@@ -5,6 +5,7 @@ import com.corelibs.base.BaseView;
 import com.isoftston.issuser.conchapp.model.bean.CheckAllDevicesBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceListBean;
+import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 
 import java.util.List;
 
@@ -20,7 +21,11 @@ public interface CheckView extends BasePaginationView {
 
     void checkDeviceResultError();
 
-    void CheckAllDeviceResult(List<DeviceBean> deviceListBean);
+    void CheckAllDeviceResult(List<DeviceBean> deviceListBean,String total);
 
+    void setUserInfo(UserInfoBean userInfo);
 
+    void setDescription(String description);
+
+    void reLogin();
 }

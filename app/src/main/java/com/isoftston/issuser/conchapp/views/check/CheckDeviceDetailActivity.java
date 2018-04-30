@@ -9,9 +9,14 @@ import android.widget.TextView;
 
 import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BasePresenter;
+import com.corelibs.utils.PreferencesHelper;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.DeviceBean;
+import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.presenter.CheckPresenter;
+import com.isoftston.issuser.conchapp.utils.ToastUtils;
+import com.isoftston.issuser.conchapp.views.LoginActivity;
 import com.isoftston.issuser.conchapp.views.WebActivity;
 import com.isoftston.issuser.conchapp.views.interfaces.CheckView;
 import com.isoftston.issuser.conchapp.weight.NavBar;
@@ -37,6 +42,7 @@ public class CheckDeviceDetailActivity extends BaseActivity<CheckView,CheckPrese
     TextView tv_phone_num;
     private Context context=CheckDeviceDetailActivity.this;
     private String descId;
+    private DeviceBean deviceBean = new DeviceBean();
 
     public static Intent getLauncher(Context context, DeviceBean bean){
         Intent intent =new Intent(context,CheckDeviceDetailActivity.class);
@@ -80,28 +86,28 @@ public class CheckDeviceDetailActivity extends BaseActivity<CheckView,CheckPrese
         switch (view.getId()){
             case R.id.ll_safety_point:
 //                Log.e("yzh","ssssss");
-                startActivity(WebActivity.getLauncher(context,getString(R.string.danger_work_safety_point),""));
+                startActivity(WebActivity.getLauncher(context,getString(R.string.danger_work_safety_point),deviceBean.getAttention()));
                 break;
             case R.id.ll_damage_type:
-                startActivity(WebActivity.getLauncher(context,getString(R.string.danger_work_damage_type),""));
+                startActivity(WebActivity.getLauncher(context,getString(R.string.danger_work_damage_type),deviceBean.getHurtType()));
                 break;
             case R.id.ll_accident:
-                startActivity(WebActivity.getLauncher(context,getString(R.string.danger_work_accident),""));
+                startActivity(WebActivity.getLauncher(context,getString(R.string.danger_work_accident),deviceBean.getAccident()));
                 break;
             case R.id.ll_accident_eg:
-                startActivity(WebActivity.getLauncher(context,getString(R.string.danger_work_accident_eg),""));
+                startActivity(WebActivity.getLauncher(context,getString(R.string.danger_work_accident_eg),deviceBean.getCases()));
                 break;
             case R.id.ll_check_rules:
-                startActivity(WebActivity.getLauncher(context,getString(R.string.danger_work_action_rules),""));
+                startActivity(WebActivity.getLauncher(context,getString(R.string.danger_work_action_rules),deviceBean.getInspectionCode()));
                 break;
             case R.id.ll_manager_system:
-                startActivity(WebActivity.getLauncher(context,getString(R.string.danger_work_manager_system),""));
+                startActivity(WebActivity.getLauncher(context,getString(R.string.danger_work_manager_system),deviceBean.getPowerSystem()));
                 break;
             case R.id.ll_approval_system:
-                startActivity(WebActivity.getLauncher(context,getString(R.string.danger_work_approval_system),""));
+                startActivity(WebActivity.getLauncher(context,getString(R.string.danger_work_approval_system),deviceBean.getExamine()));
                 break;
             case R.id.ll_eneger_system:
-                startActivity(WebActivity.getLauncher(context,getString(R.string.danger_work_eneger_system),""));
+                startActivity(WebActivity.getLauncher(context,getString(R.string.danger_work_eneger_system),deviceBean.getIsolation()));
                 break;
         }
     }
@@ -126,6 +132,7 @@ public class CheckDeviceDetailActivity extends BaseActivity<CheckView,CheckPrese
         tv_device_name.setText(bean.getName());
         tv_phone_num.setText(bean.getCenterPhone());
         descId = bean.getDescId();
+        deviceBean = bean;
     }
 
     @Override
@@ -134,9 +141,26 @@ public class CheckDeviceDetailActivity extends BaseActivity<CheckView,CheckPrese
     }
 
     @Override
-    public void CheckAllDeviceResult(List<DeviceBean> deviceListBean) {
+    public void CheckAllDeviceResult(List<DeviceBean> deviceListBean,String total) {
 
 
 
+    }
+
+    @Override
+    public void setUserInfo(UserInfoBean userInfo) {
+
+    }
+
+    @Override
+    public void setDescription(String description) {
+
+    }
+
+    @Override
+    public void reLogin() {
+        ToastUtils.showtoast(this,getString(R.string.re_login));
+        PreferencesHelper.saveData(Constant.LOGIN_STATUE,"");
+        startActivity(LoginActivity.getLauncher(this));
     }
 }

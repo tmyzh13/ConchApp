@@ -12,14 +12,14 @@ import com.corelibs.base.BaseFragment;
 import com.corelibs.base.BasePresenter;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.IllegalTypeAdapter;
-import com.isoftston.issuser.conchapp.model.bean.MessageBean;
-import com.isoftston.issuser.conchapp.views.message.utils.PushCacheUtils;
+import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
+import com.isoftston.issuser.conchapp.presenter.SecurityPresenter;
+import com.isoftston.issuser.conchapp.views.interfaces.SecuryView;
 import com.isoftston.issuser.conchapp.views.seacher.SeacherActivity;
 import com.isoftston.issuser.conchapp.weight.MyViewPager;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
 import java.lang.reflect.Field;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -28,7 +28,7 @@ import butterknife.OnClick;
  * Created by issuser on 2018/4/9.
  */
 
-public class SecurityFragment extends BaseFragment {
+public class SecurityFragment extends BaseFragment<SecuryView,SecurityPresenter>{
 
     @Bind(R.id.nav)
     NavBar nav;
@@ -50,7 +50,7 @@ public class SecurityFragment extends BaseFragment {
 
 
     //选择当前信息类型 默认隐患
-    private String type = "0";
+    private String type="yh";
 
     @Override
     protected int getLayoutId() {
@@ -68,46 +68,30 @@ public class SecurityFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 //进入搜索界面
-                startActivity(SeacherActivity.getLauncher(getContext(), "0"));
+                startActivity(SeacherActivity.getLauncher(getContext(),"0"));
             }
         });
         nav.showAdd(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //进入隐患问题新增
-                if (type.equals("0")) {
+                if(type.equals("yh")){
                     startActivity(AddHiddenTroubleActivity.getLauncher(getContext()));
-                } else if (type.equals("1")) {
+                }else if(type.equals("wz")){
                     //新增违章
                     startActivity(AddIllegalActivity.getLauncher(getContext()));
                 }
 
             }
         });
-        IllegalTypeAdapter adapter = new IllegalTypeAdapter(getActivity().getSupportFragmentManager());
-        myViewPager.setAdapter(adapter);
-        setConcerMark();
-    }
 
-    private void setConcerMark() {
-        List<MessageBean> list = PushCacheUtils.getInstance().readPushLocalCache(getContext());
-        int yhCpunt = PushCacheUtils.getInstance().getTypeMessageCount(list, "1");
-        if (yhCpunt > 0) {
-            tv_hidden_trouble_count.setVisibility(View.VISIBLE);
-            tv_hidden_trouble_count.setText(yhCpunt + "");
-        }
-
-        int wzCpunt = PushCacheUtils.getInstance().getTypeMessageCount(list, "2");
-        if (wzCpunt > 0) {
-            tv_illegal_count.setVisibility(View.VISIBLE);
-            tv_illegal_count.setText(wzCpunt + "");
-
-        }
+       IllegalTypeAdapter adapter=new IllegalTypeAdapter(getActivity().getSupportFragmentManager());
+       myViewPager.setAdapter(adapter);
     }
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected SecurityPresenter createPresenter() {
+        return new SecurityPresenter();
     }
 
     // 具体方法（通过反射的方式）
@@ -143,7 +127,7 @@ public class SecurityFragment extends BaseFragment {
     }
 
     @OnClick(R.id.tv_hidden_trouble)
-    public void choiceHiddenTrouble() {
+    public void choiceHiddenTrouble(){
         tv_hidden_trouble.setBackgroundResource(R.drawable.tab_security_gradient_bg);
         tv_illegal.setBackgroundResource(R.drawable.tab_security_normal);
         tv_mine.setBackgroundResource(R.drawable.tab_security_normal);
@@ -151,12 +135,12 @@ public class SecurityFragment extends BaseFragment {
         tv_mine.setTextColor(getResources().getColor(R.color.text_color_shallow));
         tv_hidden_trouble.setTextColor(getResources().getColor(R.color.white));
         nav.showOrHideAdd(true);
-        type = "0";
+        type="yh";
         myViewPager.setCurrentItem(0);
     }
 
     @OnClick(R.id.tv_illegal)
-    public void choicIllegal() {
+    public void choicIllegal(){
         tv_illegal.setBackgroundResource(R.drawable.tab_security_illegal_bg);
         tv_hidden_trouble.setBackgroundResource(R.drawable.tab_security_normal);
         tv_mine.setBackgroundResource(R.drawable.tab_security_normal);
@@ -164,12 +148,12 @@ public class SecurityFragment extends BaseFragment {
         tv_mine.setTextColor(getResources().getColor(R.color.text_color_shallow));
         tv_hidden_trouble.setTextColor(getResources().getColor(R.color.text_color_shallow));
         nav.showOrHideAdd(true);
-        type = "1";
+        type="wz";
         myViewPager.setCurrentItem(1);
     }
 
     @OnClick(R.id.tv_mine)
-    public void choiceMine() {
+    public void choiceMine(){
         tv_mine.setBackgroundResource(R.drawable.tab_security_mine);
         tv_hidden_trouble.setBackgroundResource(R.drawable.tab_security_normal);
         tv_illegal.setBackgroundResource(R.drawable.tab_security_normal);
@@ -178,6 +162,7 @@ public class SecurityFragment extends BaseFragment {
         tv_hidden_trouble.setTextColor(getResources().getColor(R.color.text_color_shallow));
         //选择我的时 新增功能去掉
         nav.showOrHideAdd(false);
+        type="wd";
         myViewPager.setCurrentItem(2);
     }
 

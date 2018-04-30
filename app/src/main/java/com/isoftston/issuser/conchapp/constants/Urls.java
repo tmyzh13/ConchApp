@@ -84,6 +84,8 @@ public class Urls {
     public static final String GET_CONDITION_DEVICE_INFO="device/conditionSearch";
     //检维界面查询一条设备
     public static final String GET_ONE_DEVICE_INFO="device/searchOneEquip";
+    //检维界面查看描述详情
+    public static final String GET_DEVICE_DESCRIPTION="device/searchDescription";
     //更改密码
     public static final String CHANGE_PWD="updatePassword";
     //上传照片

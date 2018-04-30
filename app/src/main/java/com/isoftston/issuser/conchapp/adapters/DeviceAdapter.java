@@ -23,20 +23,20 @@ import java.util.Locale;
 public class DeviceAdapter extends QuickAdapter<DeviceBean> {
 
 
-    public DeviceAdapter(Context context){
+    public DeviceAdapter(Context context) {
         super(context, R.layout.item_device);
     }
 
 
     @Override
     protected void convert(BaseAdapterHelper helper, DeviceBean item, int position) {
-        String date = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+        String date = new java.text.SimpleDateFormat("yyyy年MM月dd日 HH:mm")
                 .format(new java.util.Date(
                         Long.parseLong(String.valueOf(item.getCreateTime()))));
-        helper.setText(R.id.tv_device_name,item.getName())
+        helper.setText(R.id.tv_device_name, context.getResources().getString(R.string.check_manager_device_name) + ":" + item.getName())
                 .setText(R.id.tv_time, date)
-                .setText(R.id.tv_device_no,item.getEquipCode())
-                .setText(R.id.tv_device_place,item.getLocation());
+                .setText(R.id.tv_device_no, context.getResources().getString(R.string.check_manager_device_no) + ":" + item.getEquipCode())
+                .setText(R.id.tv_device_place, context.getResources().getString(R.string.check_manager_device_place) + ":" + item.getLocation());
 
     }
 }

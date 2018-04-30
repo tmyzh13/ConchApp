@@ -31,11 +31,14 @@
     <!--security-->
     <string name="hidden_trouble_msg">隐患信息</string>
     <string name="illegal_msg">违章信息</string>
+    <string name="alls">全部</string>
     <string name="send">发布</string>
     <string name="not_alter">未整改</string>
     <string name="overdue">逾期</string>
-    <string name="altered">已修改</string>
+    <string name="altered">已整改</string>
     <string name="not_check">未验收</string>
+    <string name="weizhang">违章</string>
+    <string name="trouble">隐患</string>
 
     <string name="yh_message">隐患信息</string>
     <string name="wz_message">违章信息</string>
