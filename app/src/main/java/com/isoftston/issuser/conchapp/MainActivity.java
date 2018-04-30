@@ -107,9 +107,7 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
         });
 
         //presenter = createPresenter();
-        if(presenter!=null){
-            presenter.getPushTag();
-        }
+
         registerBroadcast();
     }
 
@@ -123,6 +121,9 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
     @Override
     protected void onResume() {
         super.onResume();
+        if(presenter!=null){
+            presenter.getPushTag();
+        }
 
     }
 
@@ -251,7 +252,9 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
 
 
     private void addTag(String username) {
-        final String tag = "2c9af58150f5a3e80150f5c6d51e000b";
+        //final String tag = "2c9af58150f5a3e80150f5c6d51e000b";
+        final String tag = username;
+
         if (TextUtils.isEmpty(tag)) {
             //Toast.makeText(this, "请先输入tag", Toast.LENGTH_SHORT).show();
             return;

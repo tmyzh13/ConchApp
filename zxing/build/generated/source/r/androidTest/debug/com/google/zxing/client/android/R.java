@@ -33,13 +33,15 @@ public final class R {
         public static final int standard_padding = 0x7f030001;
     }
     public static final class drawable {
-        public static final int ic_scan_qr = 0x7f040000;
-        public static final int launcher_icon = 0x7f040001;
-        public static final int one = 0x7f040002;
-        public static final int qr_scan_frame = 0x7f040003;
-        public static final int qr_scan_line = 0x7f040004;
-        public static final int qr_scan_shadow = 0x7f040005;
-        public static final int share_via_barcode = 0x7f040006;
+        public static final int back = 0x7f040000;
+        public static final int back_white = 0x7f040001;
+        public static final int ic_scan_qr = 0x7f040002;
+        public static final int launcher_icon = 0x7f040003;
+        public static final int one = 0x7f040004;
+        public static final int qr_scan_frame = 0x7f040005;
+        public static final int qr_scan_line = 0x7f040006;
+        public static final int qr_scan_shadow = 0x7f040007;
+        public static final int share_via_barcode = 0x7f040008;
     }
     public static final class id {
         public static final int app_picker_list_item_icon = 0x7f050000;
