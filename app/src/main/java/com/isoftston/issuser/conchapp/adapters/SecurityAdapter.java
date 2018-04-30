@@ -2,6 +2,7 @@ package com.isoftston.issuser.conchapp.adapters;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -11,7 +12,6 @@ import com.corelibs.utils.adapter.normal.QuickAdapter;
 import com.corelibs.views.roundedimageview.RoundedTransformationBuilder;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Urls;
-import com.isoftston.issuser.conchapp.model.bean.MessageBean;
 import com.isoftston.issuser.conchapp.model.bean.SecurityTroubleBean;
 
 import java.text.SimpleDateFormat;
@@ -37,6 +37,7 @@ public class SecurityAdapter extends QuickAdapter<SecurityTroubleBean> {
 //        ImageView item_mark=helper.getView(R.id.item_mark);
 //        String time= DateUtils.getDateToString(item.getCreateTime());
         ImageView content_pic = helper.getView(R.id.content_pic);
+        View readStatus= helper.getView(R.id.view_read_statue);
 //        .setText(R.id.item_time,DateUtils.getDateToString(item.getCreateTime()));
 //                .setImageUrl(R)
 
@@ -64,6 +65,11 @@ public class SecurityAdapter extends QuickAdapter<SecurityTroubleBean> {
             if (!"".equals(item.getCjsj())) {
                 helper.setText(R.id.item_time, time.format(new Date(Long.valueOf(item.getCjsj()))));
             }
+        }
+        if(!item.isRead()){ //已读未读控制
+            readStatus.setVisibility(View.VISIBLE);
+        }else{
+            readStatus.setVisibility(View.GONE);
         }
         if (item.getTplj() != null) {
             String path[] = item.getTplj().split(",");

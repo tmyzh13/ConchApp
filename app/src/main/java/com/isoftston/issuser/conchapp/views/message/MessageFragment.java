@@ -126,10 +126,6 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
 
     private View view;
     public MessageTypeAdapter mAdapter;
-    public List<MessageBean> listAllMessage = new ArrayList<>();
-    public List<MessageBean> listYhMessage = new ArrayList<>();
-    public List<MessageBean> listWzMessage = new ArrayList<>();
-    public List<MessageBean> listAqMessage = new ArrayList<>();
     private int currrentPage;
     private boolean isChange;
     private int lastCount;
@@ -159,7 +155,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
             }
         });
 
-        VpAdapter adapter = new VpAdapter(list, handler);
+        final VpAdapter adapter = new VpAdapter(list, handler);
         ll_main.setOnClickListener(this);
         mAdapter = new MessageTypeAdapter(getContext());
         presenter.getMessageListInfo("all", "");
@@ -236,19 +232,9 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
                 Bundle bundle=new Bundle();
                 View  readStatus= view.findViewById(R.id.view_read_statue);
                 readStatus.setVisibility(View.GONE);
-                if (currrentPage == 0){
-                    bundle.putString("type",listAllMessage.get(i).getType());
-                    bundle.putString("id",listAllMessage.get(i).getId());
-                }else if (currrentPage == 1){
-                    bundle.putString("type",listYhMessage.get(i).getType());
-                    bundle.putString("id",listYhMessage.get(i).getId());
-                }else if (currrentPage == 2){
-                    bundle.putString("type",listWzMessage.get(i).getType());
-                    bundle.putString("id",listWzMessage.get(i).getId());
-                }else {
-                    bundle.putString("type",listAqMessage.get(i).getType());
-                    bundle.putString("id",listAqMessage.get(i).getId());
-                }
+                MessageBean bean = (MessageBean) adapterView.getAdapter().getItem(i);
+                bundle.putString("type",bean.getType());
+                bundle.putString("id",bean.getId());
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -286,7 +272,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         }else if (currrentPage == 2){
             presenter.getEachMessageListInfo("wz",""+mAdapter.getData().get(totalItemCount-1).getmId());
         }else {
-            presenter.getEachMessageListInfo("aq",""+listAqMessage.get(totalItemCount-1).getmId());
+            presenter.getEachMessageListInfo("aq",""+mAdapter.getData().get(totalItemCount-1).getmId());
         }
     }
 
@@ -483,19 +469,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         tv_wz_total.setText(bean2.getTotal()+"");
         tv_yh_total.setText(bean3.getTotal()+"");
         tv_wzg_num.setText(bean3.getWzg()+"");
-        if (currrentPage == 0){
-            listAllMessage.clear();
-            listAllMessage = data.list;
-        }else if (currrentPage == 1){
-            listYhMessage.clear();
-            listYhMessage = data.list;
-        }else if (currrentPage == 2){
-            listWzMessage.clear();
-            listWzMessage = data.list;
-        }else {
-            listAqMessage.clear();
-            listAqMessage = data.list;
-        }
+
         if (isChange){
             mAdapter.getData().clear();
             isChange = false;
@@ -512,6 +486,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         if (data.list.size() == 0 && mAdapter.getCount() > 0){
             return;
         }
+
         PushCacheUtils.getInstance().compareLocalPushMessage(getContext(),data.list);
         lastCount = mAdapter.getCount()-1;
         mAdapter.addAll(data.list);
@@ -568,19 +543,15 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
             yhCountTv.setText(totle.get("yh"));
             yqTv.setText(totle.get("yq"));
             wzgTv.setText(totle.get("wzg"));
-            listAllMessage.clear();
-            listAllMessage = data.list;
+
         }else if (currrentPage == 2){
             wzCountTv.setText(totle.get("wz"));
-            listYhMessage.clear();
-            listYhMessage = data.list;
-        }else {
+        }else if(currrentPage == 3){
             aqCountTv.setText(totle.get("aq"));
             ggTV.setText(totle.get("aqgg"));
             jlTv.setText(totle.get("jl"));
             cfTv.setText(totle.get("cf"));
-            listWzMessage.clear();
-            listWzMessage = data.list;
+
         }
         if (isChange){
             mAdapter.clear();

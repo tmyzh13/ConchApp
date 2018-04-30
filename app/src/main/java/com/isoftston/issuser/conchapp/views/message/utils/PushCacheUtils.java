@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
+import com.isoftston.issuser.conchapp.model.bean.SecurityTroubleBean;
 import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 
 import java.util.ArrayList;
@@ -29,6 +30,9 @@ public class PushCacheUtils {
         return instance;
     }
 
+    /**
+     * 读取本地的缓存数据
+     * */
     public List<MessageBean> readPushLocalCache(Context context) {
         String msg = SharePrefsUtils.getValue(context, Constant.PUSH_MESSAGE, "");
         if (!TextUtils.isEmpty(msg)) {
@@ -73,6 +77,11 @@ public class PushCacheUtils {
         return 0;
     }
 
+    /**
+     * 对比缓存中的消息
+     * @param context
+     * @param list
+     * */
     public void compareLocalPushMessage(Context context, List<MessageBean> list) {
         List<MessageBean> localList = readPushLocalCache(context);
         if(localList == null || localList.size()==0){
@@ -87,7 +96,29 @@ public class PushCacheUtils {
         }
     }
 
-
+    /**
+     * 对比缓存中的消息
+     * @param context
+     * @param list
+     * */
+    public void compareLocalSecurityPushMessage(Context context, List<SecurityTroubleBean> list) {
+        List<MessageBean> localList = readPushLocalCache(context);
+        if(localList == null || localList.size()==0){
+            return;
+        }
+        for (MessageBean localBean : localList){
+            for(SecurityTroubleBean bean : list){
+                if(localBean.getId().equals(bean.getId())){
+                    bean.setRead(false);
+                }
+            }
+        }
+    }
+    /**
+     * 删除缓存在指定的id的信息
+     * @param context
+     * @param id 删除的信息id
+     * */
     public void removePushIdMessage(Context context, String id) {
         List<MessageBean> localList = readPushLocalCache(context);
         if(localList == null){

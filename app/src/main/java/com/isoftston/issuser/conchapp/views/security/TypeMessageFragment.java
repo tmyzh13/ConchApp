@@ -2,9 +2,7 @@ package com.isoftston.issuser.conchapp.views.security;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
@@ -12,9 +10,7 @@ import com.corelibs.base.BaseFragment;
 import com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout;
 import com.corelibs.views.ptr.loadmore.widget.AutoLoadMoreListView;
 import com.isoftston.issuser.conchapp.R;
-import com.isoftston.issuser.conchapp.adapters.MessageTypeAdapter;
 import com.isoftston.issuser.conchapp.adapters.SecurityAdapter;
-import com.isoftston.issuser.conchapp.model.bean.MessageBean;
 import com.isoftston.issuser.conchapp.model.bean.OrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
@@ -159,8 +155,7 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
     public void getSafeListSuccess(SafeListBean data) {
         SafeBean bean=data.total;
         listMessage=data.list;
-//TODO:
-//        PushCacheUtils.getInstance().compareLocalPushMessage(getContext(),listMessage);
+        PushCacheUtils.getInstance().compareLocalSecurityPushMessage(getContext(),listMessage);
         adapter.addAll(listMessage);
         adapter.notifyDataSetChanged();
         lv_message.setAdapter(adapter);
