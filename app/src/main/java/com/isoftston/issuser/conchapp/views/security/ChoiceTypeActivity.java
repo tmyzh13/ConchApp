@@ -172,6 +172,11 @@ public class ChoiceTypeActivity extends BaseActivity<SecuryView,SecurityPresente
 
     }
 
+    @Override
+    public void getWorkError() {
+
+    }
+
     @OnClick(R.id.tv_cancel)
     public void cancelSeach() {
         finish();

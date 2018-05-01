@@ -207,6 +207,10 @@
 
         <activity android:name=".views.message.ItemDangerDtailActivity"></activity>
 
+
+        <activity android:name=".views.message.ItemSafeDtailActivity"></activity>
+
+
         <activity android:name=".views.seacher.SeacherActivity"
             android:screenOrientation="portrait"
             />

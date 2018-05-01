@@ -26,9 +26,11 @@ import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
 import com.isoftston.issuser.conchapp.model.bean.OrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
+import com.isoftston.issuser.conchapp.model.bean.SecurityUpdateBean;
 import com.isoftston.issuser.conchapp.model.bean.YhlxBean;
 import com.isoftston.issuser.conchapp.model.bean.YhlyBean;
 import com.isoftston.issuser.conchapp.presenter.LoginPresenter;
+import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.views.LoginActivity;
 import com.isoftston.issuser.conchapp.views.check.CheckFragment;
 import com.isoftston.issuser.conchapp.views.interfaces.LoginView;
@@ -65,8 +67,10 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
     private List<String> checkCompanyList=new ArrayList<>();
     private List<String> fromList=new ArrayList<>();
     private List<String> fromListId=new ArrayList<>();
-    public static Map<String,String> fromLYMap=new HashMap<String, String>();
-    public static Map<String,String> fromLXMap=new HashMap<String, String>();
+    //public static Map<String,String> fromLYMap=new HashMap<String, String>();
+    //public static Map<String,String> fromLXMap=new HashMap<String, String>();
+
+    private final String TAG = MainActivity.class.getSimpleName();
 
     private List<OrgBean> org=new ArrayList<>();
 
@@ -84,6 +88,10 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
         public void handleMessage(Message msg) {
             if(msg.what == PushBroadcastReceiver.MESS_PUSH_CODE){
                 updateNavTab();
+                Log.i(TAG,"receive new push msg");
+                SecurityUpdateBean bean = new SecurityUpdateBean();
+                bean.setType(1);
+                EventBus.getDefault().post(bean);
             }
         }
     };
@@ -292,7 +300,8 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
         for (YhlyBean yhlyBean:YHLY){
             //fromList.add(yhlyBean.getNAME_());
             //fromListId.add(yhlyBean.getCODE_());
-            fromLYMap.put(yhlyBean.getCODE_(),yhlyBean.getNAME_());
+            //fromLYMap.put(yhlyBean.getCODE_(),yhlyBean.getNAME_());
+            SharePrefsUtils.putValue(this,yhlyBean.getCODE_(),yhlyBean.getNAME_());
         }
 
         List<YhlxBean> YHLX=bean.YHLX;
@@ -300,7 +309,8 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
         for (YhlxBean yhlyBean:YHLX){
             //fromList.add(yhlyBean.getNAME_());
             //fromListId.add(yhlyBean.getCODE_());
-            fromLXMap.put(yhlyBean.getCODE_(),yhlyBean.getNAME_());
+            //fromLXMap.put(yhlyBean.getCODE_(),yhlyBean.getNAME_());
+            SharePrefsUtils.putValue(this,yhlyBean.getCODE_(),yhlyBean.getNAME_());
         }
 
     }

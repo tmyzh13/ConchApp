@@ -187,4 +187,9 @@ public class OrgActivity extends BaseActivity<SecuryView,SecurityPresenter> impl
 
     }
 
+    @Override
+    public void getWorkError() {
+
+    }
+
 }

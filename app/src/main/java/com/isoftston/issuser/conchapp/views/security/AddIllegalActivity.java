@@ -454,4 +454,9 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
     public void getOrgId(String orgId) {
 
     }
+
+    @Override
+    public void getWorkError() {
+
+    }
 }

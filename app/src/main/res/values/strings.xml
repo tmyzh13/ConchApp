@@ -43,6 +43,8 @@
     <string name="yh_message">隐患信息</string>
     <string name="wz_message">违章信息</string>
     <string name="aq_message">安全信息</string>
+    <string name="aq_message_title">安全信息查看</string>
+
     <string name="unit">条</string>
     <string name="unread">未读</string>
     <string name="un_fix">未整改</string>
@@ -112,6 +114,8 @@
 
     <!-- -->
     <string name="yh_project_check">隐患项目查看</string>
+    <string name="wz_project_check">违章信息查看</string>
+
     <string name="yh_finder">隐患发现人</string>
     <string name="find_time">发现时间</string>
     <string name="company">发现隐患所在的单位名称</string>

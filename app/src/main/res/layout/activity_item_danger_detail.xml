@@ -77,7 +77,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/hidden_trouble_check"
+                                android:text="@string/yh_finder"
                                 android:textColor="#262626"
                                 android:textStyle="bold" />
 
@@ -135,8 +135,8 @@
                     android:orientation="horizontal">
 
                     <com.isoftston.issuser.conchapp.weight.RoundByXfermode
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
                         android:layout_marginLeft="5dp"
                         android:src="@mipmap/yh_icon" />
 
@@ -145,19 +145,21 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:orientation="vertical"
-                        android:padding="10dp">
+                        android:layout_marginLeft="10dp"
+                       >
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/hidden_trouble_register_date"
+                            android:text="@string/hidden_trouble_company"
                             android:textColor="#262626"
                             android:textStyle="bold" />
-                      <!--  <TextView
+
+                        <!--<TextView
                             android:id="@+id/sjdwmc_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/hidden_trouble_register_date"
+                            android:text="@string/hidden_trouble_company"
                             android:textColor="#262626"
                             android:textStyle="bold" />-->
 
@@ -165,10 +167,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dp_10"
-                            android:text="@string/illeagl_company"
+                            android:text="@string/yh_adress"
                             android:textColor="#262626"
                             android:textStyle="bold" />
-                   <!--     <TextView
+                      <!--  <TextView
                             android:id="@+id/yhdd_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -180,12 +182,12 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/illegal_place"
+                            android:text="@string/yh_point"
                             android:layout_marginTop="@dimen/dp_10"
                             android:textColor="#262626"
                             android:textStyle="bold" />
 
-                <!--        <TextView
+                       <!-- <TextView
                             android:id="@+id/yhbw_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -199,7 +201,6 @@
                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:layout_marginLeft="20dp"
                         android:orientation="vertical"
                         android:padding="10dp">
@@ -208,7 +209,7 @@
                             android:id="@+id/sjdwmc_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/hidden_trouble_register_date"
+                            android:text="@string/hidden_trouble_company"
                             android:textColor="#262626"
                             android:textStyle="bold" />
 
@@ -243,38 +244,49 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:orientation="horizontal">
-
-                <!--    <com.isoftston.issuser.conchapp.weight.RoundByXfermode
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_margin="15dp"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal"
+                        >
+                    <com.isoftston.issuser.conchapp.weight.RoundByXfermode
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_margin="20dp"
                         android:src="@mipmap/fatal_mark" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="20dp"
+                            android:text="@string/yh_class"
+                            android:textColor="#262626"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/yhjb_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginLeft="20dp"
+                            android:text="@string/important"
+                            android:textColor="@color/text_gray1" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:text="@string/yh_class"
-                        android:textColor="#262626"
-                        android:textStyle="bold" />
-
+                        android:layout_gravity="center"
+                        android:orientation="horizontal"
+                        >
                     <TextView
-                        android:id="@+id/yhjb_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:paddingLeft="10dp"
-                        android:text="@string/important"
-                        android:textColor="@color/text_gray1" />-->
-
-                    <TextView
-
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="60dp"
-                        android:layout_marginTop="20dp"
-                        android:text="@string/illegal_type"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/yh_varies"
                         android:textColor="#262626"
                         android:textStyle="bold" />
 
@@ -282,10 +294,11 @@
                         android:id="@+id/yhlx_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:paddingLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:paddingLeft="20dp"
                         android:text="@string/neccecery"
                         android:textColor="@color/text_gray1" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <View
@@ -295,7 +308,7 @@
                     android:layout_marginRight="20dp"
                     android:background="#dddddd"></View>
 
- <!--               <LinearLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -333,17 +346,18 @@
                     android:orientation="horizontal">
 
                     <com.isoftston.issuser.conchapp.weight.RoundByXfermode
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_margin="15dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_margin="10dp"
                         android:src="@mipmap/fixed" />
 
                     <TextView
                         android:id="@+id/yhzt_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/fixed"
+                        android:text="未整改"
                         android:layout_gravity="center"
+                        android:layout_marginLeft="20dp"
                         android:textColor="#262626"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -354,14 +368,14 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="5dp"
-                    android:background="#dddddd" />-->
+                    android:background="#dddddd" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="60dp"
                     android:layout_marginTop="10dp"
-                    android:text="@string/illegal_description"
+                    android:text="@string/describle_yh"
                     android:textColor="#262626"
                     android:textStyle="bold" />
 
@@ -381,7 +395,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
                     android:background="#dddddd" />
-<!--                <LinearLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -392,7 +406,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="60dp"
                     android:layout_marginTop="10dp"
-                    android:text="@string/illegal_photo"
+                    android:text="@string/fix_pic"
                     android:textColor="#262626"
                     android:textStyle="bold" />
                     <com.isoftston.issuser.conchapp.weight.MyGridView
@@ -411,8 +425,8 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
-                    android:background="#dddddd" />-->
-                <!--<LinearLayout
+                    android:background="#dddddd" />
+                <LinearLayout
                     android:layout_marginBottom="20dp"
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
@@ -441,7 +455,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
-                    android:background="#dddddd" />-->
+                    android:background="#dddddd" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

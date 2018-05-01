@@ -62,6 +62,59 @@ public class MessageDetailBean {
     private String dangerSite;
     private String dangerPart;
 
+/*
+    Response Json: {"ok":true,"code":1,"mess":"成功","data":{"id":1,"createId":null,"title":
+    "hg测试","type":"1","content":"测试内容","createTime":1524230987000}}
+*/
+
+    private String createId;
+    private String title;
+
+    public String getCreateId() {
+        return createId;
+    }
+
+    public void setCreateId(String createId) {
+        this.createId = createId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    private String type;
+    private String content;
+    private String createTime;
+
+
     public String getDangerLevel() {
         return dangerLevel;
     }

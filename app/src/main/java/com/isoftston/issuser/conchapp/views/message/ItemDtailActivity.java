@@ -24,6 +24,8 @@ import com.isoftston.issuser.conchapp.model.bean.MessageDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageListInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.WeatherResponseBean;
 import com.isoftston.issuser.conchapp.presenter.MessagePresenter;
+import com.isoftston.issuser.conchapp.utils.DateUtils;
+import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.MessageView;
 import com.isoftston.issuser.conchapp.views.message.adpter.VpAdapter;
 import com.isoftston.issuser.conchapp.views.message.utils.PushCacheUtils;
@@ -49,8 +51,8 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
     ViewPager vp;
     @Bind(R.id.ll)
     LinearLayout ll;
-    @Bind(R.id.mGridView)
-    MyGridView mGridView;
+    //@Bind(R.id.mGridView)
+    //MyGridView mGridView;
     @Bind(R.id.tv_user)
     TextView tv_yh_finder;
     @Bind(R.id.tv_company)
@@ -63,18 +65,18 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
     TextView yhdd_tv;
     @Bind(R.id.yhbw_tv)
     TextView yhbw_tv;
-    @Bind(R.id.yhjb_tv)
-    TextView yhjb_tv;
+    //@Bind(R.id.yhjb_tv)
+    //TextView yhjb_tv;
     @Bind(R.id.yhlx_tv)
     TextView yhlx_tv;
-    @Bind(R.id.zgqx_tv)
-    TextView zgqx_tv;
-    @Bind(R.id.yhzt_tv)
-    TextView yhzt_tv;
+    //@Bind(R.id.zgqx_tv)
+    //TextView zgqx_tv;
+    //@Bind(R.id.yhzt_tv)
+    //TextView yhzt_tv;
     @Bind(R.id.msyh_tv)
     TextView msyh_tv;
-    @Bind(R.id.yhly_tv)
-    TextView yhly_tv;
+    //@Bind(R.id.yhly_tv)
+    //TextView yhly_tv;
 
     private List<View> imageList;
     private ArrayList<View> dotsList;
@@ -104,7 +106,7 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
     protected void init(Bundle savedInstanceState) {
         setBarColor(getResources().getColor(R.color.transparent_black));
         nav.setColorRes(R.color.white);
-        nav.setNavTitle(getString(R.string.yh_project_check));
+        nav.setNavTitle(getString(R.string.wz_project_check));
         tv_title.setTextColor(getResources().getColor(R.color.text_color));
         nav.showBack(2);
         Bundle bundle=getIntent().getExtras();
@@ -211,7 +213,7 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
         //初始化vp的位置
         vp.setCurrentItem(0);
 
-        if(urls!=null&&urls.size()>0){
+    /*    if(urls!=null&&urls.size()>0){
             gridViewAdapter = new mGridViewAdapter(this, urls);
             mGridView.setAdapter(gridViewAdapter);
             mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -225,7 +227,7 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
                     startActivity(intent);
                 }
             });
-        }
+        }*/
     }
 
     private void initView(MessageDetailBean bean) {
@@ -244,17 +246,23 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
 
 
         tv_company.setText(bean.getGsmc());
-        tv_time.setText(bean.getFxrq());
-        sjdwmc_tv.setText(bean.getSjdwmc());
-        yhdd_tv.setText(bean.getYhdd());
-        yhbw_tv.setText(bean.getYhbw());
-        yhly_tv.setText(bean.getYhly());
+        tv_time.setText(DateUtils.getMillionToString(bean.getFxrq()));
+        sjdwmc_tv.setText(DateUtils.getMillionToString(bean.getCjsj()));
+        yhdd_tv.setText(bean.getSjdwmc());
+        yhbw_tv.setText(bean.getYhdd());
+        //yhly_tv.setText(bean.getYhly());
         msyh_tv.setText(bean.getYhms());
-        if ("YBYH".equals(bean.getYhjb())){
+
+        String yhlx = bean.getYhlx();
+        yhlx_tv.setText(SharePrefsUtils.getValue(this,yhlx,""));
+
+
+
+      /*  if ("YBYH".equals(bean.getYhjb())){
             yhjb_tv.setText("一般隐患");
         }else{
             yhjb_tv.setText("重大隐患");
-        }
+        }*/
     }
 
     @Override

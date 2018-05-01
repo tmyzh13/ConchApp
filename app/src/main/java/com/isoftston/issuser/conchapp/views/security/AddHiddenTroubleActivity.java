@@ -510,4 +510,9 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
     public void getOrgId(String orgId) {
 
     }
+
+    @Override
+    public void getWorkError() {
+
+    }
 }
