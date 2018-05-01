@@ -7,33 +7,37 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.corelibs.base.BaseFragment;
+import com.corelibs.views.cube.ptr.PtrFrameLayout;
 import com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout;
 import com.corelibs.views.ptr.loadmore.widget.AutoLoadMoreListView;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.SecurityAdapter;
+import com.isoftston.issuser.conchapp.model.bean.HiddenTroubleMsgNumBean;
 import com.isoftston.issuser.conchapp.model.bean.MsgTotalCountBean;
 import com.isoftston.issuser.conchapp.model.bean.OrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
 import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
 import com.isoftston.issuser.conchapp.model.bean.SecurityTroubleBean;
+import com.isoftston.issuser.conchapp.model.bean.SecurityUpdateBean;
 import com.isoftston.issuser.conchapp.presenter.SecurityPresenter;
 import com.isoftston.issuser.conchapp.views.interfaces.SecuryView;
 import com.isoftston.issuser.conchapp.views.message.ItemDtailActivity;
 import com.isoftston.issuser.conchapp.views.message.utils.PushBroadcastReceiver;
 import com.isoftston.issuser.conchapp.views.message.utils.PushCacheUtils;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import android.util.Log;
-
-import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by issuser on 2018/4/10.
@@ -49,6 +53,10 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
     PtrAutoLoadMoreLayout<AutoLoadMoreListView> ptrLayout;
 
     private final String TAG = TypeMessageFragment.class.getSimpleName();
+
+    private boolean isLastRow = false;
+    private boolean isUpRefresh;
+    private boolean isDownRefresh;
 
     public String type;
     public SecurityAdapter adapter;
@@ -82,6 +90,7 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        EventBus.getDefault().register(this);
         type=getArguments().getString("type");
         bType=getArguments().getInt("bigType");
         Log.i(TAG,"type:" + type + ",bType:" + bType);
@@ -120,8 +129,45 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
         }
         adapter.addAll(listMessage);
         lv_message.setAdapter(adapter);
-        ptrLayout.disableLoading();
-        ptrLayout.setCanRefresh(false);
+//        ptrLayout.disableLoading();
+//        ptrLayout.setCanRefresh(false);
+        ptrLayout.setLoading();
+        ptrLayout.setRefreshLoadCallback(new PtrAutoLoadMoreLayout.RefreshLoadCallback() {
+            @Override
+            public void onLoading(PtrFrameLayout frame) {
+            }
+
+            @Override
+            public void onRefreshing(PtrFrameLayout frame) {
+                isUpRefresh = true;
+                String item = "";
+                if (getString(R.string.alls).equals(type)){
+                    item = "all";
+                }else if(getString(R.string.send).equals(type)){
+                    item = "fb";
+                }else if (getString(R.string.not_alter).equals(type)){
+                    item = "wzg";
+                }else if (getString(R.string.overdue).equals(type)){
+                    item = "yq";
+                }else if (getString(R.string.altered).equals(type)){
+                    item = "yzg";
+                }else if (getString(R.string.not_check).equals(type)){
+                    item = "wys";
+                }else if (getString(R.string.weizhang).equals(type)){
+                    item = "wz";
+                }else if (getString(R.string.trouble).equals(type)){
+                    item = "yh";
+                }
+
+                if (bType==0){
+                    presenter.getSafeMessageList("yh",item,"");
+                }else if (bType==1){
+                    presenter.getSafeMessageList("wz",item,"");
+                }else {
+                    presenter.getSafeMessageList("wd",item,"");
+                }
+            }
+        });
 
         lv_message.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -148,6 +194,92 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
 //                RxBus.getDefault().send(new Object(),"ssss");
             }
         });
+
+        lv_message.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+                //当滚到最后一行且停止滚动时，执行加载
+                if (isLastRow && scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    //加载元素
+                    Log.i(TAG,"type:" + type + ",count:" + adapter.getCount());
+                    loadNextPage(adapter.getCount());
+                    isLastRow = false;
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                //判断是否滚到最后一行
+                if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount > 0) {
+                    isLastRow = true;
+                }
+            }
+        });
+    }
+
+    private void loadNextPage(int totalItemCount){
+        ptrLayout.setLoading();
+        isDownRefresh = true;
+
+        String item = "";
+        if (getString(R.string.alls).equals(type)){
+            item = "all";
+        }else if(getString(R.string.send).equals(type)){
+            item = "fb";
+        }else if (getString(R.string.not_alter).equals(type)){
+            item = "wzg";
+        }else if (getString(R.string.overdue).equals(type)){
+            item = "yq";
+        }else if (getString(R.string.altered).equals(type)){
+            item = "yzg";
+        }else if (getString(R.string.not_check).equals(type)){
+            item = "wys";
+        }else if (getString(R.string.weizhang).equals(type)){
+            item = "wz";
+        }else if (getString(R.string.trouble).equals(type)){
+            item = "yh";
+        }
+
+        String lastId = adapter.getData().get(totalItemCount-1).getId();
+        if (bType==0){
+            presenter.getSafeMessageList("yh",item,lastId);
+        }else if (bType==1){
+            presenter.getSafeMessageList("wz",item,lastId);
+        }else {
+            presenter.getSafeMessageList("wd",item,lastId);
+        }
+    }
+
+
+    @Subscribe
+    public void refreshPage(SecurityUpdateBean bean)
+    {
+        String item = "";
+        if (getString(R.string.alls).equals(type)){
+            item = "all";
+        }else if(getString(R.string.send).equals(type)){
+            item = "fb";
+        }else if (getString(R.string.not_alter).equals(type)){
+            item = "wzg";
+        }else if (getString(R.string.overdue).equals(type)){
+            item = "yq";
+        }else if (getString(R.string.altered).equals(type)){
+            item = "yzg";
+        }else if (getString(R.string.not_check).equals(type)){
+            item = "wys";
+        }else if (getString(R.string.weizhang).equals(type)){
+            item = "wz";
+        }else if (getString(R.string.trouble).equals(type)){
+            item = "yh";
+        }
+
+        if (bType==0){
+            presenter.getSafeMessageList("yh",item,"");
+        }else if (bType==1){
+            presenter.getSafeMessageList("wz",item,"");
+        }else {
+            presenter.getSafeMessageList("wd",item,"");
+        }
     }
 
     private void registerBroadcast() {
@@ -191,7 +323,32 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
         msg.setWzCount(data.total.getWZ());
         msg.setIsUpdate(0);
         EventBus.getDefault().post(msg);
+
+        HiddenTroubleMsgNumBean HiddenMsg = new HiddenTroubleMsgNumBean();
+        HiddenMsg.setAll(data.total.getYH());
+        HiddenMsg.setFb(data.total.getYHFB());
+        HiddenMsg.setWys(data.total.getYHWYS());
+        HiddenMsg.setWzg(data.total.getYHWZG());
+        HiddenMsg.setYq(data.total.getYHYQ());
+        HiddenMsg.setYzg(data.total.getYHYZG());
+        EventBus.getDefault().post(HiddenMsg);
+
         PushCacheUtils.getInstance().compareLocalSecurityPushMessage(getContext(),listMessage);
+
+        if (isUpRefresh){
+            adapter.clear();
+            isUpRefresh = false;
+            ptrLayout.complete();
+        }
+        if (isDownRefresh){
+            isDownRefresh = false;
+            ptrLayout.complete();
+        }
+
+        if (data.list.size() == 0 && adapter.getCount() > 0){
+            return;
+        }
+
         adapter.addAll(listMessage);
         adapter.notifyDataSetChanged();
         lv_message.setAdapter(adapter);
@@ -218,6 +375,12 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
     }
 
     @Override
+    public void getWorkError() {
+        ptrLayout.complete();
+        hideLoading();
+    }
+
+    @Override
     public void onResume() {
         registerBroadcast();
         super.onResume();
@@ -231,4 +394,9 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
         super.onPause();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

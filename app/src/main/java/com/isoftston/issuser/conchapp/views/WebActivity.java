@@ -144,7 +144,7 @@ public class WebActivity extends BaseActivity<CheckView,CheckPresenter> implemen
     public void setDescription(String description) {
         webContent = description;
         if(!TextUtils.isEmpty(webContent)){
-            web.loadData(webContent,"text/html", "utf-8");
+            web.loadData(webContent, "text/html; charset=UTF-8", null);
         }
     }
 

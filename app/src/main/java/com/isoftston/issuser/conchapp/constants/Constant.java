@@ -31,6 +31,7 @@ public class Constant {
     public static final String LOCATION_NAME = "loaction_name";
 
     public static final String  MESSAGE_SEARCH = "message_search";
+    public static final String  SAFE_SEARCH = "message_safe";
     public static final String  WORK_SEARCH = "work_search";
     public static final String  CHECK_SEARCH = "check_search";
     //发现单位

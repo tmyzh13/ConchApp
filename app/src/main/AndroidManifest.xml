@@ -190,7 +190,7 @@
                 android:resource="@xml/filepath" />
         </provider>
 
-        <activity android:name=".MainActivity" android:launchMode="singleTask">
+        <activity android:name=".MainActivity" >
 
         </activity>
         <activity android:name=".views.LoginActivity"

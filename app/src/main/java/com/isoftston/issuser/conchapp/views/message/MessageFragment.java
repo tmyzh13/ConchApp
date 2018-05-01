@@ -515,12 +515,6 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         viewPager.setCurrentItem(i);
     }
 
-    @OnClick(R.id.location_city_tv)
-    public void location() {
-        Intent intent = new Intent(getViewContext(), CityLocationActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
 
     //手动选择城市
     @Subscribe

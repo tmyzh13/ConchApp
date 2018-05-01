@@ -8,7 +8,6 @@ import com.corelibs.base.BasePresenter;
 import com.corelibs.subscriber.ResponseSubscriber;
 import com.isoftston.issuser.conchapp.model.apis.SecurityApi;
 import com.isoftston.issuser.conchapp.model.bean.AddYHBean;
-import com.isoftston.issuser.conchapp.model.bean.AddWZMessageRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
 import com.isoftston.issuser.conchapp.model.bean.OrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
@@ -19,7 +18,6 @@ import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.SecuryView;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,6 +25,9 @@ import java.util.List;
  */
 
 public class SecurityPresenter extends BasePresenter<SecuryView> {
+
+    private final String TAG = SecurityPresenter.class.getSimpleName();
+
     private SecurityApi api;
     @Override
     public void onStart() {
@@ -100,6 +101,8 @@ public class SecurityPresenter extends BasePresenter<SecuryView> {
                     public void onError(Throwable e) {
                         super.onError(e);
                     }
+
+
                 });
     }
     public void uploadImg(List<File> listFiles){

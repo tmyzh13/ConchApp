@@ -51,6 +51,8 @@ public class Urls {
     public static final String GET_MESSAGE_DETAIL_INFO="home/list";
     //获取安全信息列表（隐患违章我的）
     public static final String GET_SECURITY_DATAS="info/conditionsearch";
+    //搜索（安全）
+    public static final String GET_SECURITY_SEACHER="safety/conditionsearch";
 
     //违章界面 添加违章信息
     public static final String ADD_WZ_MESSAGE="safety/addBreakRule";
@@ -69,6 +71,8 @@ public class Urls {
     public static final String ADD_WORK="job/createJob ";
     //修改作业
     public static final String FIX_WORK="job/modifyJob";
+    //查询作业
+    public static final String FIX_WORK_SEACHER="job/searchWork";
     //撤销作业
     public static final String CANCEL_JOB="job/cancelJob";
     //提交作业
@@ -98,7 +102,7 @@ public class Urls {
     // 获取作业设备类型
     public static final String GET_EQUPMENT_TYPE="device/getType";
     // 通过设备类型获取设备信息
-    public static final String GET_EQUPMENT_INFO_BY_TYPE="device/totalExamine ";
+    public static final String GET_EQUPMENT_INFO_BY_TYPE="device/queryByType";
     //危险作业类别
     public static final String DANGER_WORK_TYPE="dictionaries/WXZYLB";
     //设备类型

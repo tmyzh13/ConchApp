@@ -122,7 +122,7 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
         navBar.showSeach(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(SeacherActivity.getLauncher(getContext(), "2"));
+                startActivity(SeacherActivity.getLauncher(getContext(), "3"));
             }
         });
         navBar.showSeachColor(2);
