@@ -51,9 +51,19 @@ public class GetThumbService extends UmengMessageService {
                 broadcaseIntent.putExtra("getThumbService.content" , msg.text);
             }
             if (msg.extra != null) {
+
+                if(msg.extra.containsKey("id") && msg.extra.containsKey("type")){
+                    broadcaseIntent.putExtra("getThumbService.id", msg.extra.get("id"));
+                    broadcaseIntent.putExtra("getThumbService.type", msg.extra.get("type"));
+                }else{
+                    broadcaseIntent.putExtra("getThumbService.id", "285");
+                    broadcaseIntent.putExtra("getThumbService.type", "1");
+                }
                 PushCacheUtils.getInstance().writePushLocalCache(context,msg.extra);
             }else{
                 PushCacheUtils.getInstance().writePushLocalCache(context,msg.extra);
+                broadcaseIntent.putExtra("getThumbService.id", "285");
+                broadcaseIntent.putExtra("getThumbService.type", "1");
             }
 
             //实例化通知管理器
