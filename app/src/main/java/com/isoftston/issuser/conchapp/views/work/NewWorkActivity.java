@@ -300,18 +300,17 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
                     rl_charger.setVisibility(View.VISIBLE);
                     rl_gas_checker.setVisibility(View.GONE);
                 }
-                if (totalist.size() > i) {
-                    type = Integer.parseInt(totalist.get(i).getCode());
+                if (i != 0) {
+                    type = Integer.parseInt(totalist.get(i-1).getCode());
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                mySpinner.setSelection(0);
-                type = Integer.parseInt(totalist.get(0).getCode());
             }
 
         });
+
         aboutSpinner();
 
     }
@@ -622,7 +621,6 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     @Override
     public void getDangerWorkTypeResult(List<DangerTypeBean> list) {
         totalist = list;
-        dangerTypeList.clear();
         for (DangerTypeBean bean : list) {
             dangerTypeList.add(bean.getName());
         }
