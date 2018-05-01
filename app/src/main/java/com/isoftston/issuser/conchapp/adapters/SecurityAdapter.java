@@ -43,7 +43,7 @@ public class SecurityAdapter extends QuickAdapter<SecurityTroubleBean> {
 
         if ("ZYZYWZBD".equals(item.getYhlx())||"QT".equals(item.getYhlx())|| "YHSW".equals(item.getYhlx())||"WCZWZZY".equals(item.getYhlx())||"ZHSWWZZH".equals(item.getYhlx())||"GRFHZBBQ".equals(item.getYhlx())) {
             item_icon.setImageResource(R.mipmap.yh_icon);
-            helper.setText(R.id.item_title, context.getString(R.string.yh_message))
+            helper.setText(R.id.item_title, context.getString(R.string.wz_message))
                     .setText(R.id.address, item.getYhdd())
                     .setText(R.id.content, item.getYhms());
             if (!"".equals(item.getCjsj())) {
@@ -59,7 +59,7 @@ public class SecurityAdapter extends QuickAdapter<SecurityTroubleBean> {
 //            }
         } else {
             item_icon.setImageResource(R.mipmap.yh_icon);
-            helper.setText(R.id.item_title, context.getString(R.string.wz_message))
+            helper.setText(R.id.item_title, context.getString(R.string.yh_message))
                     .setText(R.id.address, item.getYhdd())
                     .setText(R.id.content, item.getYhms());
             if (!"".equals(item.getCjsj())) {

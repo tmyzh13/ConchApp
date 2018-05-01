@@ -13,8 +13,10 @@ import android.widget.TextView;
 import com.corelibs.base.BaseFragment;
 import com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout;
 import com.corelibs.views.ptr.loadmore.widget.AutoLoadMoreListView;
+import com.google.zxing.client.android.Intents;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.SecurityAdapter;
+import com.isoftston.issuser.conchapp.model.bean.HiddenTroubleMsgNumBean;
 import com.isoftston.issuser.conchapp.model.bean.MsgTotalCountBean;
 import com.isoftston.issuser.conchapp.model.bean.OrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeBean;
@@ -191,6 +193,16 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
         msg.setWzCount(data.total.getWZ());
         msg.setIsUpdate(0);
         EventBus.getDefault().post(msg);
+
+        HiddenTroubleMsgNumBean HiddenMsg = new HiddenTroubleMsgNumBean();
+        HiddenMsg.setAll(data.total.getYH());
+        HiddenMsg.setFb(data.total.getYHFB());
+        HiddenMsg.setWys(data.total.getYHWYS());
+        HiddenMsg.setWzg(data.total.getYHWZG());
+        HiddenMsg.setYq(data.total.getYHYQ());
+        HiddenMsg.setYzg(data.total.getYHYZG());
+        EventBus.getDefault().post(HiddenMsg);
+
         PushCacheUtils.getInstance().compareLocalSecurityPushMessage(getContext(),listMessage);
         adapter.addAll(listMessage);
         adapter.notifyDataSetChanged();

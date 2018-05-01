@@ -84,21 +84,6 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
         public void handleMessage(Message msg) {
             if(msg.what == PushBroadcastReceiver.MESS_PUSH_CODE){
                 updateNavTab();
-
-                //更新总数
-                MsgTotalCountBean bean = new MsgTotalCountBean();
-                MessageBean msgBean = ((MessageBean) msg.obj);
-                if("1".equals(msgBean.getType()))
-                {
-                    bean.setYhCount(1);
-                }
-                else if("2".equals(msgBean.getType()))
-                {
-                    bean.setWdCount(1);
-                }
-                bean.setIsUpdate(1);
-                EventBus.getDefault().post(bean);
-
             }
         }
     };
