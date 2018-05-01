@@ -496,7 +496,13 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         bean.setPart(part);
         bean.setContent(content);
         bean.setCompany(company);
-        bean.setNumberPeople(Integer.parseInt(numPeople));
+        try{
+            bean.setNumberPeople(Integer.parseInt(numPeople));
+        }
+        catch(Exception e){
+           ToastMgr.show(R.string.input_num);
+           return;
+        }
         bean.setType(type);
         bean.setLeading(leading);
         bean.setGuardian(guardian);

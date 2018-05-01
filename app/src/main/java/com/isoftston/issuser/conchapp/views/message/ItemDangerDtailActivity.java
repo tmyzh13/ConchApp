@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.corelibs.base.BaseActivity;
 import com.corelibs.views.roundedimageview.RoundedTransformationBuilder;
+import com.isoftston.issuser.conchapp.MainActivity;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.mGridViewAdapter;
 import com.isoftston.issuser.conchapp.constants.Urls;
@@ -24,6 +25,7 @@ import com.isoftston.issuser.conchapp.model.bean.MessageDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageListInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.WeatherResponseBean;
 import com.isoftston.issuser.conchapp.presenter.MessagePresenter;
+import com.isoftston.issuser.conchapp.utils.DateUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.MessageView;
 import com.isoftston.issuser.conchapp.views.message.adpter.VpAdapter;
 import com.isoftston.issuser.conchapp.views.message.utils.PushCacheUtils;
@@ -31,6 +33,7 @@ import com.isoftston.issuser.conchapp.weight.MyGridView;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +43,7 @@ import butterknife.Bind;
  * Created by issuser on 2018/4/10.
  */
 
-public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter> implements MessageView {
+public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePresenter> implements MessageView {
     @Bind(R.id.nav)
     NavBar nav;
     @Bind(R.id.tv_title)
@@ -75,11 +78,17 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
     TextView msyh_tv;
     @Bind(R.id.yhly_tv)
     TextView yhly_tv;
+    @Bind(R.id.ll_fix_pic)
+    LinearLayout ll_fix_pic;
+
+
 
     private List<View> imageList;
     private ArrayList<View> dotsList;
 //    private int[] images = {R.drawable.aaa,R.drawable.bbb,R.drawable.ccc,R.drawable.ddd};
     private List<String> urls = new ArrayList<>();
+    private List<String> zgurls = new ArrayList<>();
+
     private mGridViewAdapter gridViewAdapter;
     private ArrayList<Map<String, Object>> data_list;
     public Handler handler = new Handler(){
@@ -211,20 +220,22 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
         //初始化vp的位置
         vp.setCurrentItem(0);
 
-        if(urls!=null&&urls.size()>0){
-            gridViewAdapter = new mGridViewAdapter(this, urls);
+        if(zgurls!=null&&zgurls.size()>0){
+            gridViewAdapter = new mGridViewAdapter(this, zgurls);
             mGridView.setAdapter(gridViewAdapter);
             mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 //                Map<String, Object> map = data_list.get(i);
-                    Intent intent=new Intent(ItemDtailActivity.this,ImageDetilActivity.class);
+                    Intent intent=new Intent(ItemDangerDtailActivity.this,ImageDetilActivity.class);
                     Bundle bundle=new Bundle();
-                    bundle.putStringArrayList("imagepath", (ArrayList<String>) urls);
+                    bundle.putStringArrayList("imagepath", (ArrayList<String>) zgurls);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }
             });
+        }else{
+            ll_fix_pic.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -234,23 +245,52 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
         }
         tv_yh_finder.setText(bean.getFxrmc());
         String picPath[];
-        if(bean.getTplj()!=null){
+        if(bean.getDangerPhoto()!=null){
 
-            picPath = bean.getTplj().split(",");
+            picPath = bean.getDangerPhoto().split(",");
             for (String path : picPath){
                 urls.add(Urls.ROOT+path);
             }
         }
 
+        String zgpicPath[];
+        if(bean.getRepairPhoto()!=null){
 
-        tv_company.setText(bean.getGsmc());
-        tv_time.setText(bean.getFxrq());
-        sjdwmc_tv.setText(bean.getSjdwmc());
-        yhdd_tv.setText(bean.getYhdd());
-        yhbw_tv.setText(bean.getYhbw());
-        yhly_tv.setText(bean.getYhly());
+            zgpicPath = bean.getRepairPhoto().split(",");
+            for (String path : zgpicPath){
+                zgurls.add(Urls.ROOT+path);
+            }
+        }
+
+
+
+        tv_company.setText(bean.getFxrCompany());
+        tv_time.setText(DateUtils.getMillionToString(bean.getFxsj()));
+        sjdwmc_tv.setText(bean.getFxrCompany());
+        yhdd_tv.setText(bean.getDangerSite());
+        yhbw_tv.setText(bean.getDangerPart());
+
+        //zgqx_tv
+
+        Map<String,String> fromLYMap= MainActivity.fromLYMap;
+        Map<String,String> fromLXMap=MainActivity.fromLXMap;
+        if(fromLYMap!=null) {
+            String yhly = bean.getYhly();
+            if(yhly==null){
+                ll_fix_pic.setVisibility(View.GONE);
+            }else{
+                yhly_tv.setText(fromLYMap.get(yhly));
+            }
+
+        }
         msyh_tv.setText(bean.getYhms());
-        if ("YBYH".equals(bean.getYhjb())){
+
+        if(fromLXMap!=null) {
+            String dangerType = bean.getDangerType();
+            yhlx_tv.setText(fromLXMap.get(dangerType));
+        }
+
+        if ("YBYH".equals(bean.getDangerLevel())){
             yhjb_tv.setText("一般隐患");
         }else{
             yhjb_tv.setText("重大隐患");

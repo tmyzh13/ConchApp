@@ -7,12 +7,19 @@ import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BasePresenter;
+import com.corelibs.views.roundedimageview.RoundedTransformationBuilder;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.views.message.adpter.VpAdapter;
 
@@ -94,14 +101,44 @@ public class ImageDetilActivity extends BaseActivity{
         for (int i = 0; i < urls.size(); i++) {
             View view = LayoutInflater.from(getApplicationContext()).inflate(
                     R.layout.viewpager_item, null);
-            ImageView iv = view.findViewById(R.id.view_image);
-            Glide.with(this).load(urls.get(i))
+            final ImageView imageView = view.findViewById(R.id.view_image);
+//            Glide.with(this).load(urls.get(i))
 //                    .centerCrop()
-//                    .override(320,160)
-//                    .transform(new CenterCrop(this), new RoundedTransformationBuilder().cornerRadius(20).build(this))
-                    .into(iv);
+//                    .override(320,480)
+////                    .transform(new CenterCrop(this), new RoundedTransformationBuilder().cornerRadius(0).build(this))
+//                    .into(imageView);
+            Glide.with(this)
+                    .load(urls.get(i))
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .listener(new RequestListener<String, GlideDrawable>() {
+                        @Override
+                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            if (imageView == null) {
+                                return false;
+                            }
+                            if (imageView.getScaleType() != ImageView.ScaleType.FIT_XY) {
+                                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                            }
+                            ViewGroup.LayoutParams params = imageView.getLayoutParams();
+                            int vw = imageView.getWidth() - imageView.getPaddingLeft() - imageView.getPaddingRight();
+                            float scale = (float) vw / (float) resource.getIntrinsicWidth();
+                            int vh = Math.round(resource.getIntrinsicHeight() * scale);
+                            params.height = vh + imageView.getPaddingTop() + imageView.getPaddingBottom();
+                            imageView.setLayoutParams(params);
+                            return false;
+                        }
+                    })
+//                    .placeholder(errorImageId)
+//                    .error(errorImageId)
+                    .into(imageView);
             imageList.add(view);
         }
+
     }
 
     private void initDots() {

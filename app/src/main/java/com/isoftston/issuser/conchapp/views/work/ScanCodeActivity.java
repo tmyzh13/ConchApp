@@ -1,6 +1,7 @@
 package com.isoftston.issuser.conchapp.views.work;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -33,7 +34,6 @@ import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.ImageInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.ResponseDataBean;
-import com.isoftston.issuser.conchapp.model.bean.ScanInfo;
 import com.isoftston.issuser.conchapp.model.bean.SubmitJobBody;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
@@ -151,9 +151,9 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             LinearLayout scanCodeLl;
     LinearLayout scanCodeLayout;////扫码
     LinearLayout takePhotoLayout;//拍照
-    @Bind(R.id.scan_flag_iv)
+//    @Bind(R.id.scan_flag_iv)
     ImageView scanFlagIv1;//第一轮扫码、拍照标记view
-    @Bind(R.id.photo_flag_iv)
+//    @Bind(R.id.photo_flag_iv)
     ImageView photoFlagIv1;
     private boolean isScaned1 = false;//是否扫过
     private boolean isPhotoed1 = false;//是否拍过照
@@ -201,16 +201,16 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     private boolean flage2 = false;
     private boolean flage3 = false;
 
-    public Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
+    @SuppressLint("HandlerLeak")
+    public Handler handler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case SCANED1:
                     isScaned1 = true;
                     hintScan1Success();
                     break;
                 case PHOTED1:
-                    isPhotoed1 = true;
+                    isPhotoed2 = true;
                     hintPhoto1Success();
                     break;
                 case SCANED2:
@@ -228,20 +228,21 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                     scanedLayout.setVisibility(View.GONE);
                     if (isChargePerson) {
                         changeChargersToGreen();
-                    }else if (isGurdianPerson){
+                    } else if (isGurdianPerson) {
                         changeGuardiansToGreen();
-                    }else if (isAuditorPerson){
+                    } else if (isAuditorPerson) {
                         changeAuditorsToGreen();
-                    }else if (isApproverPerson){
+                    } else if (isApproverPerson) {
                         changeApproversToGreen();
                     }
                     break;
                 default:
                     break;
             }
-            return true;
         }
-    });
+
+    };
+
     private WorkDetailBean workDetailBean;
 
     @Override
@@ -302,7 +303,8 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                     showAllBtn();
                 } else if (userId.equals(bean.approver) || bean.equals(bean.auditor)
                         || userId.equals(bean.guardian)) {
-                    commitBtn.setVisibility(View.VISIBLE);
+                    commitBtn.setVisibility(View.GONE);
+                    scanCodeLl.setVisibility(View.GONE);
                 } else {
                     scanCodeLl.setVisibility(View.GONE);
                 }
@@ -316,6 +318,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                 changeChargersToGreen();
                 if (userId.equals(bean.leading)) {
                     hideAllBtn();
+                    scanCodeLl.setVisibility(View.GONE);
                 }
                 isChargePersonDown = true;
                 for (ImageInfoBean imageInfoBean : datas) {
@@ -350,6 +353,9 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             case 4://负责人结束扫描:第二轮负责人已提交
                 turn = 2;
                 changeChargersToBlue();
+                changeGuardiansToGreen();
+                changeAuditorsToGreen();
+                changeApproversToGreen();
                 isChargePersonDown = true;
                 //1.根据历史信息改变相关人员的UI， 2.根据当前用户展示不同按钮
                 for (ImageInfoBean imageInfoBean : datas) {
@@ -365,13 +371,16 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                 break;
             case 5://完成:两轮都完成
                 //隐藏所以功能按钮
-                hideAllBtn();
-                changeChargersToGreen();
-                changeGuardiansToGreen();
-                changeAuditorsToGreen();
-                changeApproversToGreen();
+                changeChargersToBlue();
+                changeGuardiansToBlue();
+                changeAuditorsToBlue();
+                changeApproversToBlue();
                 scanCodeLl.setVisibility(View.GONE);
                 scanedLayout.setVisibility(View.GONE);
+                turn = 2;
+                flage1=true;
+                flage2=true;
+                flage3=true;
                 break;
             default:
                 break;
@@ -383,19 +392,20 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             scanCodeLlInner.setVisibility(View.GONE);
             commitBtn.setVisibility(View.GONE);
         }
-        if (guardianCount==1){
+
+        if (guardianCount==1&&userId.equals(bean.getGuardian())){
             commitBtn.setVisibility(View.VISIBLE);
             scanCodeLlInner.setVisibility(View.VISIBLE);
         }else if (guardianCount==2){
             changeGuardiansToBlue();
         }
-        if (auditorCount==1){
+        if (auditorCount==1&&userId.equals(bean.getAuditor())){
             commitBtn.setVisibility(View.VISIBLE);
             scanCodeLlInner.setVisibility(View.VISIBLE);
         }else if (auditorCount==2){
             changeAuditorsToBlue();
         }
-        if (approverCount==1){
+        if (approverCount==1&&userId.equals(bean.getApprover())){
             commitBtn.setVisibility(View.VISIBLE);
             scanCodeLlInner.setVisibility(View.VISIBLE);
         }else if (approverCount==2){
@@ -406,7 +416,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             isChargePerson = true;
         } else if (userId.equals(bean.guardian)) {
             isGurdianPerson = true;
-            if (!flage1) {
+            if (!flage1&&bean.status>0) {
                 commitBtn.setVisibility(View.VISIBLE);
             } else {
                 scanCodeLl.setVisibility(View.GONE);
@@ -417,7 +427,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             }
         } else if (userId.equals(bean.auditor)) {
             isAuditorPerson = true;
-            if (!flage2) {
+            if (!flage2&&bean.status>0) {
                 commitBtn.setVisibility(View.VISIBLE);
             } else {
                 scanCodeLl.setVisibility(View.GONE);
@@ -429,7 +439,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
 
         } else if (userId.equals(bean.approver)) {
             isApproverPerson = true;
-            if (!flage3) {
+            if (!flage3&&bean.status>0) {
                 commitBtn.setVisibility(View.VISIBLE);
             } else {
                 scanCodeLl.setVisibility(View.GONE);
@@ -449,8 +459,14 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             scanCodeLlInner.setVisibility(View.GONE);
         }
         Log.i("test","---test:"+approverCount+"---"+auditorCount+"---"+guardianCount);
+        if (turn==2 && bean.status==3&&userId.equals(bean.leading)){
+            commitBtn.setVisibility(View.VISIBLE);
+            scanCodeLlInner.setVisibility(View.VISIBLE);
+            scanedLayout.setVisibility(View.VISIBLE);
+        }
         scan();
         scaned();
+
     }
 
     private void changeGuardiansToBlue() {
@@ -564,16 +580,19 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     }
 
     private void initView() {
+
         //没有扫描和拍照，显示布局
         scanCodeLayout = scanCodeLl.findViewById(R.id.scan_code_layout);
-        scanFlagIv = scanCodeLayout.findViewById(R.id.scan_flag_iv);
+//        scanFlagIv = scanCodeLayout.findViewById(R.id.scan_flag_iv1);
         takePhotoLayout = scanCodeLl.findViewById(R.id.take_photo_layout);
-        photoFlagIv = takePhotoLayout.findViewById(R.id.photo_flag_iv);
+//        photoFlagIv = takePhotoLayout.findViewById(R.id.photo_flag_iv1);
+        scanFlagIv1=scanCodeLl.findViewById(R.id.scan_flag_iv1);
+        photoFlagIv1=scanCodeLl.findViewById(R.id.photo_flag_iv1);
         //所有人扫过后按钮在内部显示
         scanCodeInner = scanCodeLlInner.findViewById(R.id.scan_code_layout);
         takePhotoInnerLayout = scanCodeLlInner.findViewById(R.id.take_photo_layout);
-        scanFlagIv2 = scanCodeLlInner.findViewById(R.id.scan_flag_iv);
-        photoFlagIv2 = scanCodeLlInner.findViewById(R.id.photo_flag_iv);
+        scanFlagIv2 = scanCodeLlInner.findViewById(R.id.scan_flag_iv1);
+        photoFlagIv2 = scanCodeLlInner.findViewById(R.id.photo_flag_iv1);
 
         jobId = getIntent().getStringExtra("jobId");
         Log.e(TAG, "----jobId:" + jobId);
@@ -709,7 +728,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
 //            } else if (status == 2) {
             Message message = new Message();
 
-            if (status == 2) {
+            if (turn == 1) {
                 message.what = PHOTED1;
             } else {
                 message.what = PHOTED2;
@@ -748,7 +767,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
 //                } else if (status == 2) {
                 Message message = new Message();
 //                message.what=SCANED1;
-                if (status == 2) {
+                if (turn==1) {
                     message.what = SCANED1;
                 } else {
                     message.what = SCANED2;

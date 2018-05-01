@@ -24,6 +24,10 @@ import com.corelibs.views.tab.TabChangeInterceptor;
 import com.corelibs.views.tab.TabNavigator;
 import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
+import com.isoftston.issuser.conchapp.model.bean.OrgBean;
+import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
+import com.isoftston.issuser.conchapp.model.bean.YhlxBean;
+import com.isoftston.issuser.conchapp.model.bean.YhlyBean;
 import com.isoftston.issuser.conchapp.presenter.LoginPresenter;
 import com.isoftston.issuser.conchapp.views.LoginActivity;
 import com.isoftston.issuser.conchapp.views.check.CheckFragment;
@@ -37,9 +41,13 @@ import com.isoftston.issuser.conchapp.views.work.WorkFragment;
 import com.umeng.message.PushAgent;
 import com.umeng.message.common.inter.ITagManager;
 import com.umeng.message.tag.TagManager;
+import com.isoftston.issuser.conchapp.model.bean.MsgTotalCountBean;
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 
@@ -52,6 +60,15 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
     private String[] tabTags;
     private Context context=MainActivity.this;
     private PushBroadcastReceiver pushBroadcastReceiver;
+
+    private List<String> findCompanyList=new ArrayList<>();
+    private List<String> checkCompanyList=new ArrayList<>();
+    private List<String> fromList=new ArrayList<>();
+    private List<String> fromListId=new ArrayList<>();
+    public static Map<String,String> fromLYMap=new HashMap<String, String>();
+    public static Map<String,String> fromLXMap=new HashMap<String, String>();
+
+    private List<OrgBean> org=new ArrayList<>();
 
     private int bgRecourse[] = new int[]{
             R.drawable.tab_msg,
@@ -67,6 +84,21 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
         public void handleMessage(Message msg) {
             if(msg.what == PushBroadcastReceiver.MESS_PUSH_CODE){
                 updateNavTab();
+
+                //更新总数
+                MsgTotalCountBean bean = new MsgTotalCountBean();
+                MessageBean msgBean = ((MessageBean) msg.obj);
+                if("1".equals(msgBean.getType()))
+                {
+                    bean.setYhCount(1);
+                }
+                else if("2".equals(msgBean.getType()))
+                {
+                    bean.setWdCount(1);
+                }
+                bean.setIsUpdate(1);
+                EventBus.getDefault().post(bean);
+
             }
         }
     };
@@ -109,7 +141,9 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
         });
 
         //presenter = createPresenter();
-
+        if(presenter!=null){
+            presenter.getCompanyChoiceList();
+        }
         registerBroadcast();
     }
 
@@ -256,6 +290,33 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
         }else{
             deleteTag(tag);
         }
+    }
+
+    @Override
+    public void getSafeChoiceList(SecuritySearchBean bean) {
+        checkCompanyList.clear();
+        findCompanyList.clear();
+        org = bean.ORG;
+        for (OrgBean orgBean: org){
+            checkCompanyList.add(orgBean.getORG_NAME_());
+            findCompanyList.add(orgBean.getORG_NAME_());
+        }
+        List<YhlyBean> YHLY=bean.YHLY;
+
+        for (YhlyBean yhlyBean:YHLY){
+            //fromList.add(yhlyBean.getNAME_());
+            //fromListId.add(yhlyBean.getCODE_());
+            fromLYMap.put(yhlyBean.getCODE_(),yhlyBean.getNAME_());
+        }
+
+        List<YhlxBean> YHLX=bean.YHLX;
+
+        for (YhlxBean yhlyBean:YHLX){
+            //fromList.add(yhlyBean.getNAME_());
+            //fromListId.add(yhlyBean.getCODE_());
+            fromLXMap.put(yhlyBean.getCODE_(),yhlyBean.getNAME_());
+        }
+
     }
 
 

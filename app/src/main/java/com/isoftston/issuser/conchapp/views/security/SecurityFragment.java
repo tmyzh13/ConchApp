@@ -15,6 +15,7 @@ import com.corelibs.base.BaseFragment;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.IllegalTypeAdapter;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
+import com.isoftston.issuser.conchapp.model.bean.MsgTotalCountBean;
 import com.isoftston.issuser.conchapp.presenter.SecurityPresenter;
 import com.isoftston.issuser.conchapp.views.interfaces.SecuryView;
 import com.isoftston.issuser.conchapp.views.message.utils.PushBroadcastReceiver;
@@ -22,6 +23,9 @@ import com.isoftston.issuser.conchapp.views.message.utils.PushCacheUtils;
 import com.isoftston.issuser.conchapp.views.seacher.SeacherActivity;
 import com.isoftston.issuser.conchapp.weight.MyViewPager;
 import com.isoftston.issuser.conchapp.weight.NavBar;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -53,6 +57,9 @@ public class SecurityFragment extends BaseFragment<SecuryView, SecurityPresenter
     @Bind(R.id.myViewPager)
     MyViewPager myViewPager;
 
+    private Integer yhTotalCount = 0;
+
+    private Integer wzTotalCount = 0;
 
     //选择当前信息类型 默认隐患
     private String type = "yh";
@@ -75,6 +82,7 @@ public class SecurityFragment extends BaseFragment<SecuryView, SecurityPresenter
     protected void init(Bundle savedInstanceState) {
 //        tabLayout.getTabAt(index).setText(name)
 
+        EventBus.getDefault().register(this);
         nav.setColorRes(R.color.app_blue);
         nav.setNavTitle(getString(R.string.home_security));
         nav.hideBack();
@@ -105,6 +113,25 @@ public class SecurityFragment extends BaseFragment<SecuryView, SecurityPresenter
         setConcerMark();
     }
 
+    //手动选择城市
+    @Subscribe
+    public void getTotalCountBean(MsgTotalCountBean bean) {
+        if(bean.getIsUpdate() == 1)
+        {
+            yhTotalCount = yhTotalCount + bean.getYhCount();
+            wzTotalCount = wzTotalCount + bean.getWzCount();
+        }
+        else
+        {
+            yhTotalCount = bean.getYhCount();
+            wzTotalCount = bean.getWzCount();
+        }
+
+        String hiddenTxt = getResources().getString(R.string.hidden_trouble) + " " + yhTotalCount;
+        tv_hidden_trouble.setText(hiddenTxt);
+        String illegalTxt = getResources().getString(R.string.illegal_msg) + " " + wzTotalCount;
+        tv_illegal.setText(illegalTxt);
+    }
 
     private void setConcerMark() {
         List<MessageBean> list = PushCacheUtils.getInstance().readPushLocalCache(getContext());
@@ -221,5 +248,10 @@ public class SecurityFragment extends BaseFragment<SecuryView, SecurityPresenter
         myViewPager.setCurrentItem(2);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 
 }

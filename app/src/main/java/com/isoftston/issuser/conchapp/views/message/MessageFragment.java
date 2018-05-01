@@ -317,15 +317,32 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         lv_message.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getActivity(), ItemDtailActivity.class);
+                MessageBean bean = (MessageBean) adapterView.getAdapter().getItem(i);
+                Intent intent = null;
+                //yh:隐患，wz：违章，aq：安全
+                if(bean!=null&&"yh".equals(bean.getType())){
+                   intent = new Intent(getActivity(), ItemDangerDtailActivity.class);
+                }else if(bean!=null&&"wz".equals(bean.getType())){
+                    intent = new Intent(getActivity(), ItemDtailActivity.class);
+                }else if(bean!=null&&"aq".equals(bean.getType())){
+                    intent = new Intent(getActivity(), ItemDtailActivity.class);
+                }
+
+                if(intent==null){
+                    return;
+                }
+
                 Bundle bundle=new Bundle();
                 View  readStatus= view.findViewById(R.id.view_read_statue);
                 readStatus.setVisibility(View.GONE);
-                MessageBean bean = (MessageBean) adapterView.getAdapter().getItem(i);
+
                 bundle.putString("type",bean.getType());
                 bundle.putString("id",bean.getId());
                 intent.putExtras(bundle);
                 startActivity(intent);
+
+
+
             }
         });
         lv_message.setOnScrollListener(new AbsListView.OnScrollListener() {
