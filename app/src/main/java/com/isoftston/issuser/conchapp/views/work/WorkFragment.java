@@ -1,14 +1,10 @@
 package com.isoftston.issuser.conchapp.views.work;
 
 import android.content.Intent;
-
 import android.content.res.Resources;
 import android.os.Bundle;
-
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,10 +13,7 @@ import android.widget.TextView;
 
 import com.corelibs.base.BaseFragment;
 import com.corelibs.base.BasePresenter;
-import com.corelibs.utils.PreferencesHelper;
 import com.isoftston.issuser.conchapp.R;
-import com.isoftston.issuser.conchapp.constants.Constant;
-import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.views.seacher.SeacherActivity;
 import com.isoftston.issuser.conchapp.views.work.adpter.WorkTypeAdapter;
 import com.isoftston.issuser.conchapp.weight.NavBar;
@@ -86,7 +79,7 @@ public class WorkFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.iv_seach:
-                startActivity(SeacherActivity.getLauncher(getContext(),"1"));
+                startActivity(SeacherActivity.getLauncher(getContext(),"2"));
                 break;
             case R.id.tv_danger_work:
                 iv_add.setVisibility(View.VISIBLE);

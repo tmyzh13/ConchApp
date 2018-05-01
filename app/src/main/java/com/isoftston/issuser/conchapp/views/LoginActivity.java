@@ -67,6 +67,7 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
     protected int getLayoutId() {
         if (!TextUtils.isEmpty(PreferencesHelper.getData(Constant.LOGIN_STATUE))){
             startActivity(MainActivity.getLauncher(context));
+            finish();
         }
         return R.layout.activity_login;
     }
@@ -124,6 +125,7 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
 
         startActivity(MainActivity.getLauncher(context));
         ToastUtils.showtoast(context,getString(R.string.login_success));
+        finish();
     }
 
     @Override

@@ -18,9 +18,7 @@ import com.isoftston.issuser.conchapp.adapters.CheckPeopleAdapter;
 import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.CheckPeopleBean;
 import com.isoftston.issuser.conchapp.model.bean.EachMessageInfoBean;
-import com.isoftston.issuser.conchapp.model.bean.ResponseUserBean;
 import com.isoftston.issuser.conchapp.model.bean.SearchUserBean;
-import com.isoftston.issuser.conchapp.model.bean.UserBean;
 import com.isoftston.issuser.conchapp.presenter.SeacherPresenter;
 import com.isoftston.issuser.conchapp.utils.Tools;
 import com.isoftston.issuser.conchapp.views.interfaces.SeacherView;
@@ -153,6 +151,11 @@ public class ChoiceCheckPeopleActivity extends BaseActivity<SeacherView,SeacherP
 
     @Override
     public void getEachMessageListResult(EachMessageInfoBean data) {
+
+    }
+
+    @Override
+    public void getEachMessageListResult(Object data, String type) {
 
     }
 

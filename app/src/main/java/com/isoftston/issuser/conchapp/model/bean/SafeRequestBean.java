@@ -7,4 +7,5 @@ public class SafeRequestBean {
     public String type;
     public String item;
     public String lastId;
+    public String condition;
 }

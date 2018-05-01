@@ -51,19 +51,11 @@ public class GetThumbService extends UmengMessageService {
                 broadcaseIntent.putExtra("getThumbService.content" , msg.text);
             }
             if (msg.extra != null) {
-
                 if(msg.extra.containsKey("id") && msg.extra.containsKey("type")){
                     broadcaseIntent.putExtra("getThumbService.id", msg.extra.get("id"));
                     broadcaseIntent.putExtra("getThumbService.type", msg.extra.get("type"));
-                }else{
-                    broadcaseIntent.putExtra("getThumbService.id", "285");
-                    broadcaseIntent.putExtra("getThumbService.type", "1");
+                    PushCacheUtils.getInstance().writePushLocalCache(context,msg.extra);
                 }
-                PushCacheUtils.getInstance().writePushLocalCache(context,msg.extra);
-            }else{
-                PushCacheUtils.getInstance().writePushLocalCache(context,msg.extra);
-                broadcaseIntent.putExtra("getThumbService.id", "285");
-                broadcaseIntent.putExtra("getThumbService.type", "1");
             }
 
             //实例化通知管理器
@@ -75,7 +67,9 @@ public class GetThumbService extends UmengMessageService {
             builder.setDefaults(NotificationCompat.DEFAULT_ALL);//设置通知的方式，震动、LED灯、音乐等
             builder.setAutoCancel(true);//点击通知后，状态栏自动删除通知
             builder.setSmallIcon(android.R.drawable.ic_media_play);//设置小图标
-            builder.setContentIntent(PendingIntent.getActivity(this,0x102,new Intent(this,MainActivity.class),0));//设置点击通知后将要启动的程序组件对应的PendingIntent
+            Intent i= new Intent(this,MainActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            builder.setContentIntent(PendingIntent.getActivity(this,0x102,i,0));//设置点击通知后将要启动的程序组件对应的PendingIntent
             Notification notification=builder.build();
 
             //发送通知

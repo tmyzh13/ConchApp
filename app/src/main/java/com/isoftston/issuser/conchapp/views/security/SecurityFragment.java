@@ -90,7 +90,7 @@ public class SecurityFragment extends BaseFragment<SecuryView, SecurityPresenter
             @Override
             public void onClick(View v) {
                 //进入搜索界面
-                startActivity(SeacherActivity.getLauncher(getContext(), "0"));
+                startActivity(SeacherActivity.getLauncher(getContext(), "1"));
             }
         });
         nav.showAdd(new View.OnClickListener() {

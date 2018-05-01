@@ -57,22 +57,25 @@ public class PushCacheUtils {
         listLocal.addAll(list);
         SharePrefsUtils.putValue(context, Constant.PUSH_MESSAGE, JSONObject.toJSONString(listLocal));
     }
+
     /**
      * 缓存推送的消息
      *
      * @param context
      * @param map
      */
-    public void writePushLocalCache(Context context, Map<String,String> map) {
-        MessageBean bean = new MessageBean();
-        bean.setType("1");
-        bean.setId("285");
-        List<MessageBean> listLocal = readPushLocalCache(context);
-        if (listLocal == null) {
-            listLocal = new ArrayList<>();
+    public void writePushLocalCache(Context context, Map<String, String> map) {
+        if (map.containsKey("id") && map.containsKey("type")) {
+            MessageBean bean = new MessageBean();
+            bean.setType(map.get("type"));
+            bean.setId(map.get("id"));
+            List<MessageBean> listLocal = readPushLocalCache(context);
+            if (listLocal == null) {
+                listLocal = new ArrayList<>();
+            }
+            listLocal.add(bean);
+            SharePrefsUtils.putValue(context, Constant.PUSH_MESSAGE, JSONObject.toJSONString(listLocal));
         }
-        listLocal.add(bean);
-        SharePrefsUtils.putValue(context, Constant.PUSH_MESSAGE, JSONObject.toJSONString(listLocal));
     }
 
     /**
@@ -153,7 +156,7 @@ public class PushCacheUtils {
      * @param id      删除的信息id
      */
     public void removePushIdMessage(Context context, String id) {
-        if(TextUtils.isEmpty(id)){
+        if (TextUtils.isEmpty(id)) {
             return;
         }
         List<MessageBean> localList = readPushLocalCache(context);

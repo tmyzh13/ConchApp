@@ -8,12 +8,15 @@ import com.corelibs.base.BasePresenter;
 import com.corelibs.subscriber.ResponseSubscriber;
 import com.isoftston.issuser.conchapp.model.apis.SearchUserApi;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
-import com.isoftston.issuser.conchapp.model.bean.CheckPeopleBean;
+import com.isoftston.issuser.conchapp.model.bean.DeviceListBean;
 import com.isoftston.issuser.conchapp.model.bean.EachMessageInfoBean;
-import com.isoftston.issuser.conchapp.model.bean.MessageListRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageQueryBean;
 import com.isoftston.issuser.conchapp.model.bean.ResponseUserBean;
+import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
+import com.isoftston.issuser.conchapp.model.bean.SafeRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.SearchUserBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkListsBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkTypeRequestBean;
 import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.SeacherView;
 
@@ -36,9 +39,9 @@ public class SeacherPresenter extends BasePresenter<SeacherView> {
     }
 
     public void searchUserAction(SearchUserBean userBean) {
-        String token= SharePrefsUtils.getValue(getContext(),"token",null);
-        String token1=token.replaceAll("\"","");
-        api.searchUser(token1,userBean)
+        String token = SharePrefsUtils.getValue(getContext(), "token", null);
+        String token1 = token.replaceAll("\"", "");
+        api.searchUser(token1, userBean)
                 .compose(new ResponseTransformer<BaseData<ResponseUserBean>>(this.<BaseData<ResponseUserBean>>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData<ResponseUserBean>>() {
                     @Override
@@ -49,19 +52,19 @@ public class SeacherPresenter extends BasePresenter<SeacherView> {
     }
 
     public void searchMessage(String searchType, String key) {
-        MessageQueryBean bean=new MessageQueryBean();
+        MessageQueryBean bean = new MessageQueryBean();
         bean.setType(searchType);
         bean.setTitle(key);
-        String token=SharePrefsUtils.getValue(getContext(),"token",null);
-        Log.i("token",token);//94c29a2eaf903a1f4b3cc5996385dcd2
-        String token1=token.replaceAll("\"","");
-        api.searchMessageListInfo(token1,bean)
+        String token = SharePrefsUtils.getValue(getContext(), "token", null);
+        Log.i("token", token);//94c29a2eaf903a1f4b3cc5996385dcd2
+        String token1 = token.replaceAll("\"", "");
+        api.searchMessageListInfo(token1, bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<EachMessageInfoBean>>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData<EachMessageInfoBean>>() {
 
                     @Override
                     public void success(BaseData<EachMessageInfoBean> messageBaseData) {
-                        view.getEachMessageListResult(messageBaseData.data);
+                        view.getEachMessageListResult(messageBaseData.data, "0");
                     }
 
                     @Override
@@ -72,12 +75,107 @@ public class SeacherPresenter extends BasePresenter<SeacherView> {
 
                     @Override
                     public boolean operationError(BaseData<EachMessageInfoBean> messageListInfoBeanBaseData, int status, String message) {
-                        if (status==-200){
+                        if (status == -200) {
                             view.reLogin();
                         }
                         return false;
                     }
 
+                });
+    }
+
+    public void searchSafeMessage(String searchType, String key) {
+        SafeRequestBean bean = new SafeRequestBean();
+        bean.type = searchType;
+        bean.condition = key;
+        bean.lastId = "";
+        String token = SharePrefsUtils.getValue(getContext(), "token", null);
+        Log.i("token", token);//94c29a2eaf903a1f4b3cc5996385dcd2
+        String token1 = token.replaceAll("\"", "");
+        api.searchSafeMessageListInfo(token1, bean)
+                .compose(new ResponseTransformer<BaseData<SafeListBean>>(this.<BaseData<SafeListBean>>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData<SafeListBean>>() {
+                    @Override
+                    public void success(BaseData<SafeListBean> safeListBeanBaseData) {
+                        view.getEachMessageListResult(safeListBeanBaseData.data, "1");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        view.getWorkError();
+                    }
+
+                    @Override
+                    public boolean operationError(BaseData<SafeListBean> safeListBeanBaseData, int status, String message) {
+                        if (status == -200) {
+                            view.reLogin();
+                        }
+                        return false;
+                    }
+                });
+    }
+
+    public void searchWorkMessage(int searchType, String key) {
+        WorkTypeRequestBean bean = new WorkTypeRequestBean();
+        bean.type = searchType;
+        bean.keyWord = key;
+        bean.lastId = "";
+        String token = SharePrefsUtils.getValue(getContext(), "token", null);
+        Log.i("token", token);//94c29a2eaf903a1f4b3cc5996385dcd2
+        String token1 = token.replaceAll("\"", "");
+        api.searchWorkMessage(token1, bean)
+                .compose(new ResponseTransformer<BaseData<WorkListsBean>>(this.<BaseData<WorkListsBean>>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData<WorkListsBean>>() {
+                    @Override
+                    public void success(BaseData<WorkListsBean> safeListBeanBaseData) {
+                        view.getEachMessageListResult(safeListBeanBaseData.data, "2");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        view.getWorkError();
+                    }
+
+                    @Override
+                    public boolean operationError(BaseData<WorkListsBean> safeListBeanBaseData, int status, String message) {
+                        if (status == -200) {
+                            view.reLogin();
+                        }
+                        return false;
+                    }
+                });
+    }
+
+    public void searchDeviceMessage( String key) {
+        SafeRequestBean bean = new SafeRequestBean();
+        bean.condition = key;
+        bean.lastId = "";
+        String token = SharePrefsUtils.getValue(getContext(), "token", null);
+        Log.i("token", token);//94c29a2eaf903a1f4b3cc5996385dcd2
+        String token1 = token.replaceAll("\"", "");
+        api.searchDeviceMessage(token1, bean)
+                .compose(new ResponseTransformer<BaseData<DeviceListBean>>(this.<BaseData<DeviceListBean>>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData<DeviceListBean>>() {
+                    @Override
+                    public void success(BaseData<DeviceListBean> safeListBeanBaseData) {
+                        view.getEachMessageListResult(safeListBeanBaseData.data, "3");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        view.getWorkError();
+                    }
+
+                    @Override
+                    public boolean operationError(BaseData<DeviceListBean> safeListBeanBaseData, int status, String message) {
+                        if (status == -200) {
+                            view.reLogin();
+                        }
+                        return false;
+                    }
                 });
     }
 }
