@@ -11,7 +11,11 @@ import com.corelibs.subscriber.RxBusSubscriber;
 import com.corelibs.utils.rxbus.RxBus;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.MessageTypePageAdapter;
+import com.isoftston.issuser.conchapp.model.bean.HiddenTroubleMsgNumBean;
 import com.isoftston.issuser.conchapp.utils.Tools;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
 
@@ -28,6 +32,7 @@ public class HiddenTroubleMessageFragment extends BaseFragment {
     ViewPager viewPager;
 
     public String[] tabs;
+    private MessageTypePageAdapter adapter;
 
     @Override
     protected int getLayoutId() {
@@ -36,9 +41,10 @@ public class HiddenTroubleMessageFragment extends BaseFragment {
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        EventBus.getDefault().register(this);
         tabs=new String[]{getString(R.string.alls),getString(R.string.send),getString(R.string.not_alter),getString(R.string.overdue)
                 ,getString(R.string.altered),getString(R.string.not_check)};
-        final MessageTypePageAdapter adapter=new MessageTypePageAdapter(getActivity().getSupportFragmentManager(),tabs,0);
+        adapter =new MessageTypePageAdapter(getActivity().getSupportFragmentManager(),tabs,0);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         Tools.setIndicator(tabLayout,10,10);
@@ -60,4 +66,33 @@ public class HiddenTroubleMessageFragment extends BaseFragment {
         return null;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    //刷新
+    @Subscribe
+    public void refreshHiddenNum(HiddenTroubleMsgNumBean bean)
+    {
+
+        Integer[] values = new Integer[]{
+                bean.getAll(),
+                bean.getFb(),
+                bean.getWzg(),
+                bean.getYq(),
+                bean.getYzg(),
+                bean.getWys()
+        };
+
+        String[] tmps=new String[]{getString(R.string.alls),getString(R.string.send),getString(R.string.not_alter),getString(R.string.overdue)
+                ,getString(R.string.altered),getString(R.string.not_check)};
+
+        for(int i = 0;i < tmps.length;++i)
+        {
+            tabs[i] = tmps[i] + " " + values[i];
+        }
+        adapter.notifyDataSetChanged();
+    }
 }
