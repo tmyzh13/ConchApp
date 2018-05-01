@@ -24,4 +24,6 @@ public interface SecuryView extends BasePaginationView {
     void getOrgList(List<OrgBean> bean);
 
 	  void getOrgId(String orgId);
+
+    void getWorkError();
 }

@@ -26,6 +26,7 @@ import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
 import com.isoftston.issuser.conchapp.model.bean.OrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
+import com.isoftston.issuser.conchapp.model.bean.SecurityUpdateBean;
 import com.isoftston.issuser.conchapp.model.bean.YhlxBean;
 import com.isoftston.issuser.conchapp.model.bean.YhlyBean;
 import com.isoftston.issuser.conchapp.presenter.LoginPresenter;
@@ -68,6 +69,8 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
     public static Map<String,String> fromLYMap=new HashMap<String, String>();
     public static Map<String,String> fromLXMap=new HashMap<String, String>();
 
+    private final String TAG = MainActivity.class.getSimpleName();
+
     private List<OrgBean> org=new ArrayList<>();
 
     private int bgRecourse[] = new int[]{
@@ -84,6 +87,10 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
         public void handleMessage(Message msg) {
             if(msg.what == PushBroadcastReceiver.MESS_PUSH_CODE){
                 updateNavTab();
+                Log.i(TAG,"receive new push msg");
+                SecurityUpdateBean bean = new SecurityUpdateBean();
+                bean.setType(1);
+                EventBus.getDefault().post(bean);
             }
         }
     };
