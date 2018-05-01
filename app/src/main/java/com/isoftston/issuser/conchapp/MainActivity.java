@@ -66,7 +66,7 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
         @Override
         public void handleMessage(Message msg) {
             if(msg.what == PushBroadcastReceiver.MESS_PUSH_CODE){
-                writeLocalPushMessage((MessageBean)msg.obj);
+                updateNavTab();
             }
         }
     };
@@ -113,22 +113,6 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
         registerBroadcast();
     }
 
-    private void writeLocalPushMessage(MessageBean obj) {
-        List<MessageBean> list = new ArrayList<>();
-        list.add(obj);
-        PushCacheUtils.getInstance().writePushLocalCache(this,list);
-        updateNavTab();
-        sendPushBroadcastReceiver();
-    }
-
-    private void sendPushBroadcastReceiver() {
-        Intent intent = new  Intent();
-        //设置intent的动作为home_push，可以任意定义
-        intent.setAction("home_push");
-        //发送无序广播
-        sendOrderedBroadcast(intent, null);
-
-    }
 
     /**
      * 更新首页底部tab未读数量角标

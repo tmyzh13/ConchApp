@@ -358,7 +358,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
     }
     private void registerBroadcast() {
         broadcastReceiver = new PushBroadcastReceiver(mHander);
-        IntentFilter intentFilter = new IntentFilter("home_push");
+        IntentFilter intentFilter = new IntentFilter("getThumbService");
         getActivity().registerReceiver(broadcastReceiver, intentFilter);
     }
 

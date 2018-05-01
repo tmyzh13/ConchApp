@@ -162,7 +162,7 @@ public class SecurityFragment extends BaseFragment<SecuryView, SecurityPresenter
 
     private void registerBroadcast() {
         broadcastReceiver = new PushBroadcastReceiver(mHander);
-        IntentFilter intentFilter = new IntentFilter("home_push");
+        IntentFilter intentFilter = new IntentFilter("getThumbService");
         getActivity().registerReceiver(broadcastReceiver, intentFilter);
     }
 

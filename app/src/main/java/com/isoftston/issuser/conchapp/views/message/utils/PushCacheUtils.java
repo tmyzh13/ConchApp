@@ -11,6 +11,7 @@ import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by kouxy on 2018/4/29.
@@ -54,6 +55,23 @@ public class PushCacheUtils {
             listLocal = new ArrayList<>();
         }
         listLocal.addAll(list);
+        SharePrefsUtils.putValue(context, Constant.PUSH_MESSAGE, JSONObject.toJSONString(listLocal));
+    }
+    /**
+     * 缓存推送的消息
+     *
+     * @param context
+     * @param map
+     */
+    public void writePushLocalCache(Context context, Map<String,String> map) {
+        MessageBean bean = new MessageBean();
+        bean.setType("1");
+        bean.setId("285");
+        List<MessageBean> listLocal = readPushLocalCache(context);
+        if (listLocal == null) {
+            listLocal = new ArrayList<>();
+        }
+        listLocal.add(bean);
         SharePrefsUtils.putValue(context, Constant.PUSH_MESSAGE, JSONObject.toJSONString(listLocal));
     }
 

@@ -145,7 +145,7 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
 
     private void registerBroadcast() {
         broadcastReceiver = new PushBroadcastReceiver(mHander);
-        IntentFilter intentFilter = new IntentFilter("home_push");
+        IntentFilter intentFilter = new IntentFilter("getThumbService");
         getActivity().registerReceiver(broadcastReceiver, intentFilter);
     }
     public void updateList(){
