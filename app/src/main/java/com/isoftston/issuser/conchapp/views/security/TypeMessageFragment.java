@@ -27,6 +27,7 @@ import com.isoftston.issuser.conchapp.model.bean.SecurityTroubleBean;
 import com.isoftston.issuser.conchapp.model.bean.SecurityUpdateBean;
 import com.isoftston.issuser.conchapp.presenter.SecurityPresenter;
 import com.isoftston.issuser.conchapp.views.interfaces.SecuryView;
+import com.isoftston.issuser.conchapp.views.message.ItemDangerDtailActivity;
 import com.isoftston.issuser.conchapp.views.message.ItemDtailActivity;
 import com.isoftston.issuser.conchapp.views.message.utils.PushBroadcastReceiver;
 import com.isoftston.issuser.conchapp.views.message.utils.PushCacheUtils;
@@ -173,7 +174,7 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //进入消息详情界面
-                Intent intent =new Intent(getActivity(),ItemDtailActivity.class);
+                Intent intent =new Intent(getActivity(),ItemDangerDtailActivity.class);
                 View  readStatus= view.findViewById(R.id.view_read_statue);
                 readStatus.setVisibility(View.GONE);
                 Bundle bundle=new Bundle();
