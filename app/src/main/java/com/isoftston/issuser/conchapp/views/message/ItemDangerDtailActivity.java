@@ -26,6 +26,7 @@ import com.isoftston.issuser.conchapp.model.bean.MessageListInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.WeatherResponseBean;
 import com.isoftston.issuser.conchapp.presenter.MessagePresenter;
 import com.isoftston.issuser.conchapp.utils.DateUtils;
+import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.MessageView;
 import com.isoftston.issuser.conchapp.views.message.adpter.VpAdapter;
 import com.isoftston.issuser.conchapp.views.message.utils.PushCacheUtils;
@@ -72,6 +73,7 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
     TextView yhlx_tv;
     @Bind(R.id.zgqx_tv)
     TextView zgqx_tv;
+
     @Bind(R.id.yhzt_tv)
     TextView yhzt_tv;
     @Bind(R.id.msyh_tv)
@@ -106,7 +108,7 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_itemdetail;
+        return R.layout.activity_item_danger_detail;
     }
 
     @Override
@@ -235,7 +237,7 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
                 }
             });
         }else{
-            ll_fix_pic.setVisibility(View.INVISIBLE);
+            ll_fix_pic.setVisibility(View.GONE);
         }
     }
 
@@ -246,7 +248,6 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
         tv_yh_finder.setText(bean.getFxrmc());
         String picPath[];
         if(bean.getDangerPhoto()!=null){
-
             picPath = bean.getDangerPhoto().split(",");
             for (String path : picPath){
                 urls.add(Urls.ROOT+path);
@@ -262,33 +263,36 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
             }
         }
 
-
-
         tv_company.setText(bean.getFxrCompany());
         tv_time.setText(DateUtils.getMillionToString(bean.getFxsj()));
         sjdwmc_tv.setText(bean.getFxrCompany());
         yhdd_tv.setText(bean.getDangerSite());
         yhbw_tv.setText(bean.getDangerPart());
 
-        //zgqx_tv
+        if(bean.getZgqx()!=null)
+        zgqx_tv.setText(bean.getZgqx());
+        if(bean.getYhzgzt()!=null)
+        yhzt_tv.setText(bean.getYhzgzt());
 
-        Map<String,String> fromLYMap= MainActivity.fromLYMap;
-        Map<String,String> fromLXMap=MainActivity.fromLXMap;
-        if(fromLYMap!=null) {
+
+
+        //Map<String,String> fromLYMap= MainActivity.fromLYMap;
+        //Map<String,String> fromLXMap=MainActivity.fromLXMap;
+        //if(fromLYMap!=null) {
             String yhly = bean.getYhly();
             if(yhly==null){
                 ll_fix_pic.setVisibility(View.GONE);
             }else{
-                yhly_tv.setText(fromLYMap.get(yhly));
+                yhly_tv.setText(SharePrefsUtils.getValue(this,yhly,""));
             }
 
-        }
+        //}
         msyh_tv.setText(bean.getYhms());
 
-        if(fromLXMap!=null) {
+        //if(fromLXMap!=null) {
             String dangerType = bean.getDangerType();
-            yhlx_tv.setText(fromLXMap.get(dangerType));
-        }
+            yhlx_tv.setText(SharePrefsUtils.getValue(this,dangerType,""));
+        //}
 
         if ("YBYH".equals(bean.getDangerLevel())){
             yhjb_tv.setText("一般隐患");

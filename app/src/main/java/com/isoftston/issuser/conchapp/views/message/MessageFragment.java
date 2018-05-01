@@ -325,7 +325,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
                 }else if(bean!=null&&"wz".equals(bean.getType())){
                     intent = new Intent(getActivity(), ItemDtailActivity.class);
                 }else if(bean!=null&&"aq".equals(bean.getType())){
-                    intent = new Intent(getActivity(), ItemDtailActivity.class);
+                    intent = new Intent(getActivity(), ItemSafeDtailActivity.class);
                 }
 
                 if(intent==null){
