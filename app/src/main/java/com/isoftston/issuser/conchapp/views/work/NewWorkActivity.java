@@ -2,10 +2,7 @@ package com.isoftston.issuser.conchapp.views.work;
 
 import android.content.Context;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,17 +23,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.corelibs.base.BaseActivity;
-import com.corelibs.base.BasePresenter;
 import com.corelibs.utils.IMEUtil;
 import com.corelibs.utils.PreferencesHelper;
 import com.corelibs.utils.ToastMgr;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.DangerTypeBean;
-import com.isoftston.issuser.conchapp.model.bean.DangerWorkTypeBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceTypeBean;
-import com.isoftston.issuser.conchapp.model.bean.DeviceTypeRequstBean;
 import com.isoftston.issuser.conchapp.model.bean.FixWorkBean;
 import com.isoftston.issuser.conchapp.model.bean.NewWorkBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkBean;
@@ -58,7 +52,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -75,7 +68,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     public static final int CHOSE_AGREE_CODE = 103;//批准人
     public static final int CHOSE_DEVICE_CODE = 104;
     public static final int CHOSE_NAME_CODE = 105;//设备名称
-    private static final int CHOSE_CHARGERNAME_CODE =99 ;
+    private static final int CHOSE_CHARGERNAME_CODE = 99;
     @Bind(R.id.nav)
     NavBar nav;
 
@@ -151,7 +144,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     @Bind(R.id.rl_gas_checker)
     RelativeLayout rl_gas_checker;
     @Bind(R.id.spinner)
-    Spinner mySpinner ;
+    Spinner mySpinner;
 
     @Bind(R.id.description_et)
     EditText description_et;
@@ -166,14 +159,14 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     private Context context = NewWorkActivity.this;
     private ArrayAdapter<String> adapter;//创建一个数组适配器
     private int isDangerWork = 0;
-    private List<String> dangerTypeList=new ArrayList<>();
+    private List<String> dangerTypeList = new ArrayList<>();
     private int device_id;
     private String areaId;
     private List<String> areaList;
-    private List<WorkBean> workBeanList=new ArrayList<>();
-   private ArrayAdapter<String> spAdapter;
+    private List<WorkBean> workBeanList = new ArrayList<>();
+    private ArrayAdapter<String> spAdapter;
     private int isDanger;
-    private List<DangerTypeBean> totalist=new ArrayList<>();
+    private List<DangerTypeBean> totalist = new ArrayList<>();
     private int type;
 
     @Override
@@ -277,13 +270,13 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             }
         });
 
-        isDangerWork = getIntent().getIntExtra("isDangerWork",0);
-        if (isDangerWork == 0){
+        isDangerWork = getIntent().getIntExtra("isDangerWork", 0);
+        if (isDangerWork == 0) {
             rb_yes.setChecked(true);
             rb_no.setChecked(false);
             rb_no.setClickable(false);
             rl_gas_checker.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             rb_no.setChecked(true);
             rb_yes.setChecked(false);
             rb_yes.setClickable(false);
@@ -291,7 +284,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         }
         presenter.getDangerWorkType(new FixWorkBean());
         dangerTypeList.add("");
-        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, dangerTypeList);//样式为原安卓里面有的android.R.layout.simple_spinner_item，让这个数组适配器装list内容。
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, dangerTypeList);//样式为原安卓里面有的android.R.layout.simple_spinner_item，让这个数组适配器装list内容。
         //2.为适配器设置下拉菜单样式。adapter.setDropDownViewResource
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //3.以上声明完毕后，建立适配器,有关于sipnner这个控件的建立。用到myspinner
@@ -300,20 +293,22 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (adapter.getItem(i)!=null&&adapter.getItem(i).equals(getString(R.string.danger_work_type_item))){
-
+                if (adapter.getItem(i) != null && adapter.getItem(i).equals(getString(R.string.danger_work_type_item))) {
                     rl_charger.setVisibility(View.GONE);
                     rl_gas_checker.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     rl_charger.setVisibility(View.VISIBLE);
                     rl_gas_checker.setVisibility(View.GONE);
                 }
-                type = Integer.parseInt(totalist.get(i+1).getCode());
+                if (totalist.size() > i) {
+                    type = Integer.parseInt(totalist.get(i).getCode());
+                }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
+                mySpinner.setSelection(0);
+                type = Integer.parseInt(totalist.get(0).getCode());
             }
 
         });
@@ -326,17 +321,17 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         areaList = new ArrayList<>();
         areaList.add("");
         presenter.getWorkInfo();
-        spAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, areaList);
+        spAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, areaList);
         spAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         work_zone_sp.setAdapter(spAdapter);
         work_zone_sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.e(TAG,"----"+spAdapter.getItem(position).toString());
+                Log.e(TAG, "----" + spAdapter.getItem(position).toString());
                 area = spAdapter.getItem(position).toString();
-                for (WorkBean bean:workBeanList){
-                    if (area.equals(bean.getName())){
-                        areaId=String.valueOf(bean.getId());
+                for (WorkBean bean : workBeanList) {
+                    if (area.equals(bean.getName())) {
+                        areaId = String.valueOf(bean.getId());
                     }
                 }
             }
@@ -351,7 +346,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         final ArrayAdapter<String> companyAdapter;
         List<String> companyList = new ArrayList<>();
         companyList.add(PreferencesHelper.getData(Constant.ORG_NAME));
-        companyAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, companyList);
+        companyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, companyList);
         companyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         work_company_sp.setAdapter(companyAdapter);
         work_company_sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -401,30 +396,30 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
                 showDatePickerDialog(tv_end_time, 2);
                 break;
             case R.id.rl_gas_checker:
-                startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context,5), CHOSE_CHARGER_CODE);
+                startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context, 5), CHOSE_CHARGER_CODE);
                 break;
             case R.id.rl_charger:
-                startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context,1), CHOSE_CHARGERNAME_CODE);
+                startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context, 1), CHOSE_CHARGERNAME_CODE);
                 break;
             case R.id.rl_agree:
-                startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context,4), CHOSE_AGREE_CODE);
+                startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context, 4), CHOSE_AGREE_CODE);
                 break;
             case R.id.rl_check_people:
-                startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context,3), CHOSE_CHEKER_CODE);
+                startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context, 3), CHOSE_CHEKER_CODE);
                 break;
             case R.id.rl_keeper:
-                startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context,2), CHOSE_KEPPER_CODE);
+                startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context, 2), CHOSE_KEPPER_CODE);
                 break;
             case R.id.rl_dangerwork_type:
 
                 break;
             case R.id.rl_equipment_type:
-                startActivityForResult(ChoiceDeviceTypeActivity.getLaucnher(context),CHOSE_DEVICE_CODE);
+                startActivityForResult(ChoiceDeviceTypeActivity.getLaucnher(context), CHOSE_DEVICE_CODE);
                 break;
             case R.id.rl_equipment_name:
-                Intent intent=new Intent(context,ChoiceDeviceNameActivity.class);
-                intent.putExtra("device_id",String.valueOf(device_id));
-                startActivityForResult(intent,CHOSE_NAME_CODE);
+                Intent intent = new Intent(context, ChoiceDeviceNameActivity.class);
+                intent.putExtra("device_id", String.valueOf(device_id));
+                startActivityForResult(intent, CHOSE_NAME_CODE);
                 break;
 
             case R.id.bt_submit:
@@ -445,20 +440,22 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
                 break;
         }
     }
-    String leading  ;
-    String guardian ;
-    String auditor ;
-    String approver ;
+
+    String leading;
+    String guardian;
+    String auditor;
+    String approver;
     String area;
     String company;
+
     private void getNewJobInfo() {
         NewWorkBean bean = new NewWorkBean();
         String name = et_name.getText().toString().trim();
         String startTimeStr = tv_start_time.getText().toString().trim();
-        long startTime = TextUtils.isEmpty(String.valueOf(startTimeStr))? 0 : DateUtils.getDateToLongMS(startTimeStr);
+        long startTime = TextUtils.isEmpty(String.valueOf(startTimeStr)) ? 0 : DateUtils.getDateToLongMS(startTimeStr);
         String endTimeStr = tv_end_time.getText().toString().trim();
-        long endTime = TextUtils.isEmpty(String.valueOf(endTimeStr))? 0 : DateUtils.getDateToLongMS(endTimeStr);
-        String equipmentType=equipment_type_tv.getText().toString();
+        long endTime = TextUtils.isEmpty(String.valueOf(endTimeStr)) ? 0 : DateUtils.getDateToLongMS(endTimeStr);
+        String equipmentType = equipment_type_tv.getText().toString();
 //        String equipmentType = equipment_type_tv.getText().toString().trim();
 //        String equipmentCode = equipment_model_tv.getText().toString().trim();
 //        String equipmentName = equipment_name_tv.getText().toString().trim();
@@ -471,19 +468,19 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
 //        int type = 0;//危险作业类型(手动选择)
 
         //1危险、0常规作业。前页面传递
-        if (rb_yes.isChecked()){
-            isDanger =1;
-        }else if (rb_no.isChecked()){
-            isDanger =0;
+        if (rb_yes.isChecked()) {
+            isDanger = 1;
+        } else if (rb_no.isChecked()) {
+            isDanger = 0;
         }
 
         if (TextUtils.isEmpty(name) || startTime == 0
-                    || TextUtils.isEmpty(name) || TextUtils.isEmpty(equipmentType) || TextUtils.isEmpty(equipmentCode)
-                    || TextUtils.isEmpty(equipmentName) || TextUtils.isEmpty(area) || TextUtils.isEmpty(part)
-                    || TextUtils.isEmpty(content) || TextUtils.isEmpty(company) || TextUtils.isEmpty(numPeople)
-                    || TextUtils.isEmpty(String.valueOf(type)) || TextUtils.isEmpty(leading) || TextUtils.isEmpty(guardian)
-                    || TextUtils.isEmpty(auditor) || TextUtils.isEmpty(approver) ) {
-                ToastMgr.show(R.string.input_all_message);
+                || TextUtils.isEmpty(name) || TextUtils.isEmpty(equipmentType) || TextUtils.isEmpty(equipmentCode)
+                || TextUtils.isEmpty(equipmentName) || TextUtils.isEmpty(area) || TextUtils.isEmpty(part)
+                || TextUtils.isEmpty(content) || TextUtils.isEmpty(company) || TextUtils.isEmpty(numPeople)
+                || TextUtils.isEmpty(String.valueOf(type)) || TextUtils.isEmpty(leading) || TextUtils.isEmpty(guardian)
+                || TextUtils.isEmpty(auditor) || TextUtils.isEmpty(approver)) {
+            ToastMgr.show(R.string.input_all_message);
             return;
         }
         bean.setName(name);
@@ -496,12 +493,11 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         bean.setPart(part);
         bean.setContent(content);
         bean.setCompany(company);
-        try{
+        try {
             bean.setNumberPeople(Integer.parseInt(numPeople));
-        }
-        catch(Exception e){
-           ToastMgr.show(R.string.input_num);
-           return;
+        } catch (Exception e) {
+            ToastMgr.show(R.string.input_num);
+            return;
         }
         bean.setType(type);
         bean.setLeading(leading);
@@ -601,7 +597,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     public void getWorkListInfo(List<WorkBean> list) {
         workBeanList = list;
         areaList.clear();
-        for (int i=0;i<list.size();i++){
+        for (int i = 0; i < list.size(); i++) {
             areaList.add(list.get(i).getName());
         }
         spAdapter.notifyDataSetChanged();
@@ -626,9 +622,11 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     @Override
     public void getDangerWorkTypeResult(List<DangerTypeBean> list) {
         totalist = list;
-        for (DangerTypeBean bean:list){
+        dangerTypeList.clear();
+        for (DangerTypeBean bean : list) {
             dangerTypeList.add(bean.getName());
         }
+        adapter.notifyDataSetChanged();
 
     }
 
@@ -644,37 +642,38 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
 
     private String chosedUserName;
     private String chosedUserId;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == CHOSE_CHARGER_CODE) {
             chosedUserName = data.getStringExtra(Constant.CHECK_PEOPLE);
-            chosedUserId=data.getStringExtra(Constant.CHECK_PEOPLE_ID);
+            chosedUserId = data.getStringExtra(Constant.CHECK_PEOPLE_ID);
             if (requestCode == CHOSE_CHARGER_CODE) {
                 tv_gas_checker.setText(chosedUserName);
-                leading=chosedUserId;
+                leading = chosedUserId;
             } else if (requestCode == CHOSE_CHEKER_CODE) {
                 checkerNameTv.setText(chosedUserName);
-                auditor=chosedUserId;
+                auditor = chosedUserId;
             } else if (requestCode == CHOSE_KEPPER_CODE) {
                 keeperNameTv.setText(chosedUserName);
-                guardian=chosedUserId;
+                guardian = chosedUserId;
             } else if (requestCode == CHOSE_AGREE_CODE) {
                 authorizeNameTv.setText(chosedUserName);
-                approver=chosedUserId;
-            }else if (requestCode==CHOSE_CHARGERNAME_CODE){
+                approver = chosedUserId;
+            } else if (requestCode == CHOSE_CHARGERNAME_CODE) {
                 chagerNameTv.setText(chosedUserName);
-                leading=chosedUserId;
+                leading = chosedUserId;
             }
-        }else if (resultCode==CHOSE_DEVICE_CODE){
-            if (requestCode==CHOSE_DEVICE_CODE){
-                String type=data.getStringExtra(Constant.CHECK_PEOPLE);
-                device_id = data.getIntExtra(Constant.CHECK_DEVICE_ID,-1);
+        } else if (resultCode == CHOSE_DEVICE_CODE) {
+            if (requestCode == CHOSE_DEVICE_CODE) {
+                String type = data.getStringExtra(Constant.CHECK_PEOPLE);
+                device_id = data.getIntExtra(Constant.CHECK_DEVICE_ID, -1);
                 equipment_type_tv.setText(type);
             }
-        }else if (resultCode==CHOSE_NAME_CODE){
-            if (requestCode==CHOSE_NAME_CODE){
-                String type=data.getStringExtra(Constant.CHECK_PEOPLE);
+        } else if (resultCode == CHOSE_NAME_CODE) {
+            if (requestCode == CHOSE_NAME_CODE) {
+                String type = data.getStringExtra(Constant.CHECK_PEOPLE);
                 equipment_name_tv.setText(type);
                 String Device_type = data.getStringExtra(Constant.CHECK_DEVICE_TYPE);
                 equipment_model_tv.setText(Device_type);
