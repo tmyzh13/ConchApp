@@ -20,6 +20,7 @@ public class NewWorkBean {
     private String leading;
     private String guardian;
     private String auditor;
+    public String airPersonCheck;
 
     public String getArea() {
         return area;
@@ -169,5 +170,13 @@ public class NewWorkBean {
 
     public void setIsDanger(int isDanger) {
         this.isDanger = isDanger;
+    }
+
+    public String getAirPersonCheck() {
+        return airPersonCheck;
+    }
+
+    public void setAirPersonCheck(String airPersonCheck) {
+        this.airPersonCheck = airPersonCheck;
     }
 }

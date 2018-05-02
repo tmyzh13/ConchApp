@@ -443,6 +443,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     String approver;
     String area;
     String company;
+    public String airPersonCheck;
 
     private void getNewJobInfo() {
         NewWorkBean bean = new NewWorkBean();
@@ -470,15 +471,21 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             isDanger = 0;
         }
 
+        if(TextUtils.isEmpty(leading) && TextUtils.isEmpty(airPersonCheck)){
+            ToastMgr.show(R.string.input_all_message);
+            return;
+        }
+
         if (TextUtils.isEmpty(name) || startTime == 0
                 || TextUtils.isEmpty(name) || TextUtils.isEmpty(equipmentType) || TextUtils.isEmpty(equipmentCode)
                 || TextUtils.isEmpty(equipmentName) || TextUtils.isEmpty(area) || TextUtils.isEmpty(part)
                 || TextUtils.isEmpty(content) || TextUtils.isEmpty(company) || TextUtils.isEmpty(numPeople)
-                || TextUtils.isEmpty(String.valueOf(type)) || TextUtils.isEmpty(leading) || TextUtils.isEmpty(guardian)
+                || TextUtils.isEmpty(String.valueOf(type))|| TextUtils.isEmpty(guardian)
                 || TextUtils.isEmpty(auditor) || TextUtils.isEmpty(approver)) {
             ToastMgr.show(R.string.input_all_message);
             return;
         }
+        bean.setAirPersonCheck(airPersonCheck);
         bean.setName(name);
         bean.setStartTime(startTime);
         bean.setEndTime(endTime);
@@ -497,6 +504,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         }
         bean.setType(type);
         bean.setLeading(leading);
+
         bean.setGuardian(guardian);
         bean.setAuditor(auditor);
         bean.setApprover(approver);
@@ -646,7 +654,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             chosedUserId = data.getStringExtra(Constant.CHECK_PEOPLE_ID);
             if (requestCode == CHOSE_CHARGER_CODE) {
                 tv_gas_checker.setText(chosedUserName);
-                leading = chosedUserId;
+                airPersonCheck = chosedUserId;
             } else if (requestCode == CHOSE_CHEKER_CODE) {
                 checkerNameTv.setText(chosedUserName);
                 auditor = chosedUserId;
