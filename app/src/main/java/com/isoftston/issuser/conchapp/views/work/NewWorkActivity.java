@@ -286,7 +286,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         aboutSpinner();
     }
 
-    /***/
+    /**设置作业类别*/
     private void aboutWorkClassSpinner() {
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, dangerTypeList);//样式为原安卓里面有的android.R.layout.simple_spinner_item，让这个数组适配器装list内容。
         //2.为适配器设置下拉菜单样式。adapter.setDropDownViewResource
