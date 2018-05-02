@@ -69,6 +69,7 @@ public class MessagePresenter extends ListPagePresenter<MessageView> {
                         if (status==-200){
                             view.reLogin();
                         }
+                        view.getWorkError();
                         return false;
                     }
                 });
@@ -162,6 +163,7 @@ public class MessagePresenter extends ListPagePresenter<MessageView> {
                         if (status==-200){
                             view.reLogin();
                         }
+                        view.getWorkError();
                         return false;
                     }
 

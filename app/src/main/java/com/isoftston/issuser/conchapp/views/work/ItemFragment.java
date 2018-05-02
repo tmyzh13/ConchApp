@@ -160,7 +160,8 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
 
     @Override
     public void getWorkError() {
-
+        hideLoading();
+        ptrLayout.complete();
     }
 
     @Override

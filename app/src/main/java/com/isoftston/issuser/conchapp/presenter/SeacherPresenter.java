@@ -51,10 +51,11 @@ public class SeacherPresenter extends BasePresenter<SeacherView> {
                 });
     }
 
-    public void searchMessage(String searchType, String key) {
+    public void searchMessage(String searchType, String key, final String lastId) {
         MessageQueryBean bean = new MessageQueryBean();
         bean.setType(searchType);
         bean.setTitle(key);
+        bean.setLastId(lastId);
         String token = SharePrefsUtils.getValue(getContext(), "token", null);
         Log.i("token", token);//94c29a2eaf903a1f4b3cc5996385dcd2
         String token1 = token.replaceAll("\"", "");
@@ -64,7 +65,7 @@ public class SeacherPresenter extends BasePresenter<SeacherView> {
 
                     @Override
                     public void success(BaseData<EachMessageInfoBean> messageBaseData) {
-                        view.getEachMessageListResult(messageBaseData.data, "0");
+                        view.getEachMessageListResult(messageBaseData.data, "0",lastId);
                     }
 
                     @Override
@@ -84,11 +85,11 @@ public class SeacherPresenter extends BasePresenter<SeacherView> {
                 });
     }
 
-    public void searchSafeMessage(String searchType, String key) {
+    public void searchSafeMessage(String searchType, String key, final String lastId) {
         SafeRequestBean bean = new SafeRequestBean();
         bean.type = searchType;
         bean.condition = key;
-        bean.lastId = "";
+        bean.lastId = lastId;
         String token = SharePrefsUtils.getValue(getContext(), "token", null);
         Log.i("token", token);//94c29a2eaf903a1f4b3cc5996385dcd2
         String token1 = token.replaceAll("\"", "");
@@ -97,7 +98,7 @@ public class SeacherPresenter extends BasePresenter<SeacherView> {
                 .subscribe(new ResponseSubscriber<BaseData<SafeListBean>>() {
                     @Override
                     public void success(BaseData<SafeListBean> safeListBeanBaseData) {
-                        view.getEachMessageListResult(safeListBeanBaseData.data, "1");
+                        view.getEachMessageListResult(safeListBeanBaseData.data, "1",lastId);
                     }
 
                     @Override
@@ -111,16 +112,17 @@ public class SeacherPresenter extends BasePresenter<SeacherView> {
                         if (status == -200) {
                             view.reLogin();
                         }
+                        view.getWorkError();
                         return false;
                     }
                 });
     }
 
-    public void searchWorkMessage(int searchType, String key) {
+    public void searchWorkMessage(int searchType, String key, final String lastId) {
         WorkTypeRequestBean bean = new WorkTypeRequestBean();
         bean.type = searchType;
         bean.keyWord = key;
-        bean.lastId = "";
+        bean.lastId = lastId;
         String token = SharePrefsUtils.getValue(getContext(), "token", null);
         Log.i("token", token);//94c29a2eaf903a1f4b3cc5996385dcd2
         String token1 = token.replaceAll("\"", "");
@@ -129,7 +131,7 @@ public class SeacherPresenter extends BasePresenter<SeacherView> {
                 .subscribe(new ResponseSubscriber<BaseData<WorkListsBean>>() {
                     @Override
                     public void success(BaseData<WorkListsBean> safeListBeanBaseData) {
-                        view.getEachMessageListResult(safeListBeanBaseData.data, "2");
+                        view.getEachMessageListResult(safeListBeanBaseData.data, "2",lastId);
                     }
 
                     @Override
@@ -148,10 +150,10 @@ public class SeacherPresenter extends BasePresenter<SeacherView> {
                 });
     }
 
-    public void searchDeviceMessage( String key) {
+    public void searchDeviceMessage(String key, final String lastId) {
         SafeRequestBean bean = new SafeRequestBean();
         bean.condition = key;
-        bean.lastId = "";
+        bean.lastId = lastId;
         String token = SharePrefsUtils.getValue(getContext(), "token", null);
         Log.i("token", token);//94c29a2eaf903a1f4b3cc5996385dcd2
         String token1 = token.replaceAll("\"", "");
@@ -160,7 +162,7 @@ public class SeacherPresenter extends BasePresenter<SeacherView> {
                 .subscribe(new ResponseSubscriber<BaseData<DeviceListBean>>() {
                     @Override
                     public void success(BaseData<DeviceListBean> safeListBeanBaseData) {
-                        view.getEachMessageListResult(safeListBeanBaseData.data, "3");
+                        view.getEachMessageListResult(safeListBeanBaseData.data, "3",lastId);
                     }
 
                     @Override

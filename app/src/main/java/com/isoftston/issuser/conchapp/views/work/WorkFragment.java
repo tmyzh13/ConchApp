@@ -62,6 +62,7 @@ public class WorkFragment extends BaseFragment implements View.OnClickListener {
         tv_mine.setOnClickListener(this);
         WorkTypeAdapter adapter=new WorkTypeAdapter(getActivity().getSupportFragmentManager());
         viewPager.setAdapter(adapter);
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

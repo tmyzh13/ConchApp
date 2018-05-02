@@ -15,7 +15,7 @@ public interface SeacherView extends BaseView{
 
     void getEachMessageListResult(EachMessageInfoBean data);
 
-    void getEachMessageListResult(Object data,String type);
+    void getEachMessageListResult(Object data,String type,String lastId);
 
     void getWorkError();
 

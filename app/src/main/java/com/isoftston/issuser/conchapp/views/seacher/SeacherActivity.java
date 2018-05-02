@@ -11,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -90,10 +91,9 @@ public class SeacherActivity extends BaseActivity<SeacherView, SeacherPresenter>
     private DeviceAdapter deviceAdapter;
     private String historyString;
     private int selectTab;
-    public List<MessageBean> listMessage = new ArrayList<>();
-    public List<WorkDetailBean> listWork = new ArrayList<>();
-    public List<SecurityTroubleBean> listSafe = new ArrayList<>();
-    List<DeviceBean> listDevice = new ArrayList<>();
+    private boolean isLastRow = false;
+
+    private String searchKey;
 
     public static Intent getLauncher(Context context, String type) {
         Intent intent = new Intent(context, SeacherActivity.class);
@@ -108,15 +108,20 @@ public class SeacherActivity extends BaseActivity<SeacherView, SeacherPresenter>
 
     @Override
     protected void init(Bundle savedInstanceState) {
-
         type = getIntent().getStringExtra("type");
         setTypeTabView();
         ViewGroup.LayoutParams lp = viewStatue.getLayoutParams();
         lp.height = Tools.getStatueHeight(context);
         viewStatue.setLayoutParams(lp);
         setBarColor(getResources().getColor(R.color.transparent_black));
-        setAdapter();
         setTypeTabLayout();
+        initData();
+        setListOnclik();
+        ptrLayout.disableLoading();
+        ptrLayout.setCanRefresh(false);
+    }
+
+    private void setListOnclik() {
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -126,19 +131,15 @@ public class SeacherActivity extends BaseActivity<SeacherView, SeacherPresenter>
                 selectTab = tab.getPosition();
                 initData();
                 if (type.equals("0")) {
-                    listMessage.clear();
                     messageTypeAdapter.clear();
                     messageTypeAdapter.notifyDataSetChanged();
-                }else if(type.equals("1")){
-                    listSafe.clear();
+                } else if (type.equals("1")) {
                     securityAdapter.clear();
                     securityAdapter.notifyDataSetChanged();
-                }else if(type.equals("2")){
-                    listWork.clear();
+                } else if (type.equals("2")) {
                     workAdapter.clear();
                     workAdapter.notifyDataSetChanged();
-                }else if(type.equals("3")){
-                    listDevice.clear();
+                } else if (type.equals("3")) {
                     deviceAdapter.clear();
                     deviceAdapter.notifyDataSetChanged();
                 }
@@ -160,54 +161,33 @@ public class SeacherActivity extends BaseActivity<SeacherView, SeacherPresenter>
                 if (type.equals("0")) {
                     Intent intent = new Intent(SeacherActivity.this, ItemDtailActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putString("type", listMessage.get(position).getType());
-                    bundle.putString("id", listMessage.get(position).getId());
+                    bundle.putString("type", messageTypeAdapter.getItem(position).getType());
+                    bundle.putString("id", messageTypeAdapter.getItem(position).getId());
                     intent.putExtras(bundle);
                     startActivity(intent);
                 } else if (type.equals("1")) {
-                    Intent intent =new Intent(SeacherActivity.this,ItemDtailActivity.class);
-                    Bundle bundle=new Bundle();
+                    Intent intent = new Intent(SeacherActivity.this, ItemDtailActivity.class);
+                    Bundle bundle = new Bundle();
                     String troubleType = "";
-                    if ("ZYZYWZBD".equals(listSafe.get(position).getYhlx())||"QT".equals(listSafe.get(position).getYhlx())
-                            || "YHSW".equals(listSafe.get(position).getYhlx())||"WCZWZZY".equals(listSafe.get(position).getYhlx())
-                            ||"ZHSWWZZH".equals(listSafe.get(position).getYhlx())||"GRFHZBBQ".equals(listSafe.get(position).getYhlx())){
+                    if ("ZYZYWZBD".equals(securityAdapter.getItem(position).getYhlx()) || "QT".equals(securityAdapter.getItem(position).getYhlx())
+                            || "YHSW".equals(securityAdapter.getItem(position).getYhlx()) || "WCZWZZY".equals(securityAdapter.getItem(position).getYhlx())
+                            || "ZHSWWZZH".equals(securityAdapter.getItem(position).getYhlx()) || "GRFHZBBQ".equals(securityAdapter.getItem(position).getYhlx())) {
                         troubleType = "wz";
-                    }else {
+                    } else {
                         troubleType = "yh";
                     }
-                    bundle.putString("type",troubleType);
-                    bundle.putString("id",listSafe.get(position).getId());
+                    bundle.putString("type", troubleType);
+                    bundle.putString("id", securityAdapter.getItem(position).getId());
                     intent.putExtras(bundle);
                     startActivity(intent);
                 } else if (type.equals("2")) {
                     String jobId = String.valueOf(workAdapter.getItem(position).getId());
-                    startActivity(ScanCodeActivity.getLauncher(SeacherActivity.this,jobId));
-                }else if(type.equals("3")){
+                    startActivity(ScanCodeActivity.getLauncher(SeacherActivity.this, jobId));
+                } else if (type.equals("3")) {
                     startActivity(CheckDeviceDetailActivity.getLauncher(SeacherActivity.this, deviceAdapter.getItem(position)));
                 }
             }
         });
-
-        initData();
-        et_seach.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
-                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    String searchText = et_seach.getText().toString().trim();
-                    if (!TextUtils.isEmpty(searchText)) {
-                        alterHistroySeach(searchText);
-                        ll_histroy.setVisibility(View.GONE);
-                        ptrLayout.setVisibility(View.VISIBLE);
-                        wirteLocalHistory(searchText);
-                    }
-                    IMEUtil.closeIME(et_seach, context);
-                    return true;
-                }
-                return false;
-            }
-        });
-
         et_seach.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -227,41 +207,105 @@ public class SeacherActivity extends BaseActivity<SeacherView, SeacherPresenter>
                 }
             }
         });
+        et_seach.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
-        ptrLayout.disableLoading();
-        ptrLayout.setCanRefresh(false);
+                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    String searchText = et_seach.getText().toString().trim();
+                    if (!TextUtils.isEmpty(searchText)) {
+                        alterHistroySeach(searchText);
+                        ll_histroy.setVisibility(View.GONE);
+                        ptrLayout.setVisibility(View.VISIBLE);
+                        searchKey = searchText;
+                        wirteLocalHistory(searchText);
+                    }
+                    IMEUtil.closeIME(et_seach, context);
+                    return true;
+                }
+                return false;
+            }
+        });
+        lv_message.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+                //当滚到最后一行且停止滚动时，执行加载
+                if (isLastRow && scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    //加载元素
+                    loadNextPage();
+                    isLastRow = false;
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                //判断是否滚到最后一行
+                if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount > 0) {
+                    isLastRow = true;
+                }
+            }
+        });
     }
 
-    private void setAdapter() {
-        securityAdapter = new SecurityAdapter(context);
-        messageTypeAdapter = new MessageTypeAdapter(context);
-        workAdapter = new WorkMessageItemAdapter(context);
-        deviceAdapter = new DeviceAdapter(context);
+    private void loadNextPage() {
+        ptrLayout.setLoading();
+        String key = getSeachType();
+        switch (type) {
+            case "0":
+                if (messageTypeAdapter.getCount() > 0) {
+                    presenter.searchMessage(key,searchKey , messageTypeAdapter.getItem(messageTypeAdapter.getCount() - 1).getmId());
+                } else {
+                    presenter.searchMessage(key, searchKey, "");
+                }
+                break;
+            case "1":
+                if (securityAdapter.getCount() > 0) {
+                    presenter.searchSafeMessage(key, searchKey, securityAdapter.getItem(securityAdapter.getCount() - 1).getId());
+                } else {
+                    presenter.searchSafeMessage(key, searchKey, "");
+                }
+                break;
+            case "2":
+                if (workAdapter.getCount() > 0) {
+                    presenter.searchWorkMessage(Integer.parseInt(key), searchKey, workAdapter.getItem(workAdapter.getCount() - 1).getId()+"");
+                } else {
+                    presenter.searchWorkMessage(Integer.parseInt(key), searchKey, "");
+                }
+                break;
+            case "3":
+                if (deviceAdapter.getCount() > 0) {
+                    presenter.searchDeviceMessage(searchKey, deviceAdapter.getItem(deviceAdapter.getCount() - 1).getId()+"");
+                } else {
+                    presenter.searchDeviceMessage(searchKey, "");
+                }
+                break;
+        }
     }
+
 
     private void wirteLocalHistory(String searchText) {
         if (type.equals("0")) {
             if (!isHaveKey(searchText)) {
                 isMaxHistory();
-                historyString =  historyString + searchText + ",";
+                historyString = historyString + searchText + ",";
                 SharePrefsUtils.putValue(context, Constant.MESSAGE_SEARCH, historyString);
             }
         } else if (type.equals("1")) {
             if (!isHaveKey(searchText)) {
                 isMaxHistory();
-                historyString =  historyString + searchText + ",";
+                historyString = historyString + searchText + ",";
                 SharePrefsUtils.putValue(context, Constant.SAFE_SEARCH, historyString);
             }
         } else if (type.equals("2")) {
             if (!isHaveKey(searchText)) {
                 isMaxHistory();
-                historyString =  historyString + searchText + ",";
+                historyString = historyString + searchText + ",";
                 SharePrefsUtils.putValue(context, Constant.WORK_SEARCH, historyString);
             }
-        }else if (type.equals("3")) {
+        } else if (type.equals("3")) {
             if (!isHaveKey(searchText)) {
                 isMaxHistory();
-                historyString =  historyString + searchText + ",";
+                historyString = historyString + searchText + ",";
                 SharePrefsUtils.putValue(context, Constant.CHECK_SEARCH, historyString);
             }
         }
@@ -286,23 +330,30 @@ public class SeacherActivity extends BaseActivity<SeacherView, SeacherPresenter>
     }
 
     private void setTypeTabLayout() {
-        if(list_trouble != null && list_trouble.size()>0){
+        if (list_trouble != null && list_trouble.size() > 0) {
             for (int i = 0; i < list_trouble.size(); i++) {
                 tabLayout.addTab(tabLayout.newTab().setText(list_trouble.get(i).name));
             }
         }
         if (type.equals("0")) {
+            messageTypeAdapter = new MessageTypeAdapter(context);
             historyString = SharePrefsUtils.getValue(context, Constant.MESSAGE_SEARCH, "");
             lv_message.setAdapter(messageTypeAdapter);
         } else if (type.equals("1")) {
+            securityAdapter = new SecurityAdapter(context);
             historyString = SharePrefsUtils.getValue(context, Constant.SAFE_SEARCH, "");
             tabLayout.setVisibility(View.VISIBLE);
-        } else if (type.equals("2")){
+            lv_message.setAdapter(securityAdapter);
+        } else if (type.equals("2")) {
+            workAdapter = new WorkMessageItemAdapter(context);
             historyString = SharePrefsUtils.getValue(context, Constant.WORK_SEARCH, "");
             tabLayout.setVisibility(View.VISIBLE);
-        }else{
+            lv_message.setAdapter(workAdapter);
+        } else {
+            deviceAdapter = new DeviceAdapter(context);
             historyString = SharePrefsUtils.getValue(context, Constant.CHECK_SEARCH, "");
             tabLayout.setVisibility(View.GONE);
+            lv_message.setAdapter(deviceAdapter);
         }
     }
 
@@ -312,11 +363,11 @@ public class SeacherActivity extends BaseActivity<SeacherView, SeacherPresenter>
         TabBean bean1 = new TabBean();
         TabBean bean2 = new TabBean();
         TabBean bean3 = new TabBean();
-        if("0".equals(type) || "1".equals(type)){
+        if ("0".equals(type) || "1".equals(type)) {
             bean.name = getString(R.string.search_all);
             bean1.name = getString(R.string.search_hidden_trouble);
             bean2.name = getString(R.string.search_illegal);
-        }else if("2".equals(type)){
+        } else if ("2".equals(type)) {
             bean.name = getString(R.string.danger_work);
             bean1.name = getString(R.string.common_work);
             bean2.name = getString(R.string.home_mine);
@@ -327,7 +378,7 @@ public class SeacherActivity extends BaseActivity<SeacherView, SeacherPresenter>
         if (("0").equals(type)) {
             bean3.name = getString(R.string.search_security);
             list_trouble.add(bean3);
-        }else if(("1").equals(type)){
+        } else if (("1").equals(type)) {
             bean3.name = getString(R.string.home_mine);
             list_trouble.add(bean3);
         }
@@ -371,7 +422,7 @@ public class SeacherActivity extends BaseActivity<SeacherView, SeacherPresenter>
             SharePrefsUtils.putValue(context, Constant.SAFE_SEARCH, "");
         } else if (type.equals("2")) {
             SharePrefsUtils.putValue(context, Constant.WORK_SEARCH, "");
-        }else if (type.equals("3")) {
+        } else if (type.equals("3")) {
             SharePrefsUtils.putValue(context, Constant.CHECK_SEARCH, "");
         }
         for (int i = 0; i < historys.length; i++) {
@@ -388,20 +439,20 @@ public class SeacherActivity extends BaseActivity<SeacherView, SeacherPresenter>
         String searchType = getSeachType();
         showLoading();
         if (type.equals("0")) {
-            presenter.searchMessage(searchType, key);
-        }else if(type.equals("1")){
-            presenter.searchSafeMessage(searchType, key);
-        }else if(type.equals("2")){
-            presenter.searchWorkMessage(Integer.parseInt(searchType), key);
-        }else if(type.equals("3")){
-            presenter.searchDeviceMessage(key);
+            presenter.searchMessage(searchType, key, "");
+        } else if (type.equals("1")) {
+            presenter.searchSafeMessage(searchType, key, "");
+        } else if (type.equals("2")) {
+            presenter.searchWorkMessage(Integer.parseInt(searchType), key,"");
+        } else if (type.equals("3")) {
+            presenter.searchDeviceMessage(key,"");
         }
 
     }
 
-    public String getSeachType(){
+    public String getSeachType() {
         String searchType = "";
-        if(type.equals("0")){
+        if (type.equals("0")) {
             if (selectTab == 0) {
                 searchType = "all";
             } else if (selectTab == 1) {
@@ -411,7 +462,7 @@ public class SeacherActivity extends BaseActivity<SeacherView, SeacherPresenter>
             } else {
                 searchType = "aq";
             }
-        }else if(type.equals("1")){
+        } else if (type.equals("1")) {
             if (selectTab == 0) {
                 searchType = "all";
             } else if (selectTab == 1) {
@@ -421,7 +472,7 @@ public class SeacherActivity extends BaseActivity<SeacherView, SeacherPresenter>
             } else {
                 searchType = "wd";
             }
-        }else if(type.equals("2")){
+        } else if (type.equals("2")) {
             if (selectTab == 0) {
                 searchType = "1";
             } else if (selectTab == 1) {
@@ -430,7 +481,7 @@ public class SeacherActivity extends BaseActivity<SeacherView, SeacherPresenter>
                 searchType = "2";
             }
         }
-      return searchType;
+        return searchType;
     }
 
     @Override
@@ -454,58 +505,57 @@ public class SeacherActivity extends BaseActivity<SeacherView, SeacherPresenter>
     }
 
     @Override
-    public void getEachMessageListResult(Object data,String type) {
+    public void getEachMessageListResult(Object data, String type, String lastId) {
         hideLoading();
-        if("0".equals(type)){
-            updateMessage(((EachMessageInfoBean)data).list);
-        }else if("1".equals(type)){
-            updateSafe(((SafeListBean)data).list);
-        }else if("2".equals(type)){
-            updateWork(((WorkListsBean)data).list);
-        }else if("3".equals(type)){
-            updateDevice(((DeviceListBean)data).list);
+        ptrLayout.complete();
+        if ("0".equals(type)) {
+            updateMessage(((EachMessageInfoBean) data).list, lastId);
+        } else if ("1".equals(type)) {
+            updateSafe(((SafeListBean) data).list, lastId);
+        } else if ("2".equals(type)) {
+            updateWork(((WorkListsBean) data).list, lastId);
+        } else if ("3".equals(type)) {
+            updateDevice(((DeviceListBean) data).list, lastId);
         }
-
-
     }
 
-    private void updateDevice(List<DeviceBean> list) {
-        listDevice.clear();;
-        listDevice = list;
-        deviceAdapter.clear();
+    private void updateDevice(List<DeviceBean> list, String lastId) {
+        if (TextUtils.isEmpty(lastId)) {
+            deviceAdapter.clear();
+        }
         deviceAdapter.addAll(list);
-        lv_message.setAdapter(deviceAdapter);
+        deviceAdapter.notifyDataSetChanged();
     }
 
-    private void updateWork(List<WorkDetailBean> list) {
-        listWork.clear();
-        listWork = list;
-        workAdapter.clear();
+    private void updateWork(List<WorkDetailBean> list, String lastId) {
+        if (TextUtils.isEmpty(lastId)) {
+            workAdapter.clear();
+        }
         workAdapter.addAll(list);
-        lv_message.setAdapter(workAdapter);
+        workAdapter.notifyDataSetChanged();
     }
 
-    private void updateSafe(List<SecurityTroubleBean> list) {
-        listSafe.clear();
-        listSafe = list;
-        securityAdapter.clear();
+    private void updateSafe(List<SecurityTroubleBean> list, String lastId) {
+        if (TextUtils.isEmpty(lastId)) {
+            securityAdapter.clear();
+        }
         securityAdapter.addAll(list);
-        lv_message.setAdapter(securityAdapter);
+        securityAdapter.notifyDataSetChanged();
     }
 
-    private void updateMessage(List<MessageBean> list) {
-        listMessage.clear();
-        listMessage = list;
-        messageTypeAdapter.clear();
+    private void updateMessage(List<MessageBean> list, String lastId) {
+        if (TextUtils.isEmpty(lastId)) {
+            messageTypeAdapter.clear();
+        }
         messageTypeAdapter.addAll(list);
-        lv_message.setAdapter(messageTypeAdapter);
+        messageTypeAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void getWorkError() {
         getLoadingDialog().dismiss();
         hideLoading();
-        startActivity(LoginActivity.getLauncher(this));
+        ptrLayout.complete();
     }
 
     @Override

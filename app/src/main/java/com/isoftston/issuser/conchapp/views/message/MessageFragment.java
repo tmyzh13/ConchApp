@@ -380,6 +380,9 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
     }
 
     private void loadNextPage(int totalItemCount){
+        if(mAdapter.getCount()==0){ //加载更多的机制是需要最后一条信息ID作为检索条件，如果适配器是空的就不需要加载更多
+            return;
+        }
         ptrLayout.setLoading();
         isDownRefresh = true;
         if (currrentPage == 0){
@@ -633,8 +636,6 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         ptrLayout.complete();
         ((BaseActivity)getActivity()).getLoadingDialog().dismiss();
         hideLoading();
-        startActivity(LoginActivity.getLauncher(getActivity()));
-
     }
 
     @Override
