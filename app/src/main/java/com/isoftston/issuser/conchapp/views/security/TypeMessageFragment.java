@@ -58,6 +58,7 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
     private boolean isLastRow = false;
     private boolean isUpRefresh;
     private boolean isDownRefresh;
+    private Integer lastCount = 0;
 
     public String type;
     public SecurityAdapter adapter;
@@ -128,7 +129,7 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
         }else {
             presenter.getSafeMessageList("wd",item,"");
         }
-        adapter.addAll(listMessage);
+//        adapter.addAll(listMessage);
         lv_message.setAdapter(adapter);
 //        ptrLayout.disableLoading();
 //        ptrLayout.setCanRefresh(false);
@@ -215,7 +216,10 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
             public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 //判断是否滚到最后一行
                 if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount > 0) {
-                    isLastRow = true;
+                    if(adapter.getCount() > 0)
+                    {
+                        isLastRow = true;
+                    }
                 }
             }
         });
@@ -342,6 +346,8 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
 
         if (isUpRefresh){
             adapter.clear();
+            listMessage.clear();
+            listMessage.addAll(data.list);
             isUpRefresh = false;
             ptrLayout.complete();
         }
@@ -355,8 +361,10 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
         }
 
         adapter.addAll(data.list);
+
         adapter.notifyDataSetChanged();
         lv_message.setAdapter(adapter);
+        lv_message.setSelection(lastCount);
     }
 
     @Override
