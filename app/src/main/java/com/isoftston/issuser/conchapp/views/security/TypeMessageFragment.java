@@ -179,6 +179,7 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
                 readStatus.setVisibility(View.GONE);
                 Bundle bundle=new Bundle();
                 String troubleType = "";
+                Log.d(TAG,"position:" + position + ",count:" + listMessage.size());
                 if ("ZYZYWZBD".equals(listMessage.get(position).getYhlx())||"QT".equals(listMessage.get(position).getYhlx())
                         || "YHSW".equals(listMessage.get(position).getYhlx())||"WCZWZZY".equals(listMessage.get(position).getYhlx())
                         ||"ZHSWWZZH".equals(listMessage.get(position).getYhlx())||"GRFHZBBQ".equals(listMessage.get(position).getYhlx())){
@@ -255,6 +256,7 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
     @Subscribe
     public void refreshPage(SecurityUpdateBean bean)
     {
+        isUpRefresh = true;
         String item = "";
         if (getString(R.string.alls).equals(type)){
             item = "all";
@@ -318,7 +320,7 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
     @Override
     public void getSafeListSuccess(SafeListBean data) {
         SafeBean bean=data.total;
-        listMessage=data.list;
+        listMessage.addAll(data.list);
         MsgTotalCountBean msg = new MsgTotalCountBean();
         msg.setYhCount(data.total.getYH());
         msg.setWzCount(data.total.getWZ());
@@ -350,7 +352,7 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
             return;
         }
 
-        adapter.addAll(listMessage);
+        adapter.addAll(data.list);
         adapter.notifyDataSetChanged();
         lv_message.setAdapter(adapter);
     }
