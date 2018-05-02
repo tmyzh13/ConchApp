@@ -45,7 +45,9 @@ import com.isoftston.issuser.conchapp.utils.Tools;
 import com.isoftston.issuser.conchapp.views.LoginActivity;
 import com.isoftston.issuser.conchapp.views.check.CheckDeviceDetailActivity;
 import com.isoftston.issuser.conchapp.views.interfaces.SeacherView;
+import com.isoftston.issuser.conchapp.views.message.ItemDangerDtailActivity;
 import com.isoftston.issuser.conchapp.views.message.ItemDtailActivity;
+import com.isoftston.issuser.conchapp.views.message.ItemSafeDtailActivity;
 import com.isoftston.issuser.conchapp.views.work.ScanCodeActivity;
 import com.isoftston.issuser.conchapp.views.work.adpter.WorkMessageItemAdapter;
 import com.isoftston.issuser.conchapp.weight.FlowLayout;
@@ -159,15 +161,16 @@ public class SeacherActivity extends BaseActivity<SeacherView, SeacherPresenter>
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (type.equals("0")) {
-                    Intent intent = new Intent(SeacherActivity.this, ItemDtailActivity.class);
+                    Intent intent = getTypeIntent(messageTypeAdapter.getItem(position).getType());
+                    if (intent == null) {
+                        return;
+                    }
                     Bundle bundle = new Bundle();
                     bundle.putString("type", messageTypeAdapter.getItem(position).getType());
                     bundle.putString("id", messageTypeAdapter.getItem(position).getId());
                     intent.putExtras(bundle);
                     startActivity(intent);
                 } else if (type.equals("1")) {
-                    Intent intent = new Intent(SeacherActivity.this, ItemDtailActivity.class);
-                    Bundle bundle = new Bundle();
                     String troubleType = "";
                     if ("ZYZYWZBD".equals(securityAdapter.getItem(position).getYhlx()) || "QT".equals(securityAdapter.getItem(position).getYhlx())
                             || "YHSW".equals(securityAdapter.getItem(position).getYhlx()) || "WCZWZZY".equals(securityAdapter.getItem(position).getYhlx())
@@ -176,6 +179,11 @@ public class SeacherActivity extends BaseActivity<SeacherView, SeacherPresenter>
                     } else {
                         troubleType = "yh";
                     }
+                    Intent intent = getTypeIntent(troubleType);
+                    if (intent == null) {
+                        return;
+                    }
+                    Bundle bundle = new Bundle();
                     bundle.putString("type", troubleType);
                     bundle.putString("id", securityAdapter.getItem(position).getId());
                     intent.putExtras(bundle);
@@ -247,13 +255,25 @@ public class SeacherActivity extends BaseActivity<SeacherView, SeacherPresenter>
         });
     }
 
+    public Intent getTypeIntent(String type) {
+        Intent intent = null;
+        if ("yh".equals(type)) {
+            intent = new Intent(SeacherActivity.this, ItemDangerDtailActivity.class);
+        } else if ("wz".equals(type)) {
+            intent = new Intent(SeacherActivity.this, ItemDtailActivity.class);
+        } else if ("aq".equals(type)) {
+            intent = new Intent(SeacherActivity.this, ItemSafeDtailActivity.class);
+        }
+        return intent;
+    }
+
     private void loadNextPage() {
         ptrLayout.setLoading();
         String key = getSeachType();
         switch (type) {
             case "0":
                 if (messageTypeAdapter.getCount() > 0) {
-                    presenter.searchMessage(key,searchKey , messageTypeAdapter.getItem(messageTypeAdapter.getCount() - 1).getmId());
+                    presenter.searchMessage(key, searchKey, messageTypeAdapter.getItem(messageTypeAdapter.getCount() - 1).getmId());
                 } else {
                     presenter.searchMessage(key, searchKey, "");
                 }
@@ -267,14 +287,14 @@ public class SeacherActivity extends BaseActivity<SeacherView, SeacherPresenter>
                 break;
             case "2":
                 if (workAdapter.getCount() > 0) {
-                    presenter.searchWorkMessage(Integer.parseInt(key), searchKey, workAdapter.getItem(workAdapter.getCount() - 1).getId()+"");
+                    presenter.searchWorkMessage(Integer.parseInt(key), searchKey, workAdapter.getItem(workAdapter.getCount() - 1).getId() + "");
                 } else {
                     presenter.searchWorkMessage(Integer.parseInt(key), searchKey, "");
                 }
                 break;
             case "3":
                 if (deviceAdapter.getCount() > 0) {
-                    presenter.searchDeviceMessage(searchKey, deviceAdapter.getItem(deviceAdapter.getCount() - 1).getId()+"");
+                    presenter.searchDeviceMessage(searchKey, deviceAdapter.getItem(deviceAdapter.getCount() - 1).getId() + "");
                 } else {
                     presenter.searchDeviceMessage(searchKey, "");
                 }
@@ -444,9 +464,9 @@ public class SeacherActivity extends BaseActivity<SeacherView, SeacherPresenter>
         } else if (type.equals("1")) {
             presenter.searchSafeMessage(searchType, key, "");
         } else if (type.equals("2")) {
-            presenter.searchWorkMessage(Integer.parseInt(searchType), key,"");
+            presenter.searchWorkMessage(Integer.parseInt(searchType), key, "");
         } else if (type.equals("3")) {
-            presenter.searchDeviceMessage(key,"");
+            presenter.searchDeviceMessage(key, "");
         }
 
     }

@@ -167,7 +167,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     private ArrayAdapter<String> spAdapter;
     private int isDanger;
     private List<DangerTypeBean> totalist = new ArrayList<>();
-    private int type;
+    private String type;
 
     @Override
     protected int getLayoutId() {
@@ -304,7 +304,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
                     rl_charger.setVisibility(View.VISIBLE);
                     rl_gas_checker.setVisibility(View.GONE);
                 }
-                type = Integer.parseInt(totalist.get(i).getCode());
+               type = totalist.get(i).getCode();
             }
 
             @Override
