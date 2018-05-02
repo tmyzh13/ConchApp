@@ -33,7 +33,6 @@
                 android:textSize="25dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
-                android:text="title"
                 android:id="@+id/tv_content_title"
                 />
 
@@ -43,22 +42,19 @@
                 android:textColor="@color/app_gray"
                 android:textSize="15dp"
                 android:layout_gravity="center_horizontal"
-                android:text="title"
                 android:id="@+id/tv_creat_time"
                 />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="15dp"
-                android:text="content"
                 android:id="@+id/tv_content"
+                android:background="@drawable/shape_corner_white"
                 />
-
-
         </LinearLayout>
     </ScrollView>
 

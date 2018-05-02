@@ -15,7 +15,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.corelibs.base.BaseActivity;
 import com.corelibs.views.roundedimageview.RoundedTransformationBuilder;
-import com.isoftston.issuser.conchapp.MainActivity;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.mGridViewAdapter;
 import com.isoftston.issuser.conchapp.constants.Urls;
@@ -34,7 +33,6 @@ import com.isoftston.issuser.conchapp.weight.MyGridView;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -82,6 +80,9 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
     TextView yhly_tv;
     @Bind(R.id.ll_fix_pic)
     LinearLayout ll_fix_pic;
+
+    @Bind(R.id.vw_fix_pic)
+    View vw_fix_pic;
 
 
 
@@ -238,6 +239,7 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
             });
         }else{
             ll_fix_pic.setVisibility(View.GONE);
+            vw_fix_pic.setVisibility(View.GONE);
         }
     }
 
