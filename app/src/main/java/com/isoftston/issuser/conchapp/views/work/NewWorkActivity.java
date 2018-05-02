@@ -283,7 +283,10 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             rl_gas_checker.setVisibility(View.GONE);
         }
         presenter.getDangerWorkType(new FixWorkBean());
-        dangerTypeList.add("");
+        aboutSpinner();
+    }
+
+    private void aboutWorkClassSpinner() {
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, dangerTypeList);//样式为原安卓里面有的android.R.layout.simple_spinner_item，让这个数组适配器装list内容。
         //2.为适配器设置下拉菜单样式。adapter.setDropDownViewResource
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -300,9 +303,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
                     rl_charger.setVisibility(View.VISIBLE);
                     rl_gas_checker.setVisibility(View.GONE);
                 }
-                if (i != 0) {
-                    type = Integer.parseInt(totalist.get(i-1).getCode());
-                }
+                type = Integer.parseInt(totalist.get(i).getCode());
             }
 
             @Override
@@ -310,9 +311,6 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             }
 
         });
-
-        aboutSpinner();
-
     }
 
     private void aboutSpinner() {
@@ -624,7 +622,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         for (DangerTypeBean bean : list) {
             dangerTypeList.add(bean.getName());
         }
-        adapter.notifyDataSetChanged();
+        aboutWorkClassSpinner();
 
     }
 
