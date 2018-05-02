@@ -443,7 +443,8 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     String approver;
     String area;
     String company;
-    public String airPersonCheck;
+    public String gasId;
+    public String gasName;
 
     private void getNewJobInfo() {
         NewWorkBean bean = new NewWorkBean();
@@ -471,7 +472,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             isDanger = 0;
         }
 
-        if(TextUtils.isEmpty(leading) && TextUtils.isEmpty(airPersonCheck)){
+        if(TextUtils.isEmpty(leading) && TextUtils.isEmpty(gasName)){
             ToastMgr.show(R.string.input_all_message);
             return;
         }
@@ -485,7 +486,8 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             ToastMgr.show(R.string.input_all_message);
             return;
         }
-        bean.setAirPersonCheck(airPersonCheck);
+        bean.setGas(gasId);
+        bean.setGasName(gasName);
         bean.setName(name);
         bean.setStartTime(startTime);
         bean.setEndTime(endTime);
@@ -654,7 +656,8 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             chosedUserId = data.getStringExtra(Constant.CHECK_PEOPLE_ID);
             if (requestCode == CHOSE_CHARGER_CODE) {
                 tv_gas_checker.setText(chosedUserName);
-                airPersonCheck = chosedUserId;
+                gasId = chosedUserId;
+                gasName = chosedUserName;
             } else if (requestCode == CHOSE_CHEKER_CODE) {
                 checkerNameTv.setText(chosedUserName);
                 auditor = chosedUserId;

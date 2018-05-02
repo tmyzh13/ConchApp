@@ -36,6 +36,7 @@ import com.isoftston.issuser.conchapp.model.bean.ImageInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.ResponseDataBean;
 import com.isoftston.issuser.conchapp.model.bean.SubmitJobBody;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailRequestBean;
 import com.isoftston.issuser.conchapp.presenter.WorkDetailPresenter;
@@ -112,6 +113,8 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     //底部列表显示具体人名
     @Bind(R.id.person_in_charge_tv)
     TextView personInChargeNmaeTv;//负责人
+    @Bind(R.id.lead_rl)
+    RelativeLayout leadRl;//负责人布局
     @Bind(R.id.guardian_tv)
     TextView guardianNameTv;//监护人
     @Bind(R.id.auditor_tv)
@@ -139,9 +142,10 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     TextView dangerWorkTypeTv;//危险作业类型
     @Bind(R.id.gas_checker_tv)
     TextView gasCheckerTv;//气体检测人
+    @Bind(R.id.gas_rl)
+    RelativeLayout gasRl;
     @Bind(R.id.danger_work_rl)
     RelativeLayout dangerWorkRl;//危险作业
-
     @Bind(R.id.scan_success_layout)
     LinearLayout scanSuccessHintLayout;//扫码成功，点击可继续扫码或拍照布局
     @Bind(R.id.scan_or_photo_tv)
@@ -200,6 +204,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     private boolean flage1 = false;
     private boolean flage2 = false;
     private boolean flage3 = false;
+    private List<WorkBean> workBeanList = new ArrayList<>();
 
     @SuppressLint("HandlerLeak")
     public Handler handler = new Handler() {
@@ -266,8 +271,8 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         refreshIv.setImageResource(R.mipmap.refresh);//改为刷新
         getLoadingDialog().show();
         presenter.getUserInfo();
-        //获取作业详情
-        presenter.getWorkDetailInfo(jobId);
+        presenter.getWorkInfo();
+
 //        scan();
 //        setData();
 //        scaned();
@@ -862,10 +867,14 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             approverNameTv.setText(approverName);
         }
         equipmentTypeTv.setText(String.valueOf(workDetailBean.equipmentType));
-        equipmentModelTv.setText(workDetailBean.equipmentCode);
+        equipmentModelTv.setText(workDetailBean.equipmentTypeName);
         equipmentNameTv.setText(workDetailBean.equipmentName);
-        workZoneTv.setText(workDetailBean.area);
-        workAddressTv.setText(workDetailBean.area);
+        for (WorkBean workBean1:workBeanList){
+            if (workBean1.getId() == Integer.parseInt(workDetailBean.area)){
+                workZoneTv.setText(workBean1.getName());
+            }
+        }
+        workAddressTv.setText(workDetailBean.part);
         workContentTv.setText(workDetailBean.content);
         workCompanyTv.setText(workDetailBean.company);
         workNumberTv.setText(String.valueOf(workDetailBean.numberPeople));
@@ -874,8 +883,16 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
 //        } else {
 //            isDangerWork = false;
 //        }
+        if (workDetailBean.leadingName != null){
+            personInChargeNmaeTv.setText(workDetailBean.leadingName);
+            leadRl.setVisibility(View.VISIBLE);
+            gasRl.setVisibility(View.GONE);
+        }else {
+            gasCheckerTv.setText(workDetailBean.gasName);
+            gasRl.setVisibility(View.VISIBLE);
+            leadRl.setVisibility(View.GONE);
+        }
         if (isDangerWork) {
-            gasCheckerTv.setText(workDetailBean.gas);
             dangerWorkRl.setVisibility(View.VISIBLE);
         } else {
             dangerWorkRl.setVisibility(View.GONE);
@@ -940,6 +957,18 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     @Override
     public void getUserInfo(UserInfoBean userInfoBean) {
         userId = userInfoBean.getId();
+    }
+
+    @Override
+    public void getWorkError() {
+
+    }
+
+    @Override
+    public void getWorkListInfo(List<WorkBean> list) {
+        workBeanList = list;
+        //获取作业详情
+        presenter.getWorkDetailInfo(jobId);
     }
 
     @Override

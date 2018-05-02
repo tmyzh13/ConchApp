@@ -20,7 +20,8 @@ public class NewWorkBean {
     private String leading;
     private String guardian;
     private String auditor;
-    public String airPersonCheck;
+    private String gas;
+    private String gasName;
 
     public String getArea() {
         return area;
@@ -172,11 +173,19 @@ public class NewWorkBean {
         this.isDanger = isDanger;
     }
 
-    public String getAirPersonCheck() {
-        return airPersonCheck;
+    public String getGas() {
+        return gas;
     }
 
-    public void setAirPersonCheck(String airPersonCheck) {
-        this.airPersonCheck = airPersonCheck;
+    public void setGas(String gas) {
+        this.gas = gas;
+    }
+
+    public String getGasName() {
+        return gasName;
+    }
+
+    public void setGasName(String gasName) {
+        this.gasName = gasName;
     }
 }
