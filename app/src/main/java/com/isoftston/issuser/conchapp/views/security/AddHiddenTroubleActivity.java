@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -19,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.corelibs.base.BaseActivity;
-import com.corelibs.base.BasePresenter;
 import com.corelibs.utils.IMEUtil;
 import com.corelibs.utils.ToastMgr;
 import com.isoftston.issuser.conchapp.R;
@@ -28,18 +26,15 @@ import com.isoftston.issuser.conchapp.model.bean.AddYHBean;
 import com.isoftston.issuser.conchapp.model.bean.OrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
 import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
+import com.isoftston.issuser.conchapp.model.bean.YhlxBean;
 import com.isoftston.issuser.conchapp.model.bean.YhlyBean;
 import com.isoftston.issuser.conchapp.presenter.SecurityPresenter;
 import com.isoftston.issuser.conchapp.utils.DateUtils;
-import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.utils.Tools;
 import com.isoftston.issuser.conchapp.views.interfaces.SecuryView;
-import com.isoftston.issuser.conchapp.views.work.NewWorkActivity;
 import com.isoftston.issuser.conchapp.weight.CustomDatePicker;
 import com.isoftston.issuser.conchapp.weight.InputView;
 import com.isoftston.issuser.conchapp.weight.NavBar;
-
-import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -87,10 +82,10 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
 
     @Bind(R.id.spinner3)
     Spinner fromSpinner;
-    @Bind(R.id.male_rb)
-    RadioButton male_rb;
-    @Bind(R.id.famale_rb)
-    RadioButton famale_rb;
+
+    @Bind(R.id.spinnerGrade)
+    Spinner gradeSpinner;
+
     @Bind(R.id.fix_yes)
     RadioButton fix_yes;
     @Bind(R.id.fix_no)
@@ -107,18 +102,22 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
     private List<String> checkCompanyList=new ArrayList<>();
     private List<String> fromList=new ArrayList<>();
     private List<String> fromListId=new ArrayList<>();
+    private List<String> gradeList=new ArrayList<>();
+    private List<String> gradeListId=new ArrayList<>();
     private Context context =AddHiddenTroubleActivity.this;
     //0隐患 1违章
     private String type;
     private ArrayAdapter<String> adapter;
     private ArrayAdapter<String> comAdapter;
     private ArrayAdapter<String> fromAdapter;
+    private ArrayAdapter<String> gradeAdapter;
     private String find_company;
     private String yh_company;
     private String yh_from;
     private String yh_from_id;
     private String yh_lx_id;
     private String yh_grade=null;
+    private String yh_grade_name=null;
     private String fix;
     private List<OrgBean> org=new ArrayList<>();
     private String find_company_id;
@@ -233,6 +232,25 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
 
         });
 
+        gradeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, gradeList);
+        //2.为适配器设置下拉菜单样式。adapter.setDropDownViewResource
+        gradeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //3.以上声明完毕后，建立适配器,有关于sipnner这个控件的建立。用到myspinner
+        gradeSpinner.setAdapter(gradeAdapter);
+        gradeSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                yh_grade_name = gradeAdapter.getItem(i).toString();
+                yh_grade = gradeListId.get(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+
+        });
+
     }
 
     @Override
@@ -332,13 +350,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         String endTimeStr = tv_end_time.getText().toString().trim();
         long endTime = TextUtils.isEmpty(String.valueOf(endTimeStr))? 0 : DateUtils.getDateToLongMS(endTimeStr);
         String check_people=tv_check_people.getText().toString();
-        if (male_rb.isChecked()){
-            //yh_grade = male_rb.getText().toString();
-            yh_grade="ZDYH";
-        }else if (famale_rb.isChecked()){
-            //yh_grade=famale_rb.getText().toString();
-            yh_grade="YBYH";
-        }
+
         String yh_address=input_place.getContent().trim();
         String yh_position=input_position.getContent().trim();
         String yh_type=tv_yh_type.getText().toString();
@@ -351,7 +363,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         if (TextUtils.isEmpty(yh_name)||TextUtils.isEmpty(find_company)||TextUtils.isEmpty(yh_company)||
                 TextUtils.isEmpty(check_people)||TextUtils.isEmpty(yh_grade)||TextUtils.isEmpty(yh_address)||
                 TextUtils.isEmpty(yh_position)||TextUtils.isEmpty(yh_from)||TextUtils.isEmpty(yh_type)
-                ||TextUtils.isEmpty(fix)||TextUtils.isEmpty(yh_describle)){
+                ||TextUtils.isEmpty(fix)||TextUtils.isEmpty(yh_describle)||TextUtils.isEmpty(yh_grade_name)){
             ToastMgr.show(R.string.input_all_message);
             return;
         }
@@ -495,10 +507,16 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
             fromList.add(yhlyBean.getNAME_());
             fromListId.add(yhlyBean.getCODE_());
         }
+
+        for(YhlxBean gradeBean:bean.YHJB)
+        {
+            gradeList.add(gradeBean.getNAME_());
+            gradeListId.add(gradeBean.getCODE_());
+        }
         adapter.notifyDataSetChanged();
         fromAdapter.notifyDataSetChanged();
         comAdapter.notifyDataSetChanged();
-
+        gradeAdapter.notifyDataSetChanged();
     }
 
     @Override
