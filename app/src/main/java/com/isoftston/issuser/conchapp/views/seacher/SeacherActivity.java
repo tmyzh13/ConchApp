@@ -401,6 +401,7 @@ public class SeacherActivity extends BaseActivity<SeacherView, SeacherPresenter>
                     @Override
                     public void onClick(View v) {
                         alterHistroySeach(str);
+                        searchKey = str;
                         ll_histroy.setVisibility(View.GONE);
                         ptrLayout.setVisibility(View.VISIBLE);
 

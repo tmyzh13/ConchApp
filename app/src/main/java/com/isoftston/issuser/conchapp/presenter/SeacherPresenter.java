@@ -79,6 +79,7 @@ public class SeacherPresenter extends BasePresenter<SeacherView> {
                         if (status == -200) {
                             view.reLogin();
                         }
+                        view.getWorkError();
                         return false;
                     }
 
@@ -145,6 +146,7 @@ public class SeacherPresenter extends BasePresenter<SeacherView> {
                         if (status == -200) {
                             view.reLogin();
                         }
+                        view.getWorkError();
                         return false;
                     }
                 });
@@ -176,6 +178,7 @@ public class SeacherPresenter extends BasePresenter<SeacherView> {
                         if (status == -200) {
                             view.reLogin();
                         }
+                        view.getWorkError();
                         return false;
                     }
                 });

@@ -593,8 +593,8 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         }
         if (isDownRefresh){
             isDownRefresh = false;
-            ptrLayout.complete();
         }
+        ptrLayout.complete();
         if (data.list.size() == 0 && mAdapter.getCount() > 0){
             return;
         }
@@ -693,8 +693,9 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         }
         if (isDownRefresh){
             isDownRefresh = false;
-            ptrLayout.complete();
         }
+
+        ptrLayout.complete();
         if (data.list.size() == 0 && mAdapter.getCount() > 0){
             return;
         }
