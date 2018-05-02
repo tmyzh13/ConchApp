@@ -174,7 +174,7 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //进入消息详情界面
-                Intent intent =new Intent(getActivity(),ItemDangerDtailActivity.class);
+                Intent intent;
                 View  readStatus= view.findViewById(R.id.view_read_statue);
                 readStatus.setVisibility(View.GONE);
                 Bundle bundle=new Bundle();
@@ -184,8 +184,10 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
                         || "YHSW".equals(listMessage.get(position).getYhlx())||"WCZWZZY".equals(listMessage.get(position).getYhlx())
                         ||"ZHSWWZZH".equals(listMessage.get(position).getYhlx())||"GRFHZBBQ".equals(listMessage.get(position).getYhlx())){
                     troubleType = "wz";
+                    intent =new Intent(getActivity(),ItemDtailActivity.class);
                 }else {
                     troubleType = "yh";
+                    intent =new Intent(getActivity(),ItemDangerDtailActivity.class);
                 }
                 bundle.putString("type",troubleType);
                 bundle.putString("id",listMessage.get(position).getId());
