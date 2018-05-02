@@ -304,8 +304,12 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
 
     @Override
     public void onLoading(PtrFrameLayout frame) {
-        isLoading = true;
-        presenter.getAllDeviceInfo(mlist.get(mlist.size() - 1).getId());
+        if(mlist!=null&&mlist.size()>0){
+            isLoading = true;
+            presenter.getAllDeviceInfo(mlist.get(mlist.size() - 1).getId());
+        }else{
+            ptrLayout.complete();
+        }
     }
 
 
