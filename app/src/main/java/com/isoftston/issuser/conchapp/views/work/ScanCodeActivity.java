@@ -866,8 +866,8 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             approverRelnameTv.setText(approverName);
             approverNameTv.setText(approverName);
         }
-        equipmentTypeTv.setText(String.valueOf(workDetailBean.equipmentType));
-        equipmentModelTv.setText(workDetailBean.equipmentTypeName);
+        equipmentTypeTv.setText(workDetailBean.equipmentTypeName);
+        equipmentModelTv.setText(workDetailBean.equipmentCode);
         equipmentNameTv.setText(workDetailBean.equipmentName);
         for (WorkBean workBean1:workBeanList){
             if (workBean1.getId() == Integer.parseInt(workDetailBean.area)){
