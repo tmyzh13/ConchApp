@@ -21,7 +21,7 @@ public class WorkDetailBean implements Serializable{
     public String content;//作业内容
     public String company;//作业单位
     public int numberPeople;//作业人数
-    public int type;//作业危险类型
+    public int String;//作业危险类型
     public String gas;//气体检测人id
     public String gasName;//气体检测人id
     public String leading;//负责人id
@@ -142,12 +142,12 @@ public class WorkDetailBean implements Serializable{
         this.numberPeople = numberPeople;
     }
 
-    public int getType() {
-        return type;
+    public int getString() {
+        return String;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setString(int string) {
+        String = string;
     }
 
     public String getGas() {

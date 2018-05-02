@@ -250,9 +250,10 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         return R.layout.activity_scan_code;
     }
 
-    public static Intent getLauncher(Context context, String jobId) {
+    public static Intent getLauncher(Context context, String jobId, boolean b) {
         Intent intent = new Intent(context, ScanCodeActivity.class);
         intent.putExtra("jobId", jobId);
+        intent.putExtra("isDangerWork", b);
         return intent;
     }
 
@@ -595,6 +596,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         photoFlagIv2 = scanCodeLlInner.findViewById(R.id.photo_flag_iv1);
 
         jobId = getIntent().getStringExtra("jobId");
+        isDangerWork = getIntent().getBooleanExtra("isDangerWork",false);
         Log.e(TAG, "----jobId:" + jobId);
         clicks();
     }
@@ -867,11 +869,11 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         workContentTv.setText(workDetailBean.content);
         workCompanyTv.setText(workDetailBean.company);
         workNumberTv.setText(String.valueOf(workDetailBean.numberPeople));
-        if (workDetailBean.type == 0) {
-            isDangerWork = true;
-        } else {
-            isDangerWork = false;
-        }
+//        if (workDetailBean.type == 0) {
+//            isDangerWork = true;
+//        } else {
+//            isDangerWork = false;
+//        }
         if (isDangerWork) {
             gasCheckerTv.setText(workDetailBean.gas);
             dangerWorkRl.setVisibility(View.VISIBLE);

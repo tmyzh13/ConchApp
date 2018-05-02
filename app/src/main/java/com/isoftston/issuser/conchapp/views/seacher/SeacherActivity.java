@@ -190,7 +190,7 @@ public class SeacherActivity extends BaseActivity<SeacherView, SeacherPresenter>
                     startActivity(intent);
                 } else if (type.equals("2")) {
                     String jobId = String.valueOf(workAdapter.getItem(position).getId());
-                    startActivity(ScanCodeActivity.getLauncher(SeacherActivity.this, jobId));
+                    startActivity(ScanCodeActivity.getLauncher(SeacherActivity.this, jobId, true));
                 } else if (type.equals("3")) {
                     startActivity(CheckDeviceDetailActivity.getLauncher(SeacherActivity.this, deviceAdapter.getItem(position)));
                 }

@@ -93,7 +93,12 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //进入消息详情界面
                 String jobId = String.valueOf(adapter.getItem(position).getId());
-                startActivity(ScanCodeActivity.getLauncher(getContext(),jobId));
+                if("0".equals(bType)){
+                    startActivity(ScanCodeActivity.getLauncher(getContext(),jobId,true));
+                }else{
+                    startActivity(ScanCodeActivity.getLauncher(getContext(),jobId,false));
+                }
+
 
             }
         });
@@ -152,7 +157,6 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
     public void getWorkList(List<WorkDetailBean> list) {
         listMessage.clear();
         listMessage=list;
-        Log.i("listMessage",listMessage.size()+"");
         adapter.replaceAll(listMessage);
         lv_message.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -161,7 +165,6 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
     @Override
     public void getWorkError() {
         hideLoading();
-        ptrLayout.complete();
     }
 
     @Override
