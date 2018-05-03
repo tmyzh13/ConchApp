@@ -326,7 +326,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
     @OnClick(R.id.rl_photo)
     public void goPhoto(){
         //进入照片选择界面
-        startActivityForResult(ChoicePhotoActivity.getLauncher(context,"0",map),110);
+        startActivityForResult(ChoicePhotoActivity.getLauncher(context,"0",map,0),110);
     }
 
 

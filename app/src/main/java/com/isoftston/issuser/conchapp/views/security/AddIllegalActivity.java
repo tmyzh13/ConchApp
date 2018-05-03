@@ -233,7 +233,7 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
 
     @OnClick(R.id.rl_photo)
     public void choicePhoto(){
-        startActivityForResult(ChoicePhotoActivity.getLauncher(context,"0",map),110);
+        startActivityForResult(ChoicePhotoActivity.getLauncher(context,"0",map,0),110);
     }
 
 
