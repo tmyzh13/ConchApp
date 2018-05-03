@@ -99,10 +99,15 @@ public class SecurityPresenter extends BasePresenter<SecuryView> {
 
                     @Override
                     public void onError(Throwable e) {
+                        view.getWorkError();
                         super.onError(e);
                     }
 
-
+                    @Override
+                    public boolean operationError(BaseData<SafeListBean> safeListBeanBaseData, int status, String message) {
+                        view.getWorkError();
+                        return false;
+                    }
                 });
     }
     public void uploadImg(List<File> listFiles){

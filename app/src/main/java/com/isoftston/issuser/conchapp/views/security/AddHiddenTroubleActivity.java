@@ -26,6 +26,7 @@ import com.isoftston.issuser.conchapp.model.bean.AddYHBean;
 import com.isoftston.issuser.conchapp.model.bean.OrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
 import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
+import com.isoftston.issuser.conchapp.model.bean.SecurityUpdateBean;
 import com.isoftston.issuser.conchapp.model.bean.YhlxBean;
 import com.isoftston.issuser.conchapp.model.bean.YhlyBean;
 import com.isoftston.issuser.conchapp.presenter.SecurityPresenter;
@@ -35,6 +36,8 @@ import com.isoftston.issuser.conchapp.views.interfaces.SecuryView;
 import com.isoftston.issuser.conchapp.weight.CustomDatePicker;
 import com.isoftston.issuser.conchapp.weight.InputView;
 import com.isoftston.issuser.conchapp.weight.NavBar;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -478,6 +481,9 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
     @Override
     public void addSuccess() {
         ToastMgr.show(getString(R.string.submit_success));
+        SecurityUpdateBean bean = new SecurityUpdateBean();
+        bean.setType(1); //1是新建安全成功的提示刷新
+        EventBus.getDefault().post(bean);
         finish();
 
     }
