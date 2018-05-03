@@ -360,12 +360,10 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
         if (data.list.size() == 0 && adapter.getCount() > 0){
             return;
         }
-        lastCount = adapter.getCount() - 1;
-        lastCount = lastCount < 0?0:lastCount;
+
         adapter.addAll(data.list);
         adapter.notifyDataSetChanged();
-        lv_message.setAdapter(adapter);
-        lv_message.setSelection(lastCount);
+
     }
 
     @Override
