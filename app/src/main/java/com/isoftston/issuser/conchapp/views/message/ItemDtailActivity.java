@@ -185,6 +185,17 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
                     .override(320,160)
                     .transform(new CenterCrop(this), new RoundedTransformationBuilder().cornerRadius(20).build(this))
                     .into(iv);
+            iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(ItemDtailActivity.this,ImageDetilActivity.class);
+                    Bundle bundle=new Bundle();
+                    bundle.putStringArrayList("imagepath", (ArrayList<String>) urls);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            });
+
 //            iv.setImageResource(images[i]);
             imageList.add(view);
         }
