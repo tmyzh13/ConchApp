@@ -121,9 +121,12 @@ public class ChoicePhotoActivity extends BaseActivity implements View.OnClickLis
                     ActivityCompat.requestPermissions(ChoicePhotoActivity.this, new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CALL_CAMERA);
                 } else {
 //                    helper.openCamera(position, "");
+                    if(kind==1){
+                        helper.openCamera(position, "");
+                        return;
+                    }
                     if (window == null)
                         window = new ChooseImagePopupWindow(context,kind);
-
                     window.setOnTypeChosenListener(new ChooseImagePopupWindow.OnTypeChosenListener() {
                         @Override
                         public void onCamera() {

@@ -285,4 +285,6 @@
     <string name="input_num">作业人数请输入数字</string>
     <string name="un_approved">未审批</string>
     <string name="trouble_company">隐患单位</string>
+    <string name="input_text">请选择</string>
+    <string name="regret">已撤销</string>
 </resources>

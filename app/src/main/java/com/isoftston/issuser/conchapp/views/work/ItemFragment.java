@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import com.isoftston.issuser.conchapp.model.bean.DeviceDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceTypeBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceTypeRequstBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
+import com.isoftston.issuser.conchapp.model.bean.SearchUserBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
 import com.isoftston.issuser.conchapp.presenter.WorkPresenter;
@@ -47,10 +49,15 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
     PtrAutoLoadMoreLayout<AutoLoadMoreListView> ptrLayout;
 
     public WorkMessageItemAdapter adapter;
-    public List<WorkDetailBean> listMessage=new ArrayList<>();
+    public List<WorkDetailBean> listMessage;
     private String type;
     private int bType;
     private String itemID;
+    private boolean isUpRefresh;
+    private boolean isLastRow=false;
+    private boolean isDownRefresh;
+    private String lastId="";
+    private int lastCount;
     public static Fragment newInstance(String type, int bigType) {
         ItemFragment fragment =new ItemFragment();
         Bundle b =new Bundle();
@@ -71,23 +78,49 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
         bType=getArguments().getInt("bigType");
         Log.i("type",type+"--"+bType);
         tv.setText(type);
+        adapter=new WorkMessageItemAdapter(getContext());
+        listMessage=new ArrayList<>();
+        adapter.addAll(listMessage);
+        lv_message.setAdapter(adapter);
         if (bType==2){
             if (type.equals(getString(R.string.my_approve))){
-                presenter.getWorkList("",2,"0");
+                presenter.getWorkList(lastId,2,"0");
             }else if (type.equals(getString(R.string.my_check))){
-                presenter.getWorkList("",2,"1");
+                presenter.getWorkList(lastId,2,"1");
             }else {
-                presenter.getWorkList("",2,"2");
+                presenter.getWorkList(lastId,2,"2");
             }
         }else {
             presenter.getWorkInfo();
         }
-        adapter=new WorkMessageItemAdapter(getContext());
-        adapter.addAll(listMessage);
-        lv_message.setAdapter(adapter);
-        ptrLayout.disableLoading();
-        ptrLayout.setCanRefresh(false);
 
+//        ptrLayout.disableLoading();
+//        ptrLayout.setCanRefresh(false);
+        ptrLayout.setLoading();
+        ptrLayout.setRefreshLoadCallback(new PtrAutoLoadMoreLayout.RefreshLoadCallback() {
+
+            @Override
+            public void onRefreshing(PtrFrameLayout frame) {
+                isUpRefresh = true;
+                if (bType==2){
+                    if (type.equals(getString(R.string.my_approve))){
+                        presenter.getWorkList(lastId,2,"0");
+                    }else if (type.equals(getString(R.string.my_check))){
+                        presenter.getWorkList(lastId,2,"1");
+                    }else {
+                        presenter.getWorkList(lastId,2,"2");
+                    }
+                }else {
+                    presenter.getWorkInfo();
+                }
+            }
+
+            @Override
+            public void onLoading(PtrFrameLayout frame) {
+
+
+            }
+        });
         lv_message.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -102,24 +135,64 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
 
             }
         });
-        ptrLayout.setRefreshLoadCallback(this);
+        lv_message.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+                //当滚到最后一行且停止滚动时，执行加载
+                if (isLastRow && scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    //加载元素
+                    loadNextPage(adapter.getCount());
+                    isLastRow = false;
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                //判断是否滚到最后一行
+                    if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount > 0) {
+                        if(adapter.getCount() > 0)
+                        {
+                            isLastRow = true;
+                        }
+
+                }
+            }
+        });
+//        ptrLayout.setRefreshLoadCallback(this);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    private void loadNextPage(int totalItemCount) {
+        ptrLayout.setLoading();
+        isDownRefresh = true;
+        lastId = adapter.getData().get(totalItemCount-1).getId();
         if (bType==2){
             if (type.equals(getString(R.string.my_approve))){
-                presenter.getWorkList("",2,"0");
+                presenter.getWorkList(lastId,2,"0");
             }else if (type.equals(getString(R.string.my_check))){
-                presenter.getWorkList("",2,"1");
+                presenter.getWorkList(lastId,2,"1");
             }else {
-                presenter.getWorkList("",2,"2");
+                presenter.getWorkList(lastId,2,"2");
             }
         }else {
             presenter.getWorkInfo();
         }
     }
+
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        if (bType==2){
+//            if (type.equals(getString(R.string.my_approve))){
+//                presenter.getWorkList("",2,"0");
+//            }else if (type.equals(getString(R.string.my_check))){
+//                presenter.getWorkList("",2,"1");
+//            }else {
+//                presenter.getWorkList("",2,"2");
+//            }
+//        }else {
+//            presenter.getWorkInfo();
+//        }
+//    }
 
     @Override
     protected WorkPresenter createPresenter() {
@@ -133,7 +206,7 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
 
     @Override
     public void onAllPageLoaded() {
-        ptrLayout.disableLoading();
+
     }
 
     @Override
@@ -143,11 +216,12 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
 
     @Override
     public void getWorkListInfo(List<WorkBean> list) {
+
         for (WorkBean workBean:list){
             if (type.equals(getString(R.string.all))){
-                presenter.getWorkList("",bType,"");
+                presenter.getWorkList(lastId,bType,"");
             }else if (type.equals(workBean.getName())){
-                presenter.getWorkList("",bType,String.valueOf(workBean.getId()));
+                presenter.getWorkList(lastId,bType,String.valueOf(workBean.getId()));
             }
         }
 
@@ -155,15 +229,30 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
 
     @Override
     public void getWorkList(List<WorkDetailBean> list) {
-        listMessage.clear();
-        listMessage=list;
-        adapter.replaceAll(listMessage);
-        lv_message.setAdapter(adapter);
+        hideLoading();
+        listMessage.addAll(list);
+        if (isUpRefresh){
+            adapter.clear();
+            listMessage.clear();
+            listMessage.addAll(list);
+            isUpRefresh = false;
+            ptrLayout.complete();
+        }
+        if (isDownRefresh){
+            isDownRefresh = false;
+            ptrLayout.complete();
+        }
+        ptrLayout.complete();
+        if (list.size() == 0 && adapter.getCount() > 0){
+            return;
+        }
+        adapter.replaceAll(list);
         adapter.notifyDataSetChanged();
     }
 
     @Override
     public void getWorkError() {
+        ptrLayout.complete();
         hideLoading();
     }
 

@@ -57,6 +57,7 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:textSize="10sp"
+            android:textColor="@color/app_gray"
             android:text="@string/approved"/>
         <TextView
             android:id="@+id/unclosed"
