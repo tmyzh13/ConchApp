@@ -39,7 +39,6 @@
             android:id="@+id/tv_cancel"
             />
     </LinearLayout>
-
     <com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout
         android:id="@+id/ptrLayout"
         android:layout_width="match_parent"
@@ -59,4 +58,5 @@
             android:scrollbars="none" />
 
     </com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout>
+
 </LinearLayout>

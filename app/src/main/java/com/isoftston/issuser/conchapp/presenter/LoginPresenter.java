@@ -50,7 +50,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
 
     }
 
-    public void loginAction(String account,String password){
+    public void loginAction(String account, final String password){
         if(checkLoginInput(account,password)){
             LoginRequestBean bean =new LoginRequestBean();
 //            bean.language= Tools.getLocalLanguage(getContext());
@@ -67,6 +67,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                             if(baseData!=null&&baseData.data!=null){
                                 JsonObject jsonObject= (JsonObject) baseData.data;
                                 String token= String.valueOf(jsonObject.get("Access-Token"));
+                                PreferencesHelper.saveData(Constant.LOGIN_PWD,password);
                                 view.loginSuccess(token);
                             }
 

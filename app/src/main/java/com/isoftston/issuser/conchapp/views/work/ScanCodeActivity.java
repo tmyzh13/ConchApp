@@ -322,7 +322,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         status = bean.status;
         switch (status) {
             case 0://新建：
-                if (userId.equals(bean.leading)) {
+                if (userId.equals(bean.leading)||userId.equals(bean.gas)) {
                     showAllBtn();
                 } else if (userId.equals(bean.approver) || bean.equals(bean.auditor)
                         || userId.equals(bean.guardian)) {
@@ -339,7 +339,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             case 2://负责人开工扫描：第一轮负责人已提交了
                 //改变负责人相关UI
                 changeChargersToGreen();
-                if (userId.equals(bean.leading)) {
+                if (userId.equals(bean.leading)||userId.equals(bean.gas)) {
                     hideAllBtn();
                     scanCodeLl.setVisibility(View.GONE);
                 }
@@ -364,7 +364,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                 flage2 = true;
                 flage3 = true;
                 isOneTurnDone = true;
-                if (!userId.equals(bean.leading)) {
+                if (!userId.equals(bean.leading)&&!userId.equals(bean.gas)) {
                     scanedLayout.setVisibility(View.VISIBLE);
                     scanCodeLlInner.setVisibility(View.GONE);
                     commitBtn.setVisibility(View.GONE);
@@ -411,6 +411,9 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                 flage1=true;
                 flage2=true;
                 flage3=true;
+                approverCount=2;
+                auditorCount=2;
+                guardianCount=2;
                 break;
             default:
                 break;
@@ -442,11 +445,11 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             changeApproversToBlue();
         }
         //比对自己的职位
-        if (userId.equals(bean.leading)) {
+        if (userId.equals(bean.leading)||userId.equals(bean.gas)) {
             isChargePerson = true;
         } else if (userId.equals(bean.guardian)) {
             isGurdianPerson = true;
-            if (!flage1&&bean.status>0) {
+            if (!flage1&&bean.status>1) {
                 commitBtn.setVisibility(View.VISIBLE);
             } else {
                 scanCodeLl.setVisibility(View.GONE);
@@ -457,7 +460,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             }
         } else if (userId.equals(bean.auditor)) {
             isAuditorPerson = true;
-            if (!flage2&&bean.status>0) {
+            if (!flage2&&bean.status>1) {
                 commitBtn.setVisibility(View.VISIBLE);
             } else {
                 scanCodeLl.setVisibility(View.GONE);
@@ -469,7 +472,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
 
         } else if (userId.equals(bean.approver)) {
             isApproverPerson = true;
-            if (!flage3&&bean.status>0) {
+            if (!flage3&&bean.status>1) {
                 commitBtn.setVisibility(View.VISIBLE);
             } else {
                 scanCodeLl.setVisibility(View.GONE);
@@ -489,10 +492,14 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             scanCodeLlInner.setVisibility(View.GONE);
         }
         Log.i("test","---test:"+approverCount+"---"+auditorCount+"---"+guardianCount);
-        if (turn==2 && bean.status==3&&userId.equals(bean.leading)){
-            commitBtn.setVisibility(View.VISIBLE);
-            scanCodeLlInner.setVisibility(View.VISIBLE);
-            scanedLayout.setVisibility(View.VISIBLE);
+
+        if (turn==2 && bean.status==3){
+            if (userId.equals(bean.leading)||userId.equals(bean.gas)){
+                commitBtn.setVisibility(View.VISIBLE);
+                scanCodeLlInner.setVisibility(View.VISIBLE);
+                scanedLayout.setVisibility(View.VISIBLE);
+            }
+
         }
         //第一轮完成后才显示列表数据
         if (turn==2) {
@@ -876,6 +883,11 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         if (!(workDetailBean.endTime == 0)) {
             String endTime = DateUtils.format_yyyy_MM_dd_HH_mm.format(workDetailBean.endTime);
             work_end_time_day.setText(endTime);
+        }
+        String gasName=workDetailBean.gasName;
+        if (gasName!=null){
+            chargePersonRelnameTv.setText(gasName);
+            personInChargeNmaeTv.setText(gasName);
         }
         String chargeName = workDetailBean.leadingName;
         if (chargeName != null) {

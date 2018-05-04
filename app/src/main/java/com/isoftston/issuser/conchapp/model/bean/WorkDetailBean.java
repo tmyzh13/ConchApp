@@ -8,7 +8,7 @@ import java.util.Date;
  */
 
 public class WorkDetailBean implements Serializable{
-    public long id;//主键
+    public String id;//主键
     public String name;//项目名称
     public long startTime;//开始时间
     public long endTime;//结束时间
@@ -46,11 +46,11 @@ public class WorkDetailBean implements Serializable{
     }
 
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

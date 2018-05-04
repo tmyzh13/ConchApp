@@ -1,12 +1,15 @@
 package com.isoftston.issuser.conchapp;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -62,7 +65,10 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
     private String[] tabTags;
     private Context context=MainActivity.this;
     private PushBroadcastReceiver pushBroadcastReceiver;
-
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private String[] PERMISSIONS_STORAGE = {
+            "android.permission.READ_EXTERNAL_STORAGE",
+            "android.permission.WRITE_EXTERNAL_STORAGE" };
     private List<String> findCompanyList=new ArrayList<>();
     private List<String> checkCompanyList=new ArrayList<>();
     private List<String> fromList=new ArrayList<>();
@@ -112,9 +118,24 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
         }
         return R.layout.activity_main;
     }
+    public void verifyStoragePermissions(Context context) {
+
+        try {
+            //检测是否有写的权限
+            int permission = ActivityCompat.checkSelfPermission(context,
+                    "android.permission.WRITE_EXTERNAL_STORAGE");
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+                // 没有写的权限，去申请写的权限，会弹出对话框
+                ActivityCompat.requestPermissions((Activity) context, PERMISSIONS_STORAGE,REQUEST_EXTERNAL_STORAGE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        verifyStoragePermissions(context);
             tabTags = new String[]{getString(R.string.home_message), getString(R.string.home_security),getString(R.string.home_work),
                     getString(R.string.home_check),getString(R.string.home_mine)};
             navigator.setup(this, tabHost, this, getSupportFragmentManager(), R.id.real_tab_content);

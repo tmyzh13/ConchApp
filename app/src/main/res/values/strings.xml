@@ -4,7 +4,7 @@
 
     <!--首页tab-->
     <string name="home_message">信息</string>
-    <string name="home_security">安全</string>
+    <string name="home_security">隐患</string>
     <string name="home_work">作业</string>
     <string name="home_check">检维</string>
     <string name="home_mine">我的</string>
@@ -285,4 +285,6 @@
     <string name="input_num">作业人数请输入数字</string>
     <string name="un_approved">未审批</string>
     <string name="trouble_company">隐患单位</string>
+    <string name="input_text">请选择</string>
+    <string name="regret">已撤销</string>
 </resources>

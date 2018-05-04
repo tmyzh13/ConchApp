@@ -335,6 +335,7 @@
                 <TextView
                     android:id="@+id/charger_name_tv"
                     style="@style/text_normal"
+                    android:text="@string/input_text"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true" />
 
@@ -361,6 +362,8 @@
                     android:textColor="@color/black" />
 
                 <TextView
+
+                    android:text="@string/input_text"
                     android:id="@+id/keeper_name_tv"
                     style="@style/text_normal"
                     android:layout_alignParentRight="true"
@@ -389,6 +392,7 @@
                     android:textColor="@color/black" />
 
                 <TextView
+                    android:text="@string/input_text"
                     android:id="@+id/checker_name_tv"
                     style="@style/text_normal"
                     android:layout_alignParentRight="true"
@@ -416,6 +420,7 @@
                     android:textColor="@color/black" />
 
                 <TextView
+                    android:text="@string/input_text"
                     android:id="@+id/authorize_name_tv"
                     style="@style/text_normal"
                     android:layout_alignParentRight="true"
@@ -480,6 +485,7 @@
                     android:textColor="@color/black" />
 
                 <TextView
+                    android:text="@string/input_text"
                     android:id="@+id/equipment_type_tv"
                     style="@style/text_normal"
                     android:layout_alignParentRight="true"
@@ -506,6 +512,7 @@
                     android:textColor="@color/black" />
 
                 <TextView
+                    android:text="@string/input_text"
                     android:id="@+id/equipment_name_tv"
                     style="@style/text_normal"
                     android:layout_alignParentRight="true"

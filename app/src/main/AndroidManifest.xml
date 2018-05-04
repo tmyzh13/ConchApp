@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.VIBRATE" /> <!-- 震动权限 -->
     <uses-permission android:name="android.permission.CAMERA" /> <!-- 摄像头权限 -->
     <uses-feature android:name="android.hardware.camera.autofocus" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- 定位 -->
@@ -190,7 +189,8 @@
                 android:resource="@xml/filepath" />
         </provider>
 
-        <activity android:name=".MainActivity" >
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait">
 
         </activity>
         <activity android:name=".views.LoginActivity"
@@ -202,13 +202,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".views.message.ItemDtailActivity">
+        <activity android:name=".views.message.ItemDtailActivity"
+            android:screenOrientation="portrait">
         </activity>
 
-        <activity android:name=".views.message.ItemDangerDtailActivity"></activity>
+        <activity android:name=".views.message.ItemDangerDtailActivity"
+            android:screenOrientation="portrait"></activity>
 
 
-        <activity android:name=".views.message.ItemSafeDtailActivity"></activity>
+        <activity android:name=".views.message.ItemSafeDtailActivity"
+            android:screenOrientation="portrait"></activity>
 
 
         <activity android:name=".views.seacher.SeacherActivity"
@@ -227,7 +230,8 @@
             android:screenOrientation="portrait"
             />
 
-        <activity android:name=".views.work.ScanCodeActivity"></activity>
+        <activity android:name=".views.work.ScanCodeActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name="com.google.zxing.client.android.CaptureActivity"
             android:screenOrientation="portrait" />

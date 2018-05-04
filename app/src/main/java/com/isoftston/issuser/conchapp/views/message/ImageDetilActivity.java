@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
+import cn.finalteam.galleryfinal.widget.zoonview.PhotoView;
 
 /**
  * Created by issuser on 2018/4/16.

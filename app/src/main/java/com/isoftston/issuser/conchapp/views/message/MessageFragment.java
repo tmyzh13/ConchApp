@@ -498,6 +498,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
                 isChange = true;
                 break;
             case R.id.iv_back:
+                isChange = true;
                 currrentPage = 0;
                 nav.setNavTitle(getString(R.string.main_message));
                 viewPager.setVisibility(View.GONE);

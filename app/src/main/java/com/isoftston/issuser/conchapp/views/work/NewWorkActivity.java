@@ -370,7 +370,6 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         rl_keeper.setOnClickListener(this);
         rl_check_people.setOnClickListener(this);
         rl_agree.setOnClickListener(this);
-        rl_agree.setOnClickListener(this);
         ll_description.setOnClickListener(this);
         rl_gas_checker.setOnClickListener(this);
         rl_equipment_type.setOnClickListener(this);
