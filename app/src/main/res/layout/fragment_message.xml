@@ -164,6 +164,7 @@
                             android:layout_height="wrap_content">
 
                             <TextView
+                                android:layout_centerVertical="true"
                                 android:id="@+id/unfix"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -172,10 +173,11 @@
                                 android:textColor="@color/white" />
 
                             <TextView
+                                android:layout_centerVertical="true"
                                 android:id="@+id/tv_wzg_num"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="8dp"
+                                android:layout_marginLeft="3dp"
                                 android:layout_marginTop="3dp"
                                 android:layout_toRightOf="@+id/unfix"
                                 android:text="10"
