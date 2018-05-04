@@ -52,7 +52,6 @@ import com.isoftston.issuser.conchapp.views.message.adpter.VpAdapter;
 import com.isoftston.issuser.conchapp.views.message.utils.PushBroadcastReceiver;
 import com.isoftston.issuser.conchapp.views.message.utils.PushCacheUtils;
 import com.isoftston.issuser.conchapp.views.seacher.SeacherActivity;
-import com.isoftston.issuser.conchapp.views.work.CityLocationActivity;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
 import org.greenrobot.eventbus.EventBus;
@@ -64,7 +63,6 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
-import butterknife.OnClick;
 import jxl.Sheet;
 import jxl.Workbook;
 
@@ -499,6 +497,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
                 isChange = true;
                 break;
             case R.id.iv_back:
+                isChange = true;
                 currrentPage = 0;
                 nav.setNavTitle(getString(R.string.main_message));
                 viewPager.setVisibility(View.GONE);
