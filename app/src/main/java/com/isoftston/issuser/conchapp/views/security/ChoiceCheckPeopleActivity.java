@@ -157,6 +157,11 @@ public class ChoiceCheckPeopleActivity extends BaseActivity<SeacherView,SeacherP
     }
 
     @Override
+    public void getEachMessageListResult(Object data, String type, String lastId) {
+
+    }
+
+    @Override
     public void getWorkError() {
 
     }
