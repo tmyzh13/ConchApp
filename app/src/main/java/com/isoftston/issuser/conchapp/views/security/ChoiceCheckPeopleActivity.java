@@ -24,9 +24,7 @@ import com.isoftston.issuser.conchapp.adapters.CheckPeopleAdapter;
 import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.CheckPeopleBean;
 import com.isoftston.issuser.conchapp.model.bean.EachMessageInfoBean;
-import com.isoftston.issuser.conchapp.model.bean.ResponseUserBean;
 import com.isoftston.issuser.conchapp.model.bean.SearchUserBean;
-import com.isoftston.issuser.conchapp.model.bean.UserBean;
 import com.isoftston.issuser.conchapp.presenter.SeacherPresenter;
 import com.isoftston.issuser.conchapp.views.interfaces.SeacherView;
 import com.isoftston.issuser.conchapp.views.work.NewWorkActivity;
@@ -214,16 +212,6 @@ public class ChoiceCheckPeopleActivity extends BaseActivity<SeacherView, Seacher
     }
 
 
-    public void getSeacherResult(String searchContent) {
-//        List<String> listTemp = new ArrayList<>();
-//        for (int i = 0; i < list.size(); i++) {
-//            if (list.get(i).contains(searchContent.toUpperCase()) || Tools.getHanyuPinyin(list.get(i)).contains(searchContent.toUpperCase())) {
-//                listTemp.add(list.get(i));
-//            }
-//        }
-//        adapter.replaceAll(listTemp);
-//        adapter.notifyDataSetChanged();
-    }
 
     @Override
     protected SeacherPresenter createPresenter() {

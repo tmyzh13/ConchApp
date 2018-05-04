@@ -233,6 +233,7 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
 //                LocationUtils.getCNBylocation(getActivity());
 //                Log.i("yzh", "cityName:" + LocationUtils.cityName);
 //                presenter.checkDevice(s, LocationUtils.cityName);
+                cityName = "武汉";
                 presenter.checkDevice(s,cityName);
             }
         }
@@ -282,10 +283,10 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
     }
 
     @Override
-    public void checkDeviceResultError() {
+    public void checkDeviceResultError(String message) {
         //防止网络请求失败，或者返回数据异常导致无法触发loading消失操作
         ((BaseActivity) getActivity()).getLoadingDialog().dismiss();
-        ToastMgr.show("扫描鲁loser");
+        ToastMgr.show(message);
     }
 
     @Override

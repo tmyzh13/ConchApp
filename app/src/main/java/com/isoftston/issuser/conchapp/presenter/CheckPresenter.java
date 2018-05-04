@@ -7,14 +7,10 @@ import com.corelibs.api.ResponseTransformer;
 import com.corelibs.pagination.presenter.ListPagePresenter;
 import com.corelibs.subscriber.PaginationSubscriber;
 import com.corelibs.subscriber.ResponseSubscriber;
-import com.corelibs.utils.PreferencesHelper;
-import com.google.gson.JsonObject;
-import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.UserHelper;
 import com.isoftston.issuser.conchapp.model.apis.CheckApi;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
 import com.isoftston.issuser.conchapp.model.bean.CheckAllDeviceBean;
-import com.isoftston.issuser.conchapp.model.bean.CheckAllDevicesBean;
 import com.isoftston.issuser.conchapp.model.bean.CheckBean;
 import com.isoftston.issuser.conchapp.model.bean.CheckConditionDeviceBean;
 import com.isoftston.issuser.conchapp.model.bean.CheckDeviceRequestBean;
@@ -23,11 +19,8 @@ import com.isoftston.issuser.conchapp.model.bean.DeviceBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceListBean;
 import com.isoftston.issuser.conchapp.model.bean.UserBean;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
-import com.isoftston.issuser.conchapp.utils.LocationUtils;
 import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.CheckView;
-
-import org.json.JSONObject;
 
 import java.util.List;
 import java.util.Map;
@@ -122,12 +115,12 @@ public class CheckPresenter extends ListPagePresenter<CheckView> {
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-                        view.checkDeviceResultError();
+                        view.checkDeviceResultError(e.getMessage());
                     }
 
                     @Override
                     public boolean operationError(BaseData<DeviceBean> deviceBeanBaseData, int status, String message) {
-                        view.checkDeviceResultError();
+                        view.checkDeviceResultError(message);
                         return super.operationError(deviceBeanBaseData, status, message);
                     }
                 });

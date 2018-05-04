@@ -3,12 +3,10 @@ package com.isoftston.issuser.conchapp.views.check;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.corelibs.base.BaseActivity;
-import com.corelibs.base.BasePresenter;
 import com.corelibs.utils.PreferencesHelper;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
@@ -136,7 +134,7 @@ public class CheckDeviceDetailActivity extends BaseActivity<CheckView,CheckPrese
     }
 
     @Override
-    public void checkDeviceResultError() {
+    public void checkDeviceResultError(String message) {
 
     }
 
