@@ -36,6 +36,7 @@ import com.isoftston.issuser.conchapp.model.bean.ImageInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.ResponseDataBean;
 import com.isoftston.issuser.conchapp.model.bean.SubmitJobBody;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailRequestBean;
 import com.isoftston.issuser.conchapp.presenter.WorkDetailPresenter;
@@ -112,6 +113,8 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     //底部列表显示具体人名
     @Bind(R.id.person_in_charge_tv)
     TextView personInChargeNmaeTv;//负责人
+//    @Bind(R.id.lead_rl)
+//    RelativeLayout leadRl;//负责人布局
     @Bind(R.id.guardian_tv)
     TextView guardianNameTv;//监护人
     @Bind(R.id.auditor_tv)
@@ -139,9 +142,10 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     TextView dangerWorkTypeTv;//危险作业类型
     @Bind(R.id.gas_checker_tv)
     TextView gasCheckerTv;//气体检测人
+//    @Bind(R.id.gas_rl)
+//    RelativeLayout gasRl;
     @Bind(R.id.danger_work_rl)
     RelativeLayout dangerWorkRl;//危险作业
-
     @Bind(R.id.scan_success_layout)
     LinearLayout scanSuccessHintLayout;//扫码成功，点击可继续扫码或拍照布局
     @Bind(R.id.scan_or_photo_tv)
@@ -200,6 +204,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     private boolean flage1 = false;
     private boolean flage2 = false;
     private boolean flage3 = false;
+    private List<WorkBean> workBeanList = new ArrayList<>();
 
     @SuppressLint("HandlerLeak")
     public Handler handler = new Handler() {
@@ -226,14 +231,31 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                     hideAllBtn();
                     scanCodeLl.setVisibility(View.GONE);
                     scanedLayout.setVisibility(View.GONE);
-                    if (isChargePerson) {
-                        changeChargersToGreen();
-                    } else if (isGurdianPerson) {
-                        changeGuardiansToGreen();
-                    } else if (isAuditorPerson) {
-                        changeAuditorsToGreen();
-                    } else if (isApproverPerson) {
-                        changeApproversToGreen();
+                    if (turn == 2) {
+                        scanCodeLayout.setVisibility(View.VISIBLE);
+                        scanCodeLlInner.setVisibility(View.GONE);
+                        mListView.setVisibility(View.VISIBLE);
+                    }
+                    if (turn == 1) {
+                        if (isChargePerson) {
+                            changeChargersToGreen();
+                        } else if (isGurdianPerson) {
+                            changeGuardiansToGreen();
+                        } else if (isAuditorPerson) {
+                            changeAuditorsToGreen();
+                        } else if (isApproverPerson) {
+                            changeApproversToGreen();
+                        }
+                    } else {
+                        if (isChargePerson) {
+                            changeChargersToBlue();
+                        } else if (isGurdianPerson) {
+                            changeGuardiansToBlue();
+                        } else if (isAuditorPerson) {
+                            changeAuditorsToBlue();
+                        } else if (isApproverPerson) {
+                            changeApproversToBlue();
+                        }
                     }
                     break;
                 default:
@@ -250,9 +272,10 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         return R.layout.activity_scan_code;
     }
 
-    public static Intent getLauncher(Context context, String jobId) {
+    public static Intent getLauncher(Context context, String jobId, boolean b) {
         Intent intent = new Intent(context, ScanCodeActivity.class);
         intent.putExtra("jobId", jobId);
+        intent.putExtra("isDangerWork", b);
         return intent;
     }
 
@@ -265,8 +288,8 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         refreshIv.setImageResource(R.mipmap.refresh);//改为刷新
         getLoadingDialog().show();
         presenter.getUserInfo();
-        //获取作业详情
-        presenter.getWorkDetailInfo(jobId);
+        presenter.getWorkInfo();
+
 //        scan();
 //        setData();
 //        scaned();
@@ -299,7 +322,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         status = bean.status;
         switch (status) {
             case 0://新建：
-                if (userId.equals(bean.leading)) {
+                if (userId.equals(bean.leading)||userId.equals(bean.gas)) {
                     showAllBtn();
                 } else if (userId.equals(bean.approver) || bean.equals(bean.auditor)
                         || userId.equals(bean.guardian)) {
@@ -316,7 +339,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             case 2://负责人开工扫描：第一轮负责人已提交了
                 //改变负责人相关UI
                 changeChargersToGreen();
-                if (userId.equals(bean.leading)) {
+                if (userId.equals(bean.leading)||userId.equals(bean.gas)) {
                     hideAllBtn();
                     scanCodeLl.setVisibility(View.GONE);
                 }
@@ -341,7 +364,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                 flage2 = true;
                 flage3 = true;
                 isOneTurnDone = true;
-                if (!userId.equals(bean.leading)) {
+                if (!userId.equals(bean.leading)&&!userId.equals(bean.gas)) {
                     scanedLayout.setVisibility(View.VISIBLE);
                     scanCodeLlInner.setVisibility(View.GONE);
                     commitBtn.setVisibility(View.GONE);
@@ -351,6 +374,10 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                 }
                 break;
             case 4://负责人结束扫描:第二轮负责人已提交
+                isOneTurnDone = true;
+                guardianCount = 0;
+                auditorCount = 0;
+                approverCount = 0;
                 turn = 2;
                 changeChargersToBlue();
                 changeGuardiansToGreen();
@@ -360,14 +387,17 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                 //1.根据历史信息改变相关人员的UI， 2.根据当前用户展示不同按钮
                 for (ImageInfoBean imageInfoBean : datas) {
                     if (imageInfoBean.getUserId().equals(bean.guardian)) {
-                        guardianCount++;
-                    } else if (imageInfoBean.getUserId().equals(bean.auditor)) {
-                        auditorCount++;
-                    } else if (imageInfoBean.getUserId().equals(bean.approver)) {
-                        approverCount++;
+                        guardianCount = guardianCount + 1;
+                    }
+                    if (imageInfoBean.getUserId().equals(bean.auditor)) {
+                        auditorCount = auditorCount + 1;
+                    }
+                    if (imageInfoBean.getUserId().equals(bean.approver)) {
+                        approverCount = approverCount + 1;
                     }
                 }
-
+                scanCodeInner.setBackgroundResource(R.drawable.scaned_code_btn_shape);
+                takePhotoInnerLayout.setBackgroundResource(R.drawable.scaned_code_btn_shape);
                 break;
             case 5://完成:两轮都完成
                 //隐藏所以功能按钮
@@ -381,6 +411,9 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                 flage1=true;
                 flage2=true;
                 flage3=true;
+                approverCount=2;
+                auditorCount=2;
+                guardianCount=2;
                 break;
             default:
                 break;
@@ -412,11 +445,11 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             changeApproversToBlue();
         }
         //比对自己的职位
-        if (userId.equals(bean.leading)) {
+        if (userId.equals(bean.leading)||userId.equals(bean.gas)) {
             isChargePerson = true;
         } else if (userId.equals(bean.guardian)) {
             isGurdianPerson = true;
-            if (!flage1&&bean.status>0) {
+            if (!flage1&&bean.status>1) {
                 commitBtn.setVisibility(View.VISIBLE);
             } else {
                 scanCodeLl.setVisibility(View.GONE);
@@ -427,7 +460,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             }
         } else if (userId.equals(bean.auditor)) {
             isAuditorPerson = true;
-            if (!flage2&&bean.status>0) {
+            if (!flage2&&bean.status>1) {
                 commitBtn.setVisibility(View.VISIBLE);
             } else {
                 scanCodeLl.setVisibility(View.GONE);
@@ -439,7 +472,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
 
         } else if (userId.equals(bean.approver)) {
             isApproverPerson = true;
-            if (!flage3&&bean.status>0) {
+            if (!flage3&&bean.status>1) {
                 commitBtn.setVisibility(View.VISIBLE);
             } else {
                 scanCodeLl.setVisibility(View.GONE);
@@ -459,10 +492,21 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             scanCodeLlInner.setVisibility(View.GONE);
         }
         Log.i("test","---test:"+approverCount+"---"+auditorCount+"---"+guardianCount);
-        if (turn==2 && bean.status==3&&userId.equals(bean.leading)){
-            commitBtn.setVisibility(View.VISIBLE);
-            scanCodeLlInner.setVisibility(View.VISIBLE);
+
+        if (turn==2 && bean.status==3){
+            if (userId.equals(bean.leading)||userId.equals(bean.gas)){
+                commitBtn.setVisibility(View.VISIBLE);
+                scanCodeLlInner.setVisibility(View.VISIBLE);
+                scanedLayout.setVisibility(View.VISIBLE);
+            }
+
+        }
+        //第一轮完成后才显示列表数据
+        if (turn==2) {
             scanedLayout.setVisibility(View.VISIBLE);
+            mListView.setVisibility(View.VISIBLE);
+        } else {
+            mListView.setVisibility(View.GONE);
         }
         scan();
         scaned();
@@ -595,6 +639,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         photoFlagIv2 = scanCodeLlInner.findViewById(R.id.photo_flag_iv1);
 
         jobId = getIntent().getStringExtra("jobId");
+        isDangerWork = getIntent().getBooleanExtra("isDangerWork",false);
         Log.e(TAG, "----jobId:" + jobId);
         clicks();
     }
@@ -632,7 +677,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         takePhotoInnerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this, "0", map), OPEN_ACTIVITY_TAKE_PHOTO_CODE);
+                startActivityForResult(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this, "0", map,1), OPEN_ACTIVITY_TAKE_PHOTO_CODE);
             }
         });
     }
@@ -649,7 +694,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         takePhotoLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this, "0", map), OPEN_ACTIVITY_TAKE_PHOTO_CODE);
+                startActivityForResult(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this, "0", map,1), OPEN_ACTIVITY_TAKE_PHOTO_CODE);
             }
         });
     }
@@ -839,6 +884,11 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             String endTime = DateUtils.format_yyyy_MM_dd_HH_mm.format(workDetailBean.endTime);
             work_end_time_day.setText(endTime);
         }
+        String gasName=workDetailBean.gasName;
+        if (gasName!=null){
+            chargePersonRelnameTv.setText(gasName);
+            personInChargeNmaeTv.setText(gasName);
+        }
         String chargeName = workDetailBean.leadingName;
         if (chargeName != null) {
             chargePersonRelnameTv.setText(chargeName);
@@ -859,19 +909,23 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             approverRelnameTv.setText(approverName);
             approverNameTv.setText(approverName);
         }
-        equipmentTypeTv.setText(String.valueOf(workDetailBean.equipmentType));
+        equipmentTypeTv.setText(workDetailBean.equipmentTypeName);
         equipmentModelTv.setText(workDetailBean.equipmentCode);
         equipmentNameTv.setText(workDetailBean.equipmentName);
-        workZoneTv.setText(workDetailBean.area);
-        workAddressTv.setText(workDetailBean.area);
+        for (WorkBean workBean1:workBeanList){
+            if (workBean1.getId() == Integer.parseInt(workDetailBean.area)){
+                workZoneTv.setText(workBean1.getName());
+            }
+        }
+        workAddressTv.setText(workDetailBean.part);
         workContentTv.setText(workDetailBean.content);
         workCompanyTv.setText(workDetailBean.company);
         workNumberTv.setText(String.valueOf(workDetailBean.numberPeople));
-        if (workDetailBean.type == 0) {
-            isDangerWork = true;
-        } else {
-            isDangerWork = false;
-        }
+//        if (workDetailBean.type == 0) {
+//            isDangerWork = true;
+//        } else {
+//            isDangerWork = false;
+//        }
         if (isDangerWork) {
             gasCheckerTv.setText(workDetailBean.gas);
             dangerWorkRl.setVisibility(View.VISIBLE);
@@ -930,7 +984,10 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         } else {
             scanCodeLl.setVisibility(View.GONE);
         }
-        if (turn==2){
+        if (turn == 2) {
+            Log.e(TAG,"----turn==2");
+            scanedLayout.setVisibility(View.VISIBLE);
+            scanCodeLlInner.setVisibility(View.GONE);
             presenter.getWorkDetailInfo(jobId);
         }
     }
@@ -938,6 +995,18 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     @Override
     public void getUserInfo(UserInfoBean userInfoBean) {
         userId = userInfoBean.getId();
+    }
+
+    @Override
+    public void getWorkError() {
+
+    }
+
+    @Override
+    public void getWorkListInfo(List<WorkBean> list) {
+        workBeanList = list;
+        //获取作业详情
+        presenter.getWorkDetailInfo(jobId);
     }
 
     @Override

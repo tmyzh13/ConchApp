@@ -162,7 +162,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     private List<String> dangerTypeList = new ArrayList<>();
     private int device_id;
     private String areaId;
-    private List<String> areaList;
+    private List<String> areaList = new ArrayList<>();
     private List<WorkBean> workBeanList = new ArrayList<>();
     private ArrayAdapter<String> spAdapter;
     private int isDanger;
@@ -186,7 +186,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
 
         work_zone_input.setInputText(getString(R.string.work_zone), null);
         work_address_input.setInputText(getString(R.string.work_part), null);
-        worker_num_input.setInputText(getString(R.string.work_number), InputType.TYPE_NUMBER_VARIATION_NORMAL);
+        worker_num_input.setInputText(getString(R.string.work_number), InputType.TYPE_CLASS_NUMBER);
         tv_start_time.setText(now);
         tv_end_time.setText(now);
         clicks();
@@ -286,7 +286,9 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         aboutSpinner();
     }
 
-    /**设置作业类型*/
+    /**
+     * 设置作业类型
+     */
     private void aboutWorkClassSpinner() {
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, dangerTypeList);//样式为原安卓里面有的android.R.layout.simple_spinner_item，让这个数组适配器装list内容。
         //2.为适配器设置下拉菜单样式。adapter.setDropDownViewResource
@@ -304,7 +306,8 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
                     rl_charger.setVisibility(View.VISIBLE);
                     rl_gas_checker.setVisibility(View.GONE);
                 }
-               type = totalist.get(i).getCode();
+                type = totalist.get(i).getCode();
+
             }
 
             @Override
@@ -316,8 +319,6 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
 
     private void aboutSpinner() {
         //作业区域下拉选择
-        areaList = new ArrayList<>();
-        areaList.add("");
         presenter.getWorkInfo();
         spAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, areaList);
         spAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -325,19 +326,16 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         work_zone_sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.e(TAG, "----" + spAdapter.getItem(position).toString());
-                area = spAdapter.getItem(position).toString();
-                for (WorkBean bean : workBeanList) {
-                    if (area.equals(bean.getName())) {
-                        areaId = String.valueOf(bean.getId());
+                    area = spAdapter.getItem(position).toString();
+                    for (WorkBean bean : workBeanList) {
+                        if (area.equals(bean.getName())) {
+                            areaId = String.valueOf(bean.getId());
+                        }
                     }
-                }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                work_zone_sp.setSelection(0);
-                area = getString(R.string.shuini);
             }
         });
         //作业单位下拉选择
@@ -371,7 +369,6 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         rl_charger.setOnClickListener(this);
         rl_keeper.setOnClickListener(this);
         rl_check_people.setOnClickListener(this);
-        rl_agree.setOnClickListener(this);
         rl_agree.setOnClickListener(this);
         ll_description.setOnClickListener(this);
         rl_gas_checker.setOnClickListener(this);
@@ -445,6 +442,8 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     String approver;
     String area;
     String company;
+    public String gasId;
+    public String gasName;
 
     private void getNewJobInfo() {
         NewWorkBean bean = new NewWorkBean();
@@ -472,15 +471,22 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             isDanger = 0;
         }
 
+        if(TextUtils.isEmpty(leading) && TextUtils.isEmpty(gasName)){
+            ToastMgr.show(R.string.input_all_message);
+            return;
+        }
+
         if (TextUtils.isEmpty(name) || startTime == 0
                 || TextUtils.isEmpty(name) || TextUtils.isEmpty(equipmentType) || TextUtils.isEmpty(equipmentCode)
                 || TextUtils.isEmpty(equipmentName) || TextUtils.isEmpty(area) || TextUtils.isEmpty(part)
                 || TextUtils.isEmpty(content) || TextUtils.isEmpty(company) || TextUtils.isEmpty(numPeople)
-                || TextUtils.isEmpty(String.valueOf(type)) || TextUtils.isEmpty(leading) || TextUtils.isEmpty(guardian)
+                || TextUtils.isEmpty(String.valueOf(type))|| TextUtils.isEmpty(guardian)
                 || TextUtils.isEmpty(auditor) || TextUtils.isEmpty(approver)) {
             ToastMgr.show(R.string.input_all_message);
             return;
         }
+        bean.setGas(gasId);
+        bean.setGasName(gasName);
         bean.setName(name);
         bean.setStartTime(startTime);
         bean.setEndTime(endTime);
@@ -499,6 +505,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         }
         bean.setType(type);
         bean.setLeading(leading);
+
         bean.setGuardian(guardian);
         bean.setAuditor(auditor);
         bean.setApprover(approver);
@@ -598,7 +605,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         for (int i = 0; i < list.size(); i++) {
             areaList.add(list.get(i).getName());
         }
-        spAdapter.notifyDataSetChanged();
+        aboutSpinner();
     }
 
     @Override
@@ -648,7 +655,8 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             chosedUserId = data.getStringExtra(Constant.CHECK_PEOPLE_ID);
             if (requestCode == CHOSE_CHARGER_CODE) {
                 tv_gas_checker.setText(chosedUserName);
-                leading = chosedUserId;
+                gasId = chosedUserId;
+                gasName = chosedUserName;
             } else if (requestCode == CHOSE_CHEKER_CODE) {
                 checkerNameTv.setText(chosedUserName);
                 auditor = chosedUserId;

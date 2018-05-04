@@ -54,6 +54,8 @@ public class ChoiceTypeActivity extends BaseActivity<SecuryView,SecurityPresente
         return R.layout.activity_choice_check_device;
     }
 
+    private final String ILLEAGL_CODE="8a88fee1570c782301570d037d7a0074";
+
     @Override
     protected void init(Bundle savedInstanceState) {
 
@@ -138,7 +140,7 @@ public class ChoiceTypeActivity extends BaseActivity<SecuryView,SecurityPresente
             yhlxList = bean.YHLX;
             for (int i=0;i<yhlxList.size();i++){
                 if (TextUtils.isEmpty(yhlxList.get(i).getPCODE_())||null==yhlxList.get(i).getPCODE_()||" ".equals(yhlxList.get(i).getPCODE_())){
-                    if(yhlxList.get(i).getPCODE_().equals("RDBAQXW") || yhlxList.get(i).getCODE_().equals("RDBAQXW"))
+                    if(yhlxList.get(i).getCODE_().equals(ILLEAGL_CODE))
                     {
                         continue;
                     }
@@ -150,7 +152,7 @@ public class ChoiceTypeActivity extends BaseActivity<SecuryView,SecurityPresente
             yhlxList=bean.YHLX;
             for (int i=0;i<yhlxList.size();i++){
                 if (TextUtils.isEmpty(yhlxList.get(i).getPCODE_())||null==yhlxList.get(i).getPCODE_()||" ".equals(yhlxList.get(i).getPCODE_())){
-                    if(yhlxList.get(i).getPCODE_().equals("RDBAQXW") || yhlxList.get(i).getCODE_().equals("RDBAQXW"))
+                    if(yhlxList.get(i).getCODE_().equals(ILLEAGL_CODE))
                     {
                         yhlList.add(yhlxList.get(i));
                     }

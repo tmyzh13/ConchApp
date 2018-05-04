@@ -108,7 +108,6 @@ public class SecurityFragment extends BaseFragment<SecuryView, SecurityPresenter
         });
 
         adapter = new IllegalTypeAdapter(getActivity().getSupportFragmentManager());
-
         myViewPager.setAdapter(adapter);
         setConcerMark();
     }

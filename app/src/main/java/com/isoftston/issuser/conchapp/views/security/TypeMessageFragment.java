@@ -119,9 +119,6 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
 
         adapter=new SecurityAdapter(getContext());
         listMessage=new ArrayList<>();
-//        for(int i=0;i<10;i++){
-//            listMessage.add(new MessageBean());
-//        }
         isUpRefresh = true;
         if (bType==0){
             presenter.getSafeMessageList("yh",item,"");
@@ -130,11 +127,7 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
         }else {
             presenter.getSafeMessageList("wd",item,"");
         }
-//        adapter.addAll(listMessage);
         lv_message.setAdapter(adapter);
-//        ptrLayout.disableLoading();
-//        ptrLayout.setCanRefresh(false);
-        ptrLayout.setLoading();
         ptrLayout.setRefreshLoadCallback(new PtrAutoLoadMoreLayout.RefreshLoadCallback() {
             @Override
             public void onLoading(PtrFrameLayout frame) {
@@ -143,32 +136,8 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
             @Override
             public void onRefreshing(PtrFrameLayout frame) {
                 isUpRefresh = true;
-                String item = "";
-                if (getString(R.string.alls).equals(type)){
-                    item = "all";
-                }else if(getString(R.string.send).equals(type)){
-                    item = "fb";
-                }else if (getString(R.string.not_alter).equals(type)){
-                    item = "wzg";
-                }else if (getString(R.string.overdue).equals(type)){
-                    item = "yq";
-                }else if (getString(R.string.altered).equals(type)){
-                    item = "yzg";
-                }else if (getString(R.string.not_check).equals(type)){
-                    item = "wys";
-                }else if (getString(R.string.weizhang).equals(type)){
-                    item = "wz";
-                }else if (getString(R.string.trouble).equals(type)){
-                    item = "yh";
-                }
+                setRuestData("");
 
-                if (bType==0){
-                    presenter.getSafeMessageList("yh",item,"");
-                }else if (bType==1){
-                    presenter.getSafeMessageList("wz",item,"");
-                }else {
-                    presenter.getSafeMessageList("wd",item,"");
-                }
             }
         });
 
@@ -193,11 +162,9 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
                 }
                 bundle.putString("type",troubleType);
                 bundle.putString("id",listMessage.get(position).getId());
+                listMessage.get(position).setRead(true);
                 intent.putExtras(bundle);
                 startActivity(intent);
-                //test
-//                Log.e("yzh","onItemclick");
-//                RxBus.getDefault().send(new Object(),"ssss");
             }
         });
 
@@ -226,76 +193,62 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
         });
     }
 
+    private void setRuestData(String lastid) {
+        String item = getType();
+        if (bType==0){
+            presenter.getSafeMessageList("yh",item,lastid);
+        }else if (bType==1){
+            presenter.getSafeMessageList("wz",item,lastid);
+        }else {
+            presenter.getSafeMessageList("wd",item,lastid);
+        }
+    }
+
+    public String getType(){
+        if (getString(R.string.alls).equals(type)){
+            return  "all";
+        }else if(getString(R.string.send).equals(type)){
+            return "fb";
+        }else if (getString(R.string.not_alter).equals(type)){
+            return "wzg";
+        }else if (getString(R.string.overdue).equals(type)){
+            return "yq";
+        }else if (getString(R.string.altered).equals(type)){
+            return "yzg";
+        }else if (getString(R.string.not_check).equals(type)){
+            return "wys";
+        }else if (getString(R.string.weizhang).equals(type)){
+            return "wz";
+        }else if (getString(R.string.trouble).equals(type)){
+            return "yh";
+        }
+        return  "";
+    }
+
     private void loadNextPage(int totalItemCount){
         ptrLayout.setLoading();
         isDownRefresh = true;
-
-        String item = "";
-        if (getString(R.string.alls).equals(type)){
-            item = "all";
-        }else if(getString(R.string.send).equals(type)){
-            item = "fb";
-        }else if (getString(R.string.not_alter).equals(type)){
-            item = "wzg";
-        }else if (getString(R.string.overdue).equals(type)){
-            item = "yq";
-        }else if (getString(R.string.altered).equals(type)){
-            item = "yzg";
-        }else if (getString(R.string.not_check).equals(type)){
-            item = "wys";
-        }else if (getString(R.string.weizhang).equals(type)){
-            item = "wz";
-        }else if (getString(R.string.trouble).equals(type)){
-            item = "yh";
-        }
-
+        String item = getType();
         String lastId = adapter.getData().get(totalItemCount-1).getId();
-        if (bType==0){
-            presenter.getSafeMessageList("yh",item,lastId);
-        }else if (bType==1){
-            presenter.getSafeMessageList("wz",item,lastId);
-        }else {
-            presenter.getSafeMessageList("wd",item,lastId);
-        }
+        setRuestData(lastId);
     }
 
 
     @Subscribe
     public void refreshPage(SecurityUpdateBean bean)
     {
-        isUpRefresh = true;
-        String item = "";
-        if (getString(R.string.alls).equals(type)){
-            item = "all";
-        }else if(getString(R.string.send).equals(type)){
-            item = "fb";
-        }else if (getString(R.string.not_alter).equals(type)){
-            item = "wzg";
-        }else if (getString(R.string.overdue).equals(type)){
-            item = "yq";
-        }else if (getString(R.string.altered).equals(type)){
-            item = "yzg";
-        }else if (getString(R.string.not_check).equals(type)){
-            item = "wys";
-        }else if (getString(R.string.weizhang).equals(type)){
-            item = "wz";
-        }else if (getString(R.string.trouble).equals(type)){
-            item = "yh";
-        }
-
-        if (bType==0){
-            presenter.getSafeMessageList("yh",item,"");
-        }else if (bType==1){
-            presenter.getSafeMessageList("wz",item,"");
-        }else {
-            presenter.getSafeMessageList("wd",item,"");
+        if(bean != null&& bean.getType()==1){
+            isUpRefresh = true;
+            setRuestData("");
         }
     }
+
 
     private void registerBroadcast() {
         broadcastReceiver = new PushBroadcastReceiver(mHander);
         IntentFilter intentFilter = new IntentFilter("getThumbService");
         getActivity().registerReceiver(broadcastReceiver, intentFilter);
+
     }
     public void updateList(){
         PushCacheUtils.getInstance().compareLocalSecurityPushMessage(getContext(),adapter.getData());
@@ -350,22 +303,18 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
             listMessage.clear();
             listMessage.addAll(data.list);
             isUpRefresh = false;
-            ptrLayout.complete();
         }
         if (isDownRefresh){
             isDownRefresh = false;
-            ptrLayout.complete();
         }
-
+        ptrLayout.complete();
         if (data.list.size() == 0 && adapter.getCount() > 0){
             return;
         }
-        lastCount = adapter.getCount() - 1;
-        lastCount = lastCount < 0?0:lastCount;
+
         adapter.addAll(data.list);
         adapter.notifyDataSetChanged();
-        lv_message.setAdapter(adapter);
-        lv_message.setSelection(lastCount);
+
     }
 
     @Override

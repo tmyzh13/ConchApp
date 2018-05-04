@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
+import cn.finalteam.galleryfinal.widget.zoonview.PhotoView;
 
 /**
  * Created by issuser on 2018/4/16.
@@ -101,7 +102,7 @@ public class ImageDetilActivity extends BaseActivity{
         for (int i = 0; i < urls.size(); i++) {
             View view = LayoutInflater.from(getApplicationContext()).inflate(
                     R.layout.viewpager_item, null);
-            final ImageView imageView = view.findViewById(R.id.view_image);
+            final PhotoView imageView = view.findViewById(R.id.view_image);
 //            Glide.with(this).load(urls.get(i))
 //                    .centerCrop()
 //                    .override(320,480)

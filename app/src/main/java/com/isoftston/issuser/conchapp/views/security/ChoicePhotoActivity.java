@@ -75,11 +75,13 @@ public class ChoicePhotoActivity extends BaseActivity implements View.OnClickLis
     private ArrayList<String> list = new ArrayList<>();
     private ArrayList<String> historylist;
     private HashMap<String, String> mFiles;
+    private int kind;//0：拍照、相册 1：拍照 2：相册
 
-    public static Intent getLauncher(Context context, String type, HashMap<String, String> map) {
+    public static Intent getLauncher(Context context, String type, HashMap<String, String> map,int kind) {
         Intent intent = new Intent(context, ChoicePhotoActivity.class);
         intent.putExtra("type", type);
         intent.putExtra("files", map);
+        intent.putExtra("kind",kind);
         return intent;
     }
 
@@ -98,6 +100,7 @@ public class ChoicePhotoActivity extends BaseActivity implements View.OnClickLis
         iv_back.setOnClickListener(this);
         type = getIntent().getStringExtra("type");
         mFiles = (HashMap<String, String>) getIntent().getSerializableExtra("files");
+        kind = getIntent().getIntExtra("kind",0);
         if (mFiles == null) {
             mFiles = new HashMap<>();
         }
@@ -118,9 +121,12 @@ public class ChoicePhotoActivity extends BaseActivity implements View.OnClickLis
                     ActivityCompat.requestPermissions(ChoicePhotoActivity.this, new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CALL_CAMERA);
                 } else {
 //                    helper.openCamera(position, "");
+                    if(kind==1){
+                        helper.openCamera(position, "");
+                        return;
+                    }
                     if (window == null)
-                        window = new ChooseImagePopupWindow(context);
-
+                        window = new ChooseImagePopupWindow(context,kind);
                     window.setOnTypeChosenListener(new ChooseImagePopupWindow.OnTypeChosenListener() {
                         @Override
                         public void onCamera() {

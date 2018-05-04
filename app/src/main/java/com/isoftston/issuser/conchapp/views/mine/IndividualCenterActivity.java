@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -109,6 +110,9 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
                 userPhoneNumEt.setText(userInfo.getPhoneNum());
             }
             userCompanyTv.setText(PreferencesHelper.getData(Constant.ORG_NAME));
+            String pwd= PreferencesHelper.getData(Constant.LOGIN_PWD);
+            userPwdEt.setText(pwd);
+            Log.i("pwd","pwd----"+pwd);
         }
 
     }

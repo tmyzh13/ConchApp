@@ -15,6 +15,8 @@ import com.isoftston.issuser.conchapp.model.bean.SubmitJobBody;
 import com.isoftston.issuser.conchapp.model.bean.UserBean;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailRequestBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkListBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkListRequestBean;
 import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.WorkDetailView;
 
@@ -145,6 +147,28 @@ public class WorkDetailPresenter extends BasePresenter<WorkDetailView> {
                     public boolean operationError(BaseData<UserInfoBean> userInfoBeanBaseData, int status, String message) {
                         return super.operationError(userInfoBeanBaseData, status, message);
                     }
+                });
+    }
+
+    public void getWorkInfo() {
+        WorkListRequestBean bean=new WorkListRequestBean();
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        String token1=token.replaceAll("\"","");
+        api.getWorkInfo(token1,bean)
+                .compose(new ResponseTransformer<>(this.<BaseData<WorkListBean>>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData<WorkListBean>>() {
+                    @Override
+                    public void success(BaseData<WorkListBean> workBeanBaseData) {
+
+                        view.getWorkListInfo(workBeanBaseData.data.list);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        view.getWorkError();
+                    }
+
                 });
     }
 }

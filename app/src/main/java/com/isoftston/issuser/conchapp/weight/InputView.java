@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
  * Created by issuser on 2018/4/11.
  */
 
-public class InputView extends LinearLayout{
+public class InputView extends LinearLayout {
 
     @Bind(R.id.tv_type)
     TextView tv_type;
@@ -35,7 +35,7 @@ public class InputView extends LinearLayout{
     RelativeLayout rl_all;
     @Bind(R.id.et_input)
     EditText et_input;
-//    @Bind(R.id.tv_write)
+    //    @Bind(R.id.tv_write)
 //    TextView tv_write;
     @Bind(R.id.tv_result)
     TextView tv_result;
@@ -49,18 +49,20 @@ public class InputView extends LinearLayout{
         init();
 
     }
+
     public InputView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
+
     public InputView(Context context) {
         super(context);
         init();
     }
 
-    private void init(){
-        LayoutInflater.from(getContext()).inflate(R.layout.view_input,this);
-        ButterKnife.bind(this,this);
+    private void init() {
+        LayoutInflater.from(getContext()).inflate(R.layout.view_input, this);
+        ButterKnife.bind(this, this);
 
         ll_right.setOnClickListener(new OnClickListener() {
             @Override
@@ -105,18 +107,17 @@ public class InputView extends LinearLayout{
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
-                if(actionId== EditorInfo.IME_ACTION_DONE||actionId==EditorInfo.IME_ACTION_SEARCH){
-                    if(!TextUtils.isEmpty(et_input.getText().toString())){
-
+                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    if (!TextUtils.isEmpty(et_input.getText().toString())) {
                         tv_result.setText(et_input.getText().toString());
-                    }else{
+                    } else {
                         tv_result.setText("");
                     }
                     et_input.setVisibility(GONE);
                     ll_right.setVisibility(VISIBLE);
                     rl_all.setBackgroundDrawable(null);
                     tv_type.setTextColor(getResources().getColor(R.color.black));
-                    IMEUtil.closeIME(et_input,getContext());
+                    IMEUtil.closeIME(et_input, getContext());
                     return true;
                 }
                 return false;
@@ -130,9 +131,9 @@ public class InputView extends LinearLayout{
                     // 此处为得到焦点时的处理内容
                 } else {
                     // 此处为失去焦点时的处理内容
-                    if(!TextUtils.isEmpty(et_input.getText().toString())){
+                    if (!TextUtils.isEmpty(et_input.getText().toString())) {
                         tv_result.setText(et_input.getText().toString());
-                    }else{
+                    } else {
                         tv_result.setText("");
                     }
                     et_input.setVisibility(GONE);
@@ -144,16 +145,24 @@ public class InputView extends LinearLayout{
         });
     }
 
-    public  void setInputText(String title, Integer inputType){
+
+    public void setInputText(String title, Integer inputType) {
         tv_type.setText(title);
-//        et_input.setInputType(inputType == null ? InputType.TYPE_NULL : inputType);
+        if (inputType != null) {
+            et_input.setInputType(inputType);
+        }
     }
 
     /**
      * 获取填写结果
+     *
      * @return
      */
-    public String getContent(){
-        return tv_result.getText().toString();
+    public String getContent() {
+        if (!TextUtils.isEmpty(tv_result.getText().toString())) {
+            return tv_result.getText().toString();
+        } else {
+            return et_input.getText().toString();
+        }
     }
 }

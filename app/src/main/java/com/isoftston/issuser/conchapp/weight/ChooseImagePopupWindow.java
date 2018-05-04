@@ -27,11 +27,11 @@ public class ChooseImagePopupWindow extends PopupWindow {
         }
     };
 
-    public ChooseImagePopupWindow(Context context) {
-        init(context);
+    public ChooseImagePopupWindow(Context context,int type) {
+        init(context,type);
     }
 
-    private void init(Context context) {
+    private void init(Context context,int type) {//0:拍照、相册， 1：拍照， 2：相册
         View view = LayoutInflater.from(context).inflate(R.layout.pop_choose_image, null);
 
         setContentView(view);
@@ -46,6 +46,10 @@ public class ChooseImagePopupWindow extends PopupWindow {
 
         LinearLayout ll_photo=view.findViewById(R.id.ll_photo);
         LinearLayout ll_gallery=view.findViewById(R.id.ll_gallery);
+        LinearLayout gallery_ll = view.findViewById(R.id.gallery_ll);
+        if (type == 1){//只显示拍照
+            gallery_ll.setVisibility(View.GONE);
+        }
         TextView cancel = (TextView) view.findViewById(R.id.tv_cancel);
 
         cancel.setOnClickListener(dismiss);

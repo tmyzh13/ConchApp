@@ -3,6 +3,7 @@ package com.isoftston.issuser.conchapp.views.interfaces;
 import com.corelibs.base.BasePaginationView;
 import com.isoftston.issuser.conchapp.model.bean.ResponseDataBean;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailRequestBean;
 
@@ -22,4 +23,8 @@ public interface WorkDetailView extends BasePaginationView {
     void submitJob(ResponseDataBean responseDataBean);
 
     void getUserInfo(UserInfoBean userInfoBean);
+
+    void getWorkError();
+
+    void getWorkListInfo(List<WorkBean> list);
 }

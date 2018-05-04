@@ -190,46 +190,26 @@
                     android:layout_height="wrap_content"
                     android:visibility="gone" />
 
-                <LinearLayout
-                    android:id="@+id/ll_range"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal"
                     android:paddingLeft="25dp"
-                    android:paddingRight="25dp">
-
+                    android:paddingRight="25dp"
+                    >
                     <TextView
                         style="@style/text_normal"
+                        android:textColor="@color/black"
                         android:text="@string/hidden_trouble_range"
-                        android:textColor="@color/black" />
-
-                    <RadioGroup
-                        android:id="@+id/sex_rg"
-                        android:layout_width="match_parent"
+                        />
+                    <Spinner
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="80dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <RadioButton
-                            android:id="@+id/male_rb"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/hidden_trouble_major" />
-
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1" />
-
-                        <RadioButton
-                            android:id="@+id/famale_rb"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/hidden_trouble_normal" />
-                    </RadioGroup>
-                </LinearLayout>
+                        android:id="@+id/spinnerGrade"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/dp_10"
+                        />
+                </RelativeLayout>
             </LinearLayout>
             <LinearLayout
                 android:layout_marginTop="3dp"

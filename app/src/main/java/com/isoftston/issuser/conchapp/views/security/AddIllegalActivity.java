@@ -7,18 +7,15 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.corelibs.base.BaseActivity;
-import com.corelibs.base.BasePresenter;
 import com.corelibs.utils.IMEUtil;
 import com.corelibs.utils.ToastMgr;
 import com.isoftston.issuser.conchapp.R;
@@ -27,15 +24,17 @@ import com.isoftston.issuser.conchapp.model.bean.AddYHBean;
 import com.isoftston.issuser.conchapp.model.bean.OrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
 import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
+import com.isoftston.issuser.conchapp.model.bean.SecurityUpdateBean;
 import com.isoftston.issuser.conchapp.presenter.SecurityPresenter;
 import com.isoftston.issuser.conchapp.utils.DateUtils;
-import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.utils.Tools;
 import com.isoftston.issuser.conchapp.views.interfaces.SecuryView;
 import com.isoftston.issuser.conchapp.weight.ChooseListPopupWindow;
 import com.isoftston.issuser.conchapp.weight.CustomDatePicker;
 import com.isoftston.issuser.conchapp.weight.InputView;
 import com.isoftston.issuser.conchapp.weight.NavBar;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -233,7 +232,7 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
 
     @OnClick(R.id.rl_photo)
     public void choicePhoto(){
-        startActivityForResult(ChoicePhotoActivity.getLauncher(context,"0",map),110);
+        startActivityForResult(ChoicePhotoActivity.getLauncher(context,"0",map,0),110);
     }
 
 
@@ -418,6 +417,9 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
     @Override
     public void addSuccess() {
         ToastMgr.show(getString(R.string.submit_success));
+        SecurityUpdateBean bean = new SecurityUpdateBean();
+        bean.setType(1); //1是新建安全成功的提示刷新
+        EventBus.getDefault().post(bean);
         finish();
     }
 

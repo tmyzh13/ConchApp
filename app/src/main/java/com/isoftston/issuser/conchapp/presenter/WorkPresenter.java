@@ -85,6 +85,10 @@ public class WorkPresenter extends BasePresenter<WorkView> {
                         view.getWorkError();
                     }
 
+                    @Override
+                    public boolean operationError(BaseData<WorkListsBean> workListsBeanBaseData, int status, String message) {
+                        return false;
+                    }
                 });
 
     }

@@ -41,6 +41,7 @@ import com.isoftston.issuser.conchapp.model.bean.MessageBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageItemBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageListInfoBean;
+import com.isoftston.issuser.conchapp.model.bean.SecurityUpdateBean;
 import com.isoftston.issuser.conchapp.model.bean.WeatherResponseBean;
 import com.isoftston.issuser.conchapp.model.event.MyEvent;
 import com.isoftston.issuser.conchapp.presenter.MessagePresenter;
@@ -333,7 +334,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
                 Bundle bundle=new Bundle();
                 View  readStatus= view.findViewById(R.id.view_read_statue);
                 readStatus.setVisibility(View.GONE);
-
+                bean.setRead(true);
                 bundle.putString("type",bean.getType());
                 bundle.putString("id",bean.getId());
                 intent.putExtras(bundle);
@@ -524,6 +525,23 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         //to
         locationCityTv.setText(event.cityName);
         PreferencesHelper.saveData(Constant.LOCATION_NAME, LocationUtils.cityName);;
+    }
+
+    @Subscribe
+    public void refreshPage(SecurityUpdateBean bean)
+    {
+        if(bean != null&& bean.getType()==1){
+            isUpRefresh = true;
+            if (currrentPage == 0){
+                presenter.getMessageListInfo("all","");
+            }else if (currrentPage == 1){
+                presenter.getEachMessageListInfo("yh","");
+            }else if (currrentPage == 2){
+                presenter.getEachMessageListInfo("wz","");
+            }else {
+                presenter.getEachMessageListInfo("aq","");
+            }
+        }
     }
 
     @Override

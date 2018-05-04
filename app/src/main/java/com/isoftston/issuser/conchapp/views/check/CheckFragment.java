@@ -107,8 +107,8 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
 
         mLocationOption.setOnceLocation(true);
 
-//获取最近3s内精度最高的一次定位结果：
-//设置setOnceLocationLatest(boolean b)接口为true，启动定位时SDK会返回最近3s内精度最高的一次定位结果。如果设置其为true，setOnceLocation(boolean b)接口也会被设置为true，反之不会，默认为false。
+        //获取最近3s内精度最高的一次定位结果：
+        //设置setOnceLocationLatest(boolean b)接口为true，启动定位时SDK会返回最近3s内精度最高的一次定位结果。如果设置其为true，setOnceLocation(boolean b)接口也会被设置为true，反之不会，默认为false。
         mLocationOption.setOnceLocationLatest(true);
 
         //关闭缓存机制
@@ -285,7 +285,7 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
     public void checkDeviceResultError() {
         //防止网络请求失败，或者返回数据异常导致无法触发loading消失操作
         ((BaseActivity) getActivity()).getLoadingDialog().dismiss();
-        ToastMgr.show("扫描失败");
+        ToastMgr.show("扫描鲁loser");
     }
 
     @Override
