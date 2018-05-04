@@ -37,11 +37,19 @@ public class SecurityAdapter extends QuickAdapter<SecurityTroubleBean> {
 //        ImageView item_mark=helper.getView(R.id.item_mark);
 //        String time= DateUtils.getDateToString(item.getCreateTime());
         ImageView content_pic = helper.getView(R.id.content_pic);
-        View readStatus= helper.getView(R.id.view_read_statue);
+        View readStatus = helper.getView(R.id.view_read_statue);
 //        .setText(R.id.item_time,DateUtils.getDateToString(item.getCreateTime()));
 //                .setImageUrl(R)
 
-        if ("ZYZYWZBD".equals(item.getYhlx())||"QT".equals(item.getYhlx())|| "YHSW".equals(item.getYhlx())||"WCZWZZY".equals(item.getYhlx())||"ZHSWWZZH".equals(item.getYhlx())||"GRFHZBBQ".equals(item.getYhlx())) {
+        if ("yh".equals(item.getYhlxbm())) {
+            item_icon.setImageResource(R.mipmap.yh_icon);
+            helper.setText(R.id.item_title, context.getString(R.string.yh_message))
+                    .setText(R.id.address, item.getYhdd())
+                    .setText(R.id.content, item.getYhms());
+            if (!"".equals(item.getCjsj())) {
+                helper.setText(R.id.item_time, time.format(new Date(Long.valueOf(item.getCjsj()))));
+            }
+        } else {
             item_icon.setImageResource(R.mipmap.yh_icon);
             helper.setText(R.id.item_title, context.getString(R.string.wz_message))
                     .setText(R.id.address, item.getYhdd())
@@ -57,18 +65,10 @@ public class SecurityAdapter extends QuickAdapter<SecurityTroubleBean> {
 //            if (!"".equals(item.getCjsj())) {
 //                helper.setText(R.id.item_time, time.format(new Date(Long.valueOf(item.getCjsj()))));
 //            }
-        } else {
-            item_icon.setImageResource(R.mipmap.yh_icon);
-            helper.setText(R.id.item_title, context.getString(R.string.yh_message))
-                    .setText(R.id.address, item.getYhdd())
-                    .setText(R.id.content, item.getYhms());
-            if (!"".equals(item.getCjsj())) {
-                helper.setText(R.id.item_time, time.format(new Date(Long.valueOf(item.getCjsj()))));
-            }
         }
-        if(!item.isRead()){ //已读未读控制
+        if (!item.isRead()) { //已读未读控制
             readStatus.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             readStatus.setVisibility(View.GONE);
         }
         if (item.getTplj() != null) {

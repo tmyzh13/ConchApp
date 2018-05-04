@@ -151,14 +151,12 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
                 Bundle bundle=new Bundle();
                 String troubleType = "";
                 Log.d(TAG,"position:" + position + ",count:" + listMessage.size());
-                if ("ZYZYWZBD".equals(listMessage.get(position).getYhlx())||"QT".equals(listMessage.get(position).getYhlx())
-                        || "YHSW".equals(listMessage.get(position).getYhlx())||"WCZWZZY".equals(listMessage.get(position).getYhlx())
-                        ||"ZHSWWZZH".equals(listMessage.get(position).getYhlx())||"GRFHZBBQ".equals(listMessage.get(position).getYhlx())){
-                    troubleType = "wz";
-                    intent =new Intent(getActivity(),ItemDtailActivity.class);
-                }else {
+                if ("yh".equals(listMessage.get(position).getYhlxbm())) {
                     troubleType = "yh";
                     intent =new Intent(getActivity(),ItemDangerDtailActivity.class);
+                }else {
+                    troubleType = "wz";
+                    intent =new Intent(getActivity(),ItemDtailActivity.class);
                 }
                 bundle.putString("type",troubleType);
                 bundle.putString("id",listMessage.get(position).getId());

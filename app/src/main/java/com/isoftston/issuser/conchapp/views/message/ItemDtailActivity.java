@@ -245,7 +245,11 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
         if(bean == null){
             return;
         }
-        tv_yh_finder.setText(bean.getFxrmc());
+        if ("wz".equals(bean.getType())&&bean.getNm()!=null && "1".equals(bean.getNm())){
+            tv_yh_finder.setText("匿名");
+        }else {
+            tv_yh_finder.setText(bean.getFxrmc());
+        }
         String picPath[];
         if(bean.getTplj()!=null){
 
