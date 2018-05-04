@@ -135,6 +135,9 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
     @Bind(R.id.air)
     TextView tv_air;
 
+    TextView wz_tv_wzg_num;
+    TextView wz_tv_yq_num;
+
     //声明AMapLocationClient类对象
     public AMapLocationClient mLocationClient = null;
     //声明定位回调监听器
@@ -430,6 +433,9 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
                         R.layout.viewpager_wz_item, null);
                 wzCountTv = view.findViewById(R.id.tv_count);
                 wzReadTv = view.findViewById(R.id.unread_count);
+                //dp
+                wz_tv_wzg_num = view.findViewById(R.id.wz_tv_wzg_num);
+                wz_tv_yq_num = view.findViewById(R.id.wz_tv_yq_num);
             } else {
                 view = LayoutInflater.from(getActivity()).inflate(
                         R.layout.viewpager_aq_item, null);
@@ -692,6 +698,17 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
 
         }else if (currrentPage == 2){
             wzCountTv.setText(totle.get("wz"));
+            //dp
+            if (null!=totle.get("wzg")){
+                wz_tv_wzg_num.setText(totle.get("wzg"));
+            }else {
+                wz_tv_wzg_num.setText("0");
+            }
+            if (null!=totle.get("yq")){
+                wz_tv_yq_num.setText(totle.get("yq"));
+            }else {
+                wz_tv_yq_num.setText("0");
+            }
         }else if(currrentPage == 3){
             aqCountTv.setText(totle.get("aq"));
             ggTV.setText(totle.get("aqgg"));

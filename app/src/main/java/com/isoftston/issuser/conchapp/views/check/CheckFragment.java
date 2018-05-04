@@ -82,6 +82,9 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
         @Override
         public void onLocationChanged(AMapLocation aMapLocation) {
             cityName = aMapLocation.getAddress();
+            if ("".equals(cityName)) {
+                cityName = getString(R.string.city_name);
+            }
         }
     };
     //声明AMapLocationClientOption对象
@@ -113,6 +116,9 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
 
         //关闭缓存机制
         mLocationOption.setLocationCacheEnable(false);
+        //获取地理位置
+        //给定位客户端对象设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
 
         presenter.getUserInfo();
         navBar.setColorRes(R.color.white);
@@ -143,29 +149,37 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
 
         tvName.setText(userInfoBean.getRealName());
         tvCompany.setText(userInfoBean.getCompanyName());
-        Glide.with(getContext()).load("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524193800&di=ec7643dc32956b231ab9694a6c853c71&imgtype=jpg&er=1&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201503%2F05%2F20150305175720_urKVB.jpeg")
-                .override(320, 320).into(iv_icon);
-        ptrLayout.setRefreshLoadCallback(this);
-        //presenter.getDevice(true);
+//        Glide.with(getContext()).load("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524193800&di=ec7643dc32956b231ab9694a6c853c71&imgtype=jpg&er=1&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201503%2F05%2F20150305175720_urKVB.jpeg")
+//                .override(320, 320).into(iv_icon);
 
-        Calendar now = Calendar.getInstance();
-        String txt = now.get(Calendar.YEAR) + "年" + (now.get(Calendar.MONTH) + 1) + "月" + now.get(Calendar.DAY_OF_MONTH) + "日";
-        tvTime.setText(txt);
+        if (userInfoBean.getSex() != null) {
+            if (userInfoBean.getSex().equals("男")) {
+                iv_icon.setImageDrawable(getResources().getDrawable(R.mipmap.man_head));
+            } else {
+                iv_icon.setImageDrawable(getResources().getDrawable(R.mipmap.woman_head));
+            }
+        }
+            ptrLayout.setRefreshLoadCallback(this);
+            //presenter.getDevice(true);
 
-    }
+            Calendar now = Calendar.getInstance();
+            String txt = now.get(Calendar.YEAR) + "年" + (now.get(Calendar.MONTH) + 1) + "月" + now.get(Calendar.DAY_OF_MONTH) + "日";
+            tvTime.setText(txt);
 
-    @Override
-    protected CheckPresenter createPresenter() {
-        return new CheckPresenter();
-    }
+        }
 
-    private static final int OPEN_ACTIVITY_CODE = 101;
-    private static final int REQUEST_CAMERA_PERMISSION_CODE = 100;
+        @Override
+        protected CheckPresenter createPresenter () {
+            return new CheckPresenter();
+        }
 
-    @OnClick(R.id.ll_scan)
-    public void goScanAction() {
-        checkPermission();
-    }
+        private static final int OPEN_ACTIVITY_CODE = 101;
+        private static final int REQUEST_CAMERA_PERMISSION_CODE = 100;
+
+        @OnClick(R.id.ll_scan)
+        public void goScanAction () {
+            checkPermission();
+        }
 
     private void startScanCode() {
         Intent intent = new Intent(getViewContext(), CaptureActivity.class);
@@ -233,7 +247,6 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
 //                LocationUtils.getCNBylocation(getActivity());
 //                Log.i("yzh", "cityName:" + LocationUtils.cityName);
 //                presenter.checkDevice(s, LocationUtils.cityName);
-                cityName = "武汉";
                 presenter.checkDevice(s,cityName);
             }
         }
@@ -283,32 +296,51 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
     }
 
     @Override
-    public void checkDeviceResultError(String message) {
+    public void checkDeviceResultError() {
         //防止网络请求失败，或者返回数据异常导致无法触发loading消失操作
         ((BaseActivity) getActivity()).getLoadingDialog().dismiss();
-        ToastMgr.show(message);
+        ToastMgr.show("扫描鲁loser");
     }
 
     @Override
     public void CheckAllDeviceResult(List<DeviceBean> list, String total) {
+        hideLoading();
+        this.mlist.clear();
         this.mlist = list;
         if (!isLoading) {
             adapter.clear();
         }
-        adapter.addAll(mlist);
-        lv_device.setAdapter(adapter);
+        if (list.size() == 0 && adapter.getCount() > 0) {
+            return;
+        }
+//        Collections.sort(mlist, new Comparator<DeviceBean>() {
+//            @Override
+//            public int compare(DeviceBean deviceBean, DeviceBean t1) {
+//                return deviceBean.getCreateTime().compareTo(t1.getCreateTime());
+//            }
+//        });
+        Collections.sort(mlist, new DeviceComparator());
+        adapter.replaceAll(list);
+        adapter.notifyDataSetChanged();
         Log.i("yzh", "fresh size:" + list.size());
         tvNum.setText(total);
         ptrLayout.complete();
     }
 
+    class DeviceComparator implements Comparator<DeviceBean> {
+
+        @Override
+        public int compare(DeviceBean o1, DeviceBean o2) {
+            return o2.getCreateTime().compareTo(o1.getCreateTime());
+        }
+    }
 
     @Override
     public void onLoading(PtrFrameLayout frame) {
-        if(mlist!=null&&mlist.size()>0){
+        if (mlist != null && mlist.size() > 0) {
             isLoading = true;
             presenter.getAllDeviceInfo(mlist.get(mlist.size() - 1).getId());
-        }else{
+        } else {
             ptrLayout.complete();
         }
     }

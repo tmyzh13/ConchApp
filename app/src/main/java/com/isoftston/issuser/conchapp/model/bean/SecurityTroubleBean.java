@@ -24,6 +24,7 @@ public class SecurityTroubleBean {
     private String cjsj;
     private String tplj;
     private String yhjb;
+    private String yhlxbm;
     private boolean isRead = true; //是否已读
 
     public String getId() {
@@ -88,5 +89,13 @@ public class SecurityTroubleBean {
 
     public void setRead(boolean read) {
         isRead = read;
+    }
+
+    public String getYhlxbm() {
+        return yhlxbm;
+    }
+
+    public void setYhlxbm(String yhlxbm) {
+        this.yhlxbm = yhlxbm;
     }
 }

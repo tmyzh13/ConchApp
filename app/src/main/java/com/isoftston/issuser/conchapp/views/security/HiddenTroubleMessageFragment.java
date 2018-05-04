@@ -47,7 +47,7 @@ public class HiddenTroubleMessageFragment extends BaseFragment {
         adapter =new MessageTypePageAdapter(getActivity().getSupportFragmentManager(),tabs,0);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
-        Tools.setIndicator(tabLayout,10,10);
+        Tools.setIndicator(tabLayout,15,15);
 //        RxBus.getDefault().toObservable(Object.class,"ssss")
 //                .compose(this.bindToLifecycle())
 //                .subscribe(new RxBusSubscriber<Object>() {

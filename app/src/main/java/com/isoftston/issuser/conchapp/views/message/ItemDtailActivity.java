@@ -223,7 +223,7 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
         vp.setAdapter(adapter);
         //初始化vp的位置
         vp.setCurrentItem(0);
-
+//        handler.sendEmptyMessageDelayed(1, 2000);
     /*    if(urls!=null&&urls.size()>0){
             gridViewAdapter = new mGridViewAdapter(this, urls);
             mGridView.setAdapter(gridViewAdapter);
@@ -245,7 +245,11 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
         if(bean == null){
             return;
         }
-        tv_yh_finder.setText(bean.getFxrmc());
+        if ("wz".equals(bean.getType())&&bean.getNm()!=null && "1".equals(bean.getNm())){
+            tv_yh_finder.setText("匿名");
+        }else {
+            tv_yh_finder.setText(bean.getFxrmc());
+        }
         String picPath[];
         if(bean.getTplj()!=null){
 
