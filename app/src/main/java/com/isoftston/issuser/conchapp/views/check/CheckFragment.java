@@ -40,6 +40,8 @@ import com.isoftston.issuser.conchapp.weight.NavBar;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.Bind;
@@ -82,6 +84,9 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
         @Override
         public void onLocationChanged(AMapLocation aMapLocation) {
             cityName = aMapLocation.getAddress();
+            if("".equals(cityName)){
+                cityName=getString(R.string.city_name);
+            }
         }
     };
     //声明AMapLocationClientOption对象
@@ -113,7 +118,12 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
 
         //关闭缓存机制
         mLocationOption.setLocationCacheEnable(false);
+        //获取地理位置
+        //给定位客户端对象设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
 
+        //启动定位
+        mLocationClient.startLocation();
         presenter.getUserInfo();
         navBar.setColorRes(R.color.white);
         navBar.setTitleColor(getResources().getColor(R.color.black));
@@ -143,8 +153,14 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
 
         tvName.setText(userInfoBean.getRealName());
         tvCompany.setText(userInfoBean.getCompanyName());
-        Glide.with(getContext()).load("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524193800&di=ec7643dc32956b231ab9694a6c853c71&imgtype=jpg&er=1&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201503%2F05%2F20150305175720_urKVB.jpeg")
-                .override(320, 320).into(iv_icon);
+        if (userInfoBean.getSex()!=null){
+            if (userInfoBean.getSex().equals("男")){
+                iv_icon.setImageDrawable(getResources().getDrawable(R.mipmap.man_head));
+            }else {
+                iv_icon.setImageDrawable(getResources().getDrawable(R.mipmap.woman_head));
+            }
+
+        }
         ptrLayout.setRefreshLoadCallback(this);
         //presenter.getDevice(true);
 
@@ -260,6 +276,12 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
 
     @Override
     public void renderDatas(boolean reload, List<DeviceBean> list) {
+        Collections.sort(list, new Comparator<DeviceBean>() {
+            @Override
+            public int compare(DeviceBean deviceBean, DeviceBean t1) {
+                return deviceBean.getCreateTime().compareTo(t1.getCreateTime());
+            }
+        });
         if (reload) {
             adapter.replaceAll(list);
         } else {
@@ -275,7 +297,7 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
             ToastMgr.show("设备不存在");
             return;
         }
-        ToastMgr.show("扫描成功");
+        ToastMgr.show(R.string.scan_code_success);
 
         startActivity(CheckDeviceDetailActivity.getLauncher(getContext(), bean));
 
@@ -285,17 +307,28 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
     public void checkDeviceResultError() {
         //防止网络请求失败，或者返回数据异常导致无法触发loading消失操作
         ((BaseActivity) getActivity()).getLoadingDialog().dismiss();
-        ToastMgr.show("扫描鲁loser");
+        ToastMgr.show(R.string.scan_failed);
     }
 
     @Override
     public void CheckAllDeviceResult(List<DeviceBean> list, String total) {
-        this.mlist = list;
+        hideLoading();
+        this.mlist.clear();
+        this.mlist=list;
         if (!isLoading) {
             adapter.clear();
         }
-        adapter.addAll(mlist);
-        lv_device.setAdapter(adapter);
+        if (list.size()==0&&adapter.getCount()>0){
+            return;
+        }
+        Collections.sort(mlist, new Comparator<DeviceBean>() {
+            @Override
+            public int compare(DeviceBean deviceBean, DeviceBean t1) {
+                return deviceBean.getCreateTime().compareTo(t1.getCreateTime());
+            }
+        });
+        adapter.replaceAll(list);
+        adapter.notifyDataSetChanged();
         Log.i("yzh", "fresh size:" + list.size());
         tvNum.setText(total);
         ptrLayout.complete();
