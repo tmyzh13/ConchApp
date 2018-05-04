@@ -102,7 +102,7 @@ public class ImageDetilActivity extends BaseActivity{
         for (int i = 0; i < urls.size(); i++) {
             View view = LayoutInflater.from(getApplicationContext()).inflate(
                     R.layout.viewpager_item, null);
-            final PhotoView imageView = view.findViewById(R.id.view_image);
+            final ImageView imageView = view.findViewById(R.id.view_image);
 //            Glide.with(this).load(urls.get(i))
 //                    .centerCrop()
 //                    .override(320,480)
