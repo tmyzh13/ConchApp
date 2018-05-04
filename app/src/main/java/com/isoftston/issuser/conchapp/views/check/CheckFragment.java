@@ -16,7 +16,6 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.bumptech.glide.Glide;
 import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BaseFragment;
 import com.corelibs.utils.PreferencesHelper;
@@ -40,6 +39,8 @@ import com.isoftston.issuser.conchapp.weight.NavBar;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.Bind;
@@ -296,10 +297,10 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
     }
 
     @Override
-    public void checkDeviceResultError() {
+    public void checkDeviceResultError(String message) {
         //防止网络请求失败，或者返回数据异常导致无法触发loading消失操作
         ((BaseActivity) getActivity()).getLoadingDialog().dismiss();
-        ToastMgr.show("扫描鲁loser");
+        ToastMgr.show(message);
     }
 
     @Override
