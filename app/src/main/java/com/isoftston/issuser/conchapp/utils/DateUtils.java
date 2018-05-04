@@ -290,6 +290,14 @@ public class DateUtils {
         return date;
     }
 
+    /*时间戳转换成字符窜*/
+    public static String getMillionToString(String time) {
+        String date = new java.text.SimpleDateFormat("yyyy年MM月dd HH:mm")
+                .format(new java.util.Date(
+                        Long.parseLong(time)));
+        return date;
+    }
+
     /*时间戳转换成毫秒*/
     public static long getDateToLongMS(String time) {
         long date = 0;

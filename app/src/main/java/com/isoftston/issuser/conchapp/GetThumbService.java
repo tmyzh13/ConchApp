@@ -1,9 +1,14 @@
 package com.isoftston.issuser.conchapp;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.isoftston.issuser.conchapp.views.message.utils.PushCacheUtils;
 import com.umeng.message.UmengMessageService;
 import com.umeng.message.entity.UMessage;
 
@@ -45,10 +50,37 @@ public class GetThumbService extends UmengMessageService {
             if(!"".equals(msg.text)){
                 broadcaseIntent.putExtra("getThumbService.content" , msg.text);
             }
+            if (msg.extra != null) {
+                if(msg.extra.containsKey("id") && msg.extra.containsKey("type")){
+                    broadcaseIntent.putExtra("getThumbService.id", msg.extra.get("id"));
+                    broadcaseIntent.putExtra("getThumbService.type", msg.extra.get("type"));
+                    PushCacheUtils.getInstance().writePushLocalCache(context,msg.extra);
+                }
+            }
+
+            //实例化通知管理器
+            NotificationManager notificationManager= (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            //实例化通知
+            NotificationCompat.Builder builder=new NotificationCompat.Builder(this);
+            builder.setContentTitle(msg.title);//设置通知标题
+            builder.setContentText( msg.text);//设置通知内容
+            builder.setDefaults(NotificationCompat.DEFAULT_ALL);//设置通知的方式，震动、LED灯、音乐等
+            builder.setAutoCancel(true);//点击通知后，状态栏自动删除通知
+            builder.setSmallIcon(android.R.drawable.ic_media_play);//设置小图标
+            Intent i= new Intent(this,MainActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            builder.setContentIntent(PendingIntent.getActivity(this,0x102,i,0));//设置点击通知后将要启动的程序组件对应的PendingIntent
+            Notification notification=builder.build();
+
+            //发送通知
+            notificationManager.notify(0x101,notification);
+
+
+
             broadcaseIntent.setAction("getThumbService");
             sendBroadcast(broadcaseIntent);
 
-            ((MainActivity)context).tabHost.setCurrentTab(0);
+           // ((MainActivity)context).tabHost.setCurrentTab(0);
         } catch (JSONException e) {
             e.printStackTrace();
         }

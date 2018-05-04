@@ -16,10 +16,12 @@ public class NewWorkBean {
     private String content;
     private String company;
     private int numberPeople;
-    private int type;
+    private String type;
     private String leading;
     private String guardian;
     private String auditor;
+    private String gas;
+    private String gasName;
 
     public String getArea() {
         return area;
@@ -115,11 +117,11 @@ public class NewWorkBean {
         this.numberPeople = numberPeople;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -169,5 +171,21 @@ public class NewWorkBean {
 
     public void setIsDanger(int isDanger) {
         this.isDanger = isDanger;
+    }
+
+    public String getGas() {
+        return gas;
+    }
+
+    public void setGas(String gas) {
+        this.gas = gas;
+    }
+
+    public String getGasName() {
+        return gasName;
+    }
+
+    public void setGasName(String gasName) {
+        this.gasName = gasName;
     }
 }

@@ -7,8 +7,10 @@ import com.corelibs.api.ResponseTransformer;
 import com.corelibs.pagination.presenter.ListPagePresenter;
 import com.corelibs.subscriber.ResponseSubscriber;
 import com.corelibs.utils.PreferencesHelper;
+import com.corelibs.utils.ToastMgr;
 import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.apis.MessageApi;
+import com.isoftston.issuser.conchapp.model.bean.AirResponseBean;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
 import com.isoftston.issuser.conchapp.model.bean.EachMessageInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageDetailBean;
@@ -19,11 +21,9 @@ import com.isoftston.issuser.conchapp.model.bean.MessageQueryBean;
 import com.isoftston.issuser.conchapp.model.bean.QueryMessageRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.UserBean;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
+import com.isoftston.issuser.conchapp.model.bean.WeatherResponseBean;
 import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
-import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.MessageView;
-
-import java.util.List;
 
 /**
  * Created by issuser on 2018/4/20.
@@ -69,6 +69,7 @@ public class MessagePresenter extends ListPagePresenter<MessageView> {
                         if (status==-200){
                             view.reLogin();
                         }
+                        view.getWorkError();
                         return false;
                     }
                 });
@@ -162,9 +163,49 @@ public class MessagePresenter extends ListPagePresenter<MessageView> {
                         if (status==-200){
                             view.reLogin();
                         }
+                        view.getWorkError();
                         return false;
                     }
 
+                });
+    }
+
+    public void getWeatherInfo(String cityCode) {
+
+        api.getWeatherInfo(cityCode)
+                .compose(new ResponseTransformer<>(this.<WeatherResponseBean>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<WeatherResponseBean>() {
+
+                    @Override
+                    public void success(WeatherResponseBean messageBaseData) {
+                        view.refreshWeather(messageBaseData);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        view.getWorkError();
+                        ToastMgr.show("获取天气失败");
+                    }
+                });
+    }
+
+    public void getAirInfo(String cityEnName) {
+
+        api.getAirInfo(cityEnName)
+                .compose(new ResponseTransformer<>(this.<AirResponseBean>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<AirResponseBean>() {
+
+                    @Override
+                    public void success(AirResponseBean messageBaseData) {
+                        view.refreshAir(messageBaseData);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        ToastMgr.show("获取天气质量失败");
+                    }
                 });
     }
 }

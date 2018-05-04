@@ -2,7 +2,7 @@ package com.isoftston.issuser.conchapp.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 
 import com.isoftston.issuser.conchapp.views.security.HiddenTroubleMessageFragment;
@@ -13,7 +13,7 @@ import com.isoftston.issuser.conchapp.views.security.MineMsgFragment;
  * Created by issuser on 2018/4/12.
  */
 
-public class IllegalTypeAdapter  extends FragmentPagerAdapter {
+public class IllegalTypeAdapter  extends FragmentStatePagerAdapter {
 
     private HiddenTroubleMessageFragment hiddenTroubleMessageFragment;
     private IllegalMessageFragment illegalMessageFragment;
@@ -52,4 +52,5 @@ public class IllegalTypeAdapter  extends FragmentPagerAdapter {
     public int getCount() {
         return 3;
     }
+
 }

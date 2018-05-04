@@ -83,7 +83,7 @@ public class ChoiceDeviceTypeActivity extends BaseActivity<WorkView, WorkPresent
                 int id = adapter.getItem(position).getId();
                 listdata_next.clear();
                 for (int i=0;i<listtotal.size();i++) {
-                    if (listtotal.get(i).getCreateBy().equals(String.valueOf(id)) && listtotal.get(i).getId()!=id) {
+                    if (listtotal.get(i).getParentId()==id && listtotal.get(i).getId()!=id) {
                         listdata_next.add(listtotal.get(i));
                     }
                 }

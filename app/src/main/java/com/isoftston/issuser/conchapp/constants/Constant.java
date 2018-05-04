@@ -12,7 +12,7 @@ public class Constant {
 
     //记住密码
     public static final String REMEMBER="remember";
-
+    public static final String LOGIN_PWD="login_pwd";
     //是否登录过了
     public static final String LOGIN_STATUE="login_staue";
     //检修人员
@@ -31,6 +31,15 @@ public class Constant {
     public static final String LOCATION_NAME = "loaction_name";
 
     public static final String  MESSAGE_SEARCH = "message_search";
+    public static final String  SAFE_SEARCH = "message_safe";
     public static final String  WORK_SEARCH = "work_search";
     public static final String  CHECK_SEARCH = "check_search";
+    //发现单位
+    public static final String FIND_COMPANY_ID="find_company_id";
+    public static final String FIND_COMPANY_NAME="find_company_name";
+
+    //隐患单位
+    public static final String DANGER_COMPANY_ID="danger_company_id";
+    public static final String DANGER_COMPANY_NAME="danger_company_name";
+    public static final String  PUSH_MESSAGE = "push_message";
 }

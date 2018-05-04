@@ -14,6 +14,7 @@ import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.CheckDeviceAdapter;
 import com.isoftston.issuser.conchapp.adapters.CheckTypeAdapter;
 import com.isoftston.issuser.conchapp.constants.Constant;
+import com.isoftston.issuser.conchapp.model.bean.OrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
 import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
 import com.isoftston.issuser.conchapp.model.bean.YhlxBean;
@@ -52,6 +53,8 @@ public class ChoiceTypeActivity extends BaseActivity<SecuryView,SecurityPresente
     protected int getLayoutId() {
         return R.layout.activity_choice_check_device;
     }
+
+    private final String ILLEAGL_CODE="8a88fee1570c782301570d037d7a0074";
 
     @Override
     protected void init(Bundle savedInstanceState) {
@@ -137,15 +140,22 @@ public class ChoiceTypeActivity extends BaseActivity<SecuryView,SecurityPresente
             yhlxList = bean.YHLX;
             for (int i=0;i<yhlxList.size();i++){
                 if (TextUtils.isEmpty(yhlxList.get(i).getPCODE_())||null==yhlxList.get(i).getPCODE_()||" ".equals(yhlxList.get(i).getPCODE_())){
+                    if(yhlxList.get(i).getCODE_().equals(ILLEAGL_CODE))
+                    {
+                        continue;
+                    }
                     yhlList.add(yhlxList.get(i));
                 }
             }
 
         }else if (mark==2){
-            yhlxList=bean.SFYXCZG;
+            yhlxList=bean.YHLX;
             for (int i=0;i<yhlxList.size();i++){
                 if (TextUtils.isEmpty(yhlxList.get(i).getPCODE_())||null==yhlxList.get(i).getPCODE_()||" ".equals(yhlxList.get(i).getPCODE_())){
-                    yhlList.add(yhlxList.get(i));
+                    if(yhlxList.get(i).getCODE_().equals(ILLEAGL_CODE))
+                    {
+                        yhlList.add(yhlxList.get(i));
+                    }
                 }
             }
         }
@@ -155,7 +165,17 @@ public class ChoiceTypeActivity extends BaseActivity<SecuryView,SecurityPresente
     }
 
     @Override
+    public void getOrgList(List<OrgBean> bean) {
+
+    }
+
+    @Override
     public void getOrgId(String orgId) {
+
+    }
+
+    @Override
+    public void getWorkError() {
 
     }
 

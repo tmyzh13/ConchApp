@@ -101,10 +101,9 @@
                     android:text="@string/hidden_trouble_find_company"
                     android:textColor="@color/black" />
 
-                <Spinner
-                    android:id="@+id/spinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <TextView
+                    android:id="@+id/tv_illegal_find_company"
+                    style="@style/text_normal"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true" />
             </RelativeLayout>
@@ -125,10 +124,9 @@
                     android:text="@string/illeagl_company"
                     android:textColor="@color/black" />
 
-                <Spinner
-                    android:id="@+id/spinner2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <TextView
+                    android:id="@+id/tv_illegal_company"
+                    style="@style/text_normal"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true" />
             </RelativeLayout>

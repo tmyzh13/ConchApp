@@ -7,5 +7,6 @@ import java.util.List;
  */
 
 public class DeviceListBean {
+    public String total;
     public List<DeviceBean> list;
 }

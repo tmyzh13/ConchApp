@@ -29,18 +29,19 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation project(':CoreLibs-master')
-    compile 'com.android.support:design:23.4.0'
+    compile 'com.android.support:design:26.1.0'
     compile 'org.litepal.android:core:1.5.1'
     implementation project(':zxing')
     implementation files('libs/jcore-android-1.1.9.jar')
@@ -49,10 +50,11 @@ dependencies {
     implementation files('libs/pinyin4j-2.5.0.jar')
     //PushSDK必须依赖基础组件库，所以需要加入对应依赖
     compile 'com.umeng.sdk:common:1.5.0'
-//PushSDK必须依赖utdid库，所以需要加入对应依赖
+    //PushSDK必须依赖utdid库，所以需要加入对应依赖
     compile 'com.umeng.sdk:utdid:1.1.5.3'
-//PushSDK
+    //PushSDK
     compile 'com.umeng.sdk:push:4.1.0'
-
     compile 'com.alibaba:fastjson:1.1.68.android'
+    compile 'com.amap.api:location:latest.integration'
+    compile 'com.hynnet:jxl:2.6.12.1'
 }

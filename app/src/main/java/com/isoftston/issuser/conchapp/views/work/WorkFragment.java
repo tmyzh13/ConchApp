@@ -1,14 +1,10 @@
 package com.isoftston.issuser.conchapp.views.work;
 
 import android.content.Intent;
-
 import android.content.res.Resources;
 import android.os.Bundle;
-
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,10 +13,7 @@ import android.widget.TextView;
 
 import com.corelibs.base.BaseFragment;
 import com.corelibs.base.BasePresenter;
-import com.corelibs.utils.PreferencesHelper;
 import com.isoftston.issuser.conchapp.R;
-import com.isoftston.issuser.conchapp.constants.Constant;
-import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.views.seacher.SeacherActivity;
 import com.isoftston.issuser.conchapp.views.work.adpter.WorkTypeAdapter;
 import com.isoftston.issuser.conchapp.weight.NavBar;
@@ -69,6 +62,34 @@ public class WorkFragment extends BaseFragment implements View.OnClickListener {
         tv_mine.setOnClickListener(this);
         WorkTypeAdapter adapter=new WorkTypeAdapter(getActivity().getSupportFragmentManager());
         viewPager.setAdapter(adapter);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position){
+                    case 0:
+                        setDangerWorkUI();
+                        break;
+                    case 1:
+                        setCommonWorkUI();
+                        break;
+                    case 2:
+                        setMineWork();
+                        break;
+                        default:break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
@@ -86,34 +107,44 @@ public class WorkFragment extends BaseFragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.iv_seach:
-                startActivity(SeacherActivity.getLauncher(getContext(),"1"));
+                startActivity(SeacherActivity.getLauncher(getContext(),"2"));
                 break;
             case R.id.tv_danger_work:
-                iv_add.setVisibility(View.VISIBLE);
-//                ToastUtils.showtoast(getActivity(),"onclick1");
-                tv_danger_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_work_normal));
-                tv_mine.setBackgroundDrawable(getResources().getDrawable(R.drawable.work_mine));
-                tv_common_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.work_mine));
+                setDangerWorkUI();
                 viewPager.setCurrentItem(0);
                 break;
             case R.id.tv_common_work:
-                iv_add.setVisibility(View.VISIBLE);
-//                ToastUtils.showtoast(getActivity(),"onclick2");
-                tv_common_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_work_gradient_bg));
-                tv_mine.setBackgroundDrawable(getResources().getDrawable(R.drawable.work_mine));
-                tv_danger_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.work_mine));
+                setCommonWorkUI();
                 viewPager.setCurrentItem(1);
                 break;
             case R.id.tv_mine:
-                iv_add.setVisibility(View.GONE);
-                tv_mine.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_security_mine));
-                tv_danger_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.work_mine));
-                tv_common_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.work_mine));
+                setMineWork();
                 viewPager.setCurrentItem(2);
-//                ToastUtils.showtoast(getActivity(),"onclick3");
                 break;
         }
     }
+
+    private void setMineWork() {
+        iv_add.setVisibility(View.GONE);
+        tv_mine.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_security_mine));
+        tv_danger_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.work_mine));
+        tv_common_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.work_mine));
+    }
+
+    private void setCommonWorkUI() {
+        iv_add.setVisibility(View.VISIBLE);
+        tv_common_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_work_gradient_bg));
+        tv_mine.setBackgroundDrawable(getResources().getDrawable(R.drawable.work_mine));
+        tv_danger_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.work_mine));
+    }
+
+    private void setDangerWorkUI() {
+        iv_add.setVisibility(View.VISIBLE);
+        tv_danger_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_work_normal));
+        tv_mine.setBackgroundDrawable(getResources().getDrawable(R.drawable.work_mine));
+        tv_common_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.work_mine));
+    }
+
     // 具体方法（通过反射的方式）
     public void setIndicator(TabLayout tabs, int leftDip, int rightDip) {
         Class<?> tabLayout = tabs.getClass();

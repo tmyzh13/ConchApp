@@ -1,7 +1,6 @@
 package com.isoftston.issuser.conchapp.views.security;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 
@@ -9,7 +8,6 @@ import com.corelibs.base.BaseFragment;
 import com.corelibs.base.BasePresenter;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.MessageTypePageAdapter;
-import com.isoftston.issuser.conchapp.utils.Tools;
 
 import butterknife.Bind;
 
@@ -18,8 +16,7 @@ import butterknife.Bind;
  */
 
 public class IllegalMessageFragment extends BaseFragment {
-    @Bind(R.id.tabLayout)
-    TabLayout tabLayout;
+
     @Bind(R.id.viewPagerIllegal)
     ViewPager viewPager;
 
@@ -33,12 +30,10 @@ public class IllegalMessageFragment extends BaseFragment {
     @Override
     protected void init(Bundle savedInstanceState) {
         Log.e("yzh","illegalMessageFragment");
-        tabs=new String[]{getString(R.string.not_alter),getString(R.string.overdue)
-                ,getString(R.string.altered),getString(R.string.not_check)};
+        tabs=new String[]{getString(R.string.alls)};
         MessageTypePageAdapter adapter=new MessageTypePageAdapter(getActivity().getSupportFragmentManager(),tabs,1);
         viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
-        Tools.setIndicator(tabLayout,10,10);
+
     }
 
     @Override

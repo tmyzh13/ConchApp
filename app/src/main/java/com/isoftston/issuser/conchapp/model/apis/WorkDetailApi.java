@@ -10,6 +10,8 @@ import com.isoftston.issuser.conchapp.model.bean.UserBean;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailRequestBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkListBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkListRequestBean;
 
 
 import retrofit2.http.Body;
@@ -38,4 +40,8 @@ public interface WorkDetailApi {
 
     @POST(Urls.GET_MY_INFO)
     Observable<BaseData<UserInfoBean>> getUserInfo(@Header("Access-Token") String token, @Body UserBean bean);
+
+    //获取作业信息
+    @POST(Urls.GET_WORK_INFO)
+    Observable<BaseData<WorkListBean>> getWorkInfo(@Header("Access-Token") String token, @Body WorkListRequestBean bean);
 }

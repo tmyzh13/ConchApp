@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -19,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.corelibs.base.BaseActivity;
-import com.corelibs.base.BasePresenter;
 import com.corelibs.utils.IMEUtil;
 import com.corelibs.utils.ToastMgr;
 import com.isoftston.issuser.conchapp.R;
@@ -28,18 +26,18 @@ import com.isoftston.issuser.conchapp.model.bean.AddYHBean;
 import com.isoftston.issuser.conchapp.model.bean.OrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
 import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
+import com.isoftston.issuser.conchapp.model.bean.SecurityUpdateBean;
+import com.isoftston.issuser.conchapp.model.bean.YhlxBean;
 import com.isoftston.issuser.conchapp.model.bean.YhlyBean;
 import com.isoftston.issuser.conchapp.presenter.SecurityPresenter;
 import com.isoftston.issuser.conchapp.utils.DateUtils;
-import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.utils.Tools;
 import com.isoftston.issuser.conchapp.views.interfaces.SecuryView;
-import com.isoftston.issuser.conchapp.views.work.NewWorkActivity;
 import com.isoftston.issuser.conchapp.weight.CustomDatePicker;
 import com.isoftston.issuser.conchapp.weight.InputView;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
-import org.w3c.dom.Text;
+import org.greenrobot.eventbus.EventBus;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -84,37 +82,45 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
     TextView tv_illegal_describ_title;
     @Bind(R.id.tv_illegal_descibe_content)
     TextView tv_illegal_descibe_content;
-    @Bind(R.id.spinner)
-    Spinner mSpinner;
-    @Bind(R.id.spinner1)
-    Spinner comSpinner;
+
     @Bind(R.id.spinner3)
     Spinner fromSpinner;
-    @Bind(R.id.male_rb)
-    RadioButton male_rb;
-    @Bind(R.id.famale_rb)
-    RadioButton famale_rb;
+
+    @Bind(R.id.spinnerGrade)
+    Spinner gradeSpinner;
+
     @Bind(R.id.fix_yes)
     RadioButton fix_yes;
     @Bind(R.id.fix_no)
     RadioButton fix_no;
+
+    @Bind(R.id.tv_find_company)
+    TextView tv_find_company;
+
+    @Bind(R.id.tv_trouble_company)
+    TextView tv_trouble_company;
+
     public String startTime,endTime;
     private List<String> findCompanyList=new ArrayList<>();
     private List<String> checkCompanyList=new ArrayList<>();
     private List<String> fromList=new ArrayList<>();
     private List<String> fromListId=new ArrayList<>();
+    private List<String> gradeList=new ArrayList<>();
+    private List<String> gradeListId=new ArrayList<>();
     private Context context =AddHiddenTroubleActivity.this;
     //0隐患 1违章
     private String type;
     private ArrayAdapter<String> adapter;
     private ArrayAdapter<String> comAdapter;
     private ArrayAdapter<String> fromAdapter;
+    private ArrayAdapter<String> gradeAdapter;
     private String find_company;
     private String yh_company;
     private String yh_from;
     private String yh_from_id;
     private String yh_lx_id;
     private String yh_grade=null;
+    private String yh_grade_name=null;
     private String fix;
     private List<OrgBean> org=new ArrayList<>();
     private String find_company_id;
@@ -205,39 +211,11 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, findCompanyList);
         //2.为适配器设置下拉菜单样式。adapter.setDropDownViewResource
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //3.以上声明完毕后，建立适配器,有关于sipnner这个控件的建立。用到myspinner
-        mSpinner.setAdapter(adapter);
-        mSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                find_company = adapter.getItem(i).toString();
-                find_company_id = org.get(i).getID_();
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-
-        });
         comAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, checkCompanyList);
         //2.为适配器设置下拉菜单样式。adapter.setDropDownViewResource
         comAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //3.以上声明完毕后，建立适配器,有关于sipnner这个控件的建立。用到myspinner
-        comSpinner.setAdapter(comAdapter);
-        comSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                yh_company = comAdapter.getItem(i).toString();
-                yh_company_id = org.get(i).getID_();
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-
-        });
         fromAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, fromList);
         //2.为适配器设置下拉菜单样式。adapter.setDropDownViewResource
         fromAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -248,6 +226,25 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 yh_from = fromAdapter.getItem(i).toString();
                 yh_from_id = fromListId.get(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+
+        });
+
+        gradeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, gradeList);
+        //2.为适配器设置下拉菜单样式。adapter.setDropDownViewResource
+        gradeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //3.以上声明完毕后，建立适配器,有关于sipnner这个控件的建立。用到myspinner
+        gradeSpinner.setAdapter(gradeAdapter);
+        gradeSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                yh_grade_name = gradeAdapter.getItem(i).toString();
+                yh_grade = gradeListId.get(i);
             }
 
             @Override
@@ -271,6 +268,16 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
     @OnClick(R.id.ll_yh_type)
     public void choiceType(){
         startActivityForResult(ChoiceTypeActivity.getLaucnher(context,1),110);
+    }
+
+    @OnClick(R.id.rl_find_company)
+    public void findOrg(){
+        startActivityForResult(OrgActivity.getLaucnher(context,0),120);
+    }
+
+    @OnClick(R.id.rl_trouble_company)
+    public void findTroubleOrg(){
+        startActivityForResult(OrgActivity.getLaucnher(context,1),120);
     }
 
     @Override
@@ -299,6 +306,21 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
                 tv_yh_type.setText(name);
                 yh_lx_id = id;
             }
+        }else if(requestCode==120)
+        {
+            if(resultCode == 130)
+            {
+                find_company_id=data.getStringExtra(Constant.FIND_COMPANY_ID);
+                find_company = data.getStringExtra(Constant.FIND_COMPANY_NAME);
+                tv_find_company.setText(find_company);
+
+            }
+            else if(resultCode == 131)
+            {
+                yh_company_id = data.getStringExtra(Constant.DANGER_COMPANY_ID);
+                yh_company = data.getStringExtra(Constant.DANGER_COMPANY_NAME);
+                tv_trouble_company.setText(yh_company);
+            }
         }
     }
     private HashMap<String, String> map =new HashMap<>();
@@ -307,7 +329,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
     @OnClick(R.id.rl_photo)
     public void goPhoto(){
         //进入照片选择界面
-        startActivityForResult(ChoicePhotoActivity.getLauncher(context,"0",map),110);
+        startActivityForResult(ChoicePhotoActivity.getLauncher(context,"0",map,0),110);
     }
 
 
@@ -331,13 +353,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         String endTimeStr = tv_end_time.getText().toString().trim();
         long endTime = TextUtils.isEmpty(String.valueOf(endTimeStr))? 0 : DateUtils.getDateToLongMS(endTimeStr);
         String check_people=tv_check_people.getText().toString();
-        if (male_rb.isChecked()){
-            //yh_grade = male_rb.getText().toString();
-            yh_grade="ZDYH";
-        }else if (famale_rb.isChecked()){
-            //yh_grade=famale_rb.getText().toString();
-            yh_grade="YBYH";
-        }
+
         String yh_address=input_place.getContent().trim();
         String yh_position=input_position.getContent().trim();
         String yh_type=tv_yh_type.getText().toString();
@@ -350,7 +366,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         if (TextUtils.isEmpty(yh_name)||TextUtils.isEmpty(find_company)||TextUtils.isEmpty(yh_company)||
                 TextUtils.isEmpty(check_people)||TextUtils.isEmpty(yh_grade)||TextUtils.isEmpty(yh_address)||
                 TextUtils.isEmpty(yh_position)||TextUtils.isEmpty(yh_from)||TextUtils.isEmpty(yh_type)
-                ||TextUtils.isEmpty(fix)||TextUtils.isEmpty(yh_describle)){
+                ||TextUtils.isEmpty(fix)||TextUtils.isEmpty(yh_describle)||TextUtils.isEmpty(yh_grade_name)){
             ToastMgr.show(R.string.input_all_message);
             return;
         }
@@ -465,6 +481,9 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
     @Override
     public void addSuccess() {
         ToastMgr.show(getString(R.string.submit_success));
+        SecurityUpdateBean bean = new SecurityUpdateBean();
+        bean.setType(1); //1是新建安全成功的提示刷新
+        EventBus.getDefault().post(bean);
         finish();
 
     }
@@ -494,14 +513,30 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
             fromList.add(yhlyBean.getNAME_());
             fromListId.add(yhlyBean.getCODE_());
         }
+
+        for(YhlxBean gradeBean:bean.YHJB)
+        {
+            gradeList.add(gradeBean.getNAME_());
+            gradeListId.add(gradeBean.getCODE_());
+        }
         adapter.notifyDataSetChanged();
         fromAdapter.notifyDataSetChanged();
         comAdapter.notifyDataSetChanged();
+        gradeAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void getOrgList(List<OrgBean> bean) {
 
     }
 
     @Override
     public void getOrgId(String orgId) {
+
+    }
+
+    @Override
+    public void getWorkError() {
 
     }
 }

@@ -10,7 +10,15 @@ import java.io.Serializable;
 
 public class DeviceBean implements Serializable{
 
-//    public String equipCode;
+    public Integer getRecordId() {
+        return recordId;
+    }
+
+    public void setRecordId(Integer recordId) {
+        this.recordId = recordId;
+    }
+
+    //    public String equipCode;
 //    public String name;
 //    public String centerPhone;
 //    public String hurtType;//伤害种类
@@ -23,6 +31,7 @@ public class DeviceBean implements Serializable{
 //    public String examine;//审批制度
 //    public String isolation;//隔离制度
 //    public String createTime;//创建时间
+    private Integer recordId;
     private String id;
     private String name;
     private String centerPhone;
@@ -34,6 +43,7 @@ public class DeviceBean implements Serializable{
     private String powerSystem;
     private String examine;
     private String isolationId;
+    private String isolation;
     private String createTime;
     private String showTime;
     private String equipCode;
@@ -167,6 +177,14 @@ public class DeviceBean implements Serializable{
 
     public void setDescId(String descId) {
         this.descId = descId;
+    }
+
+    public String getIsolation() {
+        return isolation;
+    }
+
+    public void setIsolation(String isolation) {
+        this.isolation = isolation;
     }
 
     public String getLocation() {

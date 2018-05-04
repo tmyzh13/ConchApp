@@ -8,16 +8,16 @@ import com.corelibs.base.BasePresenter;
 import com.corelibs.subscriber.ResponseSubscriber;
 import com.isoftston.issuser.conchapp.model.apis.SecurityApi;
 import com.isoftston.issuser.conchapp.model.bean.AddYHBean;
-import com.isoftston.issuser.conchapp.model.bean.AddWZMessageRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
+import com.isoftston.issuser.conchapp.model.bean.OrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeRequestBean;
+import com.isoftston.issuser.conchapp.model.bean.SafeRequestOrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
 import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.SecuryView;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +25,9 @@ import java.util.List;
  */
 
 public class SecurityPresenter extends BasePresenter<SecuryView> {
+
+    private final String TAG = SecurityPresenter.class.getSimpleName();
+
     private SecurityApi api;
     @Override
     public void onStart() {
@@ -96,7 +99,14 @@ public class SecurityPresenter extends BasePresenter<SecuryView> {
 
                     @Override
                     public void onError(Throwable e) {
+                        view.getWorkError();
                         super.onError(e);
+                    }
+
+                    @Override
+                    public boolean operationError(BaseData<SafeListBean> safeListBeanBaseData, int status, String message) {
+                        view.getWorkError();
+                        return false;
                     }
                 });
     }
@@ -135,6 +145,35 @@ public class SecurityPresenter extends BasePresenter<SecuryView> {
                     public void success(BaseData<SecuritySearchBean> messageBeanBaseData) {
                         view.getSafeChoiceList(messageBeanBaseData.data);
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                    }
+                });
+    }
+
+    private String mainId = "";
+
+    public void getCompanyChoiceNextList(String id){
+        SafeRequestOrgBean bean =new SafeRequestOrgBean();
+        bean.orgId = id;
+        mainId = id;
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        Log.i("token",token);
+        String token1=token.replaceAll("\"","");
+        api.findCompanyListNext(token1,bean)
+                .compose(new ResponseTransformer<>(this.<BaseData<List<OrgBean>>>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData<List<OrgBean>>>() {
+
+                    @Override
+                    public void success(BaseData<List<OrgBean>> messageBeanBaseData) {
+                        for(OrgBean bean:messageBeanBaseData.data)
+                        {
+                            bean.setPARENT_ID_(mainId);
+                        }
+                        view.getOrgList(messageBeanBaseData.data);
                     }
 
                     @Override

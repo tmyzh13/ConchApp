@@ -8,5 +8,5 @@ import java.util.List;
 
 public class WorkDetailRequestBean {
     public WorkDetailBean work;
-    public List<WorkDetailListItemBean> list;
+    public List<ImageInfoBean> list;
 }

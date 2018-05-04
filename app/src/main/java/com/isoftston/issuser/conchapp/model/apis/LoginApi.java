@@ -6,6 +6,9 @@ import com.isoftston.issuser.conchapp.model.bean.BaseData;
 import com.isoftston.issuser.conchapp.model.bean.CodeRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.ForgetPwdRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.LoginRequestBean;
+import com.isoftston.issuser.conchapp.model.bean.PushBean;
+import com.isoftston.issuser.conchapp.model.bean.SafeRequestBean;
+import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
 import com.isoftston.issuser.conchapp.model.bean.UserBean;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 
@@ -29,5 +32,10 @@ public interface LoginApi {
     //获取验证码
     @POST(Urls.GET_CODE)
     Observable<BaseData> getCode(@Body CodeRequestBean bean);
+    @POST(Urls.PUSH_TAG)
+    Observable<BaseData<PushBean>> getPushTag(@Header("Access-Token") String token1);
+
+    @POST(Urls.FIND_COMPANY)
+    Observable<BaseData<SecuritySearchBean>> findCompanyList(@Header("Access-Token") String token, @Body SafeRequestBean bean);
 
 }

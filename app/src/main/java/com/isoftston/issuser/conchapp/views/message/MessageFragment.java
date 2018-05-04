@@ -2,9 +2,11 @@ package com.isoftston.issuser.conchapp.views.message;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v13.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
@@ -18,49 +20,52 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BaseFragment;
 import com.corelibs.utils.PreferencesHelper;
+import com.corelibs.utils.ToastMgr;
 import com.corelibs.views.cube.ptr.PtrFrameLayout;
 import com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout;
-import com.corelibs.views.ptr.loadmore.OnScrollListener;
 import com.corelibs.views.ptr.loadmore.widget.AutoLoadMoreListView;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.MessageTypeAdapter;
 import com.isoftston.issuser.conchapp.constants.Constant;
+import com.isoftston.issuser.conchapp.model.bean.AirResponseBean;
+import com.isoftston.issuser.conchapp.model.bean.CountryModelBean;
 import com.isoftston.issuser.conchapp.model.bean.EachMessageInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageItemBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageListInfoBean;
+import com.isoftston.issuser.conchapp.model.bean.SecurityUpdateBean;
+import com.isoftston.issuser.conchapp.model.bean.WeatherResponseBean;
 import com.isoftston.issuser.conchapp.model.event.MyEvent;
 import com.isoftston.issuser.conchapp.presenter.MessagePresenter;
 import com.isoftston.issuser.conchapp.utils.LocationUtils;
-import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.views.LoginActivity;
 import com.isoftston.issuser.conchapp.views.interfaces.MessageView;
 import com.isoftston.issuser.conchapp.views.message.adpter.VpAdapter;
+import com.isoftston.issuser.conchapp.views.message.utils.PushBroadcastReceiver;
+import com.isoftston.issuser.conchapp.views.message.utils.PushCacheUtils;
 import com.isoftston.issuser.conchapp.views.seacher.SeacherActivity;
-import com.isoftston.issuser.conchapp.views.work.CityLocationActivity;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
-import butterknife.OnClick;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import jxl.Sheet;
+import jxl.Workbook;
 
 /**
  * Created by issuser on 2018/4/9.
@@ -92,6 +97,8 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
     ImageView iv_direc;
     @Bind(R.id.iv_back)
     ImageView iv_back;
+    @Bind(R.id.aq_msg)
+    TextView aqMsg;
     @Bind(R.id.bt_aq)
     Button bt_aq;
     @Bind(R.id.bt_wz)
@@ -116,6 +123,42 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
     @Bind(R.id.tv_wz_total)
     TextView tv_wz_total;
 
+    @Bind(R.id.tv_temp)
+    TextView tv_temp;
+
+    @Bind(R.id.tv_weather)
+    TextView tv_weather;
+
+    @Bind(R.id.tv_humidity)
+    TextView tv_humidity;
+
+    @Bind(R.id.air)
+    TextView tv_air;
+
+    //声明AMapLocationClient类对象
+    public AMapLocationClient mLocationClient = null;
+    //声明定位回调监听器
+    public AMapLocationListener mLocationListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation aMapLocation) {
+            Log.i(TAG,"map address:" + aMapLocation.getAddress() + ",cityName:" + aMapLocation.getCity());
+            locationCityTv.setText(aMapLocation.getCity());
+            PreferencesHelper.saveData(Constant.LOCATION_NAME, aMapLocation.getCity());
+            for(CountryModelBean bean:countryList)
+            {
+                if(aMapLocation.getCity().contains(bean.getChineseName()) && (aMapLocation.getCity().length() == bean.getChineseName().length() + 1))
+                {
+                    Log.i(TAG,"map english:" + bean.getEnglishName() + ",cityName:" + aMapLocation.getCity() + ",weather city code:" + bean.getCityCode());
+                    presenter.getWeatherInfo(bean.getCityCode());
+                    presenter.getAirInfo(bean.getEnglishName());
+                    break;
+                }
+            }
+        }
+    };
+    //声明AMapLocationClientOption对象
+    public AMapLocationClientOption mLocationOption = null;
+
 
     public static final int LOCATION_REQUEST_CODE = 100;
     public Handler handler = new Handler() {
@@ -132,25 +175,36 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
 
     private View view;
     public MessageTypeAdapter mAdapter;
-    public List<MessageBean> listAllMessage = new ArrayList<>();
-    public List<MessageBean> listYhMessage = new ArrayList<>();
-    public List<MessageBean> listWzMessage = new ArrayList<>();
-    public List<MessageBean> listAqMessage = new ArrayList<>();
     private int currrentPage;
     private boolean isChange;
     private int lastCount;
     private boolean isUpRefresh;
     private boolean isDownRefresh;
+    private boolean  isLastRow = false;
+
+    private List<CountryModelBean> countryList = new ArrayList<>();
+
+    private PushBroadcastReceiver broadcastReceiver;
+
+    private Handler mHander = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            updateList();
+        }
+    };
+
 
     @Override
     protected int getLayoutId() {
         initDate();
         return R.layout.fragment_message;
-
     }
 
     @Override
     protected void init(Bundle savedInstanceState) {
+
+        countryList = readXls();
+
         presenter.getUserInfo();
         EventBus.getDefault().register(this);
         nav.setColorRes(R.color.app_blue);
@@ -164,7 +218,32 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
             }
         });
 
-        VpAdapter adapter = new VpAdapter(list, handler);
+        //初始化定位
+        mLocationClient = new AMapLocationClient(getContext().getApplicationContext());
+        //设置定位回调监听
+        mLocationClient.setLocationListener(mLocationListener);
+        //初始化AMapLocationClientOption对象
+        mLocationOption = new AMapLocationClientOption();
+
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+
+        mLocationOption.setOnceLocation(true);
+
+        //获取最近3s内精度最高的一次定位结果：
+        //设置setOnceLocationLatest(boolean b)接口为true，启动定位时SDK会返回最近3s内精度最高的一次定位结果。如果设置其为true，setOnceLocation(boolean b)接口也会被设置为true，反之不会，默认为false。
+        mLocationOption.setOnceLocationLatest(true);
+
+        //关闭缓存机制
+        mLocationOption.setLocationCacheEnable(false);
+
+        //获取地理位置
+        //给定位客户端对象设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
+
+        //启动定位
+        mLocationClient.startLocation();
+
+        final VpAdapter adapter = new VpAdapter(list, handler);
         ll_main.setOnClickListener(this);
         mAdapter = new MessageTypeAdapter(getContext());
         presenter.getMessageListInfo("all", "");
@@ -237,36 +316,50 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         lv_message.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getActivity(), ItemDtailActivity.class);
-                Bundle bundle=new Bundle();
-                if (currrentPage == 0){
-                    bundle.putString("type",listAllMessage.get(i).getType());
-                    bundle.putString("id",listAllMessage.get(i).getId());
-                }else if (currrentPage == 1){
-                    bundle.putString("type",listYhMessage.get(i).getType());
-                    bundle.putString("id",listYhMessage.get(i).getId());
-                }else if (currrentPage == 2){
-                    bundle.putString("type",listWzMessage.get(i).getType());
-                    bundle.putString("id",listWzMessage.get(i).getId());
-                }else {
-                    bundle.putString("type",listAqMessage.get(i).getType());
-                    bundle.putString("id",listAqMessage.get(i).getId());
+                MessageBean bean = (MessageBean) adapterView.getAdapter().getItem(i);
+                Intent intent = null;
+                //yh:隐患，wz：违章，aq：安全
+                if(bean!=null&&"yh".equals(bean.getType())){
+                   intent = new Intent(getActivity(), ItemDangerDtailActivity.class);
+                }else if(bean!=null&&"wz".equals(bean.getType())){
+                    intent = new Intent(getActivity(), ItemDtailActivity.class);
+                }else if(bean!=null&&"aq".equals(bean.getType())){
+                    intent = new Intent(getActivity(), ItemSafeDtailActivity.class);
                 }
+
+                if(intent==null){
+                    return;
+                }
+
+                Bundle bundle=new Bundle();
+                View  readStatus= view.findViewById(R.id.view_read_statue);
+                readStatus.setVisibility(View.GONE);
+                bean.setRead(true);
+                bundle.putString("type",bean.getType());
+                bundle.putString("id",bean.getId());
                 intent.putExtras(bundle);
                 startActivity(intent);
+
+
+
             }
         });
         lv_message.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
-
+            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+                //当滚到最后一行且停止滚动时，执行加载
+                if (isLastRow && scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    //加载元素
+                    loadNextPage(mAdapter.getCount());
+                    isLastRow = false;
+                }
             }
 
             @Override
             public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (firstVisibleItem + visibleItemCount >= totalItemCount  && totalItemCount != 0&& totalItemCount!=lv_message.getHeaderViewsCount()
-                        + lv_message.getFooterViewsCount() && mAdapter.getCount() > 0) {
-                    loadNextPage(mAdapter.getCount());
+                //判断是否滚到最后一行
+                if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount > 0) {
+                    isLastRow = true;
                 }
             }
         });
@@ -274,7 +367,21 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
 
     }
 
+    private void updateList() {
+        setConcerMark();
+        PushCacheUtils.getInstance().compareLocalPushMessage(getContext(),mAdapter.getData());
+        mAdapter.notifyDataSetChanged();
+    }
+    private void registerBroadcast() {
+        broadcastReceiver = new PushBroadcastReceiver(mHander);
+        IntentFilter intentFilter = new IntentFilter("getThumbService");
+        getActivity().registerReceiver(broadcastReceiver, intentFilter);
+    }
+
     private void loadNextPage(int totalItemCount){
+        if(mAdapter.getCount()==0){ //加载更多的机制是需要最后一条信息ID作为检索条件，如果适配器是空的就不需要加载更多
+            return;
+        }
         ptrLayout.setLoading();
         isDownRefresh = true;
         if (currrentPage == 0){
@@ -284,7 +391,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         }else if (currrentPage == 2){
             presenter.getEachMessageListInfo("wz",""+mAdapter.getData().get(totalItemCount-1).getmId());
         }else {
-            presenter.getEachMessageListInfo("aq",""+listAqMessage.get(totalItemCount-1).getmId());
+            presenter.getEachMessageListInfo("aq",""+mAdapter.getData().get(totalItemCount-1).getmId());
         }
     }
 
@@ -294,8 +401,6 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
                 && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 //            //申请摄像头权限
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
-        } else {
-            setLocationCity();
         }
     }
 
@@ -393,6 +498,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
                 isChange = true;
                 break;
             case R.id.iv_back:
+                isChange = true;
                 currrentPage = 0;
                 nav.setNavTitle(getString(R.string.main_message));
                 viewPager.setVisibility(View.GONE);
@@ -412,12 +518,6 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         viewPager.setCurrentItem(i);
     }
 
-    @OnClick(R.id.location_city_tv)
-    public void location() {
-        Intent intent = new Intent(getViewContext(), CityLocationActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
 
     //手动选择城市
     @Subscribe
@@ -425,6 +525,23 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         //to
         locationCityTv.setText(event.cityName);
         PreferencesHelper.saveData(Constant.LOCATION_NAME, LocationUtils.cityName);;
+    }
+
+    @Subscribe
+    public void refreshPage(SecurityUpdateBean bean)
+    {
+        if(bean != null&& bean.getType()==1){
+            isUpRefresh = true;
+            if (currrentPage == 0){
+                presenter.getMessageListInfo("all","");
+            }else if (currrentPage == 1){
+                presenter.getEachMessageListInfo("yh","");
+            }else if (currrentPage == 2){
+                presenter.getEachMessageListInfo("wz","");
+            }else {
+                presenter.getEachMessageListInfo("aq","");
+            }
+        }
     }
 
     @Override
@@ -481,19 +598,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         tv_wz_total.setText(bean2.getTotal()+"");
         tv_yh_total.setText(bean3.getTotal()+"");
         tv_wzg_num.setText(bean3.getWzg()+"");
-        if (currrentPage == 0){
-            listAllMessage.clear();
-            listAllMessage = data.list;
-        }else if (currrentPage == 1){
-            listYhMessage.clear();
-            listYhMessage = data.list;
-        }else if (currrentPage == 2){
-            listWzMessage.clear();
-            listWzMessage = data.list;
-        }else {
-            listAqMessage.clear();
-            listAqMessage = data.list;
-        }
+
         if (isChange){
             mAdapter.getData().clear();
             isChange = false;
@@ -505,25 +610,49 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         }
         if (isDownRefresh){
             isDownRefresh = false;
-            ptrLayout.complete();
         }
+        ptrLayout.complete();
         if (data.list.size() == 0 && mAdapter.getCount() > 0){
             return;
         }
+
+        PushCacheUtils.getInstance().compareLocalPushMessage(getContext(),data.list);
         lastCount = mAdapter.getCount()-1;
         mAdapter.addAll(data.list);
         mAdapter.notifyDataSetChanged();
-        lv_message.setAdapter(mAdapter);
-        lv_message.setSelection(lastCount);
+        setConcerMark();
     }
 
+    private void setConcerMark() {
+        List<MessageBean> list = PushCacheUtils.getInstance().readPushLocalCache(getContext());
+        int yhCpunt = PushCacheUtils.getInstance().getTypeMessageCount(list,"1");
+        yhReadTv.setText(yhCpunt+"");
+        yhMsg.setVisibility(View.GONE);
+        if(yhCpunt > 0){
+            yhMsg.setVisibility(View.VISIBLE);
+            yhMsg.setText(yhCpunt+"");
+        }
+        int aqCpunt = PushCacheUtils.getInstance().getTypeMessageCount(list,"3");
+        aqMsg.setVisibility(View.GONE);
+        aqReadTv.setText(aqCpunt+"");
+        if(aqCpunt > 0){
+            aqMsg.setVisibility(View.VISIBLE);
+            aqMsg.setText(aqCpunt+"");
+        }
+        int wzCpunt = PushCacheUtils.getInstance().getTypeMessageCount(list,"2");
+        wzReadTv.setText(wzCpunt+"");
+        wzMsg.setVisibility(View.GONE);
+        if(wzCpunt > 0){
+            wzMsg.setVisibility(View.VISIBLE);
+            wzMsg.setText(wzCpunt+"");
+
+        }
+    }
     @Override
     public void getWorkError() {
         ptrLayout.complete();
         ((BaseActivity)getActivity()).getLoadingDialog().dismiss();
         hideLoading();
-        startActivity(LoginActivity.getLauncher(getActivity()));
-
     }
 
     @Override
@@ -532,6 +661,22 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         ToastUtils.showtoast(getActivity(),getString(R.string.re_login));
         PreferencesHelper.saveData(Constant.LOGIN_STATUE,"");
         startActivity(LoginActivity.getLauncher(getActivity()));
+    }
+
+    @Override
+    public void refreshWeather(WeatherResponseBean bean) {
+        if(bean.getStatus().equals("0"))
+        {
+            //温度
+            String txt = bean.getTemp() + "°";
+            tv_temp.setText(txt);
+            tv_humidity.setText(bean.getHumidity());
+            tv_weather.setText(bean.getWeather());
+        }
+        else
+        {
+            ToastMgr.show("获取天气失败");
+        }
     }
 
     @Override
@@ -544,19 +689,15 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
             yhCountTv.setText(totle.get("yh"));
             yqTv.setText(totle.get("yq"));
             wzgTv.setText(totle.get("wzg"));
-            listAllMessage.clear();
-            listAllMessage = data.list;
+
         }else if (currrentPage == 2){
             wzCountTv.setText(totle.get("wz"));
-            listYhMessage.clear();
-            listYhMessage = data.list;
-        }else {
+        }else if(currrentPage == 3){
             aqCountTv.setText(totle.get("aq"));
             ggTV.setText(totle.get("aqgg"));
             jlTv.setText(totle.get("jl"));
             cfTv.setText(totle.get("cf"));
-            listWzMessage.clear();
-            listWzMessage = data.list;
+
         }
         if (isChange){
             mAdapter.clear();
@@ -569,8 +710,9 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         }
         if (isDownRefresh){
             isDownRefresh = false;
-            ptrLayout.complete();
         }
+
+        ptrLayout.complete();
         if (data.list.size() == 0 && mAdapter.getCount() > 0){
             return;
         }
@@ -579,5 +721,71 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         mAdapter.notifyDataSetChanged();
         lv_message.setAdapter(mAdapter);
         lv_message.setSelection(lastCount);
+    }
+
+    @Override
+    public void refreshAir(AirResponseBean bean) {
+        tv_air.setText(bean.getLevel());
+
+    }
+
+    public List<CountryModelBean> readXls() {
+        InputStream myFile = null;
+        myFile = getResources().openRawResource(R.raw.citycode);
+
+        List<CountryModelBean> list = new ArrayList<>();
+
+        try {
+            Workbook workbook = Workbook.getWorkbook(myFile);
+            Sheet sheet = workbook.getSheet(0);
+
+            int sheetNum = workbook.getNumberOfSheets();
+            int sheetRows = sheet.getRows();
+            int sheetColumns = sheet.getColumns();
+
+            Log.d(TAG, "the num of sheets is " + sheetNum);
+            Log.d(TAG, "the name of sheet is  " + sheet.getName());
+            Log.d(TAG, "total rows is 行=" + sheetRows);
+            Log.d(TAG, "total cols is 列=" + sheetColumns);
+
+            for (int i = 0; i < sheetRows; i++) {
+                CountryModelBean countryModel = new CountryModelBean();
+                countryModel.setId(sheet.getCell(0, i).getContents());
+                countryModel.setCityCode(sheet.getCell(1, i).getContents());
+                countryModel.setEnglishName(sheet.getCell(2, i).getContents());
+                countryModel.setReadmeName(sheet.getCell(3, i).getContents());
+                countryModel.setChineseName(sheet.getCell(4, i).getContents());
+                countryModel.setCountry(sheet.getCell(5, i).getContents());
+
+                list.add(countryModel);
+            }
+
+            workbook.close();
+
+        } catch (Exception e) {
+            Log.e(TAG, "read error=" + e, e);
+        }
+
+        return list;
+    }
+    @Override
+    public void onResume() {
+        registerBroadcast();
+        setConcerMark();
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        if(broadcastReceiver != null){
+            getActivity().unregisterReceiver(broadcastReceiver);
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
     }
 }

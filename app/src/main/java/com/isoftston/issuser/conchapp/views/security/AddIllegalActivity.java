@@ -7,18 +7,15 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.corelibs.base.BaseActivity;
-import com.corelibs.base.BasePresenter;
 import com.corelibs.utils.IMEUtil;
 import com.corelibs.utils.ToastMgr;
 import com.isoftston.issuser.conchapp.R;
@@ -27,15 +24,17 @@ import com.isoftston.issuser.conchapp.model.bean.AddYHBean;
 import com.isoftston.issuser.conchapp.model.bean.OrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
 import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
+import com.isoftston.issuser.conchapp.model.bean.SecurityUpdateBean;
 import com.isoftston.issuser.conchapp.presenter.SecurityPresenter;
 import com.isoftston.issuser.conchapp.utils.DateUtils;
-import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.utils.Tools;
 import com.isoftston.issuser.conchapp.views.interfaces.SecuryView;
 import com.isoftston.issuser.conchapp.weight.ChooseListPopupWindow;
 import com.isoftston.issuser.conchapp.weight.CustomDatePicker;
 import com.isoftston.issuser.conchapp.weight.InputView;
 import com.isoftston.issuser.conchapp.weight.NavBar;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -77,14 +76,18 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
     TextView tv_illegal_describ_title;
     @Bind(R.id.tv_illegal_descibe_content)
     TextView tv_illegal_descibe_content;
-    @Bind(R.id.spinner)
-    Spinner find_spinner;
-    @Bind(R.id.spinner2)
-    Spinner wz_spinner;
+
     @Bind(R.id.male_rb)
     RadioButton male_rb;
     @Bind(R.id.famale_rb)
     RadioButton famale_rb;
+
+    @Bind(R.id.tv_illegal_find_company)
+    TextView tv_illegal_find_company;
+
+    @Bind(R.id.tv_illegal_company)
+    TextView tv_illegal_company;
+
     private List<String> findList=new ArrayList<>();
     private List<String> wzList=new ArrayList<>();
     private ArrayAdapter<String> findAdapter;
@@ -97,6 +100,8 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
     private String find_company_id;
     private String wz_company;
     private String wz_company_id;
+    private String wz_type_id;
+    private String wz_people_id;
     private int nm;
 
     public static Intent getLauncher(Context context){
@@ -172,42 +177,7 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
     }
 
     private void initSpinner() {
-        findAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, findList);
-        //2.为适配器设置下拉菜单样式。adapter.setDropDownViewResource
-        findAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //3.以上声明完毕后，建立适配器,有关于sipnner这个控件的建立。用到myspinner
-        find_spinner.setAdapter(findAdapter);
-        find_spinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                find_company = findAdapter.getItem(i);
-                find_company_id = org.get(i).getID_();
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-
-        });
-        wzAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, wzList);
-        //2.为适配器设置下拉菜单样式。adapter.setDropDownViewResource
-        wzAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //3.以上声明完毕后，建立适配器,有关于sipnner这个控件的建立。用到myspinner
-        wz_spinner.setAdapter(wzAdapter);
-        wz_spinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                wz_company = wzAdapter.getItem(i);
-                wz_company_id = org.get(i).getID_();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-
-        });
     }
 
     @Override
@@ -234,16 +204,16 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
         AddYHBean bean=new AddYHBean();
         bean.setYhmc(name);
 //        bean.setGsId("1");//公司id
-//        bean.setJcdwid("1");//公司名称
+        bean.setJcdwid(find_company_id);//公司名称
         bean.setJcdwmc(find_company);
         bean.setSjdwid(wz_company_id);
         bean.setSjdwmc(wz_company);
 //        bean.setYhly("1");
         bean.setFxrmc(check_people);
-        bean.setFxrId("");
+        bean.setFxrId(wz_people_id);
         bean.setFxrq(startTime);
         bean.setCjsj(endTime);
-//        bean.setYhlx("1");
+        bean.setYhlx(wz_type_id);
 //        bean.setYhjb("1");
         bean.setYhdd(wz_address);
 //        bean.setYhbw("1");
@@ -262,7 +232,7 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
 
     @OnClick(R.id.rl_photo)
     public void choicePhoto(){
-        startActivityForResult(ChoicePhotoActivity.getLauncher(context,"0",map),110);
+        startActivityForResult(ChoicePhotoActivity.getLauncher(context,"0",map,0),110);
     }
 
 
@@ -309,6 +279,16 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
         startActivityForResult(ChoiceTypeActivity.getLaucnher(context,2),110);
     }
 
+    @OnClick(R.id.rl_find_company)
+    public void findOrg(){
+        startActivityForResult(OrgActivity.getLaucnher(context,0),120);
+    }
+
+    @OnClick(R.id.rl_wz_company)
+    public void findTroubleOrg(){
+        startActivityForResult(OrgActivity.getLaucnher(context,1),120);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -318,7 +298,11 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
                 if(!TextUtils.isEmpty(result)){
                     tv_check_people.setText(result);
                 }
-
+            }
+            else if (resultCode==100){
+                String name=data.getStringExtra(Constant.CHECK_PEOPLE);
+                tv_check_people.setText(name);
+                wz_people_id = data.getStringExtra(Constant.CHECK_PEOPLE_ID);
             }
         }else if(requestCode==110){
             if(resultCode==10){
@@ -332,6 +316,22 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
             }else if (resultCode==104){
                 String name=data.getStringExtra(Constant.CHECK_PEOPLE);
                 tv_illegal_type.setText(name);
+                wz_type_id = data.getStringExtra(Constant.CHECK_PEOPLE_ID);
+            }
+        }else if(requestCode==120)
+        {
+            if(resultCode == 130)
+            {
+                find_company_id=data.getStringExtra(Constant.FIND_COMPANY_ID);
+                find_company = data.getStringExtra(Constant.FIND_COMPANY_NAME);
+                tv_illegal_find_company.setText(find_company);
+
+            }
+            else if(resultCode == 131)
+            {
+                wz_company_id = data.getStringExtra(Constant.DANGER_COMPANY_ID);
+                wz_company = data.getStringExtra(Constant.DANGER_COMPANY_NAME);
+                tv_illegal_company.setText(wz_company);
             }
         }
     }
@@ -417,6 +417,9 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
     @Override
     public void addSuccess() {
         ToastMgr.show(getString(R.string.submit_success));
+        SecurityUpdateBean bean = new SecurityUpdateBean();
+        bean.setType(1); //1是新建安全成功的提示刷新
+        EventBus.getDefault().post(bean);
         finish();
     }
 
@@ -445,7 +448,17 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
     }
 
     @Override
+    public void getOrgList(List<OrgBean> bean) {
+
+    }
+
+    @Override
     public void getOrgId(String orgId) {
+
+    }
+
+    @Override
+    public void getWorkError() {
 
     }
 }

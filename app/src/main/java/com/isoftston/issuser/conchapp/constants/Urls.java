@@ -6,10 +6,10 @@ package com.isoftston.issuser.conchapp.constants;
  */
 
 public class Urls {
-//    public static final String ROOT="http://10.0.11.208:8099/conch/";//客户环境
-//    public static final String ROOT="http://220.180.131.37:18000/conch/";//客户环境
+  //  public static final String ROOT="http://10.0.11.208:8099/conch/";//客户环境
+    public static final String ROOT="http://220.180.131.37:18000/conch/";//客户环境
 //    public static final String ROOT="http://10.28.124.196:8099/conch/";//测试环境
-    public static final String ROOT="http://10.28.124.188:8099/conch/";
+ //   public static final String ROOT="http://10.28.124.188:8099/conch/";
 //    public static final String ROOT="http://10.28.124.116:8099/conch/";
 //    public static final String ROOT="http://10.28.124.196:8099/conch/";
 //    public static final String ROOT="http://10.28.124.195:8099/conch/";//田调试用4.26
@@ -18,6 +18,9 @@ public class Urls {
     public static final String APPKEY="5ad6ae01f29d981e84000090";
     //Umeng Message Secret
     public static final String MessageSecret="e520eb3804e7fb231c773620b5a478ad";
+    //登录
+    public static final String PUSH_TAG = "infoPush/isRecesived";
+
 
     //登录
     public static final String LOGIN = "login";
@@ -48,9 +51,11 @@ public class Urls {
     public static final String GET_MESSAGE_DETAIL_INFO="home/list";
     //获取安全信息列表（隐患违章我的）
     public static final String GET_SECURITY_DATAS="info/conditionsearch";
+    //搜索（安全）
+    public static final String GET_SECURITY_SEACHER="safety/conditionsearch";
 
     //违章界面 添加违章信息
-    public static final String ADD_WZ_MESSAGE="info/addBreakRule";
+    public static final String ADD_WZ_MESSAGE="safety/addBreakRule";
 
     //违章界面 添加隐患信息
     public static final String ADD_YH_MESSAGE="safety/addHiddenDanger";
@@ -66,6 +71,8 @@ public class Urls {
     public static final String ADD_WORK="job/createJob ";
     //修改作业
     public static final String FIX_WORK="job/modifyJob";
+    //查询作业
+    public static final String FIX_WORK_SEACHER="job/searchWork";
     //撤销作业
     public static final String CANCEL_JOB="job/cancelJob";
     //提交作业
@@ -81,6 +88,8 @@ public class Urls {
     public static final String GET_CONDITION_DEVICE_INFO="device/conditionSearch";
     //检维界面查询一条设备
     public static final String GET_ONE_DEVICE_INFO="device/searchOneEquip";
+    //检维界面查看描述详情
+    public static final String GET_DEVICE_DESCRIPTION="device/searchDescription";
     //更改密码
     public static final String CHANGE_PWD="updatePassword";
     //上传照片
@@ -92,7 +101,7 @@ public class Urls {
 
     // 获取作业设备类型
     public static final String GET_EQUPMENT_TYPE="device/getType";
-    // 通过设备类型获取设备名称
+    // 通过设备类型获取设备信息
     public static final String GET_EQUPMENT_INFO_BY_TYPE="device/queryByType";
     //危险作业类别
     public static final String DANGER_WORK_TYPE="dictionaries/WXZYLB";
@@ -100,4 +109,13 @@ public class Urls {
     public static final String DEVICE_TYPE="device/getType";
     //隐患界面 发现单位
     public static final String FIND_COMPANY="safety/searchParam";
+
+    //隐患界面 发现单位继续递归
+    public static final String FIND_COMPANY_NEXT="safety/searchDepartments";
+
+    //天气
+    public static final String WEATHER = "http://api.help.bj.cn/apis/weather";
+
+    //天气质量
+    public static final String AIR = "http://api.help.bj.cn/apis/aqi3";
 }

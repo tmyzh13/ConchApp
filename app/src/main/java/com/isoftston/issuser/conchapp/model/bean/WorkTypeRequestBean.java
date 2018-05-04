@@ -7,5 +7,7 @@ package com.isoftston.issuser.conchapp.model.bean;
 public class WorkTypeRequestBean {
     public String item;
     public String lastId;
+    public String keyWord;
     public int type;
+
 }

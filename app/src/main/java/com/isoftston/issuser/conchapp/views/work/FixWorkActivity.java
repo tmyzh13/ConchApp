@@ -78,6 +78,7 @@ public class FixWorkActivity extends BaseActivity<WorkView,WorkPresenter> implem
     private String tv_guardian_id;
     private String tv_approver_id;
     private WorkDetailBean bean;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_fix_work;
@@ -89,14 +90,16 @@ public class FixWorkActivity extends BaseActivity<WorkView,WorkPresenter> implem
         nav.setNavTitle(getString(R.string.fix_work));
         nav.showBack(1);
         jobId = getIntent().getStringExtra("id");
-        Bundle bundle=getIntent().getExtras();
+        Bundle bundle = getIntent().getExtras();
         bean = (WorkDetailBean) bundle.getSerializable("fixbean");
-        tv_start_time.setText(DateUtils.format_yyyy_MM_dd_HH_mm.format(bean.getCreateTime()));
-        tv_end_time.setText(DateUtils.format_yyyy_MM_dd_HH_mm.format(bean.getEndTime()));
-        tv_guardian.setText(bean.getGuardianName());
-        tv_auditor.setText(bean.getAuditorName());
-        tv_approver.setText(bean.getApproverName());
-        et_num.setText(String.valueOf(bean.getNumberPeople()).toCharArray(), 0, String.valueOf(bean.getNumberPeople()).length());
+        if (bean != null) {
+            tv_start_time.setText(DateUtils.format_yyyy_MM_dd_HH_mm.format(bean.getCreateTime()));
+            tv_end_time.setText(DateUtils.format_yyyy_MM_dd_HH_mm.format(bean.getEndTime()));
+            tv_guardian.setText(bean.getGuardianName());
+            tv_auditor.setText(bean.getAuditorName());
+            tv_approver.setText(bean.getApproverName());
+            et_num.setText(String.valueOf(bean.getNumberPeople()).toCharArray(), 0, String.valueOf(bean.getNumberPeople()).length());
+        }
         bt_sure.setOnClickListener(this);
         rl_approver.setOnClickListener(this);
         rl_auditor.setOnClickListener(this);

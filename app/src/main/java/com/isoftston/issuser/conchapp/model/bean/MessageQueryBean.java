@@ -15,6 +15,16 @@ public class MessageQueryBean {
      */
     private String title;
 
+    private String lastId;
+
+    public String getLastId() {
+        return lastId;
+    }
+
+    public void setLastId(String lastId) {
+        this.lastId = lastId;
+    }
+
     public String getType() {
         return type;
     }

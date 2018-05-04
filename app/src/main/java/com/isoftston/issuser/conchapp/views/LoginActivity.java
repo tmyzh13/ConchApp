@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +24,16 @@ import com.isoftston.issuser.conchapp.MainActivity;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.LoginUserBean;
+import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
 import com.isoftston.issuser.conchapp.presenter.LoginPresenter;
 import com.isoftston.issuser.conchapp.utils.MD5Utils;
 import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.utils.Tools;
 import com.isoftston.issuser.conchapp.views.interfaces.LoginView;
+import com.umeng.message.PushAgent;
+import com.umeng.message.common.inter.ITagManager;
+import com.umeng.message.tag.TagManager;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -62,6 +67,7 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
     protected int getLayoutId() {
         if (!TextUtils.isEmpty(PreferencesHelper.getData(Constant.LOGIN_STATUE))){
             startActivity(MainActivity.getLauncher(context));
+            finish();
         }
         return R.layout.activity_login;
     }
@@ -115,9 +121,11 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
         loginUserBean.save();
         PreferencesHelper.saveData(Constant.LOGIN_STATUE,"1");
         SharePrefsUtils.putValue(context,"token",data);
+        //presenter.getPushTag();
+
         startActivity(MainActivity.getLauncher(context));
         ToastUtils.showtoast(context,getString(R.string.login_success));
-
+        finish();
     }
 
     @Override
@@ -128,6 +136,85 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
     @Override
     public void getCodeSuccess() {
 
+    }
+
+    @Override
+    public void returnTag(boolean isSuccess,String tag) {
+        if(isSuccess){
+            addTag(tag);
+        }else{
+            deleteTag(tag);
+        }
+
+    }
+
+    @Override
+    public void getSafeChoiceList(SecuritySearchBean bean) {
+
+    }
+
+    private void addTag(String username) {
+       // final String tag = username;
+        final String tag = "2c9af58150f5a3e80150f5c6d51e000b";
+        if (TextUtils.isEmpty(tag)) {
+            //Toast.makeText(this, "请先输入tag", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        PushAgent mPushAgent = PushAgent.getInstance(this);
+        mPushAgent.onAppStart();
+        mPushAgent.getTagManager().addTags(new TagManager.TCallBack() {
+            @Override
+            public void onMessage(final boolean isSuccess, final ITagManager.Result result) {
+
+                Log.i("isSuccess", String.valueOf(isSuccess));
+            /*handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    inputTag.setText("");
+                    if (isSuccess) {
+                        sharedPref.edit().putInt(TAG_REMAIN, result.remain).apply();
+                        tagRemain.setText(String.valueOf(result.remain));
+                        PushDialogFragment.newInstance(0, 1, getString(R.string.push_add_success), tag).show(
+                                getFragmentManager(), "addTag");
+                    } else {
+                        PushDialogFragment.newInstance(0, 0, getString(R.string.push_add_fail), tag).show(
+                                getFragmentManager(), "addTag");
+                    }
+                }
+            });*/
+            }
+        }, tag);
+    }
+
+
+    private void deleteTag(String tag) {
+       // final String tag = inputTag.getText().toString();
+        if (TextUtils.isEmpty(tag)) {
+            //Toast.makeText(this, "请先输入tag", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        PushAgent mPushAgent = PushAgent.getInstance(this);
+        mPushAgent.onAppStart();
+        mPushAgent.getTagManager().deleteTags(new TagManager.TCallBack() {
+            @Override
+            public void onMessage(final boolean isSuccess, final ITagManager.Result result) {
+             /*   handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        inputTag.setText("");
+                        if (isSuccess) {
+                            sharedPref.edit().putInt(TAG_REMAIN, result.remain).apply();
+                            tagRemain.setText(String.valueOf(result.remain));
+                            PushDialogFragment.newInstance(0, 1,
+                                    getString(R.string.push_delete_success), tag).show(getFragmentManager(), "deleteTag");
+                        } else {
+                            PushDialogFragment.newInstance(0, 0,
+                                    getString(R.string.push_delete_fail), tag).show(getFragmentManager(), "deleteTag");
+                        }
+                    }
+                });*/
+            }
+        }, tag);
     }
 
     @OnClick(R.id.tv_language)

@@ -1,7 +1,6 @@
 package com.isoftston.issuser.conchapp.views.work;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,13 +10,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BasePresenter;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.model.event.MyEvent;
-import com.isoftston.issuser.conchapp.views.message.MessageFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
@@ -116,6 +113,8 @@ public class CityLocationActivity extends BaseActivity {
             return "error";
         }
     }
+
+
 
     /*
      * 从json字符串中得到省的信息
