@@ -178,21 +178,21 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
         }
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        if (bType==2){
-//            if (type.equals(getString(R.string.my_approve))){
-//                presenter.getWorkList("",2,"0");
-//            }else if (type.equals(getString(R.string.my_check))){
-//                presenter.getWorkList("",2,"1");
-//            }else {
-//                presenter.getWorkList("",2,"2");
-//            }
-//        }else {
-//            presenter.getWorkInfo();
-//        }
-//    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (bType==2){
+            if (type.equals(getString(R.string.my_approve))){
+                presenter.getWorkList("",2,"0");
+            }else if (type.equals(getString(R.string.my_check))){
+                presenter.getWorkList("",2,"1");
+            }else {
+                presenter.getWorkList("",2,"2");
+            }
+        }else {
+            presenter.getWorkInfo();
+        }
+    }
 
     @Override
     protected WorkPresenter createPresenter() {

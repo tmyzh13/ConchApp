@@ -115,10 +115,10 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
     }
     @Override
     public void loginSuccess(String data) {
-        LoginUserBean loginUserBean=new LoginUserBean();
-        loginUserBean.setUsername(username);
-        loginUserBean.setPassword(MD5Utils.encode(password));
-        loginUserBean.save();
+//        LoginUserBean loginUserBean=new LoginUserBean();
+//        loginUserBean.setUsername(username);
+//        loginUserBean.setPassword(MD5Utils.encode(password));
+//        loginUserBean.save();
         PreferencesHelper.saveData(Constant.LOGIN_STATUE,"1");
         SharePrefsUtils.putValue(context,"token",data);
         //presenter.getPushTag();

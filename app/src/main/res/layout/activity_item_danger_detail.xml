@@ -56,9 +56,9 @@
                     android:orientation="horizontal">
 
                     <com.isoftston.issuser.conchapp.weight.RoundByXfermode
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_margin="15dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="10dp"
                         android:src="@mipmap/male" />
 
                     <LinearLayout
@@ -76,6 +76,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/yh_finder"
+                                android:layout_marginLeft="@dimen/dp_10"
                                 android:textColor="#262626"
                                 android:textStyle="bold" />
 
@@ -103,6 +104,7 @@
                             android:paddingTop="10dp">
 
                             <TextView
+                                android:layout_marginLeft="@dimen/dp_10"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/find_time"
@@ -133,9 +135,9 @@
                     android:orientation="horizontal">
 
                     <com.isoftston.issuser.conchapp.weight.RoundByXfermode
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_marginLeft="5dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="@dimen/dp_10"
                         android:src="@mipmap/yh_icon" />
 
                     <LinearLayout
@@ -258,7 +260,6 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="6dp"
                             android:layout_marginTop="20dp"
                             android:text="@string/yh_class"
                             android:textColor="#262626"
@@ -269,7 +270,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
-                            android:layout_marginLeft="20dp"
+
                             android:text="@string/important"
                             android:textColor="@color/text_gray1" />
                     </LinearLayout>
@@ -341,12 +342,14 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="@dimen/dp_5"
                     android:orientation="horizontal">
 
                     <com.isoftston.issuser.conchapp.weight.RoundByXfermode
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:layout_margin="10dp"
+                        android:layout_marginLeft="15dp"
+                        android:padding="@dimen/dp_10"
                         android:src="@mipmap/fixed" />
 
                     <TextView

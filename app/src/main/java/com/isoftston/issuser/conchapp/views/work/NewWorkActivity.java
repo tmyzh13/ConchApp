@@ -300,7 +300,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (adapter.getItem(i) != null && adapter.getItem(i).equals(getString(R.string.danger_work_type_item))) {
-                    rl_charger.setVisibility(View.GONE);
+//                    rl_charger.setVisibility(View.GONE);
                     rl_gas_checker.setVisibility(View.VISIBLE);
                 } else {
                     rl_charger.setVisibility(View.VISIBLE);

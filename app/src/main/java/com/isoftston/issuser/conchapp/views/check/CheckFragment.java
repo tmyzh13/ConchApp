@@ -117,9 +117,6 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
 
         //关闭缓存机制
         mLocationOption.setLocationCacheEnable(false);
-        //获取地理位置
-        //给定位客户端对象设置定位参数
-        mLocationClient.setLocationOption(mLocationOption);
 
         presenter.getUserInfo();
         navBar.setColorRes(R.color.white);
@@ -231,7 +228,7 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
         //获取地理位置
         //给定位客户端对象设置定位参数
         mLocationClient.setLocationOption(mLocationOption);
-//启动定位
+        //启动定位
         mLocationClient.startLocation();
         if (requestCode == OPEN_ACTIVITY_CODE) {
             Bundle bundle = data.getExtras();
