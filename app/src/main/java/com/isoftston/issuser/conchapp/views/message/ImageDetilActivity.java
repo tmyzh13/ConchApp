@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.bm.library.PhotoView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -28,7 +29,6 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
-import cn.finalteam.galleryfinal.widget.zoonview.PhotoView;
 
 /**
  * Created by issuser on 2018/4/16.
@@ -101,8 +101,10 @@ public class ImageDetilActivity extends BaseActivity{
         imageList = new ArrayList<View>();
         for (int i = 0; i < urls.size(); i++) {
             View view = LayoutInflater.from(getApplicationContext()).inflate(
-                    R.layout.viewpager_item, null);
-            final ImageView imageView = view.findViewById(R.id.view_image);
+                    R.layout.imageview_item, null);
+            final PhotoView imageView = view.findViewById(R.id.view_image);
+            // 启用图片缩放功能
+            imageView.enable();
 //            Glide.with(this).load(urls.get(i))
 //                    .centerCrop()
 //                    .override(320,480)
@@ -110,7 +112,7 @@ public class ImageDetilActivity extends BaseActivity{
 //                    .into(imageView);
             Glide.with(this)
                     .load(urls.get(i))
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    /*.diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .listener(new RequestListener<String, GlideDrawable>() {
                         @Override
                         public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
@@ -122,9 +124,9 @@ public class ImageDetilActivity extends BaseActivity{
                             if (imageView == null) {
                                 return false;
                             }
-                            if (imageView.getScaleType() != ImageView.ScaleType.FIT_XY) {
-                                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                            }
+//                            if (imageView.getScaleType() != ImageView.ScaleType.FIT_XY) {
+//                                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+//                            }
                             ViewGroup.LayoutParams params = imageView.getLayoutParams();
                             int vw = imageView.getWidth() - imageView.getPaddingLeft() - imageView.getPaddingRight();
                             float scale = (float) vw / (float) resource.getIntrinsicWidth();
@@ -133,7 +135,7 @@ public class ImageDetilActivity extends BaseActivity{
                             imageView.setLayoutParams(params);
                             return false;
                         }
-                    })
+                    })*/
 //                    .placeholder(errorImageId)
 //                    .error(errorImageId)
                     .into(imageView);
