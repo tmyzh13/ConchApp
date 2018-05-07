@@ -41,7 +41,7 @@ public class ForgetPasswordPresenter extends BasePresenter<ForgetPasswordView> {
         if(Tools.validateEmail(phoneNum)){
             view.showLoading();
             ForgetPasswordRequstBean bean=new ForgetPasswordRequstBean();
-            bean.code=code;
+            bean.content=code;
             bean.phone=phoneNum;
             bean.password= MD5Utils.encode(password);
             bean.language=Tools.getLocalLanguage(getContext());
