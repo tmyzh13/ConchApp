@@ -306,11 +306,7 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
             yhlx_tv.setText(SharePrefsUtils.getValue(this,dangerType,""));
         //}
 
-        if ("YBYH".equals(bean.getDangerLevel())){
-            yhjb_tv.setText(R.string.hidden_trouble_normal_yh);
-        }else{
-            yhjb_tv.setText(R.string.hidden_trouble_major_yh);
-        }
+        yhjb_tv.setText(SharePrefsUtils.getValue(this,bean.getDangerLevel(),""));
     }
 
     @Override

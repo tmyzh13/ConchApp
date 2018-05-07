@@ -1,7 +1,6 @@
 package com.isoftston.issuser.conchapp;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -17,8 +16,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.corelibs.base.BaseActivity;
 import com.corelibs.common.AppManager;
 import com.corelibs.utils.PreferencesHelper;
@@ -46,13 +43,11 @@ import com.isoftston.issuser.conchapp.views.work.WorkFragment;
 import com.umeng.message.PushAgent;
 import com.umeng.message.common.inter.ITagManager;
 import com.umeng.message.tag.TagManager;
-import com.isoftston.issuser.conchapp.model.bean.MsgTotalCountBean;
+
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 
@@ -316,6 +311,16 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
             checkCompanyList.add(orgBean.getORG_NAME_());
             findCompanyList.add(orgBean.getORG_NAME_());
         }
+
+        List<YhlxBean> yhjbBeans = bean.YHJB;
+        for (YhlxBean yhlyBean:yhjbBeans){
+            //fromList.add(yhlyBean.getNAME_());
+            //fromListId.add(yhlyBean.getCODE_());
+            //fromLXMap.put(yhlyBean.getCODE_(),yhlyBean.getNAME_());
+            SharePrefsUtils.putValue(this,yhlyBean.getCODE_(),yhlyBean.getNAME_());
+        }
+
+
         List<YhlyBean> YHLY=bean.YHLY;
 
         for (YhlyBean yhlyBean:YHLY){
