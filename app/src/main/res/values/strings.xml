@@ -290,9 +290,6 @@
     <string name="trouble_company">隐患单位</string>
     <string name="input_text">请选择</string>
     <string name="regret">已撤销</string>
-<<<<<<< Updated upstream
     <string name="loading_failed">加载失败</string>
-=======
     <string name="anonymous">匿名</string>
->>>>>>> Stashed changes
 </resources>
