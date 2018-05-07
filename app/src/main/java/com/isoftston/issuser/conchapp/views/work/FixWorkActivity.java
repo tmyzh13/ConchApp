@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BasePresenter;
+import com.corelibs.utils.ToastMgr;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.DangerTypeBean;
@@ -129,7 +130,12 @@ public class FixWorkActivity extends BaseActivity<WorkView,WorkPresenter> implem
                 bean.setGuardian(tv_guardian_id);
                 bean.setAuditor(tv_auditor_id);
                 bean.setApprover(tv_approver_id);
-                bean.setNumberPeople(Integer.parseInt(numberPeople));
+                try {
+                    bean.setNumberPeople(Integer.parseInt(numberPeople));
+                }catch (Exception e){
+                    ToastMgr.show(R.string.input_num);
+                    return;
+                }
                 presenter.fixWork(bean);
                 break;
             case R.id.rl_approver:

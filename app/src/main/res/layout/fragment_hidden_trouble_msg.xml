@@ -7,7 +7,7 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_30"
+        android:layout_height="@dimen/nav_height"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         app:tabGravity="fill"
