@@ -91,7 +91,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_corner_blue"
+            android:background="@drawable/shape_corner_blue1"
             android:layout_margin="10dp"
             android:padding="2dp"
             android:orientation="horizontal">
@@ -113,16 +113,17 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_corner_blue"
+            android:background="@drawable/shape_corner_blue1"
             android:layout_margin="10dp"
             android:padding="1dp"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
-                android:textColor="@color/white"
-                android:text="@string/award"/>
+                android:text="@string/award"
+                android:textColor="@color/white" />
             <TextView
                 android:id="@+id/jl_tv"
                 android:layout_width="match_parent"
@@ -135,7 +136,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_corner_blue"
+            android:background="@drawable/shape_corner_blue1"
             android:layout_margin="10dp"
             android:padding="1dp"
             android:orientation="horizontal">
