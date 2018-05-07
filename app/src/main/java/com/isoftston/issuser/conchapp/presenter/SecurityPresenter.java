@@ -54,8 +54,17 @@ public class SecurityPresenter extends BasePresenter<SecuryView> {
 
                     @Override
                     public void onError(Throwable e) {
-                        super.onError(e);
                         view.addFailed();
+                        super.onError(e);
+
+                    }
+
+                    @Override
+                    public boolean operationError(BaseData baseData, int status, String message) {
+                        if (status==0){
+                            view.addFailed();
+                        }
+                        return super.operationError(baseData, status, message);
                     }
                 });
     }
