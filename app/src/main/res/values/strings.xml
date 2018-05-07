@@ -4,9 +4,9 @@
 
     <!--首页tab-->
     <string name="home_message">信息</string>
-    <string name="home_security">安全</string>
+    <string name="home_security">隐患</string>
     <string name="home_work">作业</string>
-    <string name="home_check">检维</string>
+    <string name="home_check">检修</string>
     <string name="home_mine">我的</string>
     <string name="login_success">登录成功</string>
     <!--登录-->
@@ -108,7 +108,9 @@
     <string name="hidden_trouble_position">隐患部位</string>
     <string name="hidden_trouble_input">填写</string>
     <string name="hidden_trouble_major">重大</string>
+    <string name="hidden_trouble_major_yh">重大隐患</string>
     <string name="hidden_trouble_normal">一般</string>
+    <string name="hidden_trouble_normal_yh">一般隐患</string>
     <string name="hidden_trouble_source">隐患来源</string>
     <string name="hidden_info">发现日期必须早于登记时间</string>
 

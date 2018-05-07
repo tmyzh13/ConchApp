@@ -89,7 +89,6 @@ public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordView,Forg
     @OnClick(R.id.tv_send)
     public void sendEmail(){
         presenter.sendRequst(et_phone.getText().toString(),et_code.getText().toString(),et_password.getText().toString());
-        finish();
     }
 
     @OnClick(R.id.tv_get_code)

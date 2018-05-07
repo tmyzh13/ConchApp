@@ -26,7 +26,7 @@ public class ForgetPasswordPresenter extends BasePresenter<ForgetPasswordView> {
     @Override
     protected void onViewAttach() {
         super.onViewAttach();
-        api= ApiFactory.getFactory().create(ForgetPasswordApi.class);
+        api = ApiFactory.getFactory().create(ForgetPasswordApi.class);
     }
 
     @Override
@@ -37,35 +37,32 @@ public class ForgetPasswordPresenter extends BasePresenter<ForgetPasswordView> {
     /**
      * 发送忘记密码请求
      */
-    public void sendRequst(String phoneNum,String code,String password){
-        if(Tools.validateEmail(phoneNum)){
-            view.showLoading();
-            ForgetPasswordRequstBean bean=new ForgetPasswordRequstBean();
-            bean.content=code;
-            bean.phone=phoneNum;
-            bean.password= MD5Utils.encode(password);
-            bean.language=Tools.getLocalLanguage(getContext());
-            api.forgetPassword(bean)
-                    .compose(new ResponseTransformer<>(this.<BaseData>bindUntilEvent(ActivityEvent.DESTROY)))
-                    .subscribe(new ResponseSubscriber<BaseData>(view) {
-                        @Override
-                        public void success(BaseData baseData) {
-                            view.hideLoading();
-                            view.sendActionSuccess();
-                        }
-                    });
-        }else{
-            ToastMgr.show(getString(R.string.forget_password_email_error));
-        }
+    public void sendRequst(String phoneNum, String code, String password) {
+        view.showLoading();
+        ForgetPasswordRequstBean bean = new ForgetPasswordRequstBean();
+        bean.code = code;
+        bean.phone = phoneNum;
+        bean.password = MD5Utils.encode(password);
+        bean.language = Tools.getLocalLanguage(getContext());
+        api.forgetPassword(bean)
+                .compose(new ResponseTransformer<>(this.<BaseData>bindUntilEvent(ActivityEvent.DESTROY)))
+                .subscribe(new ResponseSubscriber<BaseData>(view) {
+                    @Override
+                    public void success(BaseData baseData) {
+                        view.hideLoading();
+                        view.sendActionSuccess();
+                    }
+                });
     }
 
     /**
      * 发送验证码
+     *
      * @param phone
      */
     public void sendValidNum(String phone) {
-        GetCodeBean bean=new GetCodeBean();
-        bean.phone=phone;
+        GetCodeBean bean = new GetCodeBean();
+        bean.phone = phone;
         api.getCode(bean)
                 .compose(new ResponseTransformer<>(this.<BaseData>bindUntilEvent(ActivityEvent.DESTROY)))
                 .subscribe(new ResponseSubscriber<BaseData>(view) {

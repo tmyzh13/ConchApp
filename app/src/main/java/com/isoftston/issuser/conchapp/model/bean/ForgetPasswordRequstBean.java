@@ -10,5 +10,4 @@ public class ForgetPasswordRequstBean {
     public String phone;
     public String code;
     public String password;
-    public String content;
 }

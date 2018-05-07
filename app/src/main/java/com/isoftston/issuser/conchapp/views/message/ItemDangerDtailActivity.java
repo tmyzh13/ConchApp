@@ -307,9 +307,9 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
         //}
 
         if ("YBYH".equals(bean.getDangerLevel())){
-            yhjb_tv.setText("一般隐患");
+            yhjb_tv.setText(R.string.hidden_trouble_normal_yh);
         }else{
-            yhjb_tv.setText("重大隐患");
+            yhjb_tv.setText(R.string.hidden_trouble_major_yh);
         }
     }
 
