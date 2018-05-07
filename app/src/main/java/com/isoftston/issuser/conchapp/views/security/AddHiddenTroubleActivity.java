@@ -347,6 +347,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
     @OnClick(R.id.ll_confirm)
     public void confirmInfo(){
         //提交新增信息 暂时结束页面
+        getLoadingDialog().show();
         String yh_name=input_trouble_name.getContent().trim();
         String startTimeStr = tv_start_time.getText().toString().trim();
         long startTime = TextUtils.isEmpty(String.valueOf(startTimeStr))? 0 : DateUtils.getDateToLongMS(startTimeStr);
@@ -368,6 +369,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
                 TextUtils.isEmpty(yh_position)||TextUtils.isEmpty(yh_from)||TextUtils.isEmpty(yh_type)
                 ||TextUtils.isEmpty(fix)||TextUtils.isEmpty(yh_describle)||TextUtils.isEmpty(yh_grade_name)){
             ToastMgr.show(R.string.input_all_message);
+            getLoadingDialog().dismiss();
             return;
         }
 
@@ -484,6 +486,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         SecurityUpdateBean bean = new SecurityUpdateBean();
         bean.setType(1); //1是新建安全成功的提示刷新
         EventBus.getDefault().post(bean);
+        getLoadingDialog().dismiss();
         finish();
 
     }
@@ -495,6 +498,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
 
     @Override
     public void addFailed() {
+        getLoadingDialog().dismiss();
         finish();
     }
 

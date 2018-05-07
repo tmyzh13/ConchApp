@@ -187,6 +187,7 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
 
     @OnClick(R.id.ll_confirm)
     public void confirmInfo(){
+        getLoadingDialog().show();
         String name=input_illegal_name.getContent().trim();
         String startTimeStr = tv_start_time.getText().toString().trim();
         long startTime = TextUtils.isEmpty(String.valueOf(startTimeStr))? 0 : DateUtils.getDateToLongMS(startTimeStr);
@@ -201,6 +202,7 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
         }else if (famale_rb.isChecked()){
             nm=0;
         }
+
         AddYHBean bean=new AddYHBean();
         bean.setYhmc(name);
 //        bean.setGsId("1");//公司id
@@ -417,6 +419,7 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
     @Override
     public void addSuccess() {
         ToastMgr.show(getString(R.string.submit_success));
+        getLoadingDialog().dismiss();
         SecurityUpdateBean bean = new SecurityUpdateBean();
         bean.setType(1); //1是新建安全成功的提示刷新
         EventBus.getDefault().post(bean);
@@ -430,7 +433,8 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
 
     @Override
     public void addFailed() {
-
+        ToastMgr.show(getString(R.string.submit_fail));
+        getLoadingDialog().dismiss();
     }
 
     @Override
