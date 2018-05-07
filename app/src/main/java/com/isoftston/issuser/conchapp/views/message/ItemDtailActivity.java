@@ -246,7 +246,7 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
             return;
         }
         if ("wz".equals(bean.getType())&&bean.getNm()!=null && "1".equals(bean.getNm())){
-            tv_yh_finder.setText("匿名");
+            tv_yh_finder.setText(R.string.anonymous);
         }else {
             tv_yh_finder.setText(bean.getFxrmc());
         }

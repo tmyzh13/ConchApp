@@ -81,6 +81,11 @@ public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordView,Forg
         finish();
     }
 
+    @Override
+    public void sendValidNumSuccess() {
+        ToastMgr.show(getString(R.string.forget_password_send_valid_success));
+    }
+
     @OnClick(R.id.tv_send)
     public void sendEmail(){
 //        presenter.sendRequst(et_email.getText().toString());
@@ -95,6 +100,6 @@ public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordView,Forg
         }
         new MyCountDownTimer(context,tv_get_code, 60 * 1000, 1000,true).start();
         //调接口
-
+        presenter.sendValidNum(et_phone.getText().toString());
     }
 }

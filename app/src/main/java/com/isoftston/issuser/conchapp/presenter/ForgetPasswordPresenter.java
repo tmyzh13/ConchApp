@@ -9,6 +9,7 @@ import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.model.apis.ForgetPasswordApi;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
 import com.isoftston.issuser.conchapp.model.bean.ForgetPasswordRequstBean;
+import com.isoftston.issuser.conchapp.model.bean.GetCodeBean;
 import com.isoftston.issuser.conchapp.utils.MD5Utils;
 import com.isoftston.issuser.conchapp.utils.Tools;
 import com.isoftston.issuser.conchapp.views.interfaces.ForgetPasswordView;
@@ -36,12 +37,12 @@ public class ForgetPasswordPresenter extends BasePresenter<ForgetPasswordView> {
     /**
      * 发送忘记密码请求
      */
-    public void sendRequst(String email,String code,String password){
-        if(Tools.validateEmail(email)){
+    public void sendRequst(String phoneNum,String code,String password){
+        if(Tools.validateEmail(phoneNum)){
             view.showLoading();
             ForgetPasswordRequstBean bean=new ForgetPasswordRequstBean();
             bean.code=code;
-            bean.phone=email;
+            bean.phone=phoneNum;
             bean.password= MD5Utils.encode(password);
             bean.language=Tools.getLocalLanguage(getContext());
             api.forgetPassword(bean)
@@ -49,6 +50,7 @@ public class ForgetPasswordPresenter extends BasePresenter<ForgetPasswordView> {
                     .subscribe(new ResponseSubscriber<BaseData>(view) {
                         @Override
                         public void success(BaseData baseData) {
+                            view.hideLoading();
                             view.sendActionSuccess();
                         }
                     });
@@ -57,5 +59,21 @@ public class ForgetPasswordPresenter extends BasePresenter<ForgetPasswordView> {
         }
     }
 
-
+    /**
+     * 发送验证码
+     * @param phone
+     */
+    public void sendValidNum(String phone) {
+        GetCodeBean bean=new GetCodeBean();
+        bean.phone=phone;
+        api.getCode(bean)
+                .compose(new ResponseTransformer<>(this.<BaseData>bindUntilEvent(ActivityEvent.DESTROY)))
+                .subscribe(new ResponseSubscriber<BaseData>(view) {
+                    @Override
+                    public void success(BaseData baseData) {
+                        view.hideLoading();
+                        view.sendValidNumSuccess();
+                    }
+                });
+    }
 }

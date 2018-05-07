@@ -9,4 +9,6 @@ import com.corelibs.base.BaseView;
 public interface ForgetPasswordView extends BaseView {
 
     void sendActionSuccess();
+
+    void sendValidNumSuccess();
 }
