@@ -30,6 +30,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="5dp"
                     android:text="@string/yh_message"
+                    android:textStyle="bold"
                     android:textColor="@color/text_main"
                     />
 
@@ -81,8 +82,8 @@
         </LinearLayout>
 
     <View
-        android:layout_width="5dp"
-        android:layout_height="5dp"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
         android:id="@+id/view_read_statue"
         android:background="@drawable/view_read_bg"
         />

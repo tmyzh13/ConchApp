@@ -279,6 +279,7 @@
     <string name="information_tips">提示！</string>
     <string name="tips">手机号不能为空</string>
     <string name="internet_error">网络连接超时</string>
+    <string name="internet_exception">网络连接异常</string>
     <string name="back_failed">撤销作业失败</string>
     <string name="subimt_failed">提交失败</string>
     <string name="modify_failed">修改失败</string>
@@ -288,4 +289,5 @@
     <string name="trouble_company">隐患单位</string>
     <string name="input_text">请选择</string>
     <string name="regret">已撤销</string>
+    <string name="loading_failed">加载失败</string>
 </resources>

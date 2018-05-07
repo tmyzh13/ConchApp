@@ -50,7 +50,7 @@ public class SecurityAdapter extends QuickAdapter<SecurityTroubleBean> {
                 helper.setText(R.id.item_time, time.format(new Date(Long.valueOf(item.getCjsj()))));
             }
         } else {
-            item_icon.setImageResource(R.mipmap.yh_icon);
+            item_icon.setImageResource(R.mipmap.illegal_icon);
             helper.setText(R.id.item_title, context.getString(R.string.wz_message))
                     .setText(R.id.address, item.getYhdd())
                     .setText(R.id.content, item.getYhms());

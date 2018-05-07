@@ -85,7 +85,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="20dp"
-                                android:text="王某某"
                                 android:textColor="#b3b0b0" />
 
                             <TextView
@@ -93,7 +92,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="45dp"
-                                android:text="芜湖分公司"
                                 android:textColor="@color/text_gray1" />
                         </LinearLayout>
 
@@ -116,7 +114,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="35dp"
-                                android:text="2018年4月3日"
                                 android:textColor="@color/text_gray1" />
                         </LinearLayout>
                     </LinearLayout>
@@ -209,7 +206,6 @@
                             android:id="@+id/sjdwmc_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/hidden_trouble_company"
                             android:textColor="#262626"
                             android:textStyle="bold" />
 
@@ -218,7 +214,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dp_10"
-                            android:text="@string/yh_adress"
                             android:textColor="#262626"
                             android:textStyle="bold" />
 
@@ -226,7 +221,6 @@
                             android:id="@+id/yhbw_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/yh_point"
                             android:layout_marginTop="@dimen/dp_10"
                             android:textColor="#262626"
                             android:textStyle="bold" />
@@ -270,8 +264,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
-
-                            android:text="@string/important"
+                            android:paddingLeft="20dp"
                             android:textColor="@color/text_gray1" />
                     </LinearLayout>
                     <LinearLayout
@@ -295,7 +288,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:paddingLeft="20dp"
-                        android:text="@string/neccecery"
                         android:textColor="@color/text_gray1" />
                     </LinearLayout>
                 </LinearLayout>
@@ -327,7 +319,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginTop="10dp"
-                        android:text="2018年"
                         android:textColor="@color/text_gray1" />
                 </LinearLayout>
 
@@ -449,7 +440,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginTop="10dp"
-                        android:text="2018年"
                         android:textColor="@color/text_gray1" />
                 </LinearLayout>
                 <View

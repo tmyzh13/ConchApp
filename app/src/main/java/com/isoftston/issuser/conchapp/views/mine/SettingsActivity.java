@@ -49,6 +49,14 @@ public class SettingsActivity extends BaseActivity {
         nav.setNavTitle(getString(R.string.settings));
 //        boolean receive = SharedPreferencesUtils.getReceiveNotice(this);
 //        mPushMsgSwitch.setChecked(receive);
+        File outCachePath = getApplicationContext().getExternalCacheDir();
+        String outCacheSize = null;
+        try {
+            outCacheSize = FileCacheUtils.getCacheSize(outCachePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        mCacheSizeView.setText(outCacheSize);
         mPushMsgSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

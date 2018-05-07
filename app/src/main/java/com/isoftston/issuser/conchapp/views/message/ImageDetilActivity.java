@@ -103,6 +103,12 @@ public class ImageDetilActivity extends BaseActivity{
             View view = LayoutInflater.from(getApplicationContext()).inflate(
                     R.layout.imageview_item, null);
             final PhotoView imageView = view.findViewById(R.id.view_image);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                }
+            });
             // 启用图片缩放功能
             imageView.enable();
 //            Glide.with(this).load(urls.get(i))
@@ -112,36 +118,36 @@ public class ImageDetilActivity extends BaseActivity{
 //                    .into(imageView);
             Glide.with(this)
                     .load(urls.get(i))
-                    /*.diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .listener(new RequestListener<String, GlideDrawable>() {
-                        @Override
-                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                            return false;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                            if (imageView == null) {
-                                return false;
-                            }
+//                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+//                    .listener(new RequestListener<String, GlideDrawable>() {
+//                        @Override
+//                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+//                            return false;
+//                        }
+//
+//                        @Override
+//                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+//                            if (imageView == null) {
+//                                return false;
+//                            }
 //                            if (imageView.getScaleType() != ImageView.ScaleType.FIT_XY) {
 //                                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
 //                            }
-                            ViewGroup.LayoutParams params = imageView.getLayoutParams();
-                            int vw = imageView.getWidth() - imageView.getPaddingLeft() - imageView.getPaddingRight();
-                            float scale = (float) vw / (float) resource.getIntrinsicWidth();
-                            int vh = Math.round(resource.getIntrinsicHeight() * scale);
-                            params.height = vh + imageView.getPaddingTop() + imageView.getPaddingBottom();
-                            imageView.setLayoutParams(params);
-                            return false;
-                        }
-                    })*/
+//                            ViewGroup.LayoutParams params = imageView.getLayoutParams();
+//                            int vw = imageView.getWidth() - imageView.getPaddingLeft() - imageView.getPaddingRight();
+//                            float scale = (float) vw / (float) resource.getIntrinsicWidth();
+//                            int vh = Math.round(resource.getIntrinsicHeight() * scale);
+//                            params.height = vh + imageView.getPaddingTop() + imageView.getPaddingBottom();
+//                            imageView.setLayoutParams(params);
+//                            return false;
+//                        }
+//                    })
 //                    .placeholder(errorImageId)
 //                    .error(errorImageId)
+                    .centerCrop()
                     .into(imageView);
             imageList.add(view);
         }
-
     }
 
     private void initDots() {

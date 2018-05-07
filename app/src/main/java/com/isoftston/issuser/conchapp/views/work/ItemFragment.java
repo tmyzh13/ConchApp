@@ -104,13 +104,14 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
                 isUpRefresh = true;
                 if (bType==2){
                     if (type.equals(getString(R.string.my_approve))){
-                        presenter.getWorkList(lastId,2,"0");
+                        presenter.getWorkList("",2,"0");
                     }else if (type.equals(getString(R.string.my_check))){
-                        presenter.getWorkList(lastId,2,"1");
+                        presenter.getWorkList("",2,"1");
                     }else {
-                        presenter.getWorkList(lastId,2,"2");
+                        presenter.getWorkList("",2,"2");
                     }
                 }else {
+                    lastId="";
                     presenter.getWorkInfo();
                 }
             }
@@ -154,6 +155,7 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
                         {
                             isLastRow = true;
                         }
+
 
                 }
             }
@@ -236,17 +238,16 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
             listMessage.clear();
             listMessage.addAll(list);
             isUpRefresh = false;
-            ptrLayout.complete();
         }
         if (isDownRefresh){
             isDownRefresh = false;
-            ptrLayout.complete();
         }
         ptrLayout.complete();
         if (list.size() == 0 && adapter.getCount() > 0){
             return;
         }
-        adapter.replaceAll(list);
+        adapter.clear();
+        adapter.addAll(list);
         adapter.notifyDataSetChanged();
     }
 

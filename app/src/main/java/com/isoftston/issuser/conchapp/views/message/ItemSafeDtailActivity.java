@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.corelibs.base.BaseActivity;
+import com.corelibs.utils.ToastMgr;
 import com.corelibs.views.roundedimageview.RoundedTransformationBuilder;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.mGridViewAdapter;
@@ -124,6 +125,7 @@ public class ItemSafeDtailActivity extends BaseActivity<MessageView,MessagePrese
 
     @Override
     public void getWorkError() {
+        ToastMgr.show(R.string.loading_failed);
 
     }
 

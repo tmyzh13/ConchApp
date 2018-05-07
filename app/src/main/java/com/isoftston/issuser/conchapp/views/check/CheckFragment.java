@@ -297,7 +297,7 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
     public void checkDeviceResultError(String message) {
         //防止网络请求失败，或者返回数据异常导致无法触发loading消失操作
         ((BaseActivity) getActivity()).getLoadingDialog().dismiss();
-        ToastMgr.show(message);
+        ToastMgr.show(R.string.internet_exception);
     }
 
     @Override
