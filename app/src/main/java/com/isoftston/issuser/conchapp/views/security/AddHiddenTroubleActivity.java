@@ -27,6 +27,7 @@ import com.isoftston.issuser.conchapp.model.bean.OrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
 import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
 import com.isoftston.issuser.conchapp.model.bean.SecurityUpdateBean;
+import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.YhlxBean;
 import com.isoftston.issuser.conchapp.model.bean.YhlyBean;
 import com.isoftston.issuser.conchapp.presenter.SecurityPresenter;
@@ -541,6 +542,11 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
 
     @Override
     public void getWorkError() {
+
+    }
+
+    @Override
+    public void setUserInfo(UserInfoBean userInfo) {
 
     }
 }

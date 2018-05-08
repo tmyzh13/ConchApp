@@ -4,6 +4,7 @@ import com.corelibs.base.BasePaginationView;
 import com.isoftston.issuser.conchapp.model.bean.OrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
 import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
+import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 
 import java.util.List;
 
@@ -26,4 +27,6 @@ public interface SecuryView extends BasePaginationView {
 	  void getOrgId(String orgId);
 
     void getWorkError();
+
+    void setUserInfo(UserInfoBean userInfo);
 }

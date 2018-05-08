@@ -8,6 +8,8 @@ import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeRequestOrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
+import com.isoftston.issuser.conchapp.model.bean.UserBean;
+import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 
 import java.io.File;
 import java.util.List;
@@ -34,4 +36,7 @@ public interface SecurityApi {
     Observable<BaseData<SecuritySearchBean>> findCompanyList(@Header("Access-Token") String token, @Body SafeRequestBean bean);
     @POST(Urls.FIND_COMPANY_NEXT)
     Observable<BaseData<List<OrgBean>>> findCompanyListNext(@Header("Access-Token") String token, @Body SafeRequestOrgBean bean);
+    //获取用户信息
+    @POST(Urls.GET_MY_INFO)
+    Observable<BaseData<UserInfoBean>> getUserInfo(@Header("Access-Token") String token, @Body UserBean bean);
 }

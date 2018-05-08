@@ -25,6 +25,7 @@ import com.isoftston.issuser.conchapp.model.bean.OrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
 import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
 import com.isoftston.issuser.conchapp.model.bean.SecurityUpdateBean;
+import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.presenter.SecurityPresenter;
 import com.isoftston.issuser.conchapp.utils.DateUtils;
 import com.isoftston.issuser.conchapp.utils.Tools;
@@ -88,10 +89,6 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
     @Bind(R.id.tv_illegal_company)
     TextView tv_illegal_company;
 
-    private List<String> findList=new ArrayList<>();
-    private List<String> wzList=new ArrayList<>();
-    private ArrayAdapter<String> findAdapter;
-    private ArrayAdapter<String> wzAdapter;
     private Context context=AddIllegalActivity.this;
     private String startTime,endTime;
     private ChooseListPopupWindow window;
@@ -173,6 +170,10 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
             }
         });
         presenter.getCompanyChoiceList();
+
+        //获取人员信息
+        presenter.getUserInfo();
+
         initSpinner();
     }
 
@@ -239,10 +240,10 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
     }
 
 
-    @OnClick(R.id.ll_check_people)
-    public void choiceCheckPeople(){
-        startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context,7),100);
-    }
+//    @OnClick(R.id.ll_check_people)
+//    public void choiceCheckPeople(){
+//        startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context,7),100);
+//    }
 
     @OnClick(R.id.tv_illegal_type)
     public void choiceType(){
@@ -440,15 +441,6 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
 
     @Override
     public void getSafeChoiceList(SecuritySearchBean bean) {
-        findList.clear();
-        wzList.clear();
-        org = bean.ORG;
-        for (OrgBean orgBean: org){
-            findList.add(orgBean.getORG_NAME_());
-            wzList.add(orgBean.getORG_NAME_());
-        }
-        wzAdapter.notifyDataSetChanged();
-        findAdapter.notifyDataSetChanged();
 
     }
 
@@ -465,5 +457,11 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
     @Override
     public void getWorkError() {
 
+    }
+
+    @Override
+    public void setUserInfo(UserInfoBean userInfo) {
+        tv_check_people.setText(userInfo.getRealName());
+        wz_people_id = userInfo.getId();
     }
 }

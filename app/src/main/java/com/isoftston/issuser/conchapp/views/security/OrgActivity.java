@@ -16,6 +16,7 @@ import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.OrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
 import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
+import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.presenter.SecurityPresenter;
 import com.isoftston.issuser.conchapp.utils.Node;
 import com.isoftston.issuser.conchapp.utils.NodeHelper;
@@ -189,6 +190,11 @@ public class OrgActivity extends BaseActivity<SecuryView,SecurityPresenter> impl
 
     @Override
     public void getWorkError() {
+
+    }
+
+    @Override
+    public void setUserInfo(UserInfoBean userInfo) {
 
     }
 
