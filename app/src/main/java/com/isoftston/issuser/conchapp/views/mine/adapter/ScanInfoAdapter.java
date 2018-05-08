@@ -69,11 +69,14 @@ public class ScanInfoAdapter extends BaseAdapter {
         holder.address.setText(scanInfo.getLocation());
         final ArrayList<String> list = new ArrayList<>();
         String images=scanInfo.getImgs();
-        String[] itemPath=images.split("[,]");
-        Log.i("imagePath","imagePath----"+itemPath[0].replace("\\","/"));
-        for (int i = 0; i < itemPath.length; i++) {
-            list.add(Urls.ROOT+itemPath[0].replace("\\","/"));
+        if(images!=null){
+            String[] itemPath=images.split("[,]");
+            Log.i("imagePath","imagePath----"+itemPath[0].replace("\\","/"));
+            for (int i = 0; i < itemPath.length; i++) {
+                list.add(Urls.ROOT+itemPath[0].replace("\\","/"));
+            }
         }
+
         holder.lookPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
