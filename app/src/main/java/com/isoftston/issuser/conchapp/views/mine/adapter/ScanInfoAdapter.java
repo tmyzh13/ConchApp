@@ -73,7 +73,7 @@ public class ScanInfoAdapter extends BaseAdapter {
             String[] itemPath=images.split("[,]");
             Log.i("imagePath","imagePath----"+itemPath[0].replace("\\","/"));
             for (int i = 0; i < itemPath.length; i++) {
-                list.add(Urls.ROOT+itemPath[0].replace("\\","/"));
+                list.add(Urls.ROOT+itemPath[i].replace("\\","/"));
             }
         }
 
