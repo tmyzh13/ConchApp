@@ -14,6 +14,8 @@ import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeRequestOrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
+import com.isoftston.issuser.conchapp.model.bean.UserBean;
+import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.SecuryView;
 
@@ -188,6 +190,22 @@ public class SecurityPresenter extends BasePresenter<SecuryView> {
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
+                    }
+                });
+    }
+
+    public void getUserInfo(){
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        Log.e("yzh","token--"+token);
+        String token1=token.replaceAll("\"","");
+        UserBean bean=new UserBean();
+        api.getUserInfo(token1,bean)
+                .compose(new ResponseTransformer<>(this.<BaseData<UserInfoBean>>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData<UserInfoBean>>() {
+                    @Override
+                    public void success(BaseData<UserInfoBean> userInfoBeanBaseData) {
+                        Log.i("yzh","saveUser--"+userInfoBeanBaseData);
+                        view.setUserInfo(userInfoBeanBaseData.data);
                     }
                 });
     }

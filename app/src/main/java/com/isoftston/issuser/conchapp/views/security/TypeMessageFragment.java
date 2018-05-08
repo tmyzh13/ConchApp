@@ -25,6 +25,7 @@ import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
 import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
 import com.isoftston.issuser.conchapp.model.bean.SecurityTroubleBean;
 import com.isoftston.issuser.conchapp.model.bean.SecurityUpdateBean;
+import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.presenter.SecurityPresenter;
 import com.isoftston.issuser.conchapp.views.interfaces.SecuryView;
 import com.isoftston.issuser.conchapp.views.message.ItemDangerDtailActivity;
@@ -339,6 +340,11 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
     public void getWorkError() {
         ptrLayout.complete();
         hideLoading();
+    }
+
+    @Override
+    public void setUserInfo(UserInfoBean userInfo) {
+
     }
 
     @Override

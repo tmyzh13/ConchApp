@@ -17,6 +17,7 @@ import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.OrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
 import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
+import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.YhlxBean;
 import com.isoftston.issuser.conchapp.presenter.SecurityPresenter;
 import com.isoftston.issuser.conchapp.views.interfaces.SecuryView;
@@ -176,6 +177,11 @@ public class ChoiceTypeActivity extends BaseActivity<SecuryView,SecurityPresente
 
     @Override
     public void getWorkError() {
+
+    }
+
+    @Override
+    public void setUserInfo(UserInfoBean userInfo) {
 
     }
 
