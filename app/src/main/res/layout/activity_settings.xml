@@ -15,6 +15,7 @@
         android:layout_height="wrap_content" />
 
     <RelativeLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:layout_marginTop="10dp"
