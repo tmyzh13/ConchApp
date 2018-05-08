@@ -31,6 +31,7 @@ import com.isoftston.issuser.conchapp.views.message.adpter.VpAdapter;
 import com.isoftston.issuser.conchapp.views.message.utils.PushCacheUtils;
 import com.isoftston.issuser.conchapp.weight.MyGridView;
 import com.isoftston.issuser.conchapp.weight.NavBar;
+import com.isoftston.issuser.conchapp.weight.RoundByXfermode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +84,11 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
 
     @Bind(R.id.vw_fix_pic)
     View vw_fix_pic;
+
+    @Bind(R.id.zgzt_fix_img)
+    RoundByXfermode zgztFixImage;
+    @Bind(R.id.zgzt_unfix_img)
+    RoundByXfermode zgztUnFixImage;
 
 
 
@@ -282,9 +288,17 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
         yhbw_tv.setText(bean.getDangerPart());
 
         if(bean.getZgqx()!=null)
-        zgqx_tv.setText(bean.getZgqx());
-        if(bean.getYhzgzt()!=null)
-        yhzt_tv.setText(bean.getYhzgzt());
+        zgqx_tv.setText(DateUtils.getMillionToDate(bean.getZgqx()));
+        if(bean.getYhzgzt() == null){
+            yhzt_tv.setText(R.string.un_fix);
+            zgztUnFixImage.setVisibility(View.VISIBLE);
+            zgztFixImage.setVisibility(View.GONE);
+        }else {
+            yhzt_tv.setText(R.string.fixed);
+            zgztUnFixImage.setVisibility(View.GONE);
+            zgztFixImage.setVisibility(View.VISIBLE);
+        }
+
 
 
 

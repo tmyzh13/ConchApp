@@ -27,6 +27,7 @@ public class AddYHBean {
     private String tplj;
     private String knzchg;
     private String ischoose;
+    private int nm;
     public String getGsId() {
         return gsId;
     }
@@ -178,5 +179,11 @@ public class AddYHBean {
         return knzchg;
     }
 
+    public int getNm() {
+        return nm;
+    }
 
+    public void setNm(int nm) {
+        this.nm = nm;
+    }
 }

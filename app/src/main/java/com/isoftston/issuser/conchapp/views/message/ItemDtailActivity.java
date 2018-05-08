@@ -245,7 +245,7 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
         if(bean == null){
             return;
         }
-        if ("wz".equals(bean.getType())&&bean.getNm()!=null && "1".equals(bean.getNm())){
+        if (bean.getNm()!=null && "1".equals(bean.getNm())){
             tv_yh_finder.setText(R.string.anonymous);
         }else {
             tv_yh_finder.setText(bean.getFxrmc());

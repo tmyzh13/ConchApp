@@ -337,11 +337,20 @@
                     android:orientation="horizontal">
 
                     <com.isoftston.issuser.conchapp.weight.RoundByXfermode
+                        android:id="@+id/zgzt_fix_img"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginLeft="15dp"
                         android:padding="@dimen/dp_10"
                         android:src="@mipmap/fixed" />
+                    <com.isoftston.issuser.conchapp.weight.RoundByXfermode
+                        android:id="@+id/zgzt_unfix_img"
+                        android:visibility="gone"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="15dp"
+                        android:padding="@dimen/dp_10"
+                        android:src="@mipmap/un_fix" />
 
                     <TextView
                         android:id="@+id/yhzt_tv"

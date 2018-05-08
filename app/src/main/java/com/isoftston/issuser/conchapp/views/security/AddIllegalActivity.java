@@ -225,6 +225,7 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
         bean.setTplj(picString);
 //        bean.setKnzchg("1");
 //        bean.setIschoose("1");
+        bean.setNm(nm);
         presenter.addWZMessage(bean);
 //        finish();
     }

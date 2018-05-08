@@ -153,9 +153,8 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
 
     }
 
-    private void addTag(String username) {
+    private void addTag(String tag) {
        // final String tag = username;
-        final String tag = "2c9af58150f5a3e80150f5c6d51e000b";
         if (TextUtils.isEmpty(tag)) {
             //Toast.makeText(this, "请先输入tag", Toast.LENGTH_SHORT).show();
             return;

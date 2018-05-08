@@ -282,6 +282,7 @@ public class DateUtils {
         }
         return dateTimeStr.split(" ")[0];
     }
+
     /*时间戳转换成字符窜*/
     public static String getDateToString(String time) {
         String date = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
@@ -293,6 +294,14 @@ public class DateUtils {
     /*时间戳转换成字符窜*/
     public static String getMillionToString(String time) {
         String date = new java.text.SimpleDateFormat("yyyy年MM月dd HH:mm")
+                .format(new java.util.Date(
+                        Long.parseLong(time)));
+        return date;
+    }
+
+    /*时间戳转换成字符窜*/
+    public static String getMillionToDate(String time) {
+        String date = format1
                 .format(new java.util.Date(
                         Long.parseLong(time)));
         return date;
