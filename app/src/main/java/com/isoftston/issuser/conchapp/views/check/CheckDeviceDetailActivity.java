@@ -68,7 +68,7 @@ public class CheckDeviceDetailActivity extends BaseActivity<CheckView,CheckPrese
 //        if (descId!=null){
 //            presenter.getDeviceInfo(descId);
 //        }
-        presenter.getOneDeviceInfo(deviceBean.getEquipCode());
+        presenter.getOneDeviceInfo(deviceBean.getId());
 
 
     }

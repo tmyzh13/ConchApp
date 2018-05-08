@@ -9,6 +9,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
@@ -76,6 +77,9 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
     private boolean isLoading = false;
     private String cityName ="";
 
+    private Boolean isUpRefresh = false;
+    private boolean isLastRow = false;
+    private boolean isDownRefresh = false;
     //声明AMapLocationClient类对象
     public AMapLocationClient mLocationClient = null;
     //声明定位回调监听器
@@ -91,6 +95,13 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
     //声明AMapLocationClientOption对象
     public AMapLocationClientOption mLocationOption = null;
 
+    private void loadNextPage(int totalItemCount){
+        ptrLayout.setLoading();
+        isDownRefresh = true;
+
+        String lastId = adapter.getData().get(totalItemCount-1).getRecordId().toString();
+        presenter.getAllDeviceInfo(lastId);
+    }
 
     @Override
     protected int getLayoutId() {
@@ -131,7 +142,7 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
         });
         navBar.showSeachColor(2);
 
-        presenter.getAllDeviceInfo("");
+        //presenter.getAllDeviceInfo("");
         adapter = new DeviceAdapter(getContext());
         adapter.addAll(mlist);
         lv_device.setAdapter(adapter);
@@ -144,6 +155,31 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
                 startActivity(CheckDeviceDetailActivity.getLauncher(getContext(), adapter.getItem(position)));
             }
         });
+
+        lv_device.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+                //当滚到最后一行且停止滚动时，执行加载
+                if (isLastRow && scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    //加载元素
+                    loadNextPage(adapter.getCount());
+                    isLastRow = false;
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                //判断是否滚到最后一行
+                if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount > 0) {
+                    if(adapter.getCount() > 0)
+                    {
+                        isLastRow = true;
+                    }
+                }
+            }
+        });
+
+
 
         tvName.setText(userInfoBean.getRealName());
         tvCompany.setText(userInfoBean.getCompanyName());
@@ -282,7 +318,8 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
     @Override
     public void checkDeviceResult(DeviceBean bean) {
         ((BaseActivity) getActivity()).getLoadingDialog().dismiss();
-        presenter.getAllDeviceInfo("");
+//        isUpRefresh = true;
+//        presenter.getAllDeviceInfo("");
         if (bean == null) {
             ToastMgr.show("设备不存在");
             return;
@@ -305,9 +342,7 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
         hideLoading();
         this.mlist.clear();
         this.mlist = list;
-        if (!isLoading) {
-            adapter.clear();
-        }
+
         if (list.size() == 0 && adapter.getCount() > 0) {
             return;
         }
@@ -318,9 +353,19 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
 //            }
 //        });
         Collections.sort(mlist, new DeviceComparator());
-        adapter.replaceAll(list);
+
+        if (isUpRefresh){
+            adapter.clear();
+            isUpRefresh = false;
+        }
+
+        if (isDownRefresh){
+            isDownRefresh = false;
+        }
+        adapter.addAll(list);
+        //adapter.replaceAll(list);
         adapter.notifyDataSetChanged();
-        Log.i("yzh", "fresh size:" + list.size());
+        Log.i("yzh", "fresh size:" + list.size() + ",now size:" + adapter.getCount());
         tvNum.setText(total);
         ptrLayout.complete();
     }
@@ -335,22 +380,26 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
 
     @Override
     public void onLoading(PtrFrameLayout frame) {
-        if (mlist != null && mlist.size() > 0) {
-            isLoading = true;
-            presenter.getAllDeviceInfo(mlist.get(mlist.size() - 1).getId());
-        } else {
-            ptrLayout.complete();
-        }
+//        Log.i("yzh","onloading");
+//        if (mlist != null && mlist.size() > 0) {
+//            isLoading = true;
+//            presenter.getAllDeviceInfo(mlist.get(mlist.size() - 1).getId());
+//        } else {
+//            ptrLayout.complete();
+//        }
     }
 
 
     @Override
     public void onRefreshing(PtrFrameLayout frame) {
-        isLoading = false;
-        if (!frame.isAutoRefresh()) {
-            ptrLayout.enableLoading();
-            presenter.getAllDeviceInfo("");
-        }
+//        Log.i("yzh","onrefreshing");
+//        isLoading = false;
+//        if (!frame.isAutoRefresh()) {
+//            ptrLayout.enableLoading();
+//            presenter.getAllDeviceInfo("");
+//        }
+        isUpRefresh = true;
+        presenter.getAllDeviceInfo("");
     }
 
     @Override
@@ -363,6 +412,7 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
     @Override
     public void onResume() {
         super.onResume();
+        isUpRefresh = true;
         presenter.getUserInfo();
         presenter.getAllDeviceInfo("");
     }
