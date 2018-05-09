@@ -1,6 +1,7 @@
 package com.isoftston.issuser.conchapp.adapters;
 
 import android.content.Context;
+import android.widget.TextView;
 
 import com.corelibs.utils.adapter.BaseAdapterHelper;
 import com.corelibs.utils.adapter.normal.QuickAdapter;
@@ -20,9 +21,11 @@ public class CheckPeopleAdapter extends QuickAdapter<CheckPeopleBean> {
     @Override
     protected void convert(BaseAdapterHelper helper, CheckPeopleBean item, int position) {
         if (item.getOrgName()!=null){
-            helper.setText(R.id.tv_name,item.getRealName()+"("+item.getOrgName()+")");
+            helper.setText(R.id.tv_name,item.getRealName())
+            .setText(R.id.tv_company,item.getOrgName());
         }else {
-            helper.setText(R.id.tv_name,item.getRealName()+"("+")");
+            helper.setText(R.id.tv_name,item.getRealName());
+
         }
 
     }
