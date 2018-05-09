@@ -118,6 +118,7 @@
                     <TextView
                         android:id="@+id/tv_find_company"
                         style="@style/text_normal"
+                        android:text="@string/input_text"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true" />
                 </RelativeLayout>
@@ -145,6 +146,7 @@
                     <TextView
                         android:id="@+id/tv_trouble_company"
                         style="@style/text_normal"
+                        android:text="@string/input_text"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true" />
                 </RelativeLayout>
@@ -319,6 +321,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/tv_yh_type"
                         android:layout_marginRight="@dimen/dp_10"
+                        android:text="@string/input_text"
                         />
                 </RelativeLayout>
                 <View

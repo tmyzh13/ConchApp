@@ -202,6 +202,8 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
             }
         });
         presenter.getCompanyChoiceList();
+        //获取人员信息
+        presenter.getUserInfo();
         initSpinner();
         //样式为原安卓里面有的android.R.layout.simple_spinner_item，让这个数组适配器装list内容。
 
@@ -262,10 +264,6 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         return new SecurityPresenter();
     }
 
-    @OnClick(R.id.rl_check_people)
-    public void choiceCheckPeople(){
-        startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context,6),100);
-    }
     @OnClick(R.id.ll_yh_type)
     public void choiceType(){
         startActivityForResult(ChoiceTypeActivity.getLaucnher(context,1),110);
@@ -368,11 +366,13 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         if (TextUtils.isEmpty(yh_name)||TextUtils.isEmpty(find_company)||TextUtils.isEmpty(yh_company)||
                 TextUtils.isEmpty(check_people)||TextUtils.isEmpty(yh_grade)||TextUtils.isEmpty(yh_address)||
                 TextUtils.isEmpty(yh_position)||TextUtils.isEmpty(yh_from)||TextUtils.isEmpty(yh_type)
-                ||TextUtils.isEmpty(fix)||TextUtils.isEmpty(yh_describle)||TextUtils.isEmpty(yh_grade_name)){
+                ||TextUtils.isEmpty(fix)||TextUtils.isEmpty(yh_describle)||TextUtils.isEmpty(yh_grade_name)||TextUtils.isEmpty(yh_grade)||TextUtils.isEmpty(yh_from_id)||tv_yh_type.equals(getResources().getString(R.string.input_text))
+                ||tv_find_company.equals(getResources().getString(R.string.input_text)) || tv_trouble_company.equals(getResources().getString(R.string.input_text))){
             ToastMgr.show(R.string.input_all_message);
             getLoadingDialog().dismiss();
             return;
         }
+
 
         AddYHBean bean=new AddYHBean();
         bean.setYhmc(yh_name);
@@ -514,10 +514,16 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         }
         List<YhlyBean> YHLY=bean.YHLY;
 
+        fromList.add(getResources().getString(R.string.input_text));
+        fromListId.add("");
+
         for (YhlyBean yhlyBean:YHLY){
             fromList.add(yhlyBean.getNAME_());
             fromListId.add(yhlyBean.getCODE_());
         }
+
+        gradeList.add(getResources().getString(R.string.input_text));
+        gradeListId.add("");
 
         for(YhlxBean gradeBean:bean.YHJB)
         {
@@ -547,6 +553,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
 
     @Override
     public void setUserInfo(UserInfoBean userInfo) {
-
+        check_peole_id = userInfo.getId();
+        tv_check_people.setText(userInfo.getRealName());
     }
 }
