@@ -31,6 +31,8 @@ import com.isoftston.issuser.conchapp.model.bean.YhlxBean;
 import com.isoftston.issuser.conchapp.model.bean.YhlyBean;
 import com.isoftston.issuser.conchapp.presenter.LoginPresenter;
 import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
+import com.isoftston.issuser.conchapp.utils.UpdateManager;
+import com.isoftston.issuser.conchapp.utils.VersionUtils;
 import com.isoftston.issuser.conchapp.views.LoginActivity;
 import com.isoftston.issuser.conchapp.views.check.CheckFragment;
 import com.isoftston.issuser.conchapp.views.interfaces.LoginView;
@@ -153,6 +155,7 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
         //presenter = createPresenter();
         if(presenter!=null){
             presenter.getCompanyChoiceList();
+            presenter.getServerVersion();
         }
         registerBroadcast();
     }
@@ -343,7 +346,15 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
 
     @Override
     public void getServerVersionCode(String serverCode) {
-
+        int clientVersion = getClientVersion();
+        Log.i(TAG,"client ver:" + clientVersion + ",server ver:" + serverCode);
+        int compareCode = VersionUtils.compareVersions(String.valueOf(clientVersion),serverCode);
+        if(compareCode == 1)
+        {
+            //强制更新
+            UpdateManager um = new UpdateManager(this);
+            um.showNoticeDialog(serverCode);
+        }
     }
 
 
@@ -418,5 +429,17 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
             unregisterReceiver(pushBroadcastReceiver);
         }
         super.onDestroy();
+    }
+
+    private int getClientVersion()
+    {
+        int verCode = -1;
+        try {
+            verCode = context.getPackageManager().getPackageInfo(
+                    context.getPackageName(), 0).versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e(TAG, e.getMessage());
+        }
+        return verCode;
     }
 }

@@ -136,7 +136,8 @@ public class MineFragment extends BaseFragment<UserView, UserPresenter> implemen
                 headIv.setImageResource(R.mipmap.man_head);
             }
         }
-
+        userNameTv.setText(userInfo.getRealName());
+        userCompanyTv.setText(userInfo.getOrgName());
     }
 
     @Override
