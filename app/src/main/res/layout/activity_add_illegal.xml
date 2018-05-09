@@ -104,6 +104,7 @@
                 <TextView
                     android:id="@+id/tv_illegal_find_company"
                     style="@style/text_normal"
+                    android:text="@string/input_text"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true" />
             </RelativeLayout>
@@ -127,6 +128,7 @@
                 <TextView
                     android:id="@+id/tv_illegal_company"
                     style="@style/text_normal"
+                    android:text="@string/input_text"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true" />
             </RelativeLayout>
@@ -175,6 +177,7 @@
                     <TextView
                         style="@style/text_normal"
                         android:layout_centerVertical="true"
+                        android:text="@string/input_text"
                         android:layout_alignParentRight="true"
                          android:id="@+id/tv_illegal_type"
                         />

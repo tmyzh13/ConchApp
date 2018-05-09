@@ -208,7 +208,7 @@
     <!--忘记密码-->
     <string name="forget_password">忘记密码</string>
     <string name="forget_password_input_hint">请输入手机号</string>
-    <string name="forget_password_input_code_hint">请输入验证码</string>
+    <string name="forget_password_input_code_hint">获取验证码</string>
     <string name="forget_password_input_password_hint">请输入新密码</string>
     <string name="forget_password_get_code_again">重新获取</string>
     <string name="forget_password_get_code_again_">秒后重新获取</string>
