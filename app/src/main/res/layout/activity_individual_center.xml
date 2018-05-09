@@ -448,7 +448,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:text="@string/user_company"
+                    android:text="@string/user_department"
                     android:textColor="@color/single_text_color"
                     android:textSize="14sp" />
 

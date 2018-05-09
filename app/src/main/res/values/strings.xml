@@ -255,7 +255,7 @@
     <string name="yh_from">隐患来源</string>
 
     <!--选择检修人员-->
-    <string name="choice_check_people">选择检修人员</string>
+    <string name="choice_check_people">选择排查人员</string>
     <string name="someone">何某某</string>
     <string name="fix_status">是否已整改</string>
     <string name="re_login">请重新登录</string>

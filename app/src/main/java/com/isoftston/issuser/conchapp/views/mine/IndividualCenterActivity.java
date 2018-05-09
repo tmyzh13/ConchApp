@@ -107,6 +107,8 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
                 radioButtonWoman.setChecked(false);
                 radioButtonWoman.setClickable(false);
             }
+            radioButtonMan.setClickable(false);
+            radioButtonWoman.setClickable(false);
             if (!"".equals(userInfo.getPhoneNum())) {
                 userPhoneNumEt.setText(userInfo.getPhoneNum());
             }
