@@ -81,7 +81,7 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
         lp.height= Tools.getStatueHeight(context);
         view_statue.setLayoutParams(lp);
         setBarColor(getResources().getColor(R.color.transparent_black));
-        //presenter.getServerVersion();
+        presenter.getServerVersion();
     }
 
     @Override

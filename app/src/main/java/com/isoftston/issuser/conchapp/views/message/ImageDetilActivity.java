@@ -41,6 +41,7 @@ public class ImageDetilActivity extends BaseActivity{
     LinearLayout ll_point;
     private ArrayList<View> dotsList;
     private List<String> urls = new ArrayList<>();
+    private int index = -1;
     private List<View> imageList;
     public Handler handler = new Handler(){
         public void handleMessage(android.os.Message msg) {
@@ -67,11 +68,21 @@ public class ImageDetilActivity extends BaseActivity{
         Bundle bundle=getIntent().getExtras();
         if (bundle!=null){
             urls = bundle.getStringArrayList("imagepath");
+            index = bundle.getInt("index");
         }
         initImages();
         initDots();
         VpAdapter adapter = new VpAdapter(imageList,handler);
         viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(index);
+        //遍历小圆点集合
+        for(int i=0;i<dotsList.size();i++){
+            if(index%dotsList.size() == i){//设置当前小圆点
+                dotsList.get(i).setBackgroundResource(R.drawable.dots_white);
+            }else{//设置其他小圆点
+                dotsList.get(i).setBackgroundResource(R.drawable.dots_normal);
+            }
+        }
         //页面改变监听
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
