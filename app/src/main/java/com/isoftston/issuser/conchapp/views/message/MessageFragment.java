@@ -228,7 +228,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         //初始化AMapLocationClientOption对象
         mLocationOption = new AMapLocationClientOption();
 
-        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Battery_Saving);
 
         mLocationOption.setOnceLocation(true);
 
@@ -790,6 +790,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         registerBroadcast();
         setConcerMark();
         super.onResume();
+        mLocationClient.startLocation();
     }
 
     @Override

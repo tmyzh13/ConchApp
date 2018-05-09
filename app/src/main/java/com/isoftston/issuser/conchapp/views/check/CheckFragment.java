@@ -118,7 +118,7 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
         //初始化AMapLocationClientOption对象
         mLocationOption = new AMapLocationClientOption();
 
-        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Battery_Saving);
 
         mLocationOption.setOnceLocation(true);
 
@@ -415,6 +415,7 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
         isUpRefresh = true;
         presenter.getUserInfo();
         presenter.getAllDeviceInfo("");
+        mLocationClient.startLocation();
     }
 
     @Override
