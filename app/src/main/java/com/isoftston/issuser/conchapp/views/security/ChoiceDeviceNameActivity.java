@@ -86,6 +86,7 @@ public class ChoiceDeviceNameActivity extends BaseActivity<WorkView, WorkPresent
                 Intent intent =new Intent();
                 intent.putExtra(Constant.CHECK_PEOPLE,adapter.getItem(position).getName());
                 intent.putExtra(Constant.CHECK_DEVICE_TYPE,listdata.get(position).getEquipCode());
+                intent.putExtra(Constant.CHECK_DEVICE_ID,listdata.get(position).getId());
                 setResult(NewWorkActivity.CHOSE_NAME_CODE,intent);
                 finish();
             }

@@ -22,6 +22,15 @@ public class NewWorkBean {
     private String auditor;
     private String gas;
     private String gasName;
+    private int equipmentId;
+
+    public int getEquipmentId() {
+        return equipmentId;
+    }
+
+    public void setEquipmentId(int equipmentId) {
+        this.equipmentId = equipmentId;
+    }
 
     public String getArea() {
         return area;

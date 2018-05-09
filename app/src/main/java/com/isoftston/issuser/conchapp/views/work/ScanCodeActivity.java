@@ -369,7 +369,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                             changeGasToGreen();
                             for (ImageInfoBean imageInfoBean:datas){
                                 if (imageInfoBean.getUserId().equals(bean.gas)){
-                                    showAllBtn();
+                                    commitBtn.setVisibility(View.VISIBLE);
                                     scanCodeLl.setVisibility(View.VISIBLE);
                                 }
                             }
@@ -1202,6 +1202,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         ToastMgr.show(R.string.submit_success);
         handler.sendEmptyMessage(5);
         hideAllBtn();
+        presenter.getWorkDetailInfo(jobId);
         scanSuccessHintLayout.setVisibility(View.GONE);
         if (status > 2) {
             scanedLayout.setVisibility(View.VISIBLE);
@@ -1213,7 +1214,6 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             Log.e(TAG,"----turn==2");
             scanedLayout.setVisibility(View.VISIBLE);
             scanCodeLlInner.setVisibility(View.GONE);
-            presenter.getWorkDetailInfo(jobId);
         }
     }
 

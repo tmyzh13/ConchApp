@@ -168,6 +168,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     private int isDanger;
     private List<DangerTypeBean> totalist = new ArrayList<>();
     private String type;
+    private String choice_device_id;
 
     @Override
     protected int getLayoutId() {
@@ -497,6 +498,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         bean.setPart(part);
         bean.setContent(content);
         bean.setCompany(company);
+        bean.setEquipmentId(Integer.parseInt(choice_device_id));
         try {
             bean.setNumberPeople(Integer.parseInt(numPeople));
         } catch (Exception e) {
@@ -682,6 +684,8 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
                 equipment_name_tv.setText(type);
                 String Device_type = data.getStringExtra(Constant.CHECK_DEVICE_TYPE);
                 equipment_model_tv.setText(Device_type);
+                choice_device_id = data.getStringExtra(Constant.CHECK_DEVICE_ID);
+                Log.i(TAG,"--choice_device_id--"+choice_device_id);
             }
         }
     }

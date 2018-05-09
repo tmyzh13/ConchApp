@@ -10,6 +10,15 @@ public class CheckPeopleBean {
     private String id;
     private String realName;
     public String userName;
+    public String orgName;
+
+    public String getOrgName() {
+        return orgName;
+    }
+
+    public void setOrgName(String orgName) {
+        this.orgName = orgName;
+    }
 
     public String getId() {
         return id;

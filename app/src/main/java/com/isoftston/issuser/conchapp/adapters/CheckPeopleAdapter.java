@@ -19,6 +19,11 @@ public class CheckPeopleAdapter extends QuickAdapter<CheckPeopleBean> {
 
     @Override
     protected void convert(BaseAdapterHelper helper, CheckPeopleBean item, int position) {
-        helper.setText(R.id.tv_name,item.getRealName());
+        if (item.getOrgName()!=null){
+            helper.setText(R.id.tv_name,item.getRealName()+"("+item.getOrgName()+")");
+        }else {
+            helper.setText(R.id.tv_name,item.getRealName()+"("+")");
+        }
+
     }
 }

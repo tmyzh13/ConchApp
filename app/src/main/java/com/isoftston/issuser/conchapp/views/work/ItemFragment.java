@@ -3,7 +3,9 @@ package com.isoftston.issuser.conchapp.views.work;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.TextView;
@@ -78,6 +80,7 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
         bType=getArguments().getInt("bigType");
         Log.i("type",type+"--"+bType);
         tv.setText(type);
+        isUpRefresh=true;
         adapter=new WorkMessageItemAdapter(getContext());
         listMessage=new ArrayList<>();
         adapter.addAll(listMessage);
@@ -122,6 +125,8 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
 
             }
         });
+
+        lv_message.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
         lv_message.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -136,6 +141,7 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
 
             }
         });
+
         lv_message.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int scrollState) {
@@ -161,8 +167,8 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
             }
         });
 //        ptrLayout.setRefreshLoadCallback(this);
-    }
 
+    }
     private void loadNextPage(int totalItemCount) {
         ptrLayout.setLoading();
         isDownRefresh = true;
@@ -232,7 +238,6 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
     @Override
     public void getWorkList(List<WorkDetailBean> list) {
         hideLoading();
-        listMessage.addAll(list);
         if (isUpRefresh){
             adapter.clear();
             listMessage.clear();
@@ -240,6 +245,7 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
             isUpRefresh = false;
         }
         if (isDownRefresh){
+            listMessage.addAll(list);
             isDownRefresh = false;
         }
         ptrLayout.complete();
@@ -247,7 +253,7 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
             return;
         }
         adapter.clear();
-        adapter.addAll(list);
+        adapter.replaceAll(listMessage);
         adapter.notifyDataSetChanged();
     }
 

@@ -753,16 +753,19 @@
                         style="@style/project_name_tv_style"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/tab_height"
+                        android:paddingRight="@dimen/dp_10"
                         android:gravity="center_vertical"
                         android:text="@string/work_name" />
 
                     <TextView
                         android:id="@+id/work_content_tv"
-                        android:layout_width="wrap_content"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/activity_horizontal_margin" />
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_centerInParent="true"
+                        android:singleLine="true"
+                        android:ellipsize="end"/>
                 </RelativeLayout>
 
                 <View
