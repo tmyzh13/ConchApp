@@ -44,6 +44,7 @@ public class CommonMessageFragment extends BaseFragment<WorkView,WorkPresenter> 
         adapter = new WorkMessageAdapter(getActivity().getSupportFragmentManager(),tabs, 0);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         Tools.setIndicator(tabLayout,10,10);
     }
 
