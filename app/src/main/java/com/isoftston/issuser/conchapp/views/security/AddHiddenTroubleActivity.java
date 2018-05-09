@@ -264,6 +264,11 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         return new SecurityPresenter();
     }
 
+    @OnClick(R.id.rl_check_people)
+    public void choiceCheckPeople(){
+        startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context,6),100);
+    }
+
     @OnClick(R.id.ll_yh_type)
     public void choiceType(){
         startActivityForResult(ChoiceTypeActivity.getLaucnher(context,1),110);
