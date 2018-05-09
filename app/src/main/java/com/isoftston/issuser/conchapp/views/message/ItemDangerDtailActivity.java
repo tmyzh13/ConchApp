@@ -291,8 +291,12 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
 
         if(bean.getZgqx()!=null)
         zgqx_tv.setText(DateUtils.getMillionToDate(bean.getZgqx()));
-        if(bean.getYhzgzt() == null){
+        if(bean.getYhzgzt() == null || "0".equals(bean.getYhzgzt())){
             yhzt_tv.setText(R.string.un_fix);
+            zgztUnFixImage.setVisibility(View.VISIBLE);
+            zgztFixImage.setVisibility(View.GONE);
+        }else if ("1".equals(bean.getYhzgzt())){
+            yhzt_tv.setText(R.string.on_fix);
             zgztUnFixImage.setVisibility(View.VISIBLE);
             zgztFixImage.setVisibility(View.GONE);
         }else {

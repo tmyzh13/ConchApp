@@ -130,7 +130,7 @@ public class MineFragment extends BaseFragment<UserView, UserPresenter> implemen
         hideLoading();
         userInfo=userInfoBean;
         if (userInfoBean.getSex()!=null){
-            if (userInfoBean.getSex().equals("女")) {
+            if (userInfoBean.getSex().equals(getContext().getResources().getString(R.string.sex_female))) {
                 headIv.setImageResource(R.mipmap.woman_head);
             } else {
                 headIv.setImageResource(R.mipmap.man_head);

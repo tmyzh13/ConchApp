@@ -81,8 +81,8 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
     @Override
     protected void init(Bundle savedInstanceState) {
         titleTv.setText(getString(R.string.individual_center));
-        showUserInfo();
         clicks();
+        showUserInfo();
         changeIcon();
         addPwdListen();
     }
@@ -98,11 +98,11 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
             if (!"".equals(userInfo.getPhoneNum())) {
                 userRoleTv.setText(userInfo.getUserRole());
             }
-            if ("女".equals(userInfo.getSex())) {
+            if (getApplicationContext().getResources().getString(R.string.sex_female).equals(userInfo.getSex())) {
                 radioButtonWoman.setChecked(true);
                 radioButtonMan.setClickable(false);
                 radioButtonMan.setChecked(false);
-            } else if ("男".equals(userInfo.getSex())) {
+            } else if (getApplicationContext().getResources().getString(R.string.sex_male).equals(userInfo.getSex())) {
                 radioButtonMan.setChecked(true);
                 radioButtonWoman.setChecked(false);
                 radioButtonWoman.setClickable(false);

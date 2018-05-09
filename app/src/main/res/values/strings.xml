@@ -48,6 +48,7 @@
     <string name="unit">条</string>
     <string name="unread">未读</string>
     <string name="un_fix">未整改</string>
+    <string name="on_fix">整改中</string>
     <string name="delay_data">逾期</string>
     <string name="danger_work">危险作业</string>
     <string name="common_work">常规作业</string>
