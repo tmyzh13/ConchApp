@@ -13,6 +13,7 @@ import com.corelibs.views.roundedimageview.RoundedTransformationBuilder;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Urls;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
+import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,6 +36,7 @@ public class MessageTypeAdapter extends QuickAdapter<MessageBean> {
         ImageView item_mark=helper.getView(R.id.item_mark);
         ImageView content_pic=helper.getView(R.id.content_pic);
         View readStatus = helper.getView(R.id.view_read_statue);
+        item_mark.setVisibility(View.GONE);
         if ("wz".equals(item.getType())){
             item_icon.setImageResource(R.mipmap.illegal_icon);
             helper.setText(R.id.item_title,context.getString(R.string.wz_message))
@@ -59,17 +61,16 @@ public class MessageTypeAdapter extends QuickAdapter<MessageBean> {
             if (!"".equals(item.getCreateTime())){
                 helper.setText(R.id.item_time,time.format(new Date(Long.valueOf(item.getCreateTime()))));
             }
+            if (item.getYhjb()!=null&& SharePrefsUtils.getValue(context,item.getYhjb(),"").contains(context.getResources().getString(R.string.hidden_trouble_major))){
+                item_mark.setVisibility(View.VISIBLE);
+            }
         }
         if(!item.isRead()){
             readStatus.setVisibility(View.VISIBLE);
         }else{
             readStatus.setVisibility(View.GONE);
         }
-        if (item.getYhjb() != null && ("ZDYH").equals(item.getYhjb())){
-            item_mark.setVisibility(View.VISIBLE);
-        }else if (item_mark.getVisibility() == View.VISIBLE){
-            item_mark.setVisibility(View.GONE);
-        }
+
         if (item.getImgs() != null){
             content_pic.setVisibility(View.VISIBLE);
             String path[] = item.getImgs().split(",");

@@ -283,7 +283,7 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
 
         tv_company.setText(bean.getFxrCompany());
         tv_time.setText(DateUtils.getMillionToString(bean.getFxsj()));
-        sjdwmc_tv.setText(bean.getFxrCompany());
+        sjdwmc_tv.setText(bean.getFindByUnit());
         yhdd_tv.setText(bean.getDangerSite());
         yhbw_tv.setText(bean.getDangerPart());
 
