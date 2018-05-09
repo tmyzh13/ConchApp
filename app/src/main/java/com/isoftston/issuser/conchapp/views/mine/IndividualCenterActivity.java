@@ -94,6 +94,7 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
         userInfo = (UserInfoBean) getIntent().getSerializableExtra("userInfo");
         if(userInfo!=null){
             userNameEt.setText(userInfo.getRealName());
+            userAccountTv.setText(userInfo.getUserName());
             if (!"".equals(userInfo.getPhoneNum())) {
                 userRoleTv.setText(userInfo.getUserRole());
             }
