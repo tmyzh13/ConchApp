@@ -30,6 +30,8 @@ import com.isoftston.issuser.conchapp.utils.MD5Utils;
 import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.utils.Tools;
+import com.isoftston.issuser.conchapp.utils.UpdateManager;
+import com.isoftston.issuser.conchapp.utils.VersionUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.LoginView;
 import com.umeng.message.PushAgent;
 import com.umeng.message.common.inter.ITagManager;
@@ -44,6 +46,7 @@ import butterknife.OnClick;
 
 public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implements LoginView {
 
+    private final String TAG =  LoginActivity.class.getSimpleName();
 
     @Bind(R.id.et_account)
     EditText et_login;
@@ -78,6 +81,7 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
         lp.height= Tools.getStatueHeight(context);
         view_statue.setLayoutParams(lp);
         setBarColor(getResources().getColor(R.color.transparent_black));
+        //presenter.getServerVersion();
     }
 
     @Override
@@ -151,6 +155,19 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
     @Override
     public void getSafeChoiceList(SecuritySearchBean bean) {
 
+    }
+
+    @Override
+    public void getServerVersionCode(String serverCode) {
+        int clientVersion = getClientVersion();
+        Log.i(TAG,"client ver:" + clientVersion + ",server ver:" + serverCode);
+        int compareCode = VersionUtils.compareVersions(String.valueOf(clientVersion),serverCode);
+        if(compareCode == 1)
+        {
+            //强制更新
+            UpdateManager um = new UpdateManager(this);
+            um.showNoticeDialog(serverCode);
+        }
     }
 
     private void addTag(String tag) {
@@ -235,5 +252,17 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
         } else {
             return super.onKeyUp(keyCode, event);
         }
+    }
+
+    private int getClientVersion()
+    {
+        int verCode = -1;
+        try {
+            verCode = context.getPackageManager().getPackageInfo(
+                    context.getPackageName(), 0).versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e(TAG, e.getMessage());
+        }
+        return verCode;
     }
 }

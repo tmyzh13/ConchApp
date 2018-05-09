@@ -14,4 +14,5 @@ public interface LoginView extends BaseView {
     void getCodeSuccess();
     void returnTag(boolean isSuccess,String tag);
     void getSafeChoiceList(SecuritySearchBean bean);
+    void getServerVersionCode(String serverCode);
 }

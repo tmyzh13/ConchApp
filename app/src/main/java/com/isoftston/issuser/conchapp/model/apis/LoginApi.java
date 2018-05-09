@@ -13,6 +13,7 @@ import com.isoftston.issuser.conchapp.model.bean.UserBean;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -38,4 +39,6 @@ public interface LoginApi {
     @POST(Urls.FIND_COMPANY)
     Observable<BaseData<SecuritySearchBean>> findCompanyList(@Header("Access-Token") String token, @Body SafeRequestBean bean);
 
+    @GET(Urls.CHECK_VERSION)
+    Observable<BaseData<String>> getServerVersion();
 }

@@ -118,4 +118,10 @@ public class Urls {
 
     //天气质量
     public static final String AIR = "http://api.help.bj.cn/apis/aqi3";
+
+    //检查版本号
+    public static final String CHECK_VERSION = "version/Android";
+
+    //更新地址
+    public static final String UPDATE_URL = "appDownload/conch.apk";
 }

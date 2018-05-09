@@ -160,5 +160,23 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                 });
     }
 
+    public void getServerVersion(){
+        api.getServerVersion()
+                .compose(new ResponseTransformer<>(this.<BaseData<String>>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData<String>>() {
+
+                    @Override
+                    public void success(BaseData<String> data) {
+                        view.getServerVersionCode(data.data);
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                    }
+                });
+    }
+
 
 }

@@ -13,6 +13,7 @@ import com.corelibs.views.roundedimageview.RoundedTransformationBuilder;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Urls;
 import com.isoftston.issuser.conchapp.model.bean.SecurityTroubleBean;
+import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,10 +35,11 @@ public class SecurityAdapter extends QuickAdapter<SecurityTroubleBean> {
     protected void convert(BaseAdapterHelper helper, SecurityTroubleBean item, int position) {
         ImageView item_icon = helper.getView(R.id.item_icon);
 //        TextView item_title=helper.getView(R.id.item_title);
-//        ImageView item_mark=helper.getView(R.id.item_mark);
+        ImageView item_mark=helper.getView(R.id.item_mark);
 //        String time= DateUtils.getDateToString(item.getCreateTime());
         ImageView content_pic = helper.getView(R.id.content_pic);
         View readStatus = helper.getView(R.id.view_read_statue);
+        item_mark.setVisibility(View.GONE);
 //        .setText(R.id.item_time,DateUtils.getDateToString(item.getCreateTime()));
 //                .setImageUrl(R)
 
@@ -48,6 +50,9 @@ public class SecurityAdapter extends QuickAdapter<SecurityTroubleBean> {
                     .setText(R.id.content, item.getYhms());
             if (!"".equals(item.getCjsj())) {
                 helper.setText(R.id.item_time, time.format(new Date(Long.valueOf(item.getCjsj()))));
+            }
+            if (item.getYhjb()!=null&& SharePrefsUtils.getValue(context,item.getYhjb(),"").contains(context.getResources().getString(R.string.hidden_trouble_major))){
+                item_mark.setVisibility(View.VISIBLE);
             }
         } else {
             item_icon.setImageResource(R.mipmap.illegal_icon);

@@ -292,4 +292,9 @@
     <string name="regret">已撤销</string>
     <string name="loading_failed">加载失败</string>
     <string name="anonymous">匿名</string>
+
+    <string name="update_desc">更新描述</string>
+    <string name="find_new">发现新版本 ：</string>
+    <string name="now_update">现在更新</string>
+    <string name="connect_error">"网络断开，请稍候再试</string>
 </resources>
