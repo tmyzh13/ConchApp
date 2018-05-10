@@ -315,7 +315,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
      * 测试数据
      */
     private void setData() {
-        mAdapter = new ScanInfoAdapter(this, datas);
+        mAdapter = new ScanInfoAdapter(this, datas,workDetailBean);
         mListView.setAdapter(mAdapter);
         setListViewHeightBasedOnChildren(mListView);
     }

@@ -29,6 +29,7 @@ public class DateUtils {
     public final static SimpleDateFormat format_yyyy_MM_dd_HH_mm_ss = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public final static SimpleDateFormat format_yyyy_MM_dd_china = new SimpleDateFormat("yyyy年MM月dd日");
     public final static SimpleDateFormat format_yyyy_MM_dd_HH_mm = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    public final static SimpleDateFormat format_MM_dd_HH_mm = new SimpleDateFormat("MM-dd HH:mm");
     public final static SimpleDateFormat format_yyyy = new SimpleDateFormat("yyyy");
     public final static SimpleDateFormat format_MM = new SimpleDateFormat("MM");
     public final static SimpleDateFormat format_dd = new SimpleDateFormat("dd");

@@ -15,8 +15,10 @@ import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Urls;
 import com.isoftston.issuser.conchapp.model.bean.ImageInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.ScanInfo;
+import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
 import com.isoftston.issuser.conchapp.utils.DateUtils;
 import com.isoftston.issuser.conchapp.views.message.ImageDetilActivity;
+import com.isoftston.issuser.conchapp.views.work.ScanCodeActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +31,15 @@ public class ScanInfoAdapter extends BaseAdapter {
     private Context context;
     private List<ImageInfoBean> datas;
     private LayoutInflater mInflater;
+    private WorkDetailBean workDetailBean;
 
-    public ScanInfoAdapter(Context context, List<ImageInfoBean> datas) {
+    public ScanInfoAdapter(Context context, List<ImageInfoBean> datas,WorkDetailBean workDetailBean) {
         this.context = context;
         this.datas = datas;
+        this.workDetailBean=workDetailBean;
         mInflater = LayoutInflater.from(context);
     }
+
 
     @Override
     public int getCount() {
@@ -61,12 +66,24 @@ public class ScanInfoAdapter extends BaseAdapter {
             holder.time = convertView.findViewById(R.id.last_time_scan_code);
             holder.address = convertView.findViewById(R.id.project_address_tv);
             holder.lookPicture = convertView.findViewById(R.id.look_picture);
+            holder.tv_provide_name=convertView.findViewById(R.id.tv_provide_name);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.time.setText(DateUtils.format_yyyy_MM_dd_china.format(scanInfo.getCreateTime()));
+        holder.time.setText(DateUtils.format_MM_dd_HH_mm.format(scanInfo.getCreateTime()));
         holder.address.setText(scanInfo.getLocation());
+        if (workDetailBean.gas!=null && scanInfo.getUserId().equals(workDetailBean.gas)){
+                holder.tv_provide_name.setText(workDetailBean.gasName);
+        }else if (scanInfo.getUserId().equals(workDetailBean.leading)){
+            holder.tv_provide_name.setText(workDetailBean.leadingName);
+        }else if (scanInfo.getUserId().equals(workDetailBean.guardian)){
+            holder.tv_provide_name.setText(workDetailBean.guardianName);
+        }else if (scanInfo.getUserId().equals(workDetailBean.auditor)){
+                holder.tv_provide_name.setText(workDetailBean.auditorName);
+        }else if(scanInfo.getUserId().equals(workDetailBean.approver)){
+            holder.tv_provide_name.setText(workDetailBean.approverName);
+        }
         final ArrayList<String> list = new ArrayList<>();
         String images=scanInfo.getImgs();
         if(images!=null){
@@ -94,5 +111,6 @@ public class ScanInfoAdapter extends BaseAdapter {
         public TextView time;
         public TextView address;
         public TextView lookPicture;
+        public TextView tv_provide_name;
     }
 }
