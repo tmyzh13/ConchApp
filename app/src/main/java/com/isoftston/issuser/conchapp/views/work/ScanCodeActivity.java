@@ -1152,8 +1152,9 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
 //            isDangerWork = false;
 //        }
         if (isDangerWork) {
-            gasCheckerTv.setText(workDetailBean.gas);
+            gasCheckerTv.setText(workDetailBean.gasName);
             dangerWorkRl.setVisibility(View.VISIBLE);
+//            dangerWorkTypeTv.setText(workDetailBean.gett);
         } else {
             dangerWorkRl.setVisibility(View.GONE);
         }
