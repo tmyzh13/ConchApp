@@ -8,6 +8,8 @@ import com.corelibs.base.BasePresenter;
 import com.corelibs.subscriber.ResponseSubscriber;
 import com.isoftston.issuser.conchapp.model.apis.WorkDetailApi;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
+import com.isoftston.issuser.conchapp.model.bean.DangerWorkTypeBean;
+import com.isoftston.issuser.conchapp.model.bean.FixWorkBean;
 import com.isoftston.issuser.conchapp.model.bean.RequestWorkDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.ResponseDataBean;
 import com.isoftston.issuser.conchapp.model.bean.RevokeJobBody;
@@ -169,6 +171,24 @@ public class WorkDetailPresenter extends BasePresenter<WorkDetailView> {
                         view.getWorkError();
                     }
 
+                });
+    }
+    //危险作业类型
+    public void getDangerWorkType(FixWorkBean bean){
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        String token1=token.replaceAll("\"","");
+        api.dangerWorkType(token1,bean)
+                .compose(new ResponseTransformer<>(this.<BaseData<DangerWorkTypeBean>>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData<DangerWorkTypeBean>>() {
+                    @Override
+                    public void success(BaseData<DangerWorkTypeBean> workBeanBaseData) {
+                        view.getDangerWorkTypeResult(workBeanBaseData.data.list);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                    }
                 });
     }
 }

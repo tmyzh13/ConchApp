@@ -73,10 +73,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
     EditText et_description;
     @Bind(R.id.rl_description)
     RelativeLayout rl_description;
-    @Bind(R.id.tv_start_time)
-    TextView tv_start_time;
-    @Bind(R.id.tv_end_time)
-    TextView tv_end_time;
+
     @Bind(R.id.ll_description)
     LinearLayout ll_description;
     @Bind(R.id.tv_illegal_describ_title)
@@ -100,6 +97,9 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
 
     @Bind(R.id.tv_trouble_company)
     TextView tv_trouble_company;
+
+    @Bind(R.id.ll_isFix)
+    LinearLayout isFixLayOut;
 
     public String startTime,endTime;
     private List<String> findCompanyList=new ArrayList<>();
@@ -156,10 +156,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
 
 
 //        input_find_company.setInputText(getString(R.string.hidden_trouble_find_company),null);
-        starttime= Tools.getCurrentTime();
-        endtime=Tools.getCurrentTime();
-        tv_start_time.setText(starttime);
-        tv_end_time.setText(endtime);
+
         et_description.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -248,6 +245,17 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 yh_grade_name = gradeAdapter.getItem(i).toString();
                 yh_grade = gradeListId.get(i);
+
+                //重大隐患无法整改
+                if(yh_grade_name.equals(getString(R.string.hidden_trouble_major_full)))
+                {
+                    isFixLayOut.setVisibility(View.GONE);
+                }
+                else
+                {
+                    isFixLayOut.setVisibility(View.VISIBLE);
+                }
+
             }
 
             @Override
@@ -353,10 +361,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         //提交新增信息 暂时结束页面
         getLoadingDialog().show();
         String yh_name=input_trouble_name.getContent().trim();
-        String startTimeStr = tv_start_time.getText().toString().trim();
-        long startTime = TextUtils.isEmpty(String.valueOf(startTimeStr))? 0 : DateUtils.getDateToLongMS(startTimeStr);
-        String endTimeStr = tv_end_time.getText().toString().trim();
-        long endTime = TextUtils.isEmpty(String.valueOf(endTimeStr))? 0 : DateUtils.getDateToLongMS(endTimeStr);
+
         String check_people=tv_check_people.getText().toString();
 
         String yh_address=input_place.getContent().trim();
@@ -371,7 +376,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         if (TextUtils.isEmpty(yh_name)||TextUtils.isEmpty(find_company)||TextUtils.isEmpty(yh_company)||
                 TextUtils.isEmpty(check_people)||TextUtils.isEmpty(yh_grade)||TextUtils.isEmpty(yh_address)||
                 TextUtils.isEmpty(yh_position)||TextUtils.isEmpty(yh_from)||TextUtils.isEmpty(yh_type)
-                ||TextUtils.isEmpty(fix)||TextUtils.isEmpty(yh_describle)||TextUtils.isEmpty(yh_grade_name)||TextUtils.isEmpty(yh_grade)||TextUtils.isEmpty(yh_from_id)||tv_yh_type.equals(getResources().getString(R.string.input_text))
+                ||(TextUtils.isEmpty(fix) && !yh_grade_name.equals(getString(R.string.hidden_trouble_major_full)))||TextUtils.isEmpty(yh_describle)||(TextUtils.isEmpty(yh_grade_name))||TextUtils.isEmpty(yh_grade)||TextUtils.isEmpty(yh_from_id)||tv_yh_type.equals(getResources().getString(R.string.input_text))
                 ||tv_find_company.equals(getResources().getString(R.string.input_text)) || tv_trouble_company.equals(getResources().getString(R.string.input_text))){
             ToastMgr.show(R.string.input_all_message);
             getLoadingDialog().dismiss();
@@ -390,18 +395,27 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         bean.setYhly(yh_from_id);
         bean.setFxrmc(check_people);
         bean.setFxrId(check_peole_id);
-        bean.setFxrq(startTime);
-        bean.setCjsj(endTime);
+        //bean.setFxrq(startTime);
+        //bean.setCjsj(endTime);
         //bean.setYhlx(yh_type);
         bean.setYhlx(yh_lx_id);
         bean.setYhjb(yh_grade);
         bean.setYhdd(yh_address);
         bean.setYhbw(yh_position);
-        if (fix.equals("是")){
-            bean.setSfxczg("1");
-        }else {
+
+        if(yh_grade_name.equals(getString(R.string.hidden_trouble_major_full)))
+        {
             bean.setSfxczg("0");
         }
+        else
+        {
+            if (fix.equals("是")){
+                bean.setSfxczg("1");
+            }else {
+                bean.setSfxczg("0");
+            }
+        }
+
         bean.setYhms(yh_describle);
         bean.setTplj(picString);
 //        bean.setKnzchg("1");
@@ -427,54 +441,11 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         return isBigger;
     }
 
-    @OnClick(R.id.tv_start_time)
-    public void choiceStartTime(){
-        showDatePickerDialog(tv_start_time,1);
-    }
-
-    @OnClick(R.id.tv_end_time)
-    public void choiceEndTime(){
-        showDatePickerDialog(tv_end_time,2);
-    }
-
-    private String starttime;
-    private String endtime;
-
-    private void showDatePickerDialog(final TextView textView, final int i) {
-
-
-        CustomDatePicker customDatePicker = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
 
 
 
-            @Override
-            public void handle(String time) { // 回调接口，获得选中的时间
-                try {
-                    if (i==1){
-                        starttime = DateUtils.format_yyyy_MM_dd_HH_mm.format(DateUtils.format_yyyy_MM_dd_HH_mm.parse(time));
-                        endtime=tv_end_time.getText().toString();
-                    }else {
-                        starttime = tv_start_time.getText().toString();
-                        endtime=DateUtils.format_yyyy_MM_dd_HH_mm.format(DateUtils.format_yyyy_MM_dd_HH_mm.parse(time));
-                    }
-                    if (isDateOneBigger(starttime,endtime)){
-                        Toast.makeText(AddHiddenTroubleActivity.this,R.string.hidden_info,Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    textView.setText(DateUtils.format_yyyy_MM_dd_HH_mm.format(DateUtils.format_yyyy_MM_dd_HH_mm.parse(time)));
-//                    textView.setTextColor(getResources().getColor(R.color.black));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
 
-            }
-        }, "1970-01-01 00:00", "2099-12-12 00:00"); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
-        customDatePicker.showSpecificTime(true); // 不显示时和分
-        //customDatePicker.showYearMonth();
-        customDatePicker.setIsLoop(false); // 不允许循环滚动
-        //customDatePicker.show(dateText.getText().toString() + " " + timeText.getText().toString());
-        customDatePicker.show(DateUtils.format_yyyy_MM_dd_HH_mm.format(new Date()));
-    }
+
 
     @Override
     public void onLoadingCompleted() {

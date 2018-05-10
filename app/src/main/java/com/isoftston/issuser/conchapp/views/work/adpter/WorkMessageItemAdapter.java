@@ -35,12 +35,12 @@ public class WorkMessageItemAdapter extends QuickAdapter<WorkDetailBean> {
                 .setText(R.id.item_time, time)
                 .setText(R.id.content,item.getContent())
                 .setText(R.id.work_adress,item.getPart());
-        if (status==0){
+        if (status==0||status==2){
             helper.setText(R.id.work_accept, context.getString(R.string.un_approved))
                     .setTextColor(R.id.work_accept,context.getResources().getColor(R.color.red));
             helper.setText(R.id.unclosed, context.getString(R.string.un_closed))
                     .setTextColor(R.id.unclosed,context.getResources().getColor(R.color.red));
-        }else if (status==3){
+        }else if (status==3||status==4){
             helper.setText(R.id.work_accept, context.getString(R.string.approved))
                     .setTextColor(R.id.work_accept,context.getResources().getColor(R.color.app_gray));
             helper.setText(R.id.unclosed, context.getString(R.string.un_closed))
@@ -51,21 +51,10 @@ public class WorkMessageItemAdapter extends QuickAdapter<WorkDetailBean> {
             helper.setText(R.id.unclosed, context.getString(R.string.closed))
                 .setTextColor(R.id.unclosed,context.getResources().getColor(R.color.app_gray));
         }else if (status==1){
-            helper.setText(R.id.work_accept, context.getString(R.string.regret))
-                    .setTextColor(R.id.work_accept,context.getResources().getColor(R.color.app_gray));
-//            helper.setText(R.id.unclosed, context.getString(R.string.closed))
-//                    .setTextColor(R.id.unclosed,context.getResources().getColor(R.color.app_gray));
-            helper.setVisible(R.id.unclosed,false);
-        }else if(status==2){
             helper.setText(R.id.work_accept, context.getString(R.string.un_approved))
                     .setTextColor(R.id.work_accept,context.getResources().getColor(R.color.red));
-            helper.setText(R.id.unclosed, context.getString(R.string.un_closed))
-                    .setTextColor(R.id.unclosed,context.getResources().getColor(R.color.red));
-        }else if (status==4){
-            helper.setText(R.id.work_accept, context.getString(R.string.approved))
-                    .setTextColor(R.id.work_accept,context.getResources().getColor(R.color.app_gray));
-            helper.setText(R.id.unclosed, context.getString(R.string.un_closed))
-                    .setTextColor(R.id.unclosed,context.getResources().getColor(R.color.red));
+            helper.setText(R.id.unclosed, context.getString(R.string.regret))
+                    .setTextColor(R.id.unclosed,context.getResources().getColor(R.color.app_gray));
         }
 
 

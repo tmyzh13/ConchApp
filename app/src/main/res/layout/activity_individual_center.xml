@@ -195,33 +195,15 @@
                     android:textSize="14sp"
                     android:visibility="gone" />
 
-                <RadioGroup
-                    android:id="@+id/radio_group"
+                <TextView
+                    android:id="@+id/tv_user_sex"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
-                    android:focusable="false"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/radio_button_man"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/sex_male"
-                        android:textColor="@color/text_color_main"
-                        android:textSize="14sp" />
-
-                    <RadioButton
-                        android:id="@+id/radio_button_woman"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:text="@string/sex_female"
-                        android:textColor="@color/text_color_main"
-                        android:textSize="14sp" />
-
-                </RadioGroup>
+                    android:text=""
+                    android:textColor="@color/des_text_color"
+                    android:textSize="14sp" />
             </RelativeLayout>
         </RelativeLayout>
 

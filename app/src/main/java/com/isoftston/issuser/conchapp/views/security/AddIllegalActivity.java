@@ -57,10 +57,7 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
     NavBar navBar;
     @Bind(R.id.input_illegal_name)
     InputView input_illegal_name;
-    @Bind(R.id.tv_start_time)
-    TextView tv_start_time;
-    @Bind(R.id.tv_end_time)
-    TextView tv_end_time;
+
     @Bind(R.id.tv_check_people)
     TextView tv_check_people;
     @Bind(R.id.tv_illegal_type)
@@ -125,8 +122,7 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
 
         startTime= Tools.getCurrentTime();
         endTime=Tools.getCurrentTime();
-        tv_start_time.setText(startTime);
-        tv_end_time.setText(endTime);
+
 
         et_description.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -190,10 +186,7 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
     public void confirmInfo(){
         getLoadingDialog().show();
         String name=input_illegal_name.getContent().trim();
-        String startTimeStr = tv_start_time.getText().toString().trim();
-        long startTime = TextUtils.isEmpty(String.valueOf(startTimeStr))? 0 : DateUtils.getDateToLongMS(startTimeStr);
-        String endTimeStr = tv_end_time.getText().toString().trim();
-        long endTime = TextUtils.isEmpty(String.valueOf(endTimeStr))? 0 : DateUtils.getDateToLongMS(endTimeStr);
+
         String check_people=tv_check_people.getText().toString();
         String wz_type=tv_illegal_type.getText().toString();
         String wz_address=input_illegal_place.getContent().trim();
@@ -214,8 +207,7 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
 //        bean.setYhly("1");
         bean.setFxrmc(check_people);
         bean.setFxrId(wz_people_id);
-        bean.setFxrq(startTime);
-        bean.setCjsj(endTime);
+
         bean.setYhlx(wz_type_id);
 //        bean.setYhjb("1");
         bean.setYhdd(wz_address);
@@ -359,54 +351,6 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
         return isBigger;
     }
 
-    @OnClick(R.id.tv_start_time)
-    public void choiceStartTime(){
-        showDatePickerDialog(tv_start_time,1);
-    }
-
-    @OnClick(R.id.tv_end_time)
-    public void choiceEndTime(){
-        showDatePickerDialog(tv_end_time,2);
-    }
-
-    private String starttime;
-    private String endtime;
-
-    private void showDatePickerDialog(final TextView textView, final int i) {
-
-
-        CustomDatePicker customDatePicker = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
-
-
-
-            @Override
-            public void handle(String time) { // 回调接口，获得选中的时间
-                try {
-                    if (i==1){
-                        starttime = DateUtils.format_yyyy_MM_dd_HH_mm.format(DateUtils.format_yyyy_MM_dd_HH_mm.parse(time));
-                        endtime=tv_end_time.getText().toString();
-                    }else {
-                        starttime = tv_start_time.getText().toString();
-                        endtime=DateUtils.format_yyyy_MM_dd_HH_mm.format(DateUtils.format_yyyy_MM_dd_HH_mm.parse(time));
-                    }
-                    if (isDateOneBigger(starttime,endtime)){
-                        Toast.makeText(AddIllegalActivity.this,R.string.hidden_info,Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    textView.setText(DateUtils.format_yyyy_MM_dd_HH_mm.format(DateUtils.format_yyyy_MM_dd_HH_mm.parse(time)));
-//                    textView.setTextColor(getResources().getColor(R.color.black));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }, "1970-01-01 00:00", "2099-12-12 00:00"); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
-        customDatePicker.showSpecificTime(true); // 不显示时和分
-        //customDatePicker.showYearMonth();
-        customDatePicker.setIsLoop(false); // 不允许循环滚动
-        //customDatePicker.show(dateText.getText().toString() + " " + timeText.getText().toString());
-        customDatePicker.show(DateUtils.format_yyyy_MM_dd_HH_mm.format(new Date()));
-    }
 
     @Override
     public void onLoadingCompleted() {

@@ -32,6 +32,8 @@ import com.corelibs.utils.ToastMgr;
 import com.google.zxing.client.android.CaptureActivity;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
+import com.isoftston.issuser.conchapp.model.bean.DangerTypeBean;
+import com.isoftston.issuser.conchapp.model.bean.FixWorkBean;
 import com.isoftston.issuser.conchapp.model.bean.ImageInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.ResponseDataBean;
 import com.isoftston.issuser.conchapp.model.bean.SubmitJobBody;
@@ -62,7 +64,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     private static final int OPEN_ACTIVITY_SCAN_CODE = 102;
     private static final int OPEN_ACTIVITY_TAKE_PHOTO_CODE = 103;
     private static final int MODIFY_CODE = 104;
-
+    private List<DangerTypeBean> totalist = new ArrayList<>();
     @Bind(R.id.nav)
     NavBar nav;
     @Bind(R.id.iv_add)
@@ -303,7 +305,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         getLoadingDialog().show();
         presenter.getUserInfo();
         presenter.getWorkInfo();
-
+        presenter.getDangerWorkType(new FixWorkBean());
 //        scan();
 //        setData();
 //        scaned();
@@ -1152,8 +1154,15 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
 //            isDangerWork = false;
 //        }
         if (isDangerWork) {
-            gasCheckerTv.setText(workDetailBean.gas);
+            gasCheckerTv.setText(workDetailBean.gasName);
             dangerWorkRl.setVisibility(View.VISIBLE);
+            for (DangerTypeBean bean:totalist){
+                if (workDetailBean.getType().equals(bean.getCode())){
+                    dangerWorkTypeTv.setText(bean.getName());
+                }
+                break;
+            }
+
         } else {
             dangerWorkRl.setVisibility(View.GONE);
         }
@@ -1233,6 +1242,14 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         workBeanList = list;
         //获取作业详情
         presenter.getWorkDetailInfo(jobId);
+    }
+
+    @Override
+    public void getDangerWorkTypeResult(List<DangerTypeBean> list) {
+
+        totalist=list;
+
+
     }
 
     @Override

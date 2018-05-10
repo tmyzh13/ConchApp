@@ -2,6 +2,8 @@ package com.isoftston.issuser.conchapp.model.apis;
 
 import com.isoftston.issuser.conchapp.constants.Urls;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
+import com.isoftston.issuser.conchapp.model.bean.DangerWorkTypeBean;
+import com.isoftston.issuser.conchapp.model.bean.FixWorkBean;
 import com.isoftston.issuser.conchapp.model.bean.RequestWorkDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.ResponseDataBean;
 import com.isoftston.issuser.conchapp.model.bean.RevokeJobBody;
@@ -44,4 +46,7 @@ public interface WorkDetailApi {
     //获取作业信息
     @POST(Urls.GET_WORK_INFO)
     Observable<BaseData<WorkListBean>> getWorkInfo(@Header("Access-Token") String token, @Body WorkListRequestBean bean);
+
+    @POST(Urls.DANGER_WORK_TYPE)
+    Observable<BaseData<DangerWorkTypeBean>> dangerWorkType(@Header("Access-Token") String token, @Body FixWorkBean bean);
 }
