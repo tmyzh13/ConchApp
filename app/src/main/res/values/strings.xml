@@ -110,6 +110,7 @@
     <string name="hidden_trouble_position">隐患部位</string>
     <string name="hidden_trouble_input">填写</string>
     <string name="hidden_trouble_major">重大</string>
+    <string name="hidden_trouble_major_full">重大隐患</string>
     <string name="hidden_trouble_normal">一般</string>
     <string name="hidden_trouble_source">隐患来源</string>
     <string name="hidden_info">发现日期必须早于登记时间</string>

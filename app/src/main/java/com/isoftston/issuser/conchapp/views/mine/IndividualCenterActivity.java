@@ -43,12 +43,6 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
     TextView userNameEt;
     @Bind(R.id.user_role)
     TextView userRoleTv;//角色/监控人员
-    @Bind(R.id.radio_group)
-    RadioGroup radioGroup;
-    @Bind(R.id.radio_button_man)
-    RadioButton radioButtonMan;
-    @Bind(R.id.radio_button_woman)
-    RadioButton radioButtonWoman;
     @Bind(R.id.user_account)
     TextView userAccountTv;//账号
     @Bind(R.id.show_pwd_layout)
@@ -63,6 +57,9 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
     TextView userCompanyTv;
     @Bind(R.id.user_department)
     TextView userDepartmentTv;
+
+    @Bind(R.id.tv_user_sex)
+    TextView userSexTv;
 
     private boolean isShowPwd = false;
     private UserInfoBean userInfo;
@@ -98,17 +95,12 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
             if (!"".equals(userInfo.getPhoneNum())) {
                 userRoleTv.setText(userInfo.getUserRole());
             }
-            if (getApplicationContext().getResources().getString(R.string.sex_female).equals(userInfo.getSex())) {
-                radioButtonWoman.setChecked(true);
-                radioButtonMan.setClickable(false);
-                radioButtonMan.setChecked(false);
+            if (getApplicationContext().getResources().getString(R.string.sex_female).equals(userInfo.getSex()))
+            {
+                userSexTv.setText(getString(R.string.sex_female));
             } else if (getApplicationContext().getResources().getString(R.string.sex_male).equals(userInfo.getSex())) {
-                radioButtonMan.setChecked(true);
-                radioButtonWoman.setChecked(false);
-                radioButtonWoman.setClickable(false);
+                userSexTv.setText(getString(R.string.sex_male));
             }
-            radioButtonMan.setClickable(false);
-            radioButtonWoman.setClickable(false);
             if (!"".equals(userInfo.getPhoneNum())) {
                 userPhoneNumEt.setText(userInfo.getPhoneNum());
             }
@@ -176,12 +168,7 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
         backIv.setOnClickListener(this);
         sureTv.setOnClickListener(this);
         showPwdLayout.setOnClickListener(this);
-        boolean isMan = false;
-        if (isMan) {
-            radioButtonMan.setChecked(true);
-        } else {
-            radioButtonWoman.setChecked(true);
-        }
+
     }
 
     @Override
