@@ -75,7 +75,13 @@ public class MessageTypeAdapter extends QuickAdapter<MessageBean> {
             content_pic.setVisibility(View.VISIBLE);
             String path[] = item.getImgs().split(",");
             Log.d("path","path="+path[0]);
-            Glide.with(context).load(Urls.ROOT + path[0])
+            String imagePath;
+            if (path[0].startsWith("upload")){
+                imagePath = Urls.ROOT+path[0];
+            }else {
+                imagePath = Urls.IMAGE_ROOT+path[0];
+            }
+            Glide.with(context).load(imagePath)
                     .centerCrop()
                     .override(320,160)
                     .transform(new CenterCrop(context), new RoundedTransformationBuilder().cornerRadius(20).build(context))

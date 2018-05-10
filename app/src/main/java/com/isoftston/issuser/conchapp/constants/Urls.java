@@ -14,6 +14,8 @@ public class Urls {
 //    public static final String ROOT="http://10.28.124.196:8099/conch/";
 //    public static final String ROOT="http://10.28.124.195:8099/conch/";//田调试用4.26
 
+
+    public static final String IMAGE_ROOT = "http://safe.conch.cn/";
     //Appkey
     public static final String APPKEY="5ad6ae01f29d981e84000090";
     //Umeng Message Secret

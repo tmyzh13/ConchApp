@@ -269,7 +269,11 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
         if(bean.getDangerPhoto()!=null){
             picPath = bean.getDangerPhoto().split(",");
             for (String path : picPath){
-                urls.add(Urls.ROOT+path);
+                if (path.startsWith("upload")){
+                    urls.add(Urls.ROOT+path);
+                }else {
+                    urls.add(Urls.IMAGE_ROOT+path);
+                }
             }
         }
 
@@ -278,7 +282,11 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
 
             zgpicPath = bean.getRepairPhoto().split(",");
             for (String path : zgpicPath){
-                zgurls.add(Urls.ROOT+path);
+                if (path.startsWith("upload")){
+                    zgurls.add(Urls.ROOT+path);
+                }else {
+                    zgurls.add(Urls.IMAGE_ROOT+path);
+                }
             }
         }
 

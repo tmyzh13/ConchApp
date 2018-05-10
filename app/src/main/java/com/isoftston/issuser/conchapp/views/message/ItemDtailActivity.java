@@ -183,8 +183,6 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
             ImageView iv = view.findViewById(R.id.view_image);
             Glide.with(this).load(urls.get(i))
                     .centerCrop()
-                    .override(320,160)
-                    .transform(new CenterCrop(this), new RoundedTransformationBuilder().cornerRadius(20).build(this))
                     .into(iv);
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -256,7 +254,12 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
 
             picPath = bean.getTplj().split(",");
             for (String path : picPath){
-                urls.add(Urls.ROOT+path);
+                if (path.startsWith("upload")){
+                    urls.add(Urls.ROOT+path);
+                }else {
+                    urls.add(Urls.IMAGE_ROOT+path);
+                }
+
             }
         }
 
