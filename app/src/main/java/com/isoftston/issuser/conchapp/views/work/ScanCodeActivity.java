@@ -202,7 +202,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     private boolean isOneTurnDone = false;//第一轮是否完成
 
     private boolean isCommited = false;
-    private boolean isDangerWork = false;
+    private boolean isDangerWork ;
     private String jobId = "";
     private String userId = "";
     private boolean isGasPersonDown = false;//检测人是否提交
@@ -859,7 +859,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
 
         jobId = getIntent().getStringExtra("jobId");
         isDangerWork = getIntent().getBooleanExtra("isDangerWork",false);
-        Log.e(TAG, "----jobId:" + jobId);
+        Log.e(TAG, "----jobId:" + jobId+"----"+isDangerWork);
         clicks();
     }
 
@@ -1148,19 +1148,20 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         workContentTv.setText(workDetailBean.content);
         workCompanyTv.setText(workDetailBean.company);
         workNumberTv.setText(String.valueOf(workDetailBean.numberPeople));
-//        if (workDetailBean.type == 0) {
-//            isDangerWork = true;
-//        } else {
-//            isDangerWork = false;
-//        }
+        if (workDetailBean.isDanger == 1) {
+            isDangerWork = true;
+        } else {
+            isDangerWork = false;
+        }
         if (isDangerWork) {
             gasCheckerTv.setText(workDetailBean.gasName);
             dangerWorkRl.setVisibility(View.VISIBLE);
             for (DangerTypeBean bean:totalist){
                 if (workDetailBean.getType().equals(bean.getCode())){
                     dangerWorkTypeTv.setText(bean.getName());
+                    break;
                 }
-                break;
+
             }
 
         } else {
