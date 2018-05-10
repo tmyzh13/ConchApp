@@ -1,6 +1,8 @@
 package com.isoftston.issuser.conchapp.views.work;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
@@ -423,7 +425,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
                 break;
 
             case R.id.bt_submit:
-                getNewJobInfo();
+                showDialogView();
                 break;
             case R.id.chose_gas_checker_iv:
                 break;
@@ -449,7 +451,26 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     String company;
     public String gasId;
     public String gasName=null;
-
+    private void showDialogView() {
+        AlertDialog alert = new AlertDialog.Builder(context).setTitle(R.string.information_tips)
+                .setMessage(R.string.check_agein)
+                .setPositiveButton(R.string.resure, new DialogInterface.OnClickListener() {
+                    @Override//处理确定按钮点击事件
+                    public void onClick(DialogInterface dialog, int which) {
+                        getNewJobInfo();
+                        dialog.cancel();//对话框关闭。
+                    }
+                })
+                .setNegativeButton(R.string.wait_again, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();//对话框关闭。
+                    }
+                })
+                .setCancelable(true)
+               .create();
+        alert.show();
+    }
     private void getNewJobInfo() {
         NewWorkBean bean = new NewWorkBean();
         String name = et_name.getText().toString().trim();

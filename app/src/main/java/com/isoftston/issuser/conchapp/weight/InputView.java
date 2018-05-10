@@ -159,7 +159,7 @@ public class InputView extends LinearLayout {
      * @return
      */
     public String getContent() {
-        if (!TextUtils.isEmpty(tv_result.getText().toString())) {
+        if (!TextUtils.isEmpty(et_input.getText().toString().trim())) {
             return tv_result.getText().toString();
         } else {
             return et_input.getText().toString();
