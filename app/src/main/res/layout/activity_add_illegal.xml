@@ -25,7 +25,43 @@
                 android:id="@+id/input_illegal_name"
                 android:background="@drawable/ll_hidden_trouble_bg"
                 />
+            <LinearLayout
+                android:layout_marginTop="3dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/ll_hidden_trouble_bg"
+                >
+                <LinearLayout  android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="25dp"
+                    android:paddingRight="25dp">
+                    <TextView
+                        style="@style/text_normal"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        android:text="@string/hidden_trouble_find_date"
+                        />
+                    <TextView
+                        android:id="@+id/tv_start_time"
+                        android:layout_marginLeft="100dp"
+                        style="@style/text_normal"
+                        android:textColor="@color/text_light"
+                        android:gravity="center_vertical|right"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:text="2018-3-22 00:00"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:background="@color/et_gray"
+                    />
 
+            </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_find_company"
@@ -50,7 +86,7 @@
                     android:layout_centerVertical="true" />
             </RelativeLayout>
             <View
-               style="@style/view_line"/>
+                style="@style/view_line"/>
             <RelativeLayout
                 android:id="@+id/rl_wz_company"
                 android:layout_width="match_parent"
@@ -115,13 +151,13 @@
                     android:textColor="@color/black"
                     />
 
-                    <TextView
-                        style="@style/text_normal"
-                        android:layout_centerVertical="true"
-                        android:text="@string/input_text"
-                        android:layout_alignParentRight="true"
-                         android:id="@+id/tv_illegal_type"
-                        />
+                <TextView
+                    style="@style/text_normal"
+                    android:layout_centerVertical="true"
+                    android:text="@string/input_text"
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/tv_illegal_type"
+                    />
 
             </RelativeLayout>
             <com.isoftston.issuser.conchapp.weight.InputView
@@ -153,7 +189,7 @@
                     android:id="@+id/rl_description"
                     >
                     <TextView
-                      android:layout_marginBottom="10dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginTop="10dp"
                         style="@style/text_normal"
                         android:id="@+id/tv_illegal_describ_title"
@@ -222,7 +258,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-               android:background="@color/white"
+                android:background="@color/white"
                 android:paddingLeft="25dp"
                 android:paddingRight="15dp"
                 android:id="@+id/rl_photo"
@@ -234,21 +270,21 @@
                     android:text="@string/illegal_photo"
                     />
 
-                    <LinearLayout
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:orientation="vertical"
-                        android:background="@drawable/ll_oval_bg"
-                        android:gravity="center"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        >
+                <LinearLayout
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/ll_oval_bg"
+                    android:gravity="center"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    >
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/photo" />
-                    </LinearLayout>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/photo" />
+                </LinearLayout>
             </RelativeLayout>
             <View
                 style="@style/view_line"/>
