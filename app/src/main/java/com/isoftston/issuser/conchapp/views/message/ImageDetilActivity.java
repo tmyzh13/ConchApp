@@ -126,7 +126,7 @@ public class ImageDetilActivity extends BaseActivity{
                     .load(urls.get(i))
 //                    .placeholder(errorImageId)
 //                    .error(errorImageId)
-                    .fitCenter()
+                    .centerCrop()
                     .into(imageView);
             imageList.add(view);
         }

@@ -9,7 +9,8 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginTop="@dimen/dp_30"
+        android:layout_marginBottom="@dimen/dp_10" />
 
     <LinearLayout
         android:id="@+id/ll_point"
