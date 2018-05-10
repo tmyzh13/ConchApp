@@ -122,37 +122,8 @@ public class ImageDetilActivity extends BaseActivity{
             });
             // 启用图片缩放功能
             imageView.enable();
-//            Glide.with(this).load(urls.get(i))
-//                    .centerCrop()
-//                    .override(320,480)
-////                    .transform(new CenterCrop(this), new RoundedTransformationBuilder().cornerRadius(0).build(this))
-//                    .into(imageView);
             Glide.with(this)
                     .load(urls.get(i))
-//                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-//                    .listener(new RequestListener<String, GlideDrawable>() {
-//                        @Override
-//                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-//                            return false;
-//                        }
-//
-//                        @Override
-//                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-//                            if (imageView == null) {
-//                                return false;
-//                            }
-//                            if (imageView.getScaleType() != ImageView.ScaleType.FIT_XY) {
-//                                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-//                            }
-//                            ViewGroup.LayoutParams params = imageView.getLayoutParams();
-//                            int vw = imageView.getWidth() - imageView.getPaddingLeft() - imageView.getPaddingRight();
-//                            float scale = (float) vw / (float) resource.getIntrinsicWidth();
-//                            int vh = Math.round(resource.getIntrinsicHeight() * scale);
-//                            params.height = vh + imageView.getPaddingTop() + imageView.getPaddingBottom();
-//                            imageView.setLayoutParams(params);
-//                            return false;
-//                        }
-//                    })
 //                    .placeholder(errorImageId)
 //                    .error(errorImageId)
                     .fitCenter()

@@ -411,6 +411,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                         scanCodeLl.setVisibility(View.GONE);
                     }
                     isChargePersonDown = true;
+                    flage0=true;
                     for (ImageInfoBean imageInfoBean : datas) {
                         if (imageInfoBean.getUserId().equals(bean.guardian)) {
                             changeGuardiansToGreen();

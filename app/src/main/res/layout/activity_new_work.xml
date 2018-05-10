@@ -159,6 +159,7 @@
                 android:background="@color/et_gray"></View>
 
             <LinearLayout
+                android:id="@+id/ll_danger_work"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/ll_hidden_trouble_bg"
