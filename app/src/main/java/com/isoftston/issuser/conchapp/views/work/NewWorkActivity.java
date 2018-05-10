@@ -662,6 +662,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     public void addWorkSuccess() {
         ToastUtils.showtoast(context, getString(R.string.submit_success));
         finish();
+        setResult(117);
     }
 
     @Override

@@ -153,8 +153,8 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     TextView dangerWorkTypeTv;//危险作业类型
     @Bind(R.id.gas_checker_tv)
     TextView gasCheckerTv;//气体检测人
-//    @Bind(R.id.gas_rl)
-//    RelativeLayout gasRl;
+    @Bind(R.id.gas_rl)
+    RelativeLayout gasRl;
     @Bind(R.id.danger_work_rl)
     RelativeLayout dangerWorkRl;//危险作业
     @Bind(R.id.scan_success_layout)
@@ -1113,8 +1113,11 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
 
         String gasName=workDetailBean.gasName;
         if (gasName!=null){
+            gasRl.setVisibility(View.VISIBLE);
             gasCheckerTv.setText(gasName);
             gasRelnameTv.setText(gasName);
+        }else {
+            gasRl.setVisibility(View.GONE);
         }
         String chargeName = workDetailBean.leadingName;
         if (chargeName != null) {
