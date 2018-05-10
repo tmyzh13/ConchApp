@@ -164,7 +164,8 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
             //指定其大小
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(20, 20);
             if (i != 0){
-                params.leftMargin = 20;
+                params.leftMargin = 30;
+                params.bottomMargin = 20;
             }
             v.setLayoutParams(params);
             ll.addView(v);

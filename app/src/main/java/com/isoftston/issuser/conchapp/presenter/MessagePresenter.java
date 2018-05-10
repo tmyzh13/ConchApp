@@ -84,7 +84,7 @@ public class MessagePresenter extends ListPagePresenter<MessageView> {
         String token1=token.replaceAll("\"","");
         api.getMessageDetailInfo(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<MessageDetailBean>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<MessageDetailBean>>() {
+                .subscribe(new ResponseSubscriber<BaseData<MessageDetailBean>>(view) {
 
                     @Override
                     public void success(BaseData<MessageDetailBean> messageDetailBeanBaseData) {

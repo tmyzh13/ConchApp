@@ -35,6 +35,8 @@ public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordView,Forg
     NavBar nav;
 //    @Bind(R.id.et_acount)
 //    EditText et_email;
+    @Bind(R.id.tv_title)
+    TextView tv_title;
     @Bind(R.id.tv_hint)
     TextView tv_hint;
     @Bind(R.id.et_code)
@@ -60,10 +62,11 @@ public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordView,Forg
     @Override
     protected void init(Bundle savedInstanceState) {
         PushAgent.getInstance(context).onAppStart();
-        nav.setColorRes(R.color.transparent);
         setBarColor(getResources().getColor(R.color.transparent_black));
+        tv_title.setTextColor(getResources().getColor(R.color.text_color));
+        nav.setColorRes(R.color.white);
+        nav.setNavTitle(getString(R.string.forget_password));
         nav.showBack(2);
-
         String text =getString(R.string.forget_password_hint);
         SpannableStringBuilder style=new SpannableStringBuilder(text);
         style.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.app_light_blue)),5,10, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);     //设置指定位置textview的背景颜色

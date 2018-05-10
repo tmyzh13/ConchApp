@@ -180,7 +180,8 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
             //指定其大小
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(20, 20);
             if (i != 0){
-                params.leftMargin = 20;
+                params.leftMargin = 30;
+                params.bottomMargin = 20;
             }
             v.setLayoutParams(params);
             ll.addView(v);
@@ -199,8 +200,6 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
             ImageView iv = view.findViewById(R.id.view_image);
             Glide.with(this).load(urls.get(i))
                     .centerCrop()
-                    .override(320,160)
-                    .transform(new CenterCrop(this), new RoundedTransformationBuilder().cornerRadius(20).build(this))
                     .into(iv);
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override

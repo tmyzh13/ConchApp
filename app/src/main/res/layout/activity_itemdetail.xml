@@ -12,30 +12,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:clipChildren="false" />
+    <RelativeLayout
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:clipChildren="false" />
+        <LinearLayout
+            android:id="@+id/ll"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_alignBottom="@id/vp"
+            android:orientation="horizontal" />
+    </RelativeLayout>
+
     <LinearLayout
-        android:id="@+id/ll"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/vp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal" />
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/dp_10"
         android:clipChildren="true"
         android:orientation="vertical">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
             android:clipChildren="true">
 
             <LinearLayout
@@ -43,8 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/shape_corner_white"
+                android:layout_marginTop="10dp"
                 android:clickable="true"
                 android:clipChildren="true"
                 android:orientation="vertical">
