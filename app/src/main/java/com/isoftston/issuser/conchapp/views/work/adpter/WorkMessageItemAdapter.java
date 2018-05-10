@@ -1,6 +1,7 @@
 package com.isoftston.issuser.conchapp.views.work.adpter;
 
 import android.content.Context;
+import android.transition.Visibility;
 import android.widget.ImageView;
 
 import com.corelibs.utils.adapter.BaseAdapterHelper;
@@ -52,11 +53,12 @@ public class WorkMessageItemAdapter extends QuickAdapter<WorkDetailBean> {
         }else if (status==1){
             helper.setText(R.id.work_accept, context.getString(R.string.regret))
                     .setTextColor(R.id.work_accept,context.getResources().getColor(R.color.app_gray));
-            helper.setText(R.id.unclosed, context.getString(R.string.closed))
-                    .setTextColor(R.id.unclosed,context.getResources().getColor(R.color.app_gray));
+//            helper.setText(R.id.unclosed, context.getString(R.string.closed))
+//                    .setTextColor(R.id.unclosed,context.getResources().getColor(R.color.app_gray));
+            helper.setVisible(R.id.unclosed,false);
         }else if(status==2){
-            helper.setText(R.id.work_accept, context.getString(R.string.approved))
-                    .setTextColor(R.id.work_accept,context.getResources().getColor(R.color.app_gray));
+            helper.setText(R.id.work_accept, context.getString(R.string.un_approved))
+                    .setTextColor(R.id.work_accept,context.getResources().getColor(R.color.red));
             helper.setText(R.id.unclosed, context.getString(R.string.un_closed))
                     .setTextColor(R.id.unclosed,context.getResources().getColor(R.color.red));
         }else if (status==4){

@@ -1,6 +1,8 @@
 package com.isoftston.issuser.conchapp.views.work;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
@@ -100,7 +102,8 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     RelativeLayout rl_agree;
     @Bind(R.id.authorize_name_tv)
     TextView authorizeNameTv;//批准人
-
+    @Bind(R.id.rl_dangerwork_type)
+    RelativeLayout rl_dangerwork_type;
     @Bind(R.id.rl_equipment_type)
     RelativeLayout rl_equipment_type;//设备类型
     @Bind(R.id.equipment_type_tv)
@@ -120,7 +123,8 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     InputView work_address_input;//作业点
     @Bind(R.id.worker_num_input)
     InputView worker_num_input;//作业人数
-
+    @Bind(R.id.ll_danger_work)
+    LinearLayout ll_danger_work;
     @Bind(R.id.rg_is_danger_work)
     RadioGroup rg_is_danger_work;
     @Bind(R.id.rb_yes)
@@ -165,10 +169,10 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     private List<String> areaList = new ArrayList<>();
     private List<WorkBean> workBeanList = new ArrayList<>();
     private ArrayAdapter<String> spAdapter;
-    private int isDanger;
     private List<DangerTypeBean> totalist = new ArrayList<>();
     private String type;
     private String choice_device_id;
+    private boolean isLimit=false;
 
     @Override
     protected int getLayoutId() {
@@ -177,7 +181,12 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        nav.setNavTitle(getString(R.string.new_work));
+        isDangerWork = getIntent().getIntExtra("isDangerWork", 0);
+        if (isDangerWork==0){
+            nav.setNavTitle(getString(R.string.new_danger_work));
+        }else {
+            nav.setNavTitle(getString(R.string.new_common_work));
+        }
         nav.setColorRes(R.color.white);
         nav.setTitleColor(getResources().getColor(R.color.black));
         nav.showBack(2);
@@ -271,16 +280,19 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             }
         });
 
-        isDangerWork = getIntent().getIntExtra("isDangerWork", 0);
+
         if (isDangerWork == 0) {
             rb_yes.setChecked(true);
             rb_no.setChecked(false);
             rb_no.setClickable(false);
+            ll_danger_work.setVisibility(View.GONE);
             rl_gas_checker.setVisibility(View.VISIBLE);
         } else {
             rb_no.setChecked(true);
             rb_yes.setChecked(false);
             rb_yes.setClickable(false);
+            rl_dangerwork_type.setVisibility(View.GONE);
+            ll_danger_work.setVisibility(View.GONE);
             rl_gas_checker.setVisibility(View.GONE);
         }
         presenter.getDangerWorkType(new FixWorkBean());
@@ -302,8 +314,10 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (adapter.getItem(i) != null && adapter.getItem(i).equals(getString(R.string.danger_work_type_item))) {
 //                    rl_charger.setVisibility(View.GONE);
+                    isLimit = true;
                     rl_gas_checker.setVisibility(View.VISIBLE);
                 } else {
+                    isLimit=false;
                     rl_charger.setVisibility(View.VISIBLE);
                     rl_gas_checker.setVisibility(View.GONE);
                 }
@@ -406,9 +420,6 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             case R.id.rl_keeper:
                 startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context, 2), CHOSE_KEPPER_CODE);
                 break;
-            case R.id.rl_dangerwork_type:
-
-                break;
             case R.id.rl_equipment_type:
                 startActivityForResult(ChoiceDeviceTypeActivity.getLaucnher(context), CHOSE_DEVICE_CODE);
                 break;
@@ -419,7 +430,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
                 break;
 
             case R.id.bt_submit:
-                getNewJobInfo();
+                showDialogView();
                 break;
             case R.id.chose_gas_checker_iv:
                 break;
@@ -444,8 +455,27 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     String area;
     String company;
     public String gasId;
-    public String gasName;
-
+    public String gasName=null;
+    private void showDialogView() {
+        AlertDialog alert = new AlertDialog.Builder(context).setTitle(R.string.information_tips)
+                .setMessage(R.string.check_agein)
+                .setPositiveButton(R.string.resure, new DialogInterface.OnClickListener() {
+                    @Override//处理确定按钮点击事件
+                    public void onClick(DialogInterface dialog, int which) {
+                        getNewJobInfo();
+                        dialog.cancel();//对话框关闭。
+                    }
+                })
+                .setNegativeButton(R.string.wait_again, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();//对话框关闭。
+                    }
+                })
+                .setCancelable(true)
+               .create();
+        alert.show();
+    }
     private void getNewJobInfo() {
         NewWorkBean bean = new NewWorkBean();
         String name = et_name.getText().toString().trim();
@@ -463,31 +493,31 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         String content = description_et.getText().toString().trim();
         company = PreferencesHelper.getData(Constant.ORG_NAME);//作业单位。用户所属公司
         String numPeople = worker_num_input.getContent().trim();
+        gasName=tv_gas_checker.getText().toString();
 //        int type = 0;//危险作业类型(手动选择)
 
         //1危险、0常规作业。前页面传递
-        if (rb_yes.isChecked()) {
-            isDanger = 1;
-        } else if (rb_no.isChecked()) {
-            isDanger = 0;
+//        if (rb_yes.isChecked()) {
+//            isDanger = 1;
+//        } else if (rb_no.isChecked()) {
+//            isDanger = 0;
+//        }
+        if (isDangerWork==0&& isLimit){
+            if (TextUtils.isEmpty(gasName)||gasName.equals(getString(R.string.gas_checker))){
+                ToastMgr.show(R.string.input_all_message);
+                return;
+            }
         }
-
-        if(TextUtils.isEmpty(leading) && TextUtils.isEmpty(gasName)){
-            ToastMgr.show(R.string.input_all_message);
-            return;
-        }
-
         if (TextUtils.isEmpty(name) || startTime == 0
-                || TextUtils.isEmpty(name) || TextUtils.isEmpty(equipmentType) || TextUtils.isEmpty(equipmentCode)
+                || TextUtils.isEmpty(equipmentType) || TextUtils.isEmpty(equipmentCode)
                 || TextUtils.isEmpty(equipmentName) || TextUtils.isEmpty(area) || TextUtils.isEmpty(part)
                 || TextUtils.isEmpty(content) || TextUtils.isEmpty(company) || TextUtils.isEmpty(numPeople)
-                || TextUtils.isEmpty(String.valueOf(type))|| TextUtils.isEmpty(guardian)
+                || TextUtils.isEmpty(guardian)||TextUtils.isEmpty(leading)
                 || TextUtils.isEmpty(auditor) || TextUtils.isEmpty(approver)) {
             ToastMgr.show(R.string.input_all_message);
             return;
         }
-        bean.setGas(gasId);
-        bean.setGasName(gasName);
+
         bean.setName(name);
         bean.setStartTime(startTime);
         bean.setEndTime(endTime);
@@ -505,13 +535,21 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             ToastMgr.show(R.string.input_num);
             return;
         }
+        if (isDangerWork==0&&isLimit){
+            bean.setGas(gasId);
+            bean.setGasName(gasName);
+            }
         bean.setType(type);
         bean.setLeading(leading);
-
         bean.setGuardian(guardian);
         bean.setAuditor(auditor);
         bean.setApprover(approver);
-        bean.setIsDanger(isDanger);
+        //1危险、0常规作业。前页面传递
+        if (isDangerWork==0){
+            bean.setIsDanger(1);
+        }else {
+            bean.setIsDanger(0);
+        }
 //        bean.setOrgId("1");
         presenter.addWork(bean);
     }
@@ -658,7 +696,6 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             if (requestCode == CHOSE_CHARGER_CODE) {
                 tv_gas_checker.setText(chosedUserName);
                 gasId = chosedUserId;
-                gasName = chosedUserName;
             } else if (requestCode == CHOSE_CHEKER_CODE) {
                 checkerNameTv.setText(chosedUserName);
                 auditor = chosedUserId;

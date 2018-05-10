@@ -138,10 +138,14 @@
     <string name="write">填写</string>
     <string name="checker">审核人</string>
     <string name="new_work">新建作业</string>
+    <string name="new_danger_work">新建危险作业</string>
+    <string name="new_common_work">新建常规作业</string>
     <string name="fix_work">项目作业修改</string>
     <string name="manager_fix">负责人修改</string>
     <string name="authorize">批准人</string>
     <string name="sure">确定</string>
+    <string name="resure">再次确认</string>
+    <string name="wait_again">再等等</string>
     <string name="equipment_type">设备类型</string>
     <string name="equipment_number">设备编号</string>
     <string name="equipment_name">设备名称</string>
@@ -299,4 +303,5 @@
     <string name="find_new">发现新版本 ：</string>
     <string name="now_update">现在更新</string>
     <string name="connect_error">"网络断开，请稍候再试</string>
+    <string name="check_agein">请检查相关信息</string>
 </resources>

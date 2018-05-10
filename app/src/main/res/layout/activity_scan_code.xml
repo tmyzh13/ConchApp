@@ -494,7 +494,26 @@
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:background="@drawable/shape_corner_white"
                 android:orientation="vertical">
+                <RelativeLayout
+                    android:id="@+id/gas_rl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
+                    <TextView
+                        style="@style/project_name_tv_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/tab_height"
+                        android:gravity="center_vertical"
+                        android:text="@string/gas_checker" />
+
+                    <TextView
+                        android:id="@+id/gas_checker_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin" />
+                </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/lead_rl"
                     android:layout_width="match_parent"
@@ -744,29 +763,7 @@
                 android:background="@drawable/shape_corner_white"
                 android:orientation="vertical">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/co"
-                        style="@style/project_name_tv_style"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/tab_height"
-                        android:paddingRight="@dimen/dp_10"
-                        android:gravity="center_vertical"
-                        android:text="@string/work_name" />
-
-                    <TextView
-                        android:id="@+id/work_content_tv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/co"
-                        android:layout_alignParentRight="true"
-                        android:gravity="end"
-                        android:layout_marginRight="@dimen/activity_horizontal_margin"
-                        android:layout_centerInParent="true" />
-                </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -864,24 +861,27 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
-                    android:id="@+id/gas_rl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <TextView
+                        android:id="@+id/co"
                         style="@style/project_name_tv_style"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/tab_height"
+                        android:paddingRight="@dimen/dp_10"
                         android:gravity="center_vertical"
-                        android:text="@string/gas_checker" />
+                        android:text="@string/work_name" />
 
                     <TextView
-                        android:id="@+id/gas_checker_tv"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/work_content_tv"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/co"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/activity_horizontal_margin" />
+                        android:gravity="end"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_centerInParent="true" />
                 </RelativeLayout>
 
             </LinearLayout>

@@ -315,7 +315,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
      * 测试数据
      */
     private void setData() {
-        mAdapter = new ScanInfoAdapter(this, datas);
+        mAdapter = new ScanInfoAdapter(this, datas,workDetailBean);
         mListView.setAdapter(mAdapter);
         setListViewHeightBasedOnChildren(mListView);
     }
@@ -411,6 +411,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                         scanCodeLl.setVisibility(View.GONE);
                     }
                     isChargePersonDown = true;
+                    flage0=true;
                     for (ImageInfoBean imageInfoBean : datas) {
                         if (imageInfoBean.getUserId().equals(bean.guardian)) {
                             changeGuardiansToGreen();
