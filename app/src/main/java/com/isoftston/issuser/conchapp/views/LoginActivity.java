@@ -23,10 +23,9 @@ import com.corelibs.utils.ToastMgr;
 import com.isoftston.issuser.conchapp.MainActivity;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
-import com.isoftston.issuser.conchapp.model.bean.LoginUserBean;
 import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
 import com.isoftston.issuser.conchapp.presenter.LoginPresenter;
-import com.isoftston.issuser.conchapp.utils.MD5Utils;
+import com.isoftston.issuser.conchapp.utils.LanguageUtil;
 import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.utils.Tools;
@@ -68,6 +67,12 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
 
     @Override
     protected int getLayoutId() {
+        if (SharePrefsUtils.getValue(getViewContext(),"app_language","").equals("en")){
+//            LanguageUtil.set(getViewContext(),true);
+
+        }else {
+//            LanguageUtil.set(getViewContext(),false);
+        }
         if (!TextUtils.isEmpty(PreferencesHelper.getData(Constant.LOGIN_STATUE))){
             startActivity(MainActivity.getLauncher(context));
             finish();
@@ -236,6 +241,21 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
     @OnClick(R.id.tv_language)
     public void changeLanguage(){
         //中英文切换
+        if (SharePrefsUtils.getValue(getViewContext(),"app_language","").equals("en")){
+            SharePrefsUtils.putValue(getViewContext(),"app_language","zh");
+
+        }else {
+            SharePrefsUtils.putValue(getViewContext(),"app_language","en");
+        }
+
+        Intent intent = new Intent(this, LoginActivity.class);
+
+        //开始新的activity同时移除之前所有的activity
+
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        startActivity(intent);
+
     }
 
     @OnClick(R.id.tv_find_password)
