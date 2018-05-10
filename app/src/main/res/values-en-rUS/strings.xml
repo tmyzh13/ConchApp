@@ -2,21 +2,21 @@
     <!--app名称-->
     <string name="app_name_main">海螺预警</string>
 
-    <string name="language">EN</string>
+    <string name="language">中</string>
     <!--首页tab-->
-    <string name="home_message">信息</string>
+    <string name="home_message">info</string>
     <string name="home_security">隐患</string>
     <string name="home_work">作业</string>
     <string name="home_check">检修</string>
     <string name="home_mine">我的</string>
-    <string name="login_success">登录成功</string>
+    <string name="login_success">login success</string>
     <!--登录-->
-    <string name="login">登录</string>
-    <string name="login_confirm">确定</string>
-    <string name="login_account_hint">用户名</string>
-    <string name="login_password_hint">密码</string>
-    <string name="login_forget_password">忘记了登录密码？</string>
-    <string name="login_find_password">找回密码</string>
+    <string name="login">log in</string>
+    <string name="login_confirm">confirm</string>
+    <string name="login_account_hint">username</string>
+    <string name="login_password_hint">password</string>
+    <string name="login_forget_password">Forgot your login password？</string>
+    <string name="login_find_password">recover password</string>
     <string name="login_account_empty">请输入账号</string>
     <string name="login_password_empty">请输入密码</string>
 
