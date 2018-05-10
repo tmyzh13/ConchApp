@@ -1,5 +1,6 @@
 package com.isoftston.issuser.conchapp.views.work;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -189,6 +190,7 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
     @Override
     public void onResume() {
         super.onResume();
+        isUpRefresh=true;
         if (bType==2){
             if (type.equals(getString(R.string.my_approve))){
                 presenter.getWorkList("",2,"0");
@@ -292,4 +294,5 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
     public void onRefreshing(PtrFrameLayout frame) {
 
     }
+
 }

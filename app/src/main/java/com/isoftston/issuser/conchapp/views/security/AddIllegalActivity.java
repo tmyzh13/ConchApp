@@ -57,7 +57,8 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
     NavBar navBar;
     @Bind(R.id.input_illegal_name)
     InputView input_illegal_name;
-
+    @Bind(R.id.tv_start_time)
+    TextView tv_start_time;
     @Bind(R.id.tv_check_people)
     TextView tv_check_people;
     @Bind(R.id.tv_illegal_type)
@@ -115,7 +116,8 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
         navBar.setTitleColor(getResources().getColor(R.color.black));
         navBar.showBack(2);
         setBarColor(getResources().getColor(R.color.transparent_black));
-
+        startTime= Tools.getCurrentTime();
+        tv_start_time.setText(startTime);
         //设置栏目标题
         input_illegal_name.setInputText(getString(R.string.illegal_detail_name),null);
         input_illegal_place.setInputText(getString(R.string.illegal_place),null);
@@ -196,7 +198,8 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
         }else if (famale_rb.isChecked()){
             nm=0;
         }
-
+        String startTimeStr = tv_start_time.getText().toString().trim();
+        long startTime = TextUtils.isEmpty(String.valueOf(startTimeStr))? 0 : DateUtils.getDateToLongMS(startTimeStr);
         AddYHBean bean=new AddYHBean();
         bean.setYhmc(name);
 //        bean.setGsId("1");//公司id
@@ -207,7 +210,7 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
 //        bean.setYhly("1");
         bean.setFxrmc(check_people);
         bean.setFxrId(wz_people_id);
-
+        bean.setFxrq(startTime);
         bean.setYhlx(wz_type_id);
 //        bean.setYhjb("1");
         bean.setYhdd(wz_address);
@@ -351,6 +354,42 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
         return isBigger;
     }
 
+    @OnClick(R.id.tv_start_time)
+    public void choiceStartTime(){
+        showDatePickerDialog(tv_start_time,1);
+    }
+
+    private String starttime;
+
+    private void showDatePickerDialog(final TextView textView, final int i) {
+
+
+        CustomDatePicker customDatePicker = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
+
+
+
+            @Override
+            public void handle(String time) { // 回调接口，获得选中的时间
+                try {
+                    if (i==1){
+                        starttime = DateUtils.format_yyyy_MM_dd_HH_mm.format(DateUtils.format_yyyy_MM_dd_HH_mm.parse(time));
+                    }else {
+                        starttime = tv_start_time.getText().toString();
+                    }
+                    textView.setText(DateUtils.format_yyyy_MM_dd_HH_mm.format(DateUtils.format_yyyy_MM_dd_HH_mm.parse(time)));
+//                    textView.setTextColor(getResources().getColor(R.color.black));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, "1970-01-01 00:00", "2099-12-12 00:00"); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
+        customDatePicker.showSpecificTime(true); // 不显示时和分
+        //customDatePicker.showYearMonth();
+        customDatePicker.setIsLoop(false); // 不允许循环滚动
+        //customDatePicker.show(dateText.getText().toString() + " " + timeText.getText().toString());
+        customDatePicker.show(DateUtils.format_yyyy_MM_dd_HH_mm.format(new Date()));
+    }
 
     @Override
     public void onLoadingCompleted() {

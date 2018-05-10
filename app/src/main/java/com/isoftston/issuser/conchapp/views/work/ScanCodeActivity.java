@@ -153,8 +153,8 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     TextView dangerWorkTypeTv;//危险作业类型
     @Bind(R.id.gas_checker_tv)
     TextView gasCheckerTv;//气体检测人
-//    @Bind(R.id.gas_rl)
-//    RelativeLayout gasRl;
+    @Bind(R.id.gas_rl)
+    RelativeLayout gasRl;
     @Bind(R.id.danger_work_rl)
     RelativeLayout dangerWorkRl;//危险作业
     @Bind(R.id.scan_success_layout)
@@ -202,7 +202,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     private boolean isOneTurnDone = false;//第一轮是否完成
 
     private boolean isCommited = false;
-    private boolean isDangerWork = false;
+    private boolean isDangerWork ;
     private String jobId = "";
     private String userId = "";
     private boolean isGasPersonDown = false;//检测人是否提交
@@ -859,7 +859,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
 
         jobId = getIntent().getStringExtra("jobId");
         isDangerWork = getIntent().getBooleanExtra("isDangerWork",false);
-        Log.e(TAG, "----jobId:" + jobId);
+        Log.e(TAG, "----jobId:" + jobId+"----"+isDangerWork);
         clicks();
     }
 
@@ -1113,8 +1113,11 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
 
         String gasName=workDetailBean.gasName;
         if (gasName!=null){
+            gasRl.setVisibility(View.VISIBLE);
             gasCheckerTv.setText(gasName);
             gasRelnameTv.setText(gasName);
+        }else {
+            gasRl.setVisibility(View.GONE);
         }
         String chargeName = workDetailBean.leadingName;
         if (chargeName != null) {
@@ -1148,19 +1151,20 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         workContentTv.setText(workDetailBean.content);
         workCompanyTv.setText(workDetailBean.company);
         workNumberTv.setText(String.valueOf(workDetailBean.numberPeople));
-//        if (workDetailBean.type == 0) {
-//            isDangerWork = true;
-//        } else {
-//            isDangerWork = false;
-//        }
+        if (workDetailBean.isDanger == 1) {
+            isDangerWork = true;
+        } else {
+            isDangerWork = false;
+        }
         if (isDangerWork) {
             gasCheckerTv.setText(workDetailBean.gasName);
             dangerWorkRl.setVisibility(View.VISIBLE);
             for (DangerTypeBean bean:totalist){
                 if (workDetailBean.getType().equals(bean.getCode())){
                     dangerWorkTypeTv.setText(bean.getName());
+                    break;
                 }
-                break;
+
             }
 
         } else {

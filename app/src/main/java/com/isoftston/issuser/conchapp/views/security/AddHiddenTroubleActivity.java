@@ -101,6 +101,9 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
     @Bind(R.id.ll_isFix)
     LinearLayout isFixLayOut;
 
+    @Bind(R.id.tv_start_time)
+    TextView tv_start_time;
+
     public String startTime,endTime;
     private List<String> findCompanyList=new ArrayList<>();
     private List<String> checkCompanyList=new ArrayList<>();
@@ -153,6 +156,8 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
             input_place.setInputText(getString(R.string.hidden_trouble_place),null);
             input_position.setInputText(getString(R.string.hidden_trouble_position),null);
 
+        startTime= Tools.getCurrentTime();
+        tv_start_time.setText(startTime);
 
 
 //        input_find_company.setInputText(getString(R.string.hidden_trouble_find_company),null);
@@ -362,6 +367,9 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         getLoadingDialog().show();
         String yh_name=input_trouble_name.getContent().trim();
 
+        String startTimeStr = tv_start_time.getText().toString().trim();
+        long startTime = TextUtils.isEmpty(String.valueOf(startTimeStr))? 0 : DateUtils.getDateToLongMS(startTimeStr);
+
         String check_people=tv_check_people.getText().toString();
 
         String yh_address=input_place.getContent().trim();
@@ -395,7 +403,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         bean.setYhly(yh_from_id);
         bean.setFxrmc(check_people);
         bean.setFxrId(check_peole_id);
-        //bean.setFxrq(startTime);
+        bean.setFxrq(startTime);
         //bean.setCjsj(endTime);
         //bean.setYhlx(yh_type);
         bean.setYhlx(yh_lx_id);
@@ -441,9 +449,42 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         return isBigger;
     }
 
+    @OnClick(R.id.tv_start_time)
+    public void choiceStartTime(){
+        showDatePickerDialog(tv_start_time,1);
+    }
+
+    private String starttime;
+
+    private void showDatePickerDialog(final TextView textView, final int i) {
+
+
+        CustomDatePicker customDatePicker = new CustomDatePicker(this, new CustomDatePicker.ResultHandler() {
 
 
 
+            @Override
+            public void handle(String time) { // 回调接口，获得选中的时间
+                try {
+                    if (i==1){
+                        starttime = DateUtils.format_yyyy_MM_dd_HH_mm.format(DateUtils.format_yyyy_MM_dd_HH_mm.parse(time));
+                    }else {
+                        starttime = tv_start_time.getText().toString();
+                    }
+                    textView.setText(DateUtils.format_yyyy_MM_dd_HH_mm.format(DateUtils.format_yyyy_MM_dd_HH_mm.parse(time)));
+//                    textView.setTextColor(getResources().getColor(R.color.black));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, "1970-01-01 00:00", "2099-12-12 00:00"); // 初始化日期格式请用：yyyy-MM-dd HH:mm，否则不能正常运行
+        customDatePicker.showSpecificTime(true); // 不显示时和分
+        //customDatePicker.showYearMonth();
+        customDatePicker.setIsLoop(false); // 不允许循环滚动
+        //customDatePicker.show(dateText.getText().toString() + " " + timeText.getText().toString());
+        customDatePicker.show(DateUtils.format_yyyy_MM_dd_HH_mm.format(new Date()));
+    }
 
 
 

@@ -177,5 +177,4 @@ public class WorkFragment extends BaseFragment implements View.OnClickListener {
         }
     }
 
-
 }
