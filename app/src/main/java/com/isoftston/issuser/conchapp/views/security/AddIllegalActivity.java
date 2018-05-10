@@ -239,29 +239,7 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
 //    public void choiceCheckPeople(){
 //        startActivityForResult(ChoiceCheckPeopleActivity.getLaucnher(context,7),100);
 //    }
-
-    @OnClick(R.id.tv_illegal_type)
-    public void choiceType(){
-        if (window == null){
-            window = new ChooseListPopupWindow(context);
-            List<String> list =new ArrayList<>();
-            list.add("类型一");
-            list.add("类型二");
-            list.add("类型三");
-            window.setDatas(list);
-            window.setPopOnItemClickListener(new ChooseListPopupWindow.PopOnItemClick() {
-                @Override
-                public void choice(String content) {
-                    tv_illegal_type.setText(content);
-                }
-            });
-        }
-
-
-
-        window.showAtBottom(navBar);
-    }
-
+    
 
     @OnClick(R.id.ll_description)
     public void choiceDescription(){
