@@ -9,7 +9,7 @@ public class Urls {
   //  public static final String ROOT="http://10.0.11.208:8099/conch/";//客户环境
     public static final String ROOT="http://220.180.131.37:18000/conch/";//客户环境
 //    public static final String ROOT="http://10.28.124.196:8099/conch/";//测试环境
- //   public static final String ROOT="http://10.28.124.188:8099/conch/";
+//    public static final String ROOT="http://10.28.124.188:8099/conch/";
 //    public static final String ROOT="http://10.28.124.116:8099/conch/";
 //    public static final String ROOT="http://10.28.124.196:8099/conch/";
 //    public static final String ROOT="http://10.28.124.195:8099/conch/";//田调试用4.26

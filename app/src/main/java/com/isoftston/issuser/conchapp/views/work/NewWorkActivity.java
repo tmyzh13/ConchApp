@@ -181,7 +181,12 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        nav.setNavTitle(getString(R.string.new_work));
+        isDangerWork = getIntent().getIntExtra("isDangerWork", 0);
+        if (isDangerWork==0){
+            nav.setNavTitle(getString(R.string.new_danger_work));
+        }else {
+            nav.setNavTitle(getString(R.string.new_common_work));
+        }
         nav.setColorRes(R.color.white);
         nav.setTitleColor(getResources().getColor(R.color.black));
         nav.showBack(2);
@@ -275,7 +280,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             }
         });
 
-        isDangerWork = getIntent().getIntExtra("isDangerWork", 0);
+
         if (isDangerWork == 0) {
             rb_yes.setChecked(true);
             rb_no.setChecked(false);
