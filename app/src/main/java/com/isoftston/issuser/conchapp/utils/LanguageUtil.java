@@ -20,7 +20,7 @@ public class LanguageUtil {
             configuration.locale = Locale.US;
         } else {
             //设置中文
-            configuration.locale = Locale.ENGLISH;
+            configuration.locale = Locale.CHINESE;
         }
         //更新配置
         context.getResources().updateConfiguration(configuration, displayMetrics);
