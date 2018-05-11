@@ -173,6 +173,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     private String type;
     private String choice_device_id;
     private boolean isLimit=false;
+    private String company;
 
     @Override
     protected int getLayoutId() {
@@ -477,7 +478,6 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         String content = description_et.getText().toString().trim();
         String numPeople = worker_num_input.getContent().trim();
         gasName=tv_gas_checker.getText().toString();
-        String company=tv_work_company.getText().toString();
 //        int type = 0;//危险作业类型(手动选择)
 
         //1危险、0常规作业。前页面传递
@@ -495,7 +495,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         if (TextUtils.isEmpty(name) || startTime == 0
                 || TextUtils.isEmpty(equipmentType) || TextUtils.isEmpty(equipmentCode)
                 || TextUtils.isEmpty(equipmentName) || TextUtils.isEmpty(area) || TextUtils.isEmpty(part)
-                || TextUtils.isEmpty(content) || TextUtils.isEmpty(company) ||company.equals(R.string.input_text)|| TextUtils.isEmpty(numPeople)
+                || TextUtils.isEmpty(content) || TextUtils.isEmpty(company) || TextUtils.isEmpty(numPeople)
                 || TextUtils.isEmpty(guardian)||TextUtils.isEmpty(leading)
                 || TextUtils.isEmpty(auditor) || TextUtils.isEmpty(approver)) {
             ToastMgr.show(R.string.input_all_message);
@@ -711,8 +711,8 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         }else if (resultCode==130){
             if (requestCode==128){
                String find_company_id=data.getStringExtra(Constant.FIND_COMPANY_ID);
-               String find_company = data.getStringExtra(Constant.FIND_COMPANY_NAME);
-               tv_work_company.setText(find_company);
+                company = data.getStringExtra(Constant.FIND_COMPANY_NAME);
+               tv_work_company.setText(company);
             }
         }
     }
