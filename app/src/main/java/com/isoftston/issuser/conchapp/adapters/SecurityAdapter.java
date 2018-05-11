@@ -80,7 +80,7 @@ public class SecurityAdapter extends QuickAdapter<SecurityTroubleBean> {
             String path[] = item.getTplj().split(",");
             Log.d("path", "path=" + path[0]);
             String imagePath;
-            if (path[0].startsWith("upload")){
+            if (!path[0].startsWith("uploadDir")){
                 imagePath = Urls.ROOT+path[0];
             }else {
                 imagePath = Urls.IMAGE_ROOT+path[0];

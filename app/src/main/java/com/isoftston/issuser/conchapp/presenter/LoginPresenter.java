@@ -129,7 +129,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                     public void success(BaseData<PushBean> pushBesn) {
 
                         if(pushBesn!=null&&pushBesn.isSuccess()){
-                            view.returnTag(pushBesn.isSuccess(),pushBesn.data.getTag());
+                            view.returnTag(pushBesn.data.getResult(),pushBesn.data.getTag());
                         }
 
 

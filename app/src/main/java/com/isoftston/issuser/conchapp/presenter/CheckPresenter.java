@@ -106,7 +106,7 @@ public class CheckPresenter extends ListPagePresenter<CheckView> {
         String token1=token.replaceAll("\"","");
         api.checkDevices(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<DeviceBean>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<DeviceBean>>() {
+                .subscribe(new ResponseSubscriber<BaseData<DeviceBean>>(view) {
                     @Override
                     public void success(BaseData<DeviceBean> deviceBeanBaseData) {
                         view.checkDeviceResult(deviceBeanBaseData.data);
@@ -148,7 +148,7 @@ public class CheckPresenter extends ListPagePresenter<CheckView> {
         String token1=token.replaceAll("\"","");
         api.getAllDeviceInfo(token1,checkAllDeviceBean)
                 .compose(new ResponseTransformer<>(this.<BaseData<DeviceListBean>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<DeviceListBean>>() {
+                .subscribe(new ResponseSubscriber<BaseData<DeviceListBean>>(view) {
                     @Override
                     public void success(BaseData<DeviceListBean> deviceBeanBaseData) {
                         Log.i("zt",deviceBeanBaseData.data.list.size()+"");
@@ -191,7 +191,7 @@ public class CheckPresenter extends ListPagePresenter<CheckView> {
         String token1=token.replaceAll("\"","");
         api.getOneDeviceInfo(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<DeviceBean>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<DeviceBean>>() {
+                .subscribe(new ResponseSubscriber<BaseData<DeviceBean>>(view) {
                     @Override
                     public void success(BaseData<DeviceBean> deviceBeanBaseData) {
                         view.checkDeviceResult(deviceBeanBaseData.data);
@@ -215,7 +215,7 @@ public class CheckPresenter extends ListPagePresenter<CheckView> {
         UserBean bean=new UserBean();
         api.getUserInfo(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<UserInfoBean>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<UserInfoBean>>() {
+                .subscribe(new ResponseSubscriber<BaseData<UserInfoBean>>(view) {
                     @Override
                     public void success(BaseData<UserInfoBean> userInfoBeanBaseData) {
                         Log.i("yzh","saveUser--"+userInfoBeanBaseData);
@@ -239,7 +239,7 @@ public class CheckPresenter extends ListPagePresenter<CheckView> {
         String token1=token.replaceAll("\"","");
         api.getDeviceDescription(token1,descId)
                 .compose(new ResponseTransformer<>(this.<BaseData<String>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<String>>() {
+                .subscribe(new ResponseSubscriber<BaseData<String>>(view) {
                     @Override
                     public void success(BaseData<String> description) {
                         Log.i("yzh","description--"+description);

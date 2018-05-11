@@ -438,7 +438,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
-                    android:background="#dddddd" />
+                    android:background="@color/white" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

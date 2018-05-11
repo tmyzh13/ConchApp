@@ -54,7 +54,7 @@ public class WorkDetailPresenter extends BasePresenter<WorkDetailView> {
         view.showLoading();
         api.getWorkDetailInfo(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<WorkDetailRequestBean>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<WorkDetailRequestBean>>() {
+                .subscribe(new ResponseSubscriber<BaseData<WorkDetailRequestBean>>(view) {
 
                     @Override
                     public void success(BaseData<WorkDetailRequestBean> workDetailBeanBaseData) {
@@ -88,7 +88,7 @@ public class WorkDetailPresenter extends BasePresenter<WorkDetailView> {
         String token1=token.replaceAll("\"","");
         api.cancelJob(token1,body)
                 .compose(new ResponseTransformer<BaseData<ResponseDataBean>>(this.<BaseData<ResponseDataBean>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<ResponseDataBean>>() {
+                .subscribe(new ResponseSubscriber<BaseData<ResponseDataBean>>(view) {
                     @Override
                     public void success(BaseData<ResponseDataBean> responseDataBeanBaseData) {
                         view.revokeJob(responseDataBeanBaseData.data);
@@ -113,7 +113,7 @@ public class WorkDetailPresenter extends BasePresenter<WorkDetailView> {
         String token1=token.replaceAll("\"","");
        api.submitJob(token1,bean)
                .compose(new ResponseTransformer<BaseData<ResponseDataBean>>(this.<BaseData<ResponseDataBean>>bindToLifeCycle()))
-               .subscribe(new ResponseSubscriber<BaseData<ResponseDataBean>>() {
+               .subscribe(new ResponseSubscriber<BaseData<ResponseDataBean>>(view) {
                    @Override
                    public void success(BaseData<ResponseDataBean> responseDataBeanBaseData) {
                        view.submitJob(responseDataBeanBaseData.data);
@@ -134,7 +134,7 @@ public class WorkDetailPresenter extends BasePresenter<WorkDetailView> {
         view.showLoading();
         api.getUserInfo(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<UserInfoBean>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<UserInfoBean>>() {
+                .subscribe(new ResponseSubscriber<BaseData<UserInfoBean>>(view) {
                     @Override
                     public void success(BaseData<UserInfoBean> userInfoBeanBaseData) {
                         view.getUserInfo(userInfoBeanBaseData.data);
@@ -158,7 +158,7 @@ public class WorkDetailPresenter extends BasePresenter<WorkDetailView> {
         String token1=token.replaceAll("\"","");
         api.getWorkInfo(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<WorkListBean>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<WorkListBean>>() {
+                .subscribe(new ResponseSubscriber<BaseData<WorkListBean>>(view) {
                     @Override
                     public void success(BaseData<WorkListBean> workBeanBaseData) {
 
@@ -179,7 +179,7 @@ public class WorkDetailPresenter extends BasePresenter<WorkDetailView> {
         String token1=token.replaceAll("\"","");
         api.dangerWorkType(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<DangerWorkTypeBean>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<DangerWorkTypeBean>>() {
+                .subscribe(new ResponseSubscriber<BaseData<DangerWorkTypeBean>>(view) {
                     @Override
                     public void success(BaseData<DangerWorkTypeBean> workBeanBaseData) {
                         view.getDangerWorkTypeResult(workBeanBaseData.data.list);

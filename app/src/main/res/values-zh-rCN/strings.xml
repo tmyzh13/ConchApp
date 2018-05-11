@@ -1,0 +1,308 @@
+<resources>
+    <!--app名称-->
+    <string name="app_name_main">海螺预警</string>
+
+    <string name="language">EN</string>
+    <!--首页tab-->
+    <string name="home_message">信息</string>
+    <string name="home_security">隐患</string>
+    <string name="home_work">作业</string>
+    <string name="home_check">检修</string>
+    <string name="home_mine">我的</string>
+    <string name="login_success">登录成功</string>
+    <!--登录-->
+    <string name="login">登录</string>
+    <string name="login_confirm">确定</string>
+    <string name="login_account_hint">用户名</string>
+    <string name="login_password_hint">密码</string>
+    <string name="login_forget_password">忘记了登录密码？</string>
+    <string name="login_find_password">找回密码</string>
+    <string name="login_account_empty">请输入账号</string>
+    <string name="login_password_empty">请输入密码</string>
+
+    <!--seacher-->
+    <string name="search_key">关键字</string>
+    <string name="search_all">全部</string>
+    <string name="search_hidden_trouble">隐患</string>
+    <string name="search_illegal">违章</string>
+    <string name="search_security">安全</string>
+    <string name="search_my_send">我的发布</string>
+    <string name="search_histroy">历史搜索</string>
+
+    <!--security-->
+    <string name="hidden_trouble_msg">隐患信息</string>
+    <string name="illegal_msg">违章信息</string>
+    <string name="alls">全部</string>
+    <string name="send">发布</string>
+    <string name="not_alter">未整改</string>
+    <string name="overdue">逾期</string>
+    <string name="altered">已整改</string>
+    <string name="not_check">未验收</string>
+    <string name="weizhang">违章</string>
+    <string name="trouble">隐患</string>
+
+    <string name="yh_message">隐患信息</string>
+    <string name="wz_message">违章信息</string>
+    <string name="aq_message">安全信息</string>
+    <string name="aq_message_title">安全信息查看</string>
+
+    <string name="unit">条</string>
+    <string name="unread">未读</string>
+    <string name="un_fix">未整改</string>
+    <string name="on_fix">整改中</string>
+    <string name="delay_data">逾期</string>
+    <string name="danger_work">危险作业</string>
+    <string name="common_work">常规作业</string>
+    <string name="action_cancel">取消</string>
+    <!--ScanCodeActivity-->
+    <string name="scan_code">扫码</string>
+    <string name="take_photo">拍照</string>
+    <string name="revoke">撤销</string>
+    <string name="commit">提交</string>
+    <string name="modify">修改</string>
+    <string name="project_name">项目名称</string>
+    <string name="project_time">2018年4月6日 04:05</string>
+    <string name="work_point_information">现场作业点信息</string>
+    <string name="work_start_time">作业开始时间</string>
+    <string name="work_end_time">作业结束时间</string>
+    <string name="hint_time">2018年4月11</string>
+    <string name="person_in_charge">负责人</string>
+    <string name="guardian">监护人</string>
+    <string name="auditor">审核人</string>
+    <string name="approver">批准人</string>
+    <string name="equipment_model">设备型号</string>
+    <string name="last_time_scan_code">上次扫码时间14:08</string>
+    <string name="check_picture">照片查看</string>
+    <string name="project_address">安徽省项目扫码地点详细地址</string>
+    <string name="equipment_name_number">设备名称编号</string>
+    <string name="scan_code_success">扫码成功！</string>
+    <string name="continue_scan_photo">成功。继续点击可重新扫码或拍照</string>
+    <string name="work_company">作业单位</string>
+    <string name="work_number">作业人数</string>
+    <string name="danger_work_type">危险作业类别</string>
+    <string name="gas_checker">气体检测人</string>
+
+    <!--add_illegal_promble-->
+    <string name="illegal_problem">违章问题</string>
+    <string name="illegal_detail_name">违章详细名称</string>
+    <string name="illeagl_company">违章单位</string>
+    <string name="illegal_type">违章类型</string>
+    <string name="illegal_place">违章地点</string>
+    <string name="illegal_description">违章描述</string>
+    <string name="yh_description">隐患描述</string>
+    <string name="illegal_photo">违章照片</string>
+    <string name="illegal_report">匿名举报</string>
+    <string name="illegal_please_choice">请选择</string>
+    <string name="illeagl_yes">是</string>
+    <string name="illeagl_no">否</string>
+
+    <!--add_hidden_trouble-->
+    <string name="hidden_trouble">隐患问题</string>
+    <string name="hidden_trouble_detail_name">隐患详细名称</string>
+    <string name="hidden_trouble_find_date">发现日期</string>
+    <string name="hidden_trouble_register_date">登记日期</string>
+    <string name="hidden_trouble_find_company">发现单位</string>
+    <string name="hidden_trouble_company">隐患单位</string>
+    <string name="hidden_trouble_check">排查人员</string>
+    <string name="hidden_trouble_range">隐患级别</string>
+    <string name="hidden_trouble_place">隐患地点</string>
+    <string name="hidden_trouble_photo">隐患照片</string>
+    <string name="hidden_trouble_position">隐患部位</string>
+    <string name="hidden_trouble_input">填写</string>
+    <string name="hidden_trouble_major">重大</string>
+    <string name="hidden_trouble_major_full">重大隐患</string>
+    <string name="hidden_trouble_normal">一般</string>
+    <string name="hidden_trouble_source">隐患来源</string>
+    <string name="hidden_info">发现日期必须早于登记时间</string>
+
+    <!-- -->
+    <string name="yh_project_check">隐患项目查看</string>
+    <string name="wz_project_check">违章信息查看</string>
+
+    <string name="yh_finder">隐患发现人</string>
+    <string name="find_time">发现时间</string>
+    <string name="company">发现隐患所在的单位名称</string>
+    <string name="yh_adress">隐患地点</string>
+    <string name="yh_point">隐患部位</string>
+    <string name="yh_class">隐患级别</string>
+    <string name="important">重大</string>
+    <string name="yh_varies">隐患类型</string>
+    <string name="neccecery">必填</string>
+    <string name="fix_time">整改期限</string>
+    <string name="fixed">已整改</string>
+    <string name="project_detail_name">项目名称</string>
+    <string name="start_work_time">作业开始时间</string>
+    <string name="end_work_time">作业结束时间</string>
+    <string name="manager">负责人</string>
+    <string name="project_detail_fix">请输入负责人姓名</string>
+    <string name="keeper">监护人</string>
+    <string name="write">填写</string>
+    <string name="checker">审核人</string>
+    <string name="new_work">新建作业</string>
+    <string name="new_danger_work">新建危险作业</string>
+    <string name="new_common_work">新建常规作业</string>
+    <string name="fix_work">项目作业修改</string>
+    <string name="manager_fix">负责人修改</string>
+    <string name="authorize">批准人</string>
+    <string name="sure">确定</string>
+    <string name="resure">再次确认</string>
+    <string name="wait_again">再等等</string>
+    <string name="equipment_type">设备类型</string>
+    <string name="equipment_number">设备编号</string>
+    <string name="equipment_name">设备名称</string>
+    <string name="select_date_quash">取消</string>
+    <string name="work_zone">作业区域</string>
+    <string name="title">请选择时间</string>
+    <string name="year">年</string>
+    <string name="month">月</string>
+    <string name="day">日</string>
+    <string name="hour">时</string>
+    <string name="minute">分</string>
+    <string name="information">结束时间必须大于开始时间</string>
+    <string name="time">2018-4-5 20：02</string>
+    <string name="find_place">发现地点</string>
+    <string name="all">全部</string>
+    <string name="shuini">水泥</string>
+    <string name="matou">码头</string>
+    <string name="kuangshan">矿山</string>
+    <string name="build">制造</string>
+    <string name="data_count">其他数据统计</string>
+    <string name="my_approve">我的审批</string>
+    <string name="my_check">我的审核</string>
+    <string name="my_release">我的发布</string>
+    <string name="work_name">作业内容</string>
+    <string name="work_adress">作业地点</string>
+    <string name="approved">已审批</string>
+    <string name="un_closed">未关闭</string>
+    <string name="closed">已关闭</string>
+    <string name="province">省选择：</string>
+    <string name="city">市选择：</string>
+    <string name="city_choice">城市选择</string>
+    <string name="city_name">中国</string>
+
+    <!--选择照片-->
+    <string name="choice_photo">选择照片</string>
+    <string name="choice_photo_hint">提示：只能添加三张图片，长按图片删除 </string>
+    <string name="choice_photo_add">添加图片</string>
+    <string name="photo_action">拍照</string>
+    <string name="gallery_action">相册</string>
+    <string name="cancel_action">取消</string>
+
+    <!--检修管理-->
+    <string name="check_manager">检维修管理</string>
+    <string name="check_manager_device_statistics_info">设备统计信息</string>
+    <string name="check_manager_device_info">设备信息</string>
+    <string name="check_manager_device_scan">设备扫描</string>
+    <string name="check_manager_device_scan_code">设备扫码</string>
+    <string name="check_manager_device_name">设备名称</string>
+    <string name="check_manager_device_no">设备编号</string>
+    <string name="check_manager_device_place">地点</string>
+    <string name="check_manager_open_pemission">打开权限失败</string>
+    <string name="check_manager_cancel_scan">取消扫码</string>
+
+    <!--危险作业信息-->
+    <string name="danger_work_info">危险作业信息</string>
+    <string name="danger_work_phone">中控室电话</string>
+    <string name="danger_work_safety_point">安全要点或注意事项</string>
+    <string name="danger_work_damage_type">可能造成的伤害种类</string>
+    <string name="danger_work_accident">可能出现的危险事故</string>
+    <string name="danger_work_accident_eg">典型事故案例</string>
+    <string name="danger_work_action_rules">检维修作业操作规程</string>
+    <string name="danger_work_manager_system">停送电管理制度</string>
+    <string name="danger_work_approval_system">危险作业审批制度</string>
+    <string name="danger_work_eneger_system">能量隔离制度</string>
+
+    <!--忘记密码-->
+    <string name="forget_password">忘记密码</string>
+    <string name="forget_password_input_hint">请输入手机号</string>
+    <string name="forget_password_input_code_hint">获取验证码</string>
+    <string name="forget_password_input_password_hint">请输入新密码</string>
+    <string name="forget_password_get_code_again">重新获取</string>
+    <string name="forget_password_get_code_again_">秒后重新获取</string>
+    <string name="forget_password_get_code">获取验证码</string>
+    <string name="forget_password_sned_link">发送重置密码链接</string>
+    <string name="forget_password_hint">请输入您的手机号码，我们会将重置密码的信息发送给您。</string>
+    <string name="forget_password_email_error">邮箱不符合规格</string>
+    <string name="forget_password_send_valid_success">验证码发送成功</string>
+    <string name="forget_password_send_success">操作成功，请稍等！</string>
+    <string name="main_message">海螺预警</string>
+    <!--个人中心-->
+    <string name="individual_center">个人中心</string>
+    <string name="about_us">关于我们</string>
+    <string name="feed_back">意见反馈</string>
+    <string name="settings">设置</string>
+    <string name="log_off">退出</string>
+    <string name="all_rights">© 2018 海螺预警 ALL Rights Reserved</string>
+    <string name="settings_push_msg_switch">接收推送通知</string>
+    <string name="settings_push_msg_switch_off">接收推送通知开关关闭中</string>
+    <string name="settings_push_msg_switch_on">接收推送通知开关开启中</string>
+    <string name="settings_cleanup_cache">清除缓存</string>
+    <string name="user_full_name">姓名</string>
+    <string name="user_acoount">账号</string>
+    <string name="user_pwd">密码</string>
+    <string name="user_autograph">签名</string>
+    <string name="user_company">公司</string>
+    <string name="user_department">部门</string>
+    <string name="user_phoneNum">手机</string>
+    <string name="user_sex">性别</string>
+    <string name="user_role">角色</string>
+    <string name="sex_male">男</string>
+    <string name="sex_female">女</string>
+    <string name="submit_success">提交成功！</string>
+    <string name="submit_fail">提交失败！</string>
+
+    <!--jpush-->
+    <string name="get_cache_record_fail">获取缓存记录失败</string>
+
+    <string name="notic">公告</string>
+    <string name="award">奖励</string>
+    <string name="pubish">惩罚</string>
+    <string name="describle_yh">描述隐患</string>
+    <string name="fix_pic">整改照片</string>
+    <string name="yh_from">隐患来源</string>
+
+    <!--选择检修人员-->
+    <string name="choice_check_people">选择排查人员</string>
+    <string name="someone">何某某</string>
+    <string name="fix_status">是否已整改</string>
+    <string name="re_login">请重新登录</string>
+    <string name="update_pwd_success">更改密码成功</string>
+    <string name="update_pwd_failure">更改密码失败</string>
+    <string name="fix_success">修改成功</string>
+
+
+    <string name="is_danger_work">是否危险作业</string>
+    <string name="description_content">描述内容</string>
+    <string name="chose_person">选择人员</string>
+    <string name="type1">类别1</string>
+    <string name="chose_company">选择单位</string>
+    <string name="input_all_message">请填写完整</string>
+    <string name="work_part">作业点</string>
+    <string name="danger_work_type_item">有限空间作业</string>
+    <string name="scan_failed">扫码失败</string>
+    <string name="revoke_success">撤销成功</string>
+    <string name="choice_device_type">选择设备类型</string>
+    <string name="choice_device_name">选择设备名称</string>
+    <string name="exsit">确定要退出么？</string>
+    <string name="information_tips">提示！</string>
+    <string name="tips">手机号不能为空</string>
+    <string name="internet_error">网络连接超时</string>
+    <string name="internet_exception">网络连接异常</string>
+    <string name="back_failed">撤销作业失败</string>
+    <string name="subimt_failed">提交失败</string>
+    <string name="modify_failed">修改失败</string>
+    <string name="find_company">发现单位</string>
+    <string name="input_num">作业人数请输入数字</string>
+    <string name="un_approved">未审批</string>
+    <string name="trouble_company">隐患单位</string>
+    <string name="input_text">请选择</string>
+    <string name="regret">已撤销</string>
+    <string name="loading_failed">加载失败</string>
+    <string name="anonymous">匿名</string>
+
+    <string name="update_desc">更新描述</string>
+    <string name="find_new">发现新版本 ：</string>
+    <string name="now_update">现在更新</string>
+    <string name="connect_error">"网络断开，请稍候再试</string>
+    <string name="check_agein">请检查相关信息</string>
+</resources>

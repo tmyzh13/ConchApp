@@ -254,7 +254,7 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
 
             picPath = bean.getTplj().split(",");
             for (String path : picPath){
-                if (path.startsWith("upload")){
+                if (!path.startsWith("uploadDir")){
                     urls.add(Urls.ROOT+path);
                 }else {
                     urls.add(Urls.IMAGE_ROOT+path);
