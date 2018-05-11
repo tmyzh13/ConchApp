@@ -495,7 +495,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         if (TextUtils.isEmpty(name) || startTime == 0
                 || TextUtils.isEmpty(equipmentType) || TextUtils.isEmpty(equipmentCode)
                 || TextUtils.isEmpty(equipmentName) || TextUtils.isEmpty(area) || TextUtils.isEmpty(part)
-                || TextUtils.isEmpty(content) || TextUtils.isEmpty(company) || TextUtils.isEmpty(numPeople)
+                || TextUtils.isEmpty(content) || TextUtils.isEmpty(company) ||company.equals(R.string.input_text)|| TextUtils.isEmpty(numPeople)
                 || TextUtils.isEmpty(guardian)||TextUtils.isEmpty(leading)
                 || TextUtils.isEmpty(auditor) || TextUtils.isEmpty(approver)) {
             ToastMgr.show(R.string.input_all_message);
