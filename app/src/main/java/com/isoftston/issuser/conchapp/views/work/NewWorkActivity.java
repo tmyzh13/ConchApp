@@ -44,6 +44,7 @@ import com.isoftston.issuser.conchapp.views.interfaces.WorkView;
 import com.isoftston.issuser.conchapp.views.security.ChoiceCheckPeopleActivity;
 import com.isoftston.issuser.conchapp.views.security.ChoiceDeviceNameActivity;
 import com.isoftston.issuser.conchapp.views.security.ChoiceDeviceTypeActivity;
+import com.isoftston.issuser.conchapp.views.security.OrgActivity;
 import com.isoftston.issuser.conchapp.weight.CustomDatePicker;
 import com.isoftston.issuser.conchapp.weight.InputView;
 import com.isoftston.issuser.conchapp.weight.NavBar;
@@ -116,7 +117,8 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     RelativeLayout rl_equipment_name;//设备名称
     @Bind(R.id.equipment_name_tv)
     TextView equipment_name_tv;
-
+    @Bind(R.id.rl_work_company)
+    RelativeLayout rl_work_company;
     @Bind(R.id.work_zone_input)
     InputView work_zone_input;//作业区域
     @Bind(R.id.work_address_input)
@@ -142,14 +144,12 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     Spinner work_zone_sp;
     @Bind(R.id.company_tv)
     TextView company_tv;
-    @Bind(R.id.work_company_sp)
-    Spinner work_company_sp;
-
     @Bind(R.id.rl_gas_checker)
     RelativeLayout rl_gas_checker;
     @Bind(R.id.spinner)
     Spinner mySpinner;
-
+    @Bind(R.id.tv_work_company)
+    TextView tv_work_company;
     @Bind(R.id.description_et)
     EditText description_et;
     @Bind(R.id.ll_description)
@@ -353,25 +353,6 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-        //作业单位下拉选择
-        final ArrayAdapter<String> companyAdapter;
-        List<String> companyList = new ArrayList<>();
-        companyList.add(PreferencesHelper.getData(Constant.ORG_NAME));
-        companyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, companyList);
-        companyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        work_company_sp.setAdapter(companyAdapter);
-        work_company_sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                company = companyAdapter.getItem(position).toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                work_company_sp.setSelection(0);
-                company = companyAdapter.getItem(0).toString();
-            }
-        });
     }
 
     private void clicks() {
@@ -389,6 +370,8 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         rl_gas_checker.setOnClickListener(this);
         rl_equipment_type.setOnClickListener(this);
         rl_equipment_name.setOnClickListener(this);
+        rl_work_company.setOnClickListener(this);
+
     }
 
     @Override
@@ -428,7 +411,9 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
                 intent.putExtra("device_id", String.valueOf(device_id));
                 startActivityForResult(intent, CHOSE_NAME_CODE);
                 break;
-
+            case R.id.rl_work_company:
+                startActivityForResult(OrgActivity.getLaucnher(context,0),128);
+                break;
             case R.id.bt_submit:
                 showDialogView();
                 break;
@@ -453,7 +438,6 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     String auditor;
     String approver;
     String area;
-    String company;
     public String gasId;
     public String gasName=null;
     private void showDialogView() {
@@ -491,9 +475,9 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         String equipmentName = equipment_name_tv.getText().toString();
         String part = work_address_input.getContent().toString().trim();
         String content = description_et.getText().toString().trim();
-        company = PreferencesHelper.getData(Constant.ORG_NAME);//作业单位。用户所属公司
         String numPeople = worker_num_input.getContent().trim();
         gasName=tv_gas_checker.getText().toString();
+        String company=tv_work_company.getText().toString();
 //        int type = 0;//危险作业类型(手动选择)
 
         //1危险、0常规作业。前页面传递
@@ -662,7 +646,6 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     public void addWorkSuccess() {
         ToastUtils.showtoast(context, getString(R.string.submit_success));
         finish();
-        setResult(117);
     }
 
     @Override
@@ -724,6 +707,12 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
                 equipment_model_tv.setText(Device_type);
                 choice_device_id = data.getStringExtra(Constant.CHECK_DEVICE_ID);
                 Log.i(TAG,"--choice_device_id--"+choice_device_id);
+            }
+        }else if (resultCode==130){
+            if (requestCode==128){
+               String find_company_id=data.getStringExtra(Constant.FIND_COMPANY_ID);
+               String find_company = data.getStringExtra(Constant.FIND_COMPANY_NAME);
+               tv_work_company.setText(find_company);
             }
         }
     }

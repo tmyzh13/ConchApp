@@ -680,10 +680,10 @@
                         <!--android:visibility="visible" />-->
                     <!---->
                 <!--</LinearLayout>-->
-                <Spinner
-                    android:id="@+id/work_company_sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <TextView
+                    android:text="@string/input_text"
+                    android:id="@+id/tv_work_company"
+                    style="@style/text_normal"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true" />
 
