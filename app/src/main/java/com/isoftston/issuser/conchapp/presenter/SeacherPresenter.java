@@ -43,7 +43,7 @@ public class SeacherPresenter extends BasePresenter<SeacherView> {
         String token1 = token.replaceAll("\"", "");
         api.searchUser(token1, userBean)
                 .compose(new ResponseTransformer<BaseData<ResponseUserBean>>(this.<BaseData<ResponseUserBean>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<ResponseUserBean>>() {
+                .subscribe(new ResponseSubscriber<BaseData<ResponseUserBean>>(view) {
                     @Override
                     public void success(BaseData<ResponseUserBean> checkPeopleBeanBaseData) {
                         view.searchSuccess(checkPeopleBeanBaseData.data.list);
@@ -61,7 +61,7 @@ public class SeacherPresenter extends BasePresenter<SeacherView> {
         String token1 = token.replaceAll("\"", "");
         api.searchMessageListInfo(token1, bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<EachMessageInfoBean>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<EachMessageInfoBean>>() {
+                .subscribe(new ResponseSubscriber<BaseData<EachMessageInfoBean>>(view) {
 
                     @Override
                     public void success(BaseData<EachMessageInfoBean> messageBaseData) {
@@ -96,7 +96,7 @@ public class SeacherPresenter extends BasePresenter<SeacherView> {
         String token1 = token.replaceAll("\"", "");
         api.searchSafeMessageListInfo(token1, bean)
                 .compose(new ResponseTransformer<BaseData<SafeListBean>>(this.<BaseData<SafeListBean>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<SafeListBean>>() {
+                .subscribe(new ResponseSubscriber<BaseData<SafeListBean>>(view) {
                     @Override
                     public void success(BaseData<SafeListBean> safeListBeanBaseData) {
                         view.getEachMessageListResult(safeListBeanBaseData.data, "1",lastId);
@@ -129,7 +129,7 @@ public class SeacherPresenter extends BasePresenter<SeacherView> {
         String token1 = token.replaceAll("\"", "");
         api.searchWorkMessage(token1, bean)
                 .compose(new ResponseTransformer<BaseData<WorkListsBean>>(this.<BaseData<WorkListsBean>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<WorkListsBean>>() {
+                .subscribe(new ResponseSubscriber<BaseData<WorkListsBean>>(view) {
                     @Override
                     public void success(BaseData<WorkListsBean> safeListBeanBaseData) {
                         view.getEachMessageListResult(safeListBeanBaseData.data, "2",lastId);
@@ -161,7 +161,7 @@ public class SeacherPresenter extends BasePresenter<SeacherView> {
         String token1 = token.replaceAll("\"", "");
         api.searchDeviceMessage(token1, bean)
                 .compose(new ResponseTransformer<BaseData<DeviceListBean>>(this.<BaseData<DeviceListBean>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<DeviceListBean>>() {
+                .subscribe(new ResponseSubscriber<BaseData<DeviceListBean>>(view) {
                     @Override
                     public void success(BaseData<DeviceListBean> safeListBeanBaseData) {
                         view.getEachMessageListResult(safeListBeanBaseData.data, "3",lastId);

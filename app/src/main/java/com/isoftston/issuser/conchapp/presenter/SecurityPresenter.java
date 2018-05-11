@@ -47,7 +47,7 @@ public class SecurityPresenter extends BasePresenter<SecuryView> {
         String token1=token.replaceAll("\"","");
         api.addWZMessage(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData>() {
+                .subscribe(new ResponseSubscriber<BaseData>(view) {
 
                     @Override
                     public void success(BaseData messageDetailBeanBaseData) {
@@ -76,7 +76,7 @@ public class SecurityPresenter extends BasePresenter<SecuryView> {
         String token1=token.replaceAll("\"","");
         api.addYHMessage(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData>() {
+                .subscribe(new ResponseSubscriber<BaseData>(view) {
 
                     @Override
                     public void success(BaseData messageDetailBeanBaseData) {
@@ -100,7 +100,7 @@ public class SecurityPresenter extends BasePresenter<SecuryView> {
         String token1=token.replaceAll("\"","");
         api.getSefeMessageList(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<SafeListBean>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<SafeListBean>>() {
+                .subscribe(new ResponseSubscriber<BaseData<SafeListBean>>(view) {
 
                     @Override
                     public void success(BaseData<SafeListBean> messageBeanBaseData) {
@@ -150,7 +150,7 @@ public class SecurityPresenter extends BasePresenter<SecuryView> {
         String token1=token.replaceAll("\"","");
         api.findCompanyList(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<SecuritySearchBean>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<SecuritySearchBean>>() {
+                .subscribe(new ResponseSubscriber<BaseData<SecuritySearchBean>>(view) {
 
                     @Override
                     public void success(BaseData<SecuritySearchBean> messageBeanBaseData) {
@@ -176,7 +176,7 @@ public class SecurityPresenter extends BasePresenter<SecuryView> {
         String token1=token.replaceAll("\"","");
         api.findCompanyListNext(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<List<OrgBean>>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<List<OrgBean>>>() {
+                .subscribe(new ResponseSubscriber<BaseData<List<OrgBean>>>(view) {
 
                     @Override
                     public void success(BaseData<List<OrgBean>> messageBeanBaseData) {

@@ -148,13 +148,12 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
     }
 
     @Override
-    public void returnTag(boolean isSuccess,String tag) {
-        if(isSuccess){
-            addTag(tag);
-        }else{
+    public void returnTag(String isSuccess,String tag) {
+        if("false".equals(isSuccess)){
             deleteTag(tag);
+        }else{
+            addTag(tag);
         }
-
     }
 
     @Override

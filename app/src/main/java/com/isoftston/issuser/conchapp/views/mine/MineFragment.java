@@ -17,6 +17,7 @@ import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkBean;
 import com.isoftston.issuser.conchapp.presenter.UserPresenter;
+import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.utils.VersionUtil;
 import com.isoftston.issuser.conchapp.views.LoginActivity;
 import com.isoftston.issuser.conchapp.views.interfaces.UserView;
@@ -105,6 +106,7 @@ public class MineFragment extends BaseFragment<UserView, UserPresenter> implemen
 //                startActivity(ScanCodeActivity.getLauncher(getActivity(),new WorkBean()));
                 break;
             case R.id.log_off:
+                SharePrefsUtils.clearAll(getViewContext());
                 PreferencesHelper.remove(Constant.LOGIN_STATUE);
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);

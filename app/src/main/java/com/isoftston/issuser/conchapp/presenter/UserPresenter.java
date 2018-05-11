@@ -45,7 +45,7 @@ public class UserPresenter extends PagePresenter<UserView> {
        UserBean bean=new UserBean();
         api.getUserInfo(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<UserInfoBean>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<UserInfoBean>>() {
+                .subscribe(new ResponseSubscriber<BaseData<UserInfoBean>>(view) {
                     @Override
                     public void success(BaseData<UserInfoBean> userInfoBeanBaseData) {
                         view.getUserInfo(userInfoBeanBaseData.data);
@@ -71,7 +71,7 @@ public class UserPresenter extends PagePresenter<UserView> {
         String token1=token.replaceAll("\"","");
         api.addFeedBack(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData>() {
+                .subscribe(new ResponseSubscriber<BaseData>(view) {
                     @Override
                     public void success(BaseData userInfoBeanBaseData) {
                         view.addFeedBackSuccess();
@@ -88,7 +88,7 @@ public class UserPresenter extends PagePresenter<UserView> {
         String token1=token.replaceAll("\"","");
         api.changePwd(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData>() {
+                .subscribe(new ResponseSubscriber<BaseData>(view) {
                     @Override
                     public void success(BaseData userInfoBeanBaseData) {
                         view.updatePwdSuccess();

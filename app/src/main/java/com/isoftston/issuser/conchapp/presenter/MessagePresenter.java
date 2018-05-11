@@ -51,7 +51,7 @@ public class MessagePresenter extends ListPagePresenter<MessageView> {
         String token1=token.replaceAll("\"","");
         api.getMessageListInfo(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<MessageListInfoBean>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<MessageListInfoBean>>() {
+                .subscribe(new ResponseSubscriber<BaseData<MessageListInfoBean>>(view) {
 
                     @Override
                     public void success(BaseData<MessageListInfoBean> messageBaseData) {
@@ -106,7 +106,7 @@ public class MessagePresenter extends ListPagePresenter<MessageView> {
         String token1=token.replaceAll("\"","");
         api.queryMessageInfo(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<MessageQueryBean>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<MessageQueryBean>>() {
+                .subscribe(new ResponseSubscriber<BaseData<MessageQueryBean>>(view) {
 
                     @Override
                     public void success(BaseData<MessageQueryBean> messageDetailBeanBaseData) {
@@ -145,7 +145,7 @@ public class MessagePresenter extends ListPagePresenter<MessageView> {
         String token1=token.replaceAll("\"","");
         api.getEachMessageListInfo(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<EachMessageInfoBean>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<EachMessageInfoBean>>() {
+                .subscribe(new ResponseSubscriber<BaseData<EachMessageInfoBean>>(view) {
 
                     @Override
                     public void success(BaseData<EachMessageInfoBean> messageBaseData) {

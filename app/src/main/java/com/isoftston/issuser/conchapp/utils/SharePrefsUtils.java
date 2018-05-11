@@ -43,4 +43,16 @@ public class SharePrefsUtils {
         return value;
     }
 
+    public static void clearKeyValue(Context context,String key){
+        SharedPreferences.Editor editor = context.getSharedPreferences(SETTING, Context.MODE_PRIVATE).edit();
+        editor.remove(key);
+        editor.commit();
+    }
+
+    public static void clearAll(Context context){
+        SharedPreferences.Editor editor = context.getSharedPreferences(SETTING, Context.MODE_PRIVATE).edit();
+        editor.clear();
+        editor.commit();
+    }
+
 }

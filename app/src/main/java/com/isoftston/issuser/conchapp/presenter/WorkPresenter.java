@@ -48,7 +48,7 @@ public class WorkPresenter extends BasePresenter<WorkView> {
         String token1=token.replaceAll("\"","");
         api.getWorkInfo(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<WorkListBean>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<WorkListBean>>() {
+                .subscribe(new ResponseSubscriber<BaseData<WorkListBean>>(view) {
                     @Override
                     public void success(BaseData<WorkListBean> workBeanBaseData) {
 
@@ -73,7 +73,7 @@ public class WorkPresenter extends BasePresenter<WorkView> {
         String token1=token.replaceAll("\"","");
         api.getWorkTypeInfo(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<WorkListsBean>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<WorkListsBean>>() {
+                .subscribe(new ResponseSubscriber<BaseData<WorkListsBean>>(view) {
                     @Override
                     public void success(BaseData<WorkListsBean> workBeanBaseData) {
                         view.getWorkList(workBeanBaseData.data.list);
@@ -97,7 +97,7 @@ public class WorkPresenter extends BasePresenter<WorkView> {
         String token1=token.replaceAll("\"","");
         api.addWork(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData >bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData>() {
+                .subscribe(new ResponseSubscriber<BaseData>(view) {
                     @Override
                     public void success(BaseData workBeanBaseData) {
                         view.addWorkSuccess();
@@ -115,7 +115,7 @@ public class WorkPresenter extends BasePresenter<WorkView> {
         view.showLoading();
         api.fixWork(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData>() {
+                .subscribe(new ResponseSubscriber<BaseData>(view) {
                     @Override
                     public void success(BaseData workBeanBaseData) {
                         view.addWorkSuccess();
@@ -138,7 +138,7 @@ public class WorkPresenter extends BasePresenter<WorkView> {
         String token1=token.replaceAll("\"","");
         api.dangerWorkType(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<DangerWorkTypeBean>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<DangerWorkTypeBean>>() {
+                .subscribe(new ResponseSubscriber<BaseData<DangerWorkTypeBean>>(view) {
                     @Override
                     public void success(BaseData<DangerWorkTypeBean> workBeanBaseData) {
                         view.getDangerWorkTypeResult(workBeanBaseData.data.list);
@@ -156,7 +156,7 @@ public class WorkPresenter extends BasePresenter<WorkView> {
         String token1=token.replaceAll("\"","");
         api.deviceType(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<DeviceTypeRequstBean>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<DeviceTypeRequstBean>>() {
+                .subscribe(new ResponseSubscriber<BaseData<DeviceTypeRequstBean>>(view) {
                     @Override
                     public void success(BaseData<DeviceTypeRequstBean> workBeanBaseData) {
                         view.getDeviceTypeResult(workBeanBaseData.data.list);
@@ -174,7 +174,7 @@ public class WorkPresenter extends BasePresenter<WorkView> {
         String token1=token.replaceAll("\"","");
         api.deviceName(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<DeviceNameCodeBean>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<DeviceNameCodeBean>>() {
+                .subscribe(new ResponseSubscriber<BaseData<DeviceNameCodeBean>>(view) {
                     @Override
                     public void success(BaseData<DeviceNameCodeBean> workBeanBaseData) {
                         view.getDeviceDetailSuccess(workBeanBaseData.data.list);
