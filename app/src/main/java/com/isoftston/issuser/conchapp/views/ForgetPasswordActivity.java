@@ -9,6 +9,7 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -21,6 +22,9 @@ import com.isoftston.issuser.conchapp.utils.MyCountDownTimer;
 import com.isoftston.issuser.conchapp.views.interfaces.ForgetPasswordView;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 import com.umeng.message.PushAgent;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -48,6 +52,7 @@ public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordView,Forg
     @Bind(R.id.et_acount)
     EditText et_phone;
     private Context context=ForgetPasswordActivity.this;
+    private MyCountDownTimer timer;
 
     public static Intent getLaucner(Context context){
         Intent intent =new Intent(context,ForgetPasswordActivity.class);
@@ -89,6 +94,11 @@ public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordView,Forg
         ToastMgr.show(getString(R.string.forget_password_send_valid_success));
     }
 
+    @Override
+    public void sendErrorMessage(String msg) {
+        timer.onFinish();
+    }
+
     @OnClick(R.id.tv_send)
     public void sendEmail(){
         presenter.sendRequst(et_phone.getText().toString(),et_code.getText().toString(),et_password.getText().toString());
@@ -96,11 +106,20 @@ public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordView,Forg
 
     @OnClick(R.id.tv_get_code)
     public void getCode(){
-        if (TextUtils.isEmpty(et_phone.getText().toString())){
+        String phoneCode=et_phone.getText().toString();
+        Pattern p = Pattern.compile("^((13[0-9])|(15[^4])|(166)|(17[0-8])|(18[0-9])|(19[8-9])|(147,145))\\d{8}$");
+        Matcher m = p.matcher(phoneCode);
+        Log.i("test","--test--"+m.matches());
+        if (TextUtils.isEmpty(phoneCode)){
             ToastMgr.show(R.string.tips);
             return;
         }
-        new MyCountDownTimer(context,tv_get_code, 60 * 1000, 1000,true).start();
+        if (!m.matches()){
+            ToastMgr.show("请输入正确的手机号码");
+            return;
+        }
+        timer = new MyCountDownTimer(context,tv_get_code, 60 * 1000, 1000,true);
+        timer.start();
         //调接口
         presenter.sendValidNum(et_phone.getText().toString());
     }

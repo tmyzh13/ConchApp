@@ -71,6 +71,14 @@ public class ForgetPasswordPresenter extends BasePresenter<ForgetPasswordView> {
                         view.hideLoading();
                         view.sendValidNumSuccess();
                     }
+
+                    @Override
+                    public boolean operationError(BaseData baseData, int status, String message) {
+                        if (status==0){
+                            view.sendErrorMessage(message);
+                        }
+                        return super.operationError(baseData, status, message);
+                    }
                 });
     }
 }

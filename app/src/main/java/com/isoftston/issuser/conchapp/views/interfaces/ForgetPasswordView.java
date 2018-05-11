@@ -11,4 +11,6 @@ public interface ForgetPasswordView extends BaseView {
     void sendActionSuccess();
 
     void sendValidNumSuccess();
+
+    void sendErrorMessage(String msg);
 }

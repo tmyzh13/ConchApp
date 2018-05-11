@@ -46,8 +46,8 @@ public class MyCountDownTimer extends CountDownTimer {
             this.context=context;
             tv.setEnabled(false);
             if(isChangeButtonBg){
-                tv.setBackgroundResource(R.color.text_color_main);
-                tv.setTextColor(context.getResources().getColor(R.color.black));
+                tv.setBackgroundResource(R.color.app_blue);
+                tv.setTextColor(context.getResources().getColor(R.color.white));
             }
         }
         /**
