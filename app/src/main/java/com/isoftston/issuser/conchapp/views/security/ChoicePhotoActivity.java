@@ -99,7 +99,7 @@ public class ChoicePhotoActivity extends BaseActivity implements View.OnClickLis
         navBar.showBack(2);
         iv_back.setOnClickListener(this);
         type = getIntent().getStringExtra("type");
-        mFiles = (HashMap<String, String>) getIntent().getSerializableExtra("files");
+//        mFiles = (HashMap<String, String>) getIntent().getSerializableExtra("files");
         kind = getIntent().getIntExtra("kind",0);
         if (mFiles == null) {
             mFiles = new HashMap<>();
