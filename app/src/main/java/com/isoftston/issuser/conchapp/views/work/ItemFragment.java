@@ -100,7 +100,7 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
 
 //        ptrLayout.disableLoading();
 //        ptrLayout.setCanRefresh(false);
-        ptrLayout.setLoading();
+//        ptrLayout.setLoading();
         ptrLayout.setRefreshLoadCallback(new PtrAutoLoadMoreLayout.RefreshLoadCallback() {
 
             @Override
@@ -226,7 +226,10 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
 
     @Override
     public void getWorkListInfo(List<WorkBean> list) {
-
+        if (list.size()==0){
+            ptrLayout.complete();
+            return;
+        }
         for (WorkBean workBean:list){
             if (type.equals(getString(R.string.all))){
                 presenter.getWorkList(lastId,bType,"");
@@ -245,6 +248,7 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
             listMessage.clear();
             listMessage.addAll(list);
             isUpRefresh = false;
+            ptrLayout.complete();
         }
         if (isDownRefresh){
             listMessage.addAll(list);

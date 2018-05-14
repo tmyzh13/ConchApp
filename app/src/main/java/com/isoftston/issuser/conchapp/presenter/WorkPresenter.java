@@ -57,10 +57,15 @@ public class WorkPresenter extends BasePresenter<WorkView> {
 
                     @Override
                     public void onError(Throwable e) {
-                        super.onError(e);
                         view.getWorkError();
+                        super.onError(e);
                     }
 
+                    @Override
+                    public boolean operationError(BaseData<WorkListBean> workListBeanBaseData, int status, String message) {
+                        view.getWorkError();
+                        return super.operationError(workListBeanBaseData, status, message);
+                    }
                 });
 
     }
@@ -87,7 +92,8 @@ public class WorkPresenter extends BasePresenter<WorkView> {
 
                     @Override
                     public boolean operationError(BaseData<WorkListsBean> workListsBeanBaseData, int status, String message) {
-                        return false;
+                        view.getWorkError();
+                        return super.operationError(workListsBeanBaseData, status, message);
                     }
                 });
 
