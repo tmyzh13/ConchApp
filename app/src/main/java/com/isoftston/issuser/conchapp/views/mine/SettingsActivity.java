@@ -49,14 +49,12 @@ public class SettingsActivity extends BaseActivity {
         nav.setNavTitle(getString(R.string.settings));
 //        boolean receive = SharedPreferencesUtils.getReceiveNotice(this);
 //        mPushMsgSwitch.setChecked(receive);
-        File outCachePath = getApplicationContext().getExternalCacheDir();
-        String outCacheSize = null;
+        File file =new File(this.getCacheDir().getPath());
         try {
-            outCacheSize = FileCacheUtils.getCacheSize(outCachePath);
+            mCacheSizeView.setText(FileCacheUtils.getCacheSize(file));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        mCacheSizeView.setText(outCacheSize);
         mPushMsgSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -74,7 +72,7 @@ public class SettingsActivity extends BaseActivity {
     @OnClick(R.id.clean_cache_view)
     public void cleanCache() {
         //清除缓存
-        FileCacheUtils.cleanExternalCache(getApplicationContext());
+        FileCacheUtils.clearAllCache(getApplicationContext());
         //重新获取一次缓存大小，自处理M，byte
         initCacheSize();
 
