@@ -28,6 +28,17 @@ public class AddYHBean {
     private String knzchg;
     private String ischoose;
     private int nm;
+
+    public String getZgtp() {
+        return zgtp;
+    }
+
+    public void setZgtp(String zgtp) {
+        this.zgtp = zgtp;
+    }
+
+    private String zgtp;
+
     public String getGsId() {
         return gsId;
     }

@@ -128,7 +128,7 @@
                     android:layout_height="1dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="#dddddd"></View>
+                    android:background="#dddddd"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -236,13 +236,9 @@
                     android:layout_height="1dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="#dddddd"></View>
+                    android:background="#dddddd"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="vertical">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -270,7 +266,17 @@
                             android:layout_marginTop="20dp"
                             android:paddingLeft="20dp"
                             android:textColor="@color/text_gray1" />
+
+
                     </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="#dddddd"/>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -294,14 +300,14 @@
                         android:paddingLeft="20dp"
                         android:textColor="@color/text_gray1" />
                     </LinearLayout>
-                </LinearLayout>
+
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="#dddddd"></View>
+                    android:background="#dddddd"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -332,7 +338,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="5dp"
-                    android:background="#dddddd"></View>
+                    android:background="#dddddd"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -375,81 +381,47 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginLeft="20dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:background="#dddddd" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="60dp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/describle_yh"
+                        android:textColor="#262626"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/msyh_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="60dp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/project_detail_name"
+                        android:textColor="@color/text_gray1" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="5dp"
                     android:background="#dddddd" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="60dp"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/describle_yh"
-                    android:textColor="#262626"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/msyh_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="60dp"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/project_detail_name"
-                    android:textColor="@color/text_gray1" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:background="#dddddd" />
                 <LinearLayout
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:id="@+id/ll_fix_pic"
-                    >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="60dp"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/fix_pic"
-                    android:textColor="#262626"
-                    android:textStyle="bold" />
-                    <com.isoftston.issuser.conchapp.weight.MyGridView
-                        android:id="@+id/mGridView"
+                    android:layout_height="wrap_content">
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:numColumns="3"
-                        android:scrollbars="none"
-                        android:layout_marginLeft="40dp"
-                        android:layout_marginRight="20dp"
-                        android:stretchMode="columnWidth" />
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:background="#dddddd"
-                    android:id="@+id/vw_fix_pic"
-                    />
-                <LinearLayout
-                    android:layout_marginBottom="20dp"
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="60dp"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/yh_from"
-                    android:textColor="#262626"
-                    android:textStyle="bold" />
+                        android:layout_marginLeft="60dp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/yh_from"
+                        android:textColor="#262626"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/yhly_tv"
@@ -459,13 +431,52 @@
                         android:layout_marginTop="10dp"
                         android:textColor="@color/text_gray1" />
                 </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:background="#dddddd" />
+                    android:layout_marginRight="20dp"
+                    android:background="#dddddd"/>
+
+            <LinearLayout
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <com.isoftston.issuser.conchapp.weight.RoundByXfermode
+                    android:id="@+id/change_photo"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="20dp"
+                    android:src="@mipmap/change_photo" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/fix_pic"
+                    android:textColor="#262626"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/vpChange"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:clipChildren="false" />
+                    <LinearLayout
+                        android:id="@+id/llChange"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:layout_alignBottom="@id/vpChange"
+                        android:orientation="horizontal" />
+                </RelativeLayout>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

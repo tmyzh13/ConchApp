@@ -198,7 +198,6 @@ public class ChoicePhotoActivity extends BaseActivity implements View.OnClickLis
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 hideLoading();
-
                 switch (msg.arg1) {
                     case 1:
                         HashMap<String, String> map = (HashMap<String, String>) msg.obj;
