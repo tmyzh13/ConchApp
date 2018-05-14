@@ -81,9 +81,10 @@
                 <TextView
                     android:id="@+id/tv_illegal_find_company"
                     style="@style/text_normal"
-                    android:text="@string/input_text"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true" />
+                    android:layout_centerVertical="true"
+                    android:text="@string/input_text" />
             </RelativeLayout>
             <View
                 style="@style/view_line"/>

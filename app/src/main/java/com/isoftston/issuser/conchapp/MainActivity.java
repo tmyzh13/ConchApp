@@ -268,7 +268,7 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
     private void doublePressBackToast() {
         if (!isBackPressed) {
             isBackPressed = true;
-            showToast("再次点击返回退出程序");
+            showToast(getString(R.string.exsit));
         } else {
             AppManager.getAppManager().finishAllActivity();
         }

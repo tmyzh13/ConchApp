@@ -4,6 +4,8 @@
 
     <string name="language">EN</string>
     <!--首页tab-->
+    <string name="weather_fail">获取天气失败</string>
+    <string name="weather_quality_fail">获取天气质量失败</string>
     <string name="home_message">信息</string>
     <string name="home_security">隐患</string>
     <string name="home_work">作业</string>
@@ -283,7 +285,7 @@
     <string name="revoke_success">撤销成功</string>
     <string name="choice_device_type">选择设备类型</string>
     <string name="choice_device_name">选择设备名称</string>
-    <string name="exsit">确定要退出么？</string>
+    <string name="exsit">再次点击返回退出程序？</string>
     <string name="information_tips">提示！</string>
     <string name="tips">手机号不能为空</string>
     <string name="internet_error">网络连接超时</string>

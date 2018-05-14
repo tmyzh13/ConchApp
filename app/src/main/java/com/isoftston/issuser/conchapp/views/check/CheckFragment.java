@@ -32,6 +32,7 @@ import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.DeviceBean;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.presenter.CheckPresenter;
+import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.views.LoginActivity;
 import com.isoftston.issuser.conchapp.views.interfaces.CheckView;
@@ -75,7 +76,7 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
     ;
     private UserInfoBean userInfoBean = new UserInfoBean();
     private boolean isLoading = false;
-    private String cityName ="";
+    private String cityName = "";
 
     private Boolean isUpRefresh = false;
     private boolean isLastRow = false;
@@ -95,11 +96,11 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
     //声明AMapLocationClientOption对象
     public AMapLocationClientOption mLocationOption = null;
 
-    private void loadNextPage(int totalItemCount){
+    private void loadNextPage(int totalItemCount) {
         ptrLayout.setLoading();
         isDownRefresh = true;
 
-        String lastId = adapter.getData().get(totalItemCount-1).getRecordId().toString();
+        String lastId = adapter.getData().get(totalItemCount - 1).getRecordId().toString();
         presenter.getAllDeviceInfo(lastId);
     }
 
@@ -171,14 +172,12 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
             public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 //判断是否滚到最后一行
                 if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount > 0) {
-                    if(adapter.getCount() > 0)
-                    {
+                    if (adapter.getCount() > 0) {
                         isLastRow = true;
                     }
                 }
             }
         });
-
 
 
         tvName.setText(userInfoBean.getRealName());
@@ -193,27 +192,33 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
                 iv_icon.setImageDrawable(getResources().getDrawable(R.mipmap.woman_head));
             }
         }
-            ptrLayout.setRefreshLoadCallback(this);
-            //presenter.getDevice(true);
+        ptrLayout.setRefreshLoadCallback(this);
+        //presenter.getDevice(true);
 
-            Calendar now = Calendar.getInstance();
-            String txt = now.get(Calendar.YEAR) + "年" + (now.get(Calendar.MONTH) + 1) + "月" + now.get(Calendar.DAY_OF_MONTH) + "日";
-            tvTime.setText(txt);
-
+        Calendar now = Calendar.getInstance();
+        String txt;
+        if (SharePrefsUtils.getValue(getViewContext(), "app_language", "").equals("en")) {
+            txt = now.get(Calendar.YEAR) + "年" + (now.get(Calendar.MONTH) + 1) + "-" + now.get(Calendar.DAY_OF_MONTH);
+        } else {
+            txt = now.get(Calendar.YEAR) + "年" + (now.get(Calendar.MONTH) + 1) + "月" + now.get(Calendar.DAY_OF_MONTH) + "日";
         }
 
-        @Override
-        protected CheckPresenter createPresenter () {
-            return new CheckPresenter();
-        }
+        tvTime.setText(txt);
 
-        private static final int OPEN_ACTIVITY_CODE = 101;
-        private static final int REQUEST_CAMERA_PERMISSION_CODE = 100;
+    }
 
-        @OnClick(R.id.ll_scan)
-        public void goScanAction () {
-            checkPermission();
-        }
+    @Override
+    protected CheckPresenter createPresenter() {
+        return new CheckPresenter();
+    }
+
+    private static final int OPEN_ACTIVITY_CODE = 101;
+    private static final int REQUEST_CAMERA_PERMISSION_CODE = 100;
+
+    @OnClick(R.id.ll_scan)
+    public void goScanAction() {
+        checkPermission();
+    }
 
     private void startScanCode() {
         Intent intent = new Intent(getViewContext(), CaptureActivity.class);
@@ -281,7 +286,7 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
 //                LocationUtils.getCNBylocation(getActivity());
 //                Log.i("yzh", "cityName:" + LocationUtils.cityName);
 //                presenter.checkDevice(s, LocationUtils.cityName);
-                presenter.checkDevice(s,cityName);
+                presenter.checkDevice(s, cityName);
             }
         }
     }
@@ -354,12 +359,12 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
 //        });
         Collections.sort(mlist, new DeviceComparator());
 
-        if (isUpRefresh){
+        if (isUpRefresh) {
             adapter.clear();
             isUpRefresh = false;
         }
 
-        if (isDownRefresh){
+        if (isDownRefresh) {
             isDownRefresh = false;
         }
         adapter.addAll(list);
@@ -425,8 +430,8 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
 
     @Override
     public void reLogin() {
-        ToastUtils.showtoast(getActivity(),getString(R.string.re_login));
-        PreferencesHelper.saveData(Constant.LOGIN_STATUE,"");
+        ToastUtils.showtoast(getActivity(), getString(R.string.re_login));
+        PreferencesHelper.saveData(Constant.LOGIN_STATUE, "");
         startActivity(LoginActivity.getLauncher(getActivity()));
     }
 }

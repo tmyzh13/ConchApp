@@ -106,7 +106,7 @@ public class MineFragment extends BaseFragment<UserView, UserPresenter> implemen
 //                startActivity(ScanCodeActivity.getLauncher(getActivity(),new WorkBean()));
                 break;
             case R.id.log_off:
-                SharePrefsUtils.clearAll(getViewContext());
+                SharePrefsUtils.clearKeyValue(getViewContext(),Constant.PUSH_MESSAGE);
                 PreferencesHelper.remove(Constant.LOGIN_STATUE);
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);

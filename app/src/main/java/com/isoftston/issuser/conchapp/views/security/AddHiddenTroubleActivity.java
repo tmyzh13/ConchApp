@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.corelibs.base.BaseActivity;
 import com.corelibs.utils.IMEUtil;
+import com.corelibs.utils.PreferencesHelper;
 import com.corelibs.utils.ToastMgr;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
@@ -158,6 +159,12 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
 
         startTime= Tools.getCurrentTime();
         tv_start_time.setText(startTime);
+        find_company_id= PreferencesHelper.getData(Constant.ORG_ID);
+        find_company = PreferencesHelper.getData(Constant.ORG_NAME);
+        tv_find_company.setText(find_company);
+        yh_company_id = PreferencesHelper.getData(Constant.ORG_ID);
+        yh_company = PreferencesHelper.getData(Constant.ORG_NAME);
+        tv_trouble_company.setText(yh_company);
 
 
 //        input_find_company.setInputText(getString(R.string.hidden_trouble_find_company),null);

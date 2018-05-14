@@ -25,6 +25,7 @@ import java.util.Date;
 public class MessageTypeAdapter extends QuickAdapter<MessageBean> {
 
     private SimpleDateFormat time = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
+    private SimpleDateFormat timeEn = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     public MessageTypeAdapter(Context context) {
         super(context, R.layout.item_message);
     }
@@ -59,7 +60,11 @@ public class MessageTypeAdapter extends QuickAdapter<MessageBean> {
                     .setText(R.id.address,item.getLocation())
                     .setText(R.id.content,item.getContent());
             if (!"".equals(item.getCreateTime())){
-                helper.setText(R.id.item_time,time.format(new Date(Long.valueOf(item.getCreateTime()))));
+                if (SharePrefsUtils.getValue(context,"app_language","").equals("en")){
+                    helper.setText(R.id.item_time,timeEn.format(new Date(Long.valueOf(item.getCreateTime()))));
+                }else {
+                    helper.setText(R.id.item_time,time.format(new Date(Long.valueOf(item.getCreateTime()))));
+                }
             }
             if (item.getYhjb()!=null&& SharePrefsUtils.getValue(context,item.getYhjb(),"").contains(context.getResources().getString(R.string.hidden_trouble_major))){
                 item_mark.setVisibility(View.VISIBLE);

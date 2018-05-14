@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.corelibs.base.BaseActivity;
 import com.corelibs.utils.IMEUtil;
+import com.corelibs.utils.PreferencesHelper;
 import com.corelibs.utils.ToastMgr;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
@@ -124,7 +125,12 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
 
         startTime= Tools.getCurrentTime();
         endTime=Tools.getCurrentTime();
-
+        find_company_id=PreferencesHelper.getData(Constant.ORG_ID);
+        find_company = PreferencesHelper.getData(Constant.ORG_NAME);
+        tv_illegal_find_company.setText(find_company);
+        wz_company_id = PreferencesHelper.getData(Constant.ORG_ID);
+        wz_company = PreferencesHelper.getData(Constant.ORG_NAME);
+        tv_illegal_company.setText(wz_company);
 
         et_description.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override

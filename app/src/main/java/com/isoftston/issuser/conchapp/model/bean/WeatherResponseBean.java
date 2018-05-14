@@ -7,6 +7,8 @@ public class WeatherResponseBean {
 
     private String weather;
 
+    private String weatheren;
+
     public String getStatus() {
         return status;
     }
@@ -41,4 +43,11 @@ public class WeatherResponseBean {
 
     private String humidity;
 
+    public String getWeatheren() {
+        return weatheren;
+    }
+
+    public void setWeatheren(String weatheren) {
+        this.weatheren = weatheren;
+    }
 }

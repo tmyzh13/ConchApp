@@ -9,6 +9,7 @@ import com.corelibs.utils.adapter.normal.QuickAdapter;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.model.bean.DeviceBean;
 import com.isoftston.issuser.conchapp.utils.DateUtils;
+import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,9 +31,16 @@ public class DeviceAdapter extends QuickAdapter<DeviceBean> {
 
     @Override
     protected void convert(BaseAdapterHelper helper, DeviceBean item, int position) {
-        String date = new java.text.SimpleDateFormat("yyyy年MM月dd日 HH:mm")
-                .format(new java.util.Date(
-                        Long.parseLong(String.valueOf(item.getCreateTime()))));
+        String date = "";
+        if (SharePrefsUtils.getValue(context,"app_language","").equals("en")){
+             date = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm")
+                    .format(new java.util.Date(
+                            Long.parseLong(String.valueOf(item.getCreateTime()))));
+        }else{
+             date = new java.text.SimpleDateFormat("yyyy年MM月dd日 HH:mm")
+                    .format(new java.util.Date(
+                            Long.parseLong(String.valueOf(item.getCreateTime()))));
+        }
         helper.setText(R.id.tv_device_name, context.getResources().getString(R.string.check_manager_device_name) + ":" + item.getName())
                 .setText(R.id.tv_time, date)
                 .setText(R.id.tv_device_no, context.getResources().getString(R.string.check_manager_device_no) + ":" + item.getEquipCode())

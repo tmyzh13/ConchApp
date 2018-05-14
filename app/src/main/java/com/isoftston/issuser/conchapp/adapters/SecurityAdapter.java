@@ -25,6 +25,7 @@ import java.util.Date;
 public class SecurityAdapter extends QuickAdapter<SecurityTroubleBean> {
 
     private SimpleDateFormat time = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
+    private SimpleDateFormat timeEn = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
 
     public SecurityAdapter(Context context) {
         super(context, R.layout.item_message);
@@ -60,7 +61,11 @@ public class SecurityAdapter extends QuickAdapter<SecurityTroubleBean> {
                     .setText(R.id.address, item.getYhdd())
                     .setText(R.id.content, item.getYhms());
             if (!"".equals(item.getCjsj())) {
-                helper.setText(R.id.item_time, time.format(new Date(Long.valueOf(item.getCjsj()))));
+                if (SharePrefsUtils.getValue(context,"app_language","").equals("en")){
+                    helper.setText(R.id.item_time,timeEn.format(new Date(Long.valueOf(item.getCjsj()))));
+                }else{
+                    helper.setText(R.id.item_time, time.format(new Date(Long.valueOf(item.getCjsj()))));
+                }
             }
 //        } else if ("aq".equals(item.getType())) {
 //            item_icon.setImageResource(R.mipmap.aq_icon);

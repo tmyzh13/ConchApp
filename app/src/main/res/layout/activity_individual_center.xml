@@ -136,11 +136,13 @@
 
                 <TextView
                     android:id="@+id/user_role"
-                    android:layout_width="wrap_content"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
+                    android:gravity="right"
                     android:text=""
+                    android:singleLine="false"
                     android:textColor="@color/des_text_color"
                     android:textSize="14sp" />
             </RelativeLayout>

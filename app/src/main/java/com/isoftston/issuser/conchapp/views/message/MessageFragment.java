@@ -46,6 +46,7 @@ import com.isoftston.issuser.conchapp.model.bean.WeatherResponseBean;
 import com.isoftston.issuser.conchapp.model.event.MyEvent;
 import com.isoftston.issuser.conchapp.presenter.MessagePresenter;
 import com.isoftston.issuser.conchapp.utils.LocationUtils;
+import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.views.LoginActivity;
 import com.isoftston.issuser.conchapp.views.interfaces.MessageView;
@@ -145,8 +146,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         @Override
         public void onLocationChanged(AMapLocation aMapLocation) {
             Log.i(TAG,"map address:" + aMapLocation.getAddress() + ",cityName:" + aMapLocation.getCity());
-            locationCityTv.setText(aMapLocation.getCity());
-            PreferencesHelper.saveData(Constant.LOCATION_NAME, aMapLocation.getCity());
+            String cityEn="";
             for(CountryModelBean bean:countryList)
             {
                 if(aMapLocation.getCity().contains(bean.getChineseName()) && (aMapLocation.getCity().length() == bean.getChineseName().length() + 1))
@@ -154,9 +154,16 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
                     Log.i(TAG,"map english:" + bean.getEnglishName() + ",cityName:" + aMapLocation.getCity() + ",weather city code:" + bean.getCityCode());
                     presenter.getWeatherInfo(bean.getCityCode());
                     presenter.getAirInfo(bean.getEnglishName());
+                    cityEn = bean.getEnglishName();
                     break;
                 }
             }
+            if (SharePrefsUtils.getValue(getViewContext(),"app_language","").equals("en")){
+                locationCityTv.setText(cityEn);
+            }else {
+                locationCityTv.setText(aMapLocation.getCity());
+            }
+            PreferencesHelper.saveData(Constant.LOCATION_NAME, aMapLocation.getCity());
         }
     };
     //声明AMapLocationClientOption对象
@@ -677,11 +684,16 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
             String txt = bean.getTemp() + "°";
             tv_temp.setText(txt);
             tv_humidity.setText(bean.getHumidity());
-            tv_weather.setText(bean.getWeather());
+            if (SharePrefsUtils.getValue(getViewContext(),"app_language","").equals("en")){
+                tv_weather.setText(bean.getWeatheren());
+
+            }else {
+                tv_weather.setText(bean.getWeather());
+            }
         }
         else
         {
-            ToastMgr.show("获取天气失败");
+            ToastMgr.show(getString(R.string.weather_fail));
         }
     }
 

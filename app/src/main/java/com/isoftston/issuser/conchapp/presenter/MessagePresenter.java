@@ -8,6 +8,7 @@ import com.corelibs.pagination.presenter.ListPagePresenter;
 import com.corelibs.subscriber.ResponseSubscriber;
 import com.corelibs.utils.PreferencesHelper;
 import com.corelibs.utils.ToastMgr;
+import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.apis.MessageApi;
 import com.isoftston.issuser.conchapp.model.bean.AirResponseBean;
@@ -130,6 +131,7 @@ public class MessagePresenter extends ListPagePresenter<MessageView> {
                 .subscribe(new ResponseSubscriber<BaseData<UserInfoBean>>() {
                     @Override
                     public void success(BaseData<UserInfoBean> userInfoBeanBaseData) {
+                        PreferencesHelper.saveData(Constant.ORG_ID,userInfoBeanBaseData.data.getOrgId());
                         PreferencesHelper.saveData(Constant.ORG_NAME,userInfoBeanBaseData.data.getOrgName());
                     }
 
@@ -185,7 +187,7 @@ public class MessagePresenter extends ListPagePresenter<MessageView> {
                     public void onError(Throwable e) {
                         super.onError(e);
                         view.getWorkError();
-                        ToastMgr.show("获取天气失败");
+                        ToastMgr.show(getString(R.string.weather_fail));
                     }
                 });
     }
@@ -204,7 +206,7 @@ public class MessagePresenter extends ListPagePresenter<MessageView> {
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-                        ToastMgr.show("获取天气质量失败");
+                        ToastMgr.show(getString(R.string.weather_quality_fail));
                     }
                 });
     }
