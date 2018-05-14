@@ -44,21 +44,22 @@ public class DangerMessageFragment extends BaseFragment<WorkView,WorkPresenter> 
     @Override
     protected void init(Bundle savedInstanceState) {
         presenter.getWorkInfo();
+        tabs.add(getString(R.string.all));
         adapter = new WorkMessageAdapter(getActivity().getSupportFragmentManager(),tabs,1);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         Tools.setIndicator(tabLayout,10,10);
-        RxBus.getDefault().toObservable(Object.class,"ssss")
-                .compose(this.bindToLifecycle())
-                .subscribe(new RxBusSubscriber<Object>() {
-                    @Override
-                    public void receive(Object data) {
-                        tabs.set(1,getString(R.string.shuini)+12);
-                        adapter.setmTitles(tabs);
-                        tabLayout.getTabAt(1).setText(tabs.get(1));
-                    }
-                });
+//        RxBus.getDefault().toObservable(Object.class,"ssss")
+//                .compose(this.bindToLifecycle())
+//                .subscribe(new RxBusSubscriber<Object>() {
+//                    @Override
+//                    public void receive(Object data) {
+//                        tabs.set(1,getString(R.string.shuini)+12);
+//                        adapter.setmTitles(tabs);
+//                        tabLayout.getTabAt(1).setText(tabs.get(1));
+//                    }
+//                });
     }
 
     @Override
@@ -83,6 +84,10 @@ public class DangerMessageFragment extends BaseFragment<WorkView,WorkPresenter> 
 
     @Override
     public void getWorkListInfo(List<WorkBean> list) {
+        hideLoading();
+        if (list.size()==0){
+            return;
+        }
         tabs.clear();
         tabs.add(getString(R.string.all));
         if (list!=null&&list.size()!=0){
@@ -103,7 +108,7 @@ public class DangerMessageFragment extends BaseFragment<WorkView,WorkPresenter> 
 
     @Override
     public void getWorkError() {
-
+        hideLoading();
     }
 
     @Override

@@ -50,16 +50,23 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
     TextView tv_title;
     @Bind(R.id.vp)
     ViewPager vp;
+
+    @Bind(R.id.vpChange)
+    ViewPager vpChange;
+
     @Bind(R.id.ll)
     LinearLayout ll;
-    @Bind(R.id.mGridView)
-    MyGridView mGridView;
+
+    @Bind(R.id.llChange)
+    LinearLayout llChange;
     @Bind(R.id.tv_user)
     TextView tv_yh_finder;
     @Bind(R.id.tv_company)
     TextView tv_company;
     @Bind(R.id.tv_time)
     TextView tv_time;
+
+
     @Bind(R.id.sjdwmc_tv)
     TextView sjdwmc_tv;
     @Bind(R.id.yhdd_tv)
@@ -79,11 +86,7 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
     TextView msyh_tv;
     @Bind(R.id.yhly_tv)
     TextView yhly_tv;
-    @Bind(R.id.ll_fix_pic)
-    LinearLayout ll_fix_pic;
 
-    @Bind(R.id.vw_fix_pic)
-    View vw_fix_pic;
 
     @Bind(R.id.zgzt_fix_img)
     RoundByXfermode zgztFixImage;
@@ -93,7 +96,9 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
 
 
     private List<View> imageList;
+    private List<View> imageChangeList;
     private ArrayList<View> dotsList;
+    private ArrayList<View> dotsChangeList;
 //    private int[] images = {R.drawable.aaa,R.drawable.bbb,R.drawable.ccc,R.drawable.ddd};
     private List<String> urls = new ArrayList<>();
     private List<String> zgurls = new ArrayList<>();
@@ -131,6 +136,29 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
             id = bundle.getString("id");
         }
         getData();
+
+        vpChange.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageSelected(int position) {
+                //遍历小圆点集合
+                for(int i=0;i<dotsChangeList.size();i++){
+                    if(position%dotsChangeList.size() == i){//设置当前小圆点
+                        dotsChangeList.get(i).setBackgroundResource(R.drawable.dots_focus);
+                    }else{//设置其他小圆点
+                        dotsChangeList.get(i).setBackgroundResource(R.drawable.dots_normal);
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset,int positionOffsetPixels) {
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+
         //页面改变监听
         vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -187,6 +215,27 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
             ll.addView(v);
             dotsList.add(v);
         }
+
+        //实例化一个集合存放小圆点
+        dotsChangeList = new ArrayList<View>();
+        for(int i=0;i<zgurls.size();i++){
+            //把第一个小圆点设置为选中状态
+            View v = new View(this);
+            if(i == 0){
+                v.setBackgroundResource(R.drawable.dots_focus);
+            }else{
+                v.setBackgroundResource(R.drawable.dots_normal);
+            }
+            //指定其大小
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(20, 20);
+            if (i != 0){
+                params.leftMargin = 30;
+                params.bottomMargin = 20;
+            }
+            v.setLayoutParams(params);
+            llChange.addView(v);
+            dotsChangeList.add(v);
+        }
     }
     private void initImages() {
         //实例化一个集合，用于存放图片
@@ -215,6 +264,32 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
 //            iv.setImageResource(images[i]);
             imageList.add(view);
         }
+
+        imageChangeList = new ArrayList<View>();
+        for (int i = 0; i < zgurls.size(); i++) {
+            final int j = i;
+            View view = LayoutInflater.from(getApplicationContext()).inflate(
+                    R.layout.viewpager_item, null);
+//            TextView title = (TextView) view.findViewById(R.id.view_title);
+//            title.setText("头像");
+            ImageView iv = view.findViewById(R.id.view_image);
+            Glide.with(this).load(zgurls.get(i))
+                    .centerCrop()
+                    .into(iv);
+            iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(ItemDangerDtailActivity.this,ImageDetilActivity.class);
+                    Bundle bundle=new Bundle();
+                    bundle.putStringArrayList("imagepath", (ArrayList<String>) zgurls);
+                    bundle.putInt("index",j);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            });
+//            iv.setImageResource(images[i]);
+            imageChangeList.add(view);
+        }
     }
 
     @Override
@@ -240,24 +315,12 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
         //初始化vp的位置
         vp.setCurrentItem(0);
 
-        if(zgurls!=null&&zgurls.size()>0){
-            gridViewAdapter = new mGridViewAdapter(this, zgurls);
-            mGridView.setAdapter(gridViewAdapter);
-            mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Map<String, Object> map = data_list.get(i);
-                    Intent intent=new Intent(ItemDangerDtailActivity.this,ImageDetilActivity.class);
-                    Bundle bundle=new Bundle();
-                    bundle.putStringArrayList("imagepath", (ArrayList<String>) zgurls);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                }
-            });
-        }else{
-            ll_fix_pic.setVisibility(View.GONE);
-            vw_fix_pic.setVisibility(View.GONE);
-        }
+        VpAdapter changeAdapter = new VpAdapter(imageChangeList,handler);
+        vpChange.setPageMargin(10);
+        vpChange.setAdapter(changeAdapter);
+        //初始化vp的位置
+        vpChange.setCurrentItem(0);
+
     }
 
     private void initView(MessageDetailBean bean) {
@@ -320,7 +383,6 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
         //if(fromLYMap!=null) {
             String yhly = bean.getYhly();
             if(yhly==null){
-                ll_fix_pic.setVisibility(View.GONE);
             }else{
                 yhly_tv.setText(SharePrefsUtils.getValue(this,yhly,""));
             }

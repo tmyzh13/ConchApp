@@ -41,6 +41,7 @@ public class CommonMessageFragment extends BaseFragment<WorkView,WorkPresenter> 
     @Override
     protected void init(Bundle savedInstanceState) {
         presenter.getWorkInfo();
+        tabs.add(getString(R.string.all));
         adapter = new WorkMessageAdapter(getActivity().getSupportFragmentManager(),tabs, 0);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -70,6 +71,10 @@ public class CommonMessageFragment extends BaseFragment<WorkView,WorkPresenter> 
 
     @Override
     public void getWorkListInfo(List<WorkBean> list) {
+        hideLoading();
+        if (list.size()==0){
+            return;
+        }
         tabs.clear();
         tabs.add(getString(R.string.all));
         if (list!=null&&list.size()!=0){
@@ -89,7 +94,7 @@ public class CommonMessageFragment extends BaseFragment<WorkView,WorkPresenter> 
 
     @Override
     public void getWorkError() {
-
+        hideLoading();
     }
 
     @Override

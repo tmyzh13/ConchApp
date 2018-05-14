@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -104,6 +105,12 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
 
     @Bind(R.id.tv_start_time)
     TextView tv_start_time;
+
+    @Bind(R.id.fix)
+    RadioGroup rg_radio_group;
+
+    @Bind(R.id.rl_change_photo)
+    RelativeLayout rl_change_photo_layout;
 
     public String startTime,endTime;
     private List<String> findCompanyList=new ArrayList<>();
@@ -210,6 +217,25 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
                 return false;
             }
         });
+
+
+        rg_radio_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch(checkedId)
+                {
+                    case R.id.fix_yes:
+                        rl_change_photo_layout.setVisibility(View.VISIBLE);
+                        break;
+                    case R.id.fix_no:
+                        rl_change_photo_layout.setVisibility(View.GONE);
+                        break;
+                }
+            }
+        });
+
+
         presenter.getCompanyChoiceList();
         //获取人员信息
         presenter.getUserInfo();
@@ -330,7 +356,18 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
                 tv_yh_type.setText(name);
                 yh_lx_id = id;
             }
-        }else if(requestCode==120)
+        }else if(requestCode==111){
+            if(resultCode==10) {
+                map = (HashMap<String, String>) data.getSerializableExtra(Constant.TEMP_PIC_LIST);
+                StringBuilder builder = new StringBuilder();
+                for (String path : map.values()) {
+                    builder.append(path);
+                    builder.append(",");
+                }
+                picChangeString = builder.toString();
+            }
+        }
+        else if(requestCode==120)
         {
             if(resultCode == 130)
             {
@@ -349,6 +386,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
     }
     private HashMap<String, String> map =new HashMap<>();
     private String picString;
+    private String picChangeString;
 
     @OnClick(R.id.rl_photo)
     public void goPhoto(){
@@ -356,6 +394,11 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         startActivityForResult(ChoicePhotoActivity.getLauncher(context,"0",map,0),110);
     }
 
+    @OnClick(R.id.rl_change_photo)
+    public void goChangePhoto(){
+        //进入照片选择界面
+        startActivityForResult(ChoicePhotoActivity.getLauncher(context,"0",map,0),111);
+    }
 
     @OnClick(R.id.ll_description)
     public void choiceDescription(){
@@ -417,6 +460,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         bean.setYhjb(yh_grade);
         bean.setYhdd(yh_address);
         bean.setYhbw(yh_position);
+        bean.setZgtp(picChangeString);
 
         if(yh_grade_name.equals(getString(R.string.hidden_trouble_major_full)))
         {
