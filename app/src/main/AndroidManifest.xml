@@ -277,6 +277,9 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".views.security.OrgActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".views.mine.ChangePwdActivity"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 </manifest>

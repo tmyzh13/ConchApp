@@ -273,7 +273,8 @@
             android:background="@drawable/msg_item_press_bg"
             android:paddingLeft="14dp"
             android:paddingRight="14dp"
-            android:visibility="visible">
+            android:visibility="visible"
+            android:id="@+id/rl_pwd">
 
             <ImageView
                 android:id="@+id/img_edit_6"
@@ -331,7 +332,7 @@
 
                 </RelativeLayout>
 
-                <EditText
+                <TextView
                     android:id="@+id/user_pwd"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"

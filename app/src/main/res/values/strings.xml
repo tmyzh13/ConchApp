@@ -307,4 +307,15 @@
     <string name="now_update">现在更新</string>
     <string name="connect_error">"网络断开，请稍候再试</string>
     <string name="check_agein">请检查相关信息</string>
+
+    <string name="change_pwd">修改密码</string>
+    <string name="pwd_hint">密码为8&#8211;16位，至少包含大小写、字母和数字三种，不能含空格。</string>
+    <string name="pwd_security">密码安全强度</string>
+    <string name="pwd_security_low">弱</string>
+    <string name="pwd_security_medium">中</string>
+    <string name="pwd_security_high">强</string>
+    <string name="pwd_again">请再次输入密码</string>
+    <string name="pwd_input">请输入密码</string>
+    <string name="pwd_fail">安全强度不够，应由字母、数字和符号组成</string>
+    <string name="pwd_warn">您的密码安全强度不够，请您修改密码！</string>
 </resources>
