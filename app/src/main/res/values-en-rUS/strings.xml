@@ -2,6 +2,8 @@
     <!--app名称-->
     <string name="app_name_main">Conch Warning</string>
 
+    <string name="phone_check">Please enter the correct phone number</string>
+
     <string name="language">中</string>
     <!--首页tab-->
     <string name="weather_fail">Failed to get weather</string>

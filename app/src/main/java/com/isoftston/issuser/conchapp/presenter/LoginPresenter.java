@@ -67,8 +67,15 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                             if(baseData!=null&&baseData.data!=null){
                                 JsonObject jsonObject= (JsonObject) baseData.data;
                                 String token= String.valueOf(jsonObject.get("Access-Token"));
+                                SharePrefsUtils.putValue(getContext(),"token",token);
                                 PreferencesHelper.saveData(Constant.LOGIN_PWD,password);
-                                view.loginSuccess(token);
+                                if ("true".equals(String.valueOf(jsonObject.get("newPhone")))){
+                                    view.bindPhone();
+                                }else if ("true".equals(String.valueOf(jsonObject.get("phoneIsNull")))){
+                                    view.bindPhone();
+                                }else {
+                                    view.loginSuccess(token);
+                                }
                             }
 
 

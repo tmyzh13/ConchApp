@@ -36,6 +36,8 @@ import com.umeng.message.PushAgent;
 import com.umeng.message.common.inter.ITagManager;
 import com.umeng.message.tag.TagManager;
 
+import java.util.regex.Pattern;
+
 import butterknife.Bind;
 import butterknife.OnClick;
 
@@ -124,17 +126,24 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
     }
     @Override
     public void loginSuccess(String data) {
+
 //        LoginUserBean loginUserBean=new LoginUserBean();
 //        loginUserBean.setUsername(username);
 //        loginUserBean.setPassword(MD5Utils.encode(password));
 //        loginUserBean.save();
-        PreferencesHelper.saveData(Constant.LOGIN_STATUE,"1");
-        SharePrefsUtils.putValue(context,"token",data);
+
         //presenter.getPushTag();
 
-        startActivity(MainActivity.getLauncher(context));
-        ToastUtils.showtoast(context,getString(R.string.login_success));
-        finish();
+        boolean isMatch = Pattern.matches(Constant.PASSWORD_STYLE, et_password.getText().toString().trim());
+        if (isMatch){
+            PreferencesHelper.saveData(Constant.LOGIN_STATUE,"1");
+            startActivity(MainActivity.getLauncher(context));
+            ToastUtils.showtoast(context,getString(R.string.login_success));
+            finish();
+        }else {
+
+        }
+
     }
 
     @Override
@@ -173,6 +182,12 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
             um.showNoticeDialog(serverCode);
         }
     }
+
+    @Override
+    public void bindPhone() {
+        startActivity(PhoneBindActivity.getLaucner(context));
+    }
+
 
     private void addTag(String tag) {
        // final String tag = username;

@@ -43,4 +43,5 @@ public class Constant {
     public static final String DANGER_COMPANY_ID="danger_company_id";
     public static final String DANGER_COMPANY_NAME="danger_company_name";
     public static final String  PUSH_MESSAGE = "push_message";
+    public static final String PASSWORD_STYLE = "(?=.*\\\\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}";
 }

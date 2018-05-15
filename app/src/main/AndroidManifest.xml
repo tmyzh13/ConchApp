@@ -61,7 +61,7 @@
         <!--高德-->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="5ace5deea367ac94ad43156dc8b1abbd"/>
+            android:value="d532c1e96fc1424045ab8fda691fb1d4"/>
 
         <service android:name="com.amap.api.location.APSService"></service>
 
@@ -276,6 +276,8 @@
         <activity android:name=".views.security.ChoiceTypeActivity"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".views.security.OrgActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".views.PhoneBindActivity"
             android:screenOrientation="portrait"/>
     </application>
 

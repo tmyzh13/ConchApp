@@ -26,6 +26,8 @@ public class Urls {
 
     //登录
     public static final String LOGIN = "login";
+
+    public static final String BIND_PHONE ="updatePhone";
     //忘记密码
     public static final String FORGET_PASSWORD="findPassword";
     //获取验证码

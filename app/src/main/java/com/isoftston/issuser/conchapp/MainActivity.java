@@ -357,6 +357,11 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
         }
     }
 
+    @Override
+    public void bindPhone() {
+
+    }
+
 
     private void addTag(String username) {
         //final String tag = "2c9af58150f5a3e80150f5c6d51e000b";
