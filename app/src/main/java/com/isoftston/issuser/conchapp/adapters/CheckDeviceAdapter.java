@@ -1,6 +1,7 @@
 package com.isoftston.issuser.conchapp.adapters;
 
 import android.content.Context;
+import android.view.View;
 
 import com.corelibs.utils.adapter.BaseAdapterHelper;
 import com.corelibs.utils.adapter.normal.QuickAdapter;
@@ -20,5 +21,6 @@ public class CheckDeviceAdapter extends QuickAdapter<DeviceTypeBean> {
     @Override
     protected void convert(BaseAdapterHelper helper, DeviceTypeBean item, int position) {
         helper.setText(R.id.tv_name_device,item.getName());
+
     }
 }

@@ -174,6 +174,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     private String choice_device_id;
     private boolean isLimit=false;
     private String company;
+    private String find_company_id;
 
     @Override
     protected int getLayoutId() {
@@ -495,7 +496,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         if (TextUtils.isEmpty(name) || startTime == 0
                 || TextUtils.isEmpty(equipmentType) || TextUtils.isEmpty(equipmentCode)
                 || TextUtils.isEmpty(equipmentName) || TextUtils.isEmpty(area) || TextUtils.isEmpty(part)
-                || TextUtils.isEmpty(content) || TextUtils.isEmpty(company) || TextUtils.isEmpty(numPeople)
+                || TextUtils.isEmpty(content) || TextUtils.isEmpty(find_company_id) || TextUtils.isEmpty(numPeople)
                 || TextUtils.isEmpty(guardian)||TextUtils.isEmpty(leading)
                 || TextUtils.isEmpty(auditor) || TextUtils.isEmpty(approver)) {
             ToastMgr.show(R.string.input_all_message);
@@ -511,7 +512,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         bean.setArea(areaId);
         bean.setPart(part);
         bean.setContent(content);
-        bean.setCompany(company);
+        bean.setCompany(find_company_id);
         bean.setEquipmentId(Integer.parseInt(choice_device_id));
         try {
             bean.setNumberPeople(Integer.parseInt(numPeople));
@@ -710,7 +711,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             }
         }else if (resultCode==130){
             if (requestCode==128){
-               String find_company_id=data.getStringExtra(Constant.FIND_COMPANY_ID);
+                find_company_id = data.getStringExtra(Constant.FIND_COMPANY_ID);
                 company = data.getStringExtra(Constant.FIND_COMPANY_NAME);
                tv_work_company.setText(company);
             }

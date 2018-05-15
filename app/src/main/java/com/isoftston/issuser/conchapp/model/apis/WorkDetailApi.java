@@ -47,6 +47,4 @@ public interface WorkDetailApi {
     @POST(Urls.GET_WORK_INFO)
     Observable<BaseData<WorkListBean>> getWorkInfo(@Header("Access-Token") String token, @Body WorkListRequestBean bean);
 
-    @POST(Urls.DANGER_WORK_TYPE)
-    Observable<BaseData<DangerWorkTypeBean>> dangerWorkType(@Header("Access-Token") String token, @Body FixWorkBean bean);
 }
