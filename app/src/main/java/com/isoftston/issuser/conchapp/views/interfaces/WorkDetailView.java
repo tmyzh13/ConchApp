@@ -29,5 +29,4 @@ public interface WorkDetailView extends BasePaginationView {
 
     void getWorkListInfo(List<WorkBean> list);
 
-    void getDangerWorkTypeResult(List<DangerTypeBean> list);
 }

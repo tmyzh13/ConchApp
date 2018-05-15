@@ -19,7 +19,8 @@ public class WorkDetailBean implements Serializable{
     public String area;//作业区域
     public String part;//作业地点
     public String content;//作业内容
-    public String company;//作业单位
+    public String company;//作业单位id
+    public String companyName;//作业单位名称
     public int numberPeople;//作业人数
 
     public String getType() {
@@ -30,7 +31,8 @@ public class WorkDetailBean implements Serializable{
         this.type = type;
     }
 
-    public String type;//作业危险类型
+    public String type;//作业危险类型id
+    public String typeName;//作业危险类型名称
     public String gas;//气体检测人id
     public String gasName;//气体检测人id
     public String leading;//负责人id
@@ -81,6 +83,22 @@ public class WorkDetailBean implements Serializable{
 
     public long getEndTime() {
         return endTime;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
     }
 
     public void setEndTime(long endTime) {

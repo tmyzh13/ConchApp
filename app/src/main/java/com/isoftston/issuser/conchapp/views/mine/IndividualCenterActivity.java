@@ -48,7 +48,7 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
     @Bind(R.id.show_pwd_layout)
     RelativeLayout showPwdLayout;//显示、隐藏密码
     @Bind(R.id.user_pwd)
-    EditText userPwdEt;
+    TextView userPwdEt;
     @Bind(R.id.img_edit_7)
     ImageView userPhoneNumIv;//加手机号
     @Bind(R.id.user_phoneNum)
@@ -60,6 +60,10 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
 
     @Bind(R.id.tv_user_sex)
     TextView userSexTv;
+
+    @Bind(R.id.rl_pwd)
+    RelativeLayout rl_pwd;
+
 
     private boolean isShowPwd = false;
     private UserInfoBean userInfo;
@@ -81,7 +85,7 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
         clicks();
         showUserInfo();
         changeIcon();
-        addPwdListen();
+        //addPwdListen();
     }
 
     /**
@@ -168,7 +172,8 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
         backIv.setOnClickListener(this);
         sureTv.setOnClickListener(this);
         showPwdLayout.setOnClickListener(this);
-
+        rl_pwd.setOnClickListener(this);
+        userPwdEt.setOnClickListener(this);
     }
 
     @Override
@@ -194,6 +199,10 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
                     //隐藏密码
                     userPwdEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 }
+                break;
+            case R.id.rl_pwd:
+            case R.id.user_pwd:
+                startActivity(ChangePwdActivity.getLauncher(this,null));
                 break;
             default:
                 break;

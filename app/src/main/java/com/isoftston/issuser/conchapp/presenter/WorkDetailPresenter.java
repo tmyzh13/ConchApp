@@ -173,22 +173,5 @@ public class WorkDetailPresenter extends BasePresenter<WorkDetailView> {
 
                 });
     }
-    //危险作业类型
-    public void getDangerWorkType(FixWorkBean bean){
-        String token= SharePrefsUtils.getValue(getContext(),"token",null);
-        String token1=token.replaceAll("\"","");
-        api.dangerWorkType(token1,bean)
-                .compose(new ResponseTransformer<>(this.<BaseData<DangerWorkTypeBean>>bindToLifeCycle()))
-                .subscribe(new ResponseSubscriber<BaseData<DangerWorkTypeBean>>(view) {
-                    @Override
-                    public void success(BaseData<DangerWorkTypeBean> workBeanBaseData) {
-                        view.getDangerWorkTypeResult(workBeanBaseData.data.list);
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                    }
-                });
-    }
 }

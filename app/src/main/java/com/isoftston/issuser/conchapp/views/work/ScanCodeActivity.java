@@ -64,7 +64,6 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     private static final int OPEN_ACTIVITY_SCAN_CODE = 102;
     private static final int OPEN_ACTIVITY_TAKE_PHOTO_CODE = 103;
     private static final int MODIFY_CODE = 104;
-    private List<DangerTypeBean> totalist = new ArrayList<>();
     @Bind(R.id.nav)
     NavBar nav;
     @Bind(R.id.iv_add)
@@ -305,7 +304,6 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         getLoadingDialog().show();
         presenter.getUserInfo();
         presenter.getWorkInfo();
-        presenter.getDangerWorkType(new FixWorkBean());
 //        scan();
 //        setData();
 //        scaned();
@@ -1149,7 +1147,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         }
         workAddressTv.setText(workDetailBean.part);
         workContentTv.setText(workDetailBean.content);
-        workCompanyTv.setText(workDetailBean.company);
+        workCompanyTv.setText(workDetailBean.companyName);
         workNumberTv.setText(String.valueOf(workDetailBean.numberPeople));
         if (workDetailBean.isDanger == 1) {
             isDangerWork = true;
@@ -1159,14 +1157,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         if (isDangerWork) {
             gasCheckerTv.setText(workDetailBean.gasName);
             dangerWorkRl.setVisibility(View.VISIBLE);
-            for (DangerTypeBean bean:totalist){
-                if (workDetailBean.getType().equals(bean.getCode())){
-                    dangerWorkTypeTv.setText(bean.getName());
-                    break;
-                }
-
-            }
-
+            dangerWorkTypeTv.setText(workDetailBean.typeName);
         } else {
             dangerWorkRl.setVisibility(View.GONE);
         }
@@ -1248,13 +1239,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         presenter.getWorkDetailInfo(jobId);
     }
 
-    @Override
-    public void getDangerWorkTypeResult(List<DangerTypeBean> list) {
 
-        totalist=list;
-
-
-    }
 
     @Override
     public void onLoadingCompleted() {
