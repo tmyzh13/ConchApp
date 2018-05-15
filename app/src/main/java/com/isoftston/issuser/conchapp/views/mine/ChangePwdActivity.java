@@ -106,8 +106,7 @@ public class ChangePwdActivity extends BaseActivity<UserView, UserPresenter> imp
                     return;
                 }
 
-                String regex = "(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{8,16}";
-                Pattern pattern = Pattern.compile(regex);
+                Pattern pattern = Pattern.compile(Constant.PASSWORD_STYLE);
                 Matcher matcher = pattern.matcher(s.toString());
 
                 if(!matcher.find())

@@ -32,6 +32,7 @@ import com.isoftston.issuser.conchapp.utils.Tools;
 import com.isoftston.issuser.conchapp.utils.UpdateManager;
 import com.isoftston.issuser.conchapp.utils.VersionUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.LoginView;
+import com.isoftston.issuser.conchapp.views.mine.ChangePwdActivity;
 import com.umeng.message.PushAgent;
 import com.umeng.message.common.inter.ITagManager;
 import com.umeng.message.tag.TagManager;
@@ -136,14 +137,36 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
 
         boolean isMatch = Pattern.matches(Constant.PASSWORD_STYLE, et_password.getText().toString().trim());
         if (isMatch){
-            PreferencesHelper.saveData(Constant.LOGIN_STATUE,"1");
-            startActivity(MainActivity.getLauncher(context));
-            ToastUtils.showtoast(context,getString(R.string.login_success));
-            finish();
+            if (getPwdSecurity(et_password.getText().toString().trim()) == 2){
+                PreferencesHelper.saveData(Constant.LOGIN_STATUE,"1");
+                startActivity(MainActivity.getLauncher(context));
+                ToastUtils.showtoast(context,getString(R.string.login_success));
+                finish();
+            }else {
+                startActivity(ChangePwdActivity.getLauncher(context,null));
+            }
         }else {
-
+            startActivity(ChangePwdActivity.getLauncher(context,null));
         }
 
+    }
+
+    private Integer getPwdSecurity(CharSequence s)
+    {
+        if(s.length() <= 8)
+        {
+            return 0;
+        }
+        else if((s.length() > 8) && (s.length() < 10))
+        {
+            return 1;
+        }
+        else if(s.length() >= 10)
+        {
+            return 2;
+        }
+
+        return 0;
     }
 
     @Override
