@@ -298,7 +298,8 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             rl_gas_checker.setVisibility(View.GONE);
         }
         presenter.getDangerWorkType(new FixWorkBean());
-        aboutSpinner();
+        //作业区域
+        presenter.getWorkInfo();
     }
 
     /**
@@ -335,8 +336,6 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     }
 
     private void aboutSpinner() {
-        //作业区域下拉选择
-        presenter.getWorkInfo();
         spAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, areaList);
         spAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         work_zone_sp.setAdapter(spAdapter);
@@ -646,7 +645,9 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         workBeanList = list;
         areaList.clear();
         for (int i = 0; i < list.size(); i++) {
-            areaList.add(list.get(i).getName());
+            if (list.get(i).getName()!=null){
+                areaList.add(list.get(i).getName());
+            }
         }
         aboutSpinner();
     }
