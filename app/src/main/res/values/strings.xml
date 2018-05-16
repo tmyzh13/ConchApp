@@ -318,4 +318,5 @@
     <string name="pwd_input">请输入密码</string>
     <string name="pwd_fail">安全强度不够，应由字母、数字和符号组成</string>
     <string name="pwd_warn">您的密码安全强度不够，请您修改密码！</string>
+    <string name="chose_same_people">不能选重复的人</string>
 </resources>

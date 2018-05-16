@@ -172,7 +172,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     private List<DangerTypeBean> totalist = new ArrayList<>();
     private String type;
     private String choice_device_id;
-    private boolean isLimit=false;
+    private boolean isLimit = false;
     private String company;
     private String find_company_id;
 
@@ -184,9 +184,9 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     @Override
     protected void init(Bundle savedInstanceState) {
         isDangerWork = getIntent().getIntExtra("isDangerWork", 0);
-        if (isDangerWork==0){
+        if (isDangerWork == 0) {
             nav.setNavTitle(getString(R.string.new_danger_work));
-        }else {
+        } else {
             nav.setNavTitle(getString(R.string.new_common_work));
         }
         nav.setColorRes(R.color.white);
@@ -319,7 +319,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
                     isLimit = true;
                     rl_gas_checker.setVisibility(View.VISIBLE);
                 } else {
-                    isLimit=false;
+                    isLimit = false;
                     rl_charger.setVisibility(View.VISIBLE);
                     rl_gas_checker.setVisibility(View.GONE);
                 }
@@ -343,12 +343,12 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         work_zone_sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    area = spAdapter.getItem(position).toString();
-                    for (WorkBean bean : workBeanList) {
-                        if (area.equals(bean.getName())) {
-                            areaId = String.valueOf(bean.getId());
-                        }
+                area = spAdapter.getItem(position).toString();
+                for (WorkBean bean : workBeanList) {
+                    if (area.equals(bean.getName())) {
+                        areaId = String.valueOf(bean.getId());
                     }
+                }
             }
 
             @Override
@@ -414,7 +414,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
                 startActivityForResult(intent, CHOSE_NAME_CODE);
                 break;
             case R.id.rl_work_company:
-                startActivityForResult(OrgActivity.getLaucnher(context,0),128);
+                startActivityForResult(OrgActivity.getLaucnher(context, 0), 128);
                 break;
             case R.id.bt_submit:
                 showDialogView();
@@ -441,7 +441,8 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     String approver;
     String area;
     public String gasId;
-    public String gasName=null;
+    public String gasName = null;
+
     private void showDialogView() {
         AlertDialog alert = new AlertDialog.Builder(context).setTitle(R.string.information_tips)
                 .setMessage(R.string.check_agein)
@@ -459,9 +460,10 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
                     }
                 })
                 .setCancelable(true)
-               .create();
+                .create();
         alert.show();
     }
+
     private void getNewJobInfo() {
         NewWorkBean bean = new NewWorkBean();
         String name = et_name.getText().toString().trim();
@@ -478,7 +480,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         String part = work_address_input.getContent().toString().trim();
         String content = description_et.getText().toString().trim();
         String numPeople = worker_num_input.getContent().trim();
-        gasName=tv_gas_checker.getText().toString();
+        gasName = tv_gas_checker.getText().toString();
 //        int type = 0;//危险作业类型(手动选择)
 
         //1危险、0常规作业。前页面传递
@@ -487,8 +489,8 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
 //        } else if (rb_no.isChecked()) {
 //            isDanger = 0;
 //        }
-        if (isDangerWork==0&& isLimit){
-            if (TextUtils.isEmpty(gasName)||gasName.equals(getString(R.string.gas_checker))){
+        if (isDangerWork == 0 && isLimit) {
+            if (TextUtils.isEmpty(gasName) || gasName.equals(getString(R.string.gas_checker))) {
                 ToastMgr.show(R.string.input_all_message);
                 return;
             }
@@ -497,10 +499,26 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
                 || TextUtils.isEmpty(equipmentType) || TextUtils.isEmpty(equipmentCode)
                 || TextUtils.isEmpty(equipmentName) || TextUtils.isEmpty(area) || TextUtils.isEmpty(part)
                 || TextUtils.isEmpty(content) || TextUtils.isEmpty(find_company_id) || TextUtils.isEmpty(numPeople)
-                || TextUtils.isEmpty(guardian)||TextUtils.isEmpty(leading)
+                || TextUtils.isEmpty(guardian) || TextUtils.isEmpty(leading)
                 || TextUtils.isEmpty(auditor) || TextUtils.isEmpty(approver)) {
             ToastMgr.show(R.string.input_all_message);
             return;
+        }
+        String fzr = chagerNameTv.getText().toString();
+        String jhr = keeperNameTv.getText().toString();
+        String shr = checkerNameTv.getText().toString();
+        String pzr = authorizeNameTv.getText().toString();
+        if (isLimit) {
+            if (gasName.equals(fzr) || gasName.equals(jhr) || gasName.equals(shr) || gasName.equals(pzr) || fzr.equals(jhr) || fzr.equals(shr) ||
+                    fzr.equals(pzr) || jhr.equals(shr) || jhr.equals(pzr) || shr.equals(pzr)) {
+                ToastMgr.show(R.string.chose_same_people);
+                return;
+            }
+        } else {
+            if (fzr.equals(jhr) || fzr.equals(shr) || fzr.equals(pzr) || jhr.equals(shr) || jhr.equals(pzr) || shr.equals(pzr)) {
+                ToastMgr.show(R.string.chose_same_people);
+                return;
+            }
         }
 
         bean.setName(name);
@@ -520,19 +538,19 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             ToastMgr.show(R.string.input_num);
             return;
         }
-        if (isDangerWork==0&&isLimit){
+        if (isDangerWork == 0 && isLimit) {
             bean.setGas(gasId);
             bean.setGasName(gasName);
-            }
+        }
         bean.setType(type);
         bean.setLeading(leading);
         bean.setGuardian(guardian);
         bean.setAuditor(auditor);
         bean.setApprover(approver);
         //1危险、0常规作业。前页面传递
-        if (isDangerWork==0){
+        if (isDangerWork == 0) {
             bean.setIsDanger(1);
-        }else {
+        } else {
             bean.setIsDanger(0);
         }
 //        bean.setOrgId("1");
@@ -707,13 +725,13 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
                 String Device_type = data.getStringExtra(Constant.CHECK_DEVICE_TYPE);
                 equipment_model_tv.setText(Device_type);
                 choice_device_id = data.getStringExtra(Constant.CHECK_DEVICE_ID);
-                Log.i(TAG,"--choice_device_id--"+choice_device_id);
+                Log.i(TAG, "--choice_device_id--" + choice_device_id);
             }
-        }else if (resultCode==130){
-            if (requestCode==128){
+        } else if (resultCode == 130) {
+            if (requestCode == 128) {
                 find_company_id = data.getStringExtra(Constant.FIND_COMPANY_ID);
                 company = data.getStringExtra(Constant.FIND_COMPANY_NAME);
-               tv_work_company.setText(company);
+                tv_work_company.setText(company);
             }
         }
     }

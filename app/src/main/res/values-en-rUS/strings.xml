@@ -313,4 +313,5 @@
     <string name="general_no_camera_app">No program to take pictures</string>
     <string name="general_download_error">Sorry, the app did not download successfully!</string>
     <string name="general_code_error">Abnormal data</string>
+    <string name="chose_same_people">Can not choose the same people</string>
 </resources>
