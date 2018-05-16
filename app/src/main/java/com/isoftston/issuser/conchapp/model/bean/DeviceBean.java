@@ -182,7 +182,7 @@ public class DeviceBean implements Serializable{
     }
 
     public String getIsolation() {
-        return isolation;
+        return isolationId;
     }
 
     public void setIsolation(String isolation) {
