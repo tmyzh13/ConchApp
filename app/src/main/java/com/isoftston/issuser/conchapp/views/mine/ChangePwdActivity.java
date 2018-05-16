@@ -231,7 +231,9 @@ public class ChangePwdActivity extends BaseActivity<UserView, UserPresenter> imp
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        setBarColor(getResources().getColor(R.color.transparent_black));
         addPwdListen();
+
         tv_login.setEnabled(false);
         tv_login.setBackgroundResource(R.drawable.tv_write_bg_disable);
     }
