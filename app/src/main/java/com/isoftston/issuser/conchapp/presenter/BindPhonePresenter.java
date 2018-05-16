@@ -22,6 +22,8 @@ public class BindPhonePresenter extends BasePresenter<BindPhoneView> {
 
     PhoneBindApi api;
 
+    private String TAG = BindPhonePresenter.class.getSimpleName();
+
     @Override
     protected void onViewAttach() {
         super.onViewAttach();
@@ -42,7 +44,7 @@ public class BindPhonePresenter extends BasePresenter<BindPhoneView> {
         bean.setCode(password);
         view.showLoading();
         api.bindPhone(token1,bean)
-                .compose(new ResponseTransformer<>(this.<BaseData<JsonObject>>bindUntilEvent(ActivityEvent.DESTROY)))
+                .compose(new ResponseTransformer<>(this.<BaseData>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData>(view) {
                     @Override
                     public void success(BaseData baseData) {

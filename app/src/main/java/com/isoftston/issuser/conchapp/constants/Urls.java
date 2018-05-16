@@ -32,6 +32,10 @@ public class Urls {
     public static final String FORGET_PASSWORD="findPassword";
     //获取验证码
     public static final String GET_CODE="getMobileVerificationCode";
+
+    //获取验证码(找回密码)
+    public static final String GET_CODE_EX="getCode";
+
     //信息列表界面 获取信息列表数据
     public static  final String GET_MESSAGE_LIST="info/getSpwsYHs";
 

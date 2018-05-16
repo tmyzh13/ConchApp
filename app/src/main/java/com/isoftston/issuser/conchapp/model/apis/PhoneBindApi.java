@@ -15,7 +15,7 @@ import rx.Observable;
 public interface PhoneBindApi {
     //绑定手机号
     @POST(Urls.BIND_PHONE)
-    Observable<BaseData<JsonObject>> bindPhone(@Header("Access-Token") String token, @Body BindPhoneBean bean);
+    Observable<BaseData> bindPhone(@Header("Access-Token") String token, @Body BindPhoneBean bean);
 
     @POST(Urls.GET_CODE)
     Observable<BaseData> getCode(@Header("Access-Token") String token, @Body GetCodeBean bean);

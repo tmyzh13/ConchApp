@@ -19,6 +19,6 @@ public interface ForgetPasswordApi {
     @POST(Urls.FORGET_PASSWORD)
     Observable<BaseData> forgetPassword(@Body ForgetPasswordRequstBean bean);
 
-    @POST(Urls.GET_CODE)
+    @POST(Urls.GET_CODE_EX)
     Observable<BaseData> getCode(@Body GetCodeBean bean);
 }

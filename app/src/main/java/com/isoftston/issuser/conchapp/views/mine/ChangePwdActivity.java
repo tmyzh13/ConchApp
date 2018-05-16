@@ -240,6 +240,7 @@ public class ChangePwdActivity extends BaseActivity<UserView, UserPresenter> imp
 
         nav.setColorRes(R.color.white);
         nav.setNavTitle(getString(R.string.change_pwd));
+        nav.setTitleColor(getResources().getColor(R.color.black));
         nav.showBack(2);
 
         setBarColor(getResources().getColor(R.color.transparent_black));
