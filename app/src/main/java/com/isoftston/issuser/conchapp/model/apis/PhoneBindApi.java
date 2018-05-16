@@ -18,5 +18,5 @@ public interface PhoneBindApi {
     Observable<BaseData<JsonObject>> bindPhone(@Header("Access-Token") String token, @Body BindPhoneBean bean);
 
     @POST(Urls.GET_CODE)
-    Observable<BaseData> getCode(@Body GetCodeBean bean);
+    Observable<BaseData> getCode(@Header("Access-Token") String token, @Body GetCodeBean bean);
 }

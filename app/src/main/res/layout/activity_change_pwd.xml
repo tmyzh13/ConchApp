@@ -27,7 +27,7 @@
             android:text="@string/pwd_warn"
             android:textColor="@color/app_light_blue"
             android:textSize="16sp"
-            android:visibility="visible"/>
+            android:visibility="invisible"/>
 
         <TextView
             android:id="@+id/pwd_hint"

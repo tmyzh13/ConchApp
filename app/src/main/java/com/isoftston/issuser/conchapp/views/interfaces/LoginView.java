@@ -17,4 +17,5 @@ public interface LoginView extends BaseView {
     void getServerVersionCode(String serverCode);
 
     void bindPhone();
+    void loginSuccessEx(Boolean newPhone,Boolean phoneIsNull);
 }

@@ -125,6 +125,8 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
+
+
     @Override
     public void loginSuccess(String data) {
 
@@ -135,38 +137,8 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
 
         //presenter.getPushTag();
 
-        boolean isMatch = Pattern.matches(Constant.PASSWORD_STYLE, et_password.getText().toString().trim());
-        if (isMatch){
-            if (getPwdSecurity(et_password.getText().toString().trim()) == 2){
-                PreferencesHelper.saveData(Constant.LOGIN_STATUE,"1");
-                startActivity(MainActivity.getLauncher(context));
-                ToastUtils.showtoast(context,getString(R.string.login_success));
-                finish();
-            }else {
-                startActivity(ChangePwdActivity.getLauncher(context,null));
-            }
-        }else {
-            startActivity(ChangePwdActivity.getLauncher(context,null));
-        }
 
-    }
 
-    private Integer getPwdSecurity(CharSequence s)
-    {
-        if(s.length() <= 8)
-        {
-            return 0;
-        }
-        else if((s.length() > 8) && (s.length() < 10))
-        {
-            return 1;
-        }
-        else if(s.length() >= 10)
-        {
-            return 2;
-        }
-
-        return 0;
     }
 
     @Override
@@ -209,6 +181,33 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
     @Override
     public void bindPhone() {
         startActivity(PhoneBindActivity.getLaucner(context));
+    }
+
+    @Override
+    public void loginSuccessEx(Boolean newPhone, Boolean phoneIsNull) {
+        boolean isMatch = Pattern.matches(Constant.PASSWORD_STYLE, et_password.getText().toString().trim());
+
+        if(!isMatch)
+        {
+            startActivity(ChangePwdActivity.getLauncher(context,null));
+            return;
+        }
+
+        if(newPhone)
+        {
+            bindPhone();
+            return;
+        }
+        else if(phoneIsNull)
+        {
+            bindPhone();
+            return;
+        }
+
+        PreferencesHelper.saveData(Constant.LOGIN_STATUE,"1");
+        startActivity(MainActivity.getLauncher(context));
+        ToastUtils.showtoast(context,getString(R.string.login_success));
+        finish();
     }
 
 

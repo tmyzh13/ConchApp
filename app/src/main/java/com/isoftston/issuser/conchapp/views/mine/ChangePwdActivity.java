@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,6 +21,7 @@ import com.isoftston.issuser.conchapp.presenter.UserPresenter;
 import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.views.LoginActivity;
 import com.isoftston.issuser.conchapp.views.interfaces.UserView;
+import com.isoftston.issuser.conchapp.weight.NavBar;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -71,6 +71,10 @@ public class ChangePwdActivity extends BaseActivity<UserView, UserPresenter> imp
     //确定
     @Bind(R.id.tv_login)
     TextView tv_login;
+
+    //标题栏
+    @Bind(R.id.nav)
+    NavBar nav;
 
     @OnClick(R.id.tv_login)
     public void updatePwd()
@@ -134,7 +138,8 @@ public class ChangePwdActivity extends BaseActivity<UserView, UserPresenter> imp
                     tv_high.setVisibility(View.INVISIBLE);
                     ll_error.setVisibility(View.VISIBLE);
                     pwd_value.setTextAppearance(getApplicationContext(),R.style.edit_normal);
-                    pwd_value.setBackgroundResource(R.drawable.et_login_bg_error);
+                    pwd_value.setBackgroundResource(R.drawable.et_login_bg);
+                    isValid = true;
                 }
                 else if(1 == security)
                 {
@@ -146,7 +151,8 @@ public class ChangePwdActivity extends BaseActivity<UserView, UserPresenter> imp
                     tv_high.setVisibility(View.INVISIBLE);
                     ll_error.setVisibility(View.INVISIBLE);
                     pwd_value.setTextAppearance(getApplicationContext(),R.style.edit_normal);
-                    pwd_value.setBackgroundResource(R.drawable.et_login_bg_error);
+                    pwd_value.setBackgroundResource(R.drawable.et_login_bg);
+                    isValid = true;
                 }
                 else if(2 == security)
                 {
@@ -231,6 +237,11 @@ public class ChangePwdActivity extends BaseActivity<UserView, UserPresenter> imp
 
     @Override
     protected void init(Bundle savedInstanceState) {
+
+        nav.setColorRes(R.color.white);
+        nav.setNavTitle(getString(R.string.change_pwd));
+        nav.showBack(2);
+
         setBarColor(getResources().getColor(R.color.transparent_black));
         addPwdListen();
 

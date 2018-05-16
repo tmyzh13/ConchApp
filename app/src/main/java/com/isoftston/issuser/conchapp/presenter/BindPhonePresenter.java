@@ -71,7 +71,10 @@ public class BindPhonePresenter extends BasePresenter<BindPhoneView> {
     public void sendValidNum(String phone) {
         GetCodeBean bean = new GetCodeBean();
         bean.phone = phone;
-        api.getCode(bean)
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        Log.i("token",token);
+        String token1=token.replaceAll("\"","");
+        api.getCode(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData>bindUntilEvent(ActivityEvent.DESTROY)))
                 .subscribe(new ResponseSubscriber<BaseData>(view) {
                     @Override
