@@ -93,7 +93,10 @@ public class DangerMessageFragment extends BaseFragment<WorkView,WorkPresenter> 
         if (list!=null&&list.size()!=0){
             for (int i=0;i<list.size();i++){
                 String name=list.get(i).getName();
-                tabs.add(name);
+                if (name!=null){
+                    tabs.add(name);
+                }
+
             }
             viewPager.setAdapter(adapter);
             adapter.notifyDataSetChanged();
