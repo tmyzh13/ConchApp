@@ -282,10 +282,4 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
         finish();
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
-    }
-
 }
