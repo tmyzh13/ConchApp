@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -12,13 +11,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.corelibs.base.BaseActivity;
-import com.corelibs.base.BasePresenter;
 import com.corelibs.utils.PreferencesHelper;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
@@ -29,6 +25,7 @@ import com.isoftston.issuser.conchapp.views.LoginActivity;
 import com.isoftston.issuser.conchapp.views.interfaces.UserView;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class IndividualCenterActivity extends BaseActivity<UserView, UserPresenter> implements UserView, View.OnClickListener {
     public static String TAG = "IndividualCenterActivity";
@@ -63,7 +60,11 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
 
     @Bind(R.id.rl_pwd)
     RelativeLayout rl_pwd;
+    @Bind(R.id.rl_change_phone)
+    RelativeLayout rl_change_phone;
 
+    private final int REQUEST_CODE = 100;
+    private final int RESULT_CODE = 10;
 
     private boolean isShowPwd = false;
     private UserInfoBean userInfo;
@@ -93,14 +94,13 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
      */
     private void showUserInfo() {
         userInfo = (UserInfoBean) getIntent().getSerializableExtra("userInfo");
-        if(userInfo!=null){
+        if (userInfo != null) {
             userNameEt.setText(userInfo.getRealName());
             userAccountTv.setText(userInfo.getUserName());
             if (!"".equals(userInfo.getPhoneNum())) {
                 userRoleTv.setText(userInfo.getUserRole());
             }
-            if (getApplicationContext().getResources().getString(R.string.sex_female).equals(userInfo.getSex()))
-            {
+            if (getApplicationContext().getResources().getString(R.string.sex_female).equals(userInfo.getSex())) {
                 userSexTv.setText(getString(R.string.sex_female));
             } else if (getApplicationContext().getResources().getString(R.string.sex_male).equals(userInfo.getSex())) {
                 userSexTv.setText(getString(R.string.sex_male));
@@ -109,15 +109,15 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
                 userPhoneNumEt.setText(userInfo.getPhoneNum());
             }
             userCompanyTv.setText(PreferencesHelper.getData(Constant.ORG_NAME));
-            String pwd= PreferencesHelper.getData(Constant.LOGIN_PWD);
+            String pwd = PreferencesHelper.getData(Constant.LOGIN_PWD);
             userPwdEt.setText(pwd);
-            Log.i("pwd","pwd----"+pwd);
+            Log.i("pwd", "pwd----" + pwd);
         }
 
     }
 
-    private void addPwdListen(){
-        userPwdEt.addTextChangedListener(new TextWatcher(){
+    private void addPwdListen() {
+        userPwdEt.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -128,9 +128,7 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s != null && s.length() != 0) {
                     sureTv.setVisibility(View.VISIBLE);
-                }
-                else
-                {
+                } else {
                     sureTv.setVisibility(View.GONE);
                 }
             }
@@ -174,6 +172,7 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
         showPwdLayout.setOnClickListener(this);
         rl_pwd.setOnClickListener(this);
         userPwdEt.setOnClickListener(this);
+        rl_change_phone.setOnClickListener(this);
     }
 
     @Override
@@ -202,12 +201,27 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
                 break;
             case R.id.rl_pwd:
             case R.id.user_pwd:
-                startActivity(ChangePwdActivity.getLauncher(this,null));
+                startActivity(ChangePwdActivity.getLauncher(this, null));
                 break;
+            case R.id.rl_change_phone:
+                startActivityForResult(ChangePhoneActivity.getLaucner(this),REQUEST_CODE);
             default:
                 break;
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode== this.RESULT_CODE){
+            switch (requestCode) {
+                case REQUEST_CODE:
+                    presenter.getUserInfo();
+                    break;
+            }
+        }
+    }
+
 
     @Override
     public void onLoadingCompleted() {
@@ -221,7 +235,26 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
 
     @Override
     public void getUserInfo(UserInfoBean userInfoBean) {
-
+        userInfo = userInfoBean;
+        if (userInfo != null) {
+            userNameEt.setText(userInfo.getRealName());
+            userAccountTv.setText(userInfo.getUserName());
+            if (!"".equals(userInfo.getPhoneNum())) {
+                userRoleTv.setText(userInfo.getUserRole());
+            }
+            if (getApplicationContext().getResources().getString(R.string.sex_female).equals(userInfo.getSex())) {
+                userSexTv.setText(getString(R.string.sex_female));
+            } else if (getApplicationContext().getResources().getString(R.string.sex_male).equals(userInfo.getSex())) {
+                userSexTv.setText(getString(R.string.sex_male));
+            }
+            if (!"".equals(userInfo.getPhoneNum())) {
+                userPhoneNumEt.setText(userInfo.getPhoneNum());
+            }
+            userCompanyTv.setText(PreferencesHelper.getData(Constant.ORG_NAME));
+            String pwd = PreferencesHelper.getData(Constant.LOGIN_PWD);
+            userPwdEt.setText(pwd);
+            Log.i("pwd", "pwd----" + pwd);
+        }
     }
 
     @Override
@@ -244,8 +277,15 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
     }
 
     @Override
-    public void updatePwdError(){
+    public void updatePwdError() {
         ToastUtils.showtoast(IndividualCenterActivity.this, getString(R.string.update_pwd_failure));
         finish();
     }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ButterKnife.bind(this);
+    }
+
 }

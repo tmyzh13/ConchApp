@@ -281,6 +281,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".views.PhoneBindActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".views.mine.ChangePhoneActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

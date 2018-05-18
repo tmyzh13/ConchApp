@@ -245,6 +245,7 @@
     <string name="user_autograph">签名</string>
     <string name="user_company">公司</string>
     <string name="user_department">部门</string>
+    <string name="change_phone">绑定手机号更换</string>
     <string name="user_phoneNum">手机</string>
     <string name="user_sex">性别</string>
     <string name="user_role">角色</string>
