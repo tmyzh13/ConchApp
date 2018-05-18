@@ -176,6 +176,7 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
         //实例化一个集合，用于存放图片
         imageList = new ArrayList<View>();
         for (int i = 0; i < urls.size(); i++) {
+            final int j = i;
             View view = LayoutInflater.from(getApplicationContext()).inflate(
                     R.layout.viewpager_item, null);
 //            TextView title = (TextView) view.findViewById(R.id.view_title);
@@ -190,6 +191,7 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
                     Intent intent=new Intent(ItemDtailActivity.this,ImageDetilActivity.class);
                     Bundle bundle=new Bundle();
                     bundle.putStringArrayList("imagepath", (ArrayList<String>) urls);
+                    bundle.putInt("index",j);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }
