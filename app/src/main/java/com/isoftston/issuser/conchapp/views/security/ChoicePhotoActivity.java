@@ -263,7 +263,8 @@ public class ChoicePhotoActivity extends BaseActivity implements View.OnClickLis
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-            showDialogView();
+//            showDialogView();
+            finish();
             return false;
         }else {
             return super.onKeyDown(keyCode, event);
@@ -274,7 +275,8 @@ public class ChoicePhotoActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
-                showDialogView();
+//                showDialogView();
+                finish();
                 break;
         }
     }

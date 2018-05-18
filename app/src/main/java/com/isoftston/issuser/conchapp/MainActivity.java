@@ -357,13 +357,9 @@ public class MainActivity extends BaseActivity<LoginView,LoginPresenter> impleme
         }
     }
 
-    @Override
-    public void bindPhone() {
-
-    }
 
     @Override
-    public void loginSuccessEx(Boolean newPhone, Boolean phoneIsNull) {
+    public void loginSuccessEx(Boolean newPhone, Boolean phoneIsNull,String phone) {
 
     }
 

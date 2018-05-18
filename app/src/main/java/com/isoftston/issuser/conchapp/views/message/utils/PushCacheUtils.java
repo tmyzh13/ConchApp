@@ -44,6 +44,24 @@ public class PushCacheUtils {
     }
 
     /**
+     * 读取本地的缓存数据
+     */
+    public List<MessageBean> readPushLocalCacheType(Context context,String type) {
+        String msg = SharePrefsUtils.getValue(context, Constant.PUSH_MESSAGE, "");
+        List<MessageBean> returnList = new ArrayList<>();
+        if (!TextUtils.isEmpty(msg)) {
+            List<MessageBean> list = JSONObject.parseArray(msg, MessageBean.class);
+            for (MessageBean bean : list){
+                if (bean.getType().equals(type)){
+                    returnList.add(bean);
+                }
+            }
+            return returnList;
+        }
+        return returnList;
+    }
+
+    /**
      * 缓存推送的消息
      *
      * @param context
@@ -127,6 +145,29 @@ public class PushCacheUtils {
                 }
             }
         }
+    }
+
+    /**
+     * 对比缓存中的消息
+     *
+     * @param context
+     * @param list
+     */
+    public List<MessageBean> compareLocalDelete(Context context, List<MessageBean> list,String type) {
+        List<MessageBean> localList = readPushLocalCacheType(context,type);
+        List<MessageBean> returnList = new ArrayList<>();
+        if (localList == null || localList.size() == 0) {
+            return localList;
+        }
+        for (MessageBean localBean : localList) {
+            for (MessageBean bean : list) {
+                if (localBean.getId().equals(bean.getId())) {
+                    bean.setRead(false);
+                    returnList.add(bean);
+                }
+            }
+        }
+        return returnList;
     }
 
     /**

@@ -145,23 +145,27 @@ public class MessagePresenter extends ListPagePresenter<MessageView> {
         String token=SharePrefsUtils.getValue(getContext(),"token",null);
         Log.i("token",token);//94c29a2eaf903a1f4b3cc5996385dcd2
         String token1=token.replaceAll("\"","");
+        view.showLoading();
         api.getEachMessageListInfo(token1,bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<EachMessageInfoBean>>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData<EachMessageInfoBean>>(view) {
 
                     @Override
                     public void success(BaseData<EachMessageInfoBean> messageBaseData) {
+                        view.hideLoading();
                         view.getEachMessageListResult(messageBaseData.data);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
+                        view.hideLoading();
                         view.getWorkError();
                     }
 
                     @Override
                     public boolean operationError(BaseData<EachMessageInfoBean> messageListInfoBeanBaseData, int status, String message) {
+                        view.hideLoading();
                         if (status==-200){
                             view.reLogin();
                         }

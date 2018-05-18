@@ -28,6 +28,8 @@ public class Urls {
     public static final String LOGIN = "login";
 
     public static final String BIND_PHONE ="updatePhone";
+
+    public static final String CHANGE_BIND_PHONE = "cheakCode";
     //忘记密码
     public static final String FORGET_PASSWORD="findPassword";
     //获取验证码

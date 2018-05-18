@@ -66,15 +66,16 @@
                 android:layout_below="@+id/iv_eyes"
                 android:text="@string/unread"
                 android:paddingTop="20dp"
+                android:visibility="gone"
                 android:textColor="@color/white" />
             <TextView
-                android:id="@+id/unread_count"
+                android:id="@+id/yh_unread_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/unread"
-                android:paddingTop="20dp"
-                android:layout_alignTop="@+id/unread"
-                android:paddingLeft="10dp"
+                android:layout_below="@+id/iv_eyes"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingRight="@dimen/dp_10"
                 android:textColor="@color/white"
                 android:textSize="14sp"/>
 

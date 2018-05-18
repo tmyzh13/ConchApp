@@ -35,6 +35,7 @@ public class BindPhonePresenter extends BasePresenter<BindPhoneView> {
 
     }
 
+
     public void bindPhone(String account, final String password) {
         String token= SharePrefsUtils.getValue(getContext(),"token",null);
         Log.i("token",token);
@@ -57,6 +58,7 @@ public class BindPhonePresenter extends BasePresenter<BindPhoneView> {
                     }
                     @Override
                     public boolean operationError(BaseData baseData, int status, String message) {
+                        view.hideLoading();
                         if (status==0){
                             view.sendErrorMessage(message);
                         }
@@ -66,11 +68,40 @@ public class BindPhonePresenter extends BasePresenter<BindPhoneView> {
     }
 
     /**
-     * 发送验证码
+     * 绑定手机发送验证码
      *
      * @param phone
      */
     public void sendValidNum(String phone) {
+        GetCodeBean bean = new GetCodeBean();
+        bean.phone = phone;
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        Log.i("token",token);
+        String token1=token.replaceAll("\"","");
+        api.getValidNum(token1,bean)
+                .compose(new ResponseTransformer<>(this.<BaseData>bindUntilEvent(ActivityEvent.DESTROY)))
+                .subscribe(new ResponseSubscriber<BaseData>(view) {
+                    @Override
+                    public void success(BaseData baseData) {
+                        view.sendValidNumSuccess();
+                    }
+
+                    @Override
+                    public boolean operationError(BaseData baseData, int status, String message) {
+                        if (status==0){
+                            view.sendErrorMessage(message);
+                        }
+                        return super.operationError(baseData, status, message);
+                    }
+                });
+    }
+
+    /**
+     * 更换新手机发送验证码
+     *
+     * @param phone
+     */
+    public void getCode(String phone) {
         GetCodeBean bean = new GetCodeBean();
         bean.phone = phone;
         String token= SharePrefsUtils.getValue(getContext(),"token",null);
@@ -81,12 +112,43 @@ public class BindPhonePresenter extends BasePresenter<BindPhoneView> {
                 .subscribe(new ResponseSubscriber<BaseData>(view) {
                     @Override
                     public void success(BaseData baseData) {
-                        view.hideLoading();
                         view.sendValidNumSuccess();
                     }
 
                     @Override
                     public boolean operationError(BaseData baseData, int status, String message) {
+                        if (status==0){
+                            view.sendErrorMessage(message);
+                        }
+                        return super.operationError(baseData, status, message);
+                    }
+                });
+    }
+
+    public void changeBindPhone(String account, final String password) {
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        Log.i("token",token);
+        String token1=token.replaceAll("\"","");
+        BindPhoneBean bean = new BindPhoneBean();
+        bean.setPhone(account);
+        bean.setCode(password);
+        bean.setPhoneCode(Tools.getIMEI(getContext()));
+        view.showLoading();
+        api.changeBindPhone(token1,bean)
+                .compose(new ResponseTransformer<>(this.<BaseData>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData>(view) {
+                    @Override
+                    public void success(BaseData baseData) {
+                        view.hideLoading();
+                        if(baseData.code == 1){
+                            view.bindSuccess();
+                        }else {
+                            view.sendErrorMessage(baseData.mess);
+                        }
+                    }
+                    @Override
+                    public boolean operationError(BaseData baseData, int status, String message) {
+                        view.hideLoading();
                         if (status==0){
                             view.sendErrorMessage(message);
                         }

@@ -3,7 +3,7 @@ package com.isoftston.issuser.conchapp.model.bean;
 public class BindPhoneBean {
     private String phone;
     private String code;
-    private String userName="test2";
+    private String phoneCode;
 
     public String getPhone() {
         return phone;
@@ -19,5 +19,13 @@ public class BindPhoneBean {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getPhoneCode() {
+        return phoneCode;
+    }
+
+    public void setPhoneCode(String phoneCode) {
+        this.phoneCode = phoneCode;
     }
 }

@@ -304,16 +304,26 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
                         currrentPage = 1;
                         isChange = true;
                         presenter.getEachMessageListInfo("yh","");
+                        yhReadTv.setSelected(false);
+                        yhReadTv.setBackgroundResource(R.color.transparent);
+                        yhReadTv.setTextColor(getViewContext().getResources().getColor(R.color.white));
                         break;
                     case 1:
                         currrentPage = 2;
                         isChange = true;
                         presenter.getEachMessageListInfo("wz","");
+                        wzReadTv.setSelected(false);
+                        wzReadTv.setBackgroundResource(R.color.transparent);
+                        wzReadTv.setTextColor(getViewContext().getResources().getColor(R.color.white));
+
                         break;
                     case 2:
                         currrentPage = 3;
                         isChange = true;
                         presenter.getEachMessageListInfo("aq","");
+                        aqReadTv.setSelected(false);
+                        aqReadTv.setBackgroundResource(R.color.transparent);
+                        aqReadTv.setTextColor(getViewContext().getResources().getColor(R.color.white));
                         break;
                 }
             }
@@ -434,12 +444,14 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
                 yhCountTv = view.findViewById(R.id.tv_count);
                 wzgTv = view.findViewById(R.id.tv_wzg_num);
                 yqTv = view.findViewById(R.id.tv_yq_num);
-                yhReadTv = view.findViewById(R.id.unread_count);
+                yhReadTv = view.findViewById(R.id.yh_unread_count);
+//                yhReadTv.setOnClickListener(this);
             } else if (i == 1) {
                 view = LayoutInflater.from(getActivity()).inflate(
                         R.layout.viewpager_wz_item, null);
                 wzCountTv = view.findViewById(R.id.tv_count);
-                wzReadTv = view.findViewById(R.id.unread_count);
+                wzReadTv = view.findViewById(R.id.wz_unread_count);
+//                wzReadTv.setOnClickListener(this);
                 //dp
                 wz_tv_wzg_num = view.findViewById(R.id.wz_tv_wzg_num);
                 wz_tv_yq_num = view.findViewById(R.id.wz_tv_yq_num);
@@ -450,7 +462,8 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
                 ggTV = view.findViewById(R.id.gg_tv);
                 jlTv = view.findViewById(R.id.jl_tv);
                 cfTv = view.findViewById(R.id.cf_tv);
-                aqReadTv = view.findViewById(R.id.unread_count);
+                aqReadTv = view.findViewById(R.id.aq_unread_count);
+//                aqReadTv.setOnClickListener(this);
 
             }
 
@@ -518,6 +531,57 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
                 ll_main.setVisibility(View.VISIBLE);
                 iv_back.setVisibility(View.GONE);
                 presenter.getMessageListInfo("all", "");
+                break;
+            case R.id.yh_unread_count:
+                isChange = true;
+                if (yhReadTv.isSelected()){
+                    yhReadTv.setSelected(false);
+                    yhReadTv.setBackgroundResource(R.color.transparent);
+                    yhReadTv.setTextColor(getViewContext().getResources().getColor(R.color.white));
+                    presenter.getEachMessageListInfo("yh","");
+                }else{
+                    yhReadTv.setSelected(true);
+                    yhReadTv.setBackgroundResource(R.drawable.bg_text_click);
+                    yhReadTv.setTextColor(getViewContext().getResources().getColor(R.color.yh_unread_text));
+                    List<MessageBean> messageBeanList = PushCacheUtils.getInstance().compareLocalDelete(getViewContext(),mAdapter.getData(),"1");
+                    mAdapter.clear();
+                    mAdapter.addAll(messageBeanList);
+                    mAdapter.notifyDataSetChanged();
+                }
+                break;
+            case R.id.wz_unread_count:
+                isChange = true;
+                if (wzReadTv.isSelected()){
+                    wzReadTv.setSelected(false);
+                    presenter.getEachMessageListInfo("wz","");
+                    wzReadTv.setBackgroundResource(R.color.transparent);
+                    wzReadTv.setTextColor(getViewContext().getResources().getColor(R.color.white));
+                }else{
+                    wzReadTv.setSelected(true);
+                    wzReadTv.setBackgroundResource(R.drawable.bg_text_click);
+                    wzReadTv.setTextColor(getViewContext().getResources().getColor(R.color.wz_unread_text));
+                    List<MessageBean> messageBeanList = PushCacheUtils.getInstance().compareLocalDelete(getViewContext(),mAdapter.getData(),"2");
+                    mAdapter.clear();
+                    mAdapter.addAll(messageBeanList);
+                    mAdapter.notifyDataSetChanged();
+                }
+                break;
+            case R.id.aq_unread_count:
+                isChange = true;
+                if (aqReadTv.isSelected()){
+                    presenter.getEachMessageListInfo("aq","");
+                    aqReadTv.setSelected(false);
+                    aqReadTv.setBackgroundResource(R.color.transparent);
+                    aqReadTv.setTextColor(getViewContext().getResources().getColor(R.color.white));
+                }else{
+                    aqReadTv.setSelected(true);
+                    aqReadTv.setBackgroundResource(R.drawable.bg_text_click);
+                    aqReadTv.setTextColor(getViewContext().getResources().getColor(R.color.aq_unread_text));
+                    List<MessageBean> messageBeanList = PushCacheUtils.getInstance().compareLocalDelete(getViewContext(),mAdapter.getData(),"3");
+                    mAdapter.clear();
+                    mAdapter.addAll(messageBeanList);
+                    mAdapter.notifyDataSetChanged();
+                }
                 break;
         }
     }
@@ -639,7 +703,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
     private void setConcerMark() {
         List<MessageBean> list = PushCacheUtils.getInstance().readPushLocalCache(getContext());
         int yhCpunt = PushCacheUtils.getInstance().getTypeMessageCount(list,"1");
-        yhReadTv.setText(yhCpunt+"");
+        yhReadTv.setText(getString(R.string.unread)+" "+yhCpunt);
         yhMsg.setVisibility(View.GONE);
         if(yhCpunt > 0){
             yhMsg.setVisibility(View.VISIBLE);
@@ -647,13 +711,13 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         }
         int aqCpunt = PushCacheUtils.getInstance().getTypeMessageCount(list,"3");
         aqMsg.setVisibility(View.GONE);
-        aqReadTv.setText(aqCpunt+"");
+        aqReadTv.setText(getString(R.string.unread)+" "+aqCpunt);
         if(aqCpunt > 0){
             aqMsg.setVisibility(View.VISIBLE);
             aqMsg.setText(aqCpunt+"");
         }
         int wzCpunt = PushCacheUtils.getInstance().getTypeMessageCount(list,"2");
-        wzReadTv.setText(wzCpunt+"");
+        wzReadTv.setText(getString(R.string.unread)+" "+wzCpunt);
         wzMsg.setVisibility(View.GONE);
         if(wzCpunt > 0){
             wzMsg.setVisibility(View.VISIBLE);
@@ -745,6 +809,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         if (data.list.size() == 0 && mAdapter.getCount() > 0){
             return;
         }
+        PushCacheUtils.getInstance().compareLocalPushMessage(getContext(),data.list);
         lastCount = mAdapter.getCount()-1;
         mAdapter.addAll(data.list);
         mAdapter.notifyDataSetChanged();

@@ -41,14 +41,20 @@ public class PhoneBindActivity extends BaseActivity<BindPhoneView,BindPhonePrese
     TextView tv_get_code;
 
     private MyCountDownTimer timer;
+    private int isPhoneNull;
+    private String phone;
 
     @Override
     protected int getLayoutId() {
         return R.layout.activity_phone_bind;
     }
 
-    public static Intent getLaucner(Context context) {
+    public static Intent getLaucner(Context context,int isPhoneNull,String phone) {
         Intent intent =new Intent(context,PhoneBindActivity.class);
+        Bundle bundle =new Bundle();
+        bundle.putInt("isPhoneNull",isPhoneNull);
+        bundle.putString("phone",phone);
+        intent.putExtras(bundle);
         return intent;
     }
 
@@ -57,8 +63,17 @@ public class PhoneBindActivity extends BaseActivity<BindPhoneView,BindPhonePrese
         setBarColor(getResources().getColor(R.color.transparent_black));
         tv_title.setTextColor(getResources().getColor(R.color.text_color));
         nav.setColorRes(R.color.white);
-        nav.setNavTitle(getString(R.string.bind_phone));
         nav.showBack(2);
+        Bundle bundle=getIntent().getExtras();
+        isPhoneNull = bundle.getInt("isPhoneNull",0);
+        if (isPhoneNull == 1){
+            nav.setNavTitle(getString(R.string.bind_phone));
+        }else{
+            nav.setNavTitle(getString(R.string.change_bind_phone));
+            phone = bundle.getString("phone");
+            phoneNum.setFocusable(false);
+            phoneNum.setText(phone.substring(0, 3) + "****" + phone.substring(7, 11));
+        }
     }
 
     @Override
@@ -85,27 +100,38 @@ public class PhoneBindActivity extends BaseActivity<BindPhoneView,BindPhonePrese
 
     @OnClick(R.id.tv_send)
     public void bindPhone(){
-        presenter.bindPhone(phoneNum.getText().toString(),validNum.getText().toString());
+        if (isPhoneNull == 1){
+            presenter.bindPhone(phoneNum.getText().toString(),validNum.getText().toString());
+        }else{
+            presenter.changeBindPhone(phone,validNum.getText().toString());
+        }
     }
 
     @OnClick(R.id.tv_get_code)
     public void getCode(){
-        String phoneCode=phoneNum.getText().toString();
-        Pattern p = Pattern.compile("^((13[0-9])|(15[^4])|(166)|(17[0-8])|(18[0-9])|(19[8-9])|(147,145))\\d{8}$");
-        Matcher m = p.matcher(phoneCode);
-        Log.i("test","--test--"+m.matches());
-        if (TextUtils.isEmpty(phoneCode)){
-            ToastMgr.show(R.string.tips);
-            return;
-        }
-        if (!m.matches()){
-            ToastMgr.show(getString(R.string.phone_check));
-            return;
+        if (isPhoneNull == 1){
+            String phoneCode=phoneNum.getText().toString();
+            Pattern p = Pattern.compile("^((13[0-9])|(15[^4])|(166)|(17[0-8])|(18[0-9])|(19[8-9])|(147,145))\\d{8}$");
+            Matcher m = p.matcher(phoneCode);
+            Log.i("test","--test--"+m.matches());
+            if (TextUtils.isEmpty(phoneCode)){
+                ToastMgr.show(R.string.tips);
+                return;
+            }
+            if (!m.matches()){
+                ToastMgr.show(getString(R.string.phone_check));
+                return;
+            }
         }
         timer = new MyCountDownTimer(getViewContext(),tv_get_code, 60 * 1000, 1000,true);
         timer.start();
         //调接口
-        presenter.sendValidNum(phoneNum.getText().toString());
+        if (isPhoneNull == 1){
+            presenter.sendValidNum(phoneNum.getText().toString());
+        }else {
+            presenter.getCode(phone);
+        }
+
     }
 
 }

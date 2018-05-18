@@ -4,17 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.corelibs.base.BaseActivity;
-import com.corelibs.views.roundedimageview.RoundedTransformationBuilder;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.mGridViewAdapter;
 import com.isoftston.issuser.conchapp.constants.Urls;
@@ -29,7 +29,6 @@ import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.MessageView;
 import com.isoftston.issuser.conchapp.views.message.adpter.VpAdapter;
 import com.isoftston.issuser.conchapp.views.message.utils.PushCacheUtils;
-import com.isoftston.issuser.conchapp.weight.MyGridView;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 import com.isoftston.issuser.conchapp.weight.RoundByXfermode;
 
@@ -248,6 +247,7 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
 //            title.setText("头像");
             ImageView iv = view.findViewById(R.id.view_image);
             Glide.with(this).load(urls.get(i))
+                    .listener(listener)
                     .centerCrop()
                     .into(iv);
             iv.setOnClickListener(new View.OnClickListener() {
@@ -275,6 +275,7 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
             ImageView iv = view.findViewById(R.id.view_image);
             Glide.with(this).load(zgurls.get(i))
                     .centerCrop()
+                    .listener(listener)
                     .into(iv);
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -291,6 +292,19 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
             imageChangeList.add(view);
         }
     }
+
+    RequestListener listener = new RequestListener() {
+        @Override
+        public boolean onException(Exception e, Object model, Target target, boolean isFirstResource) {
+            Log.e("glide", "onException: " + e+"  model:"+model+" isFirstResource: "+isFirstResource);
+            return false;
+        }
+
+        @Override
+        public boolean onResourceReady(Object resource, Object model, Target target, boolean isFromMemoryCache, boolean isFirstResource) {
+            return false;
+        }
+    };
 
     @Override
     public void onLoadingCompleted() {

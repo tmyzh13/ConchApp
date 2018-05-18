@@ -4,6 +4,7 @@
 
     <!-- 绑定手机号 -->
     <string name="bind_phone">绑定手机</string>
+    <string name="change_bind_phone">验证手机</string>
     <string name="bind_phone_hint">请输入您的手机号码，我们会将绑定此手机号的验证信息发送给您。</string>
     <string name="bind_phone_valid">请输入短信验证码</string>
     <string name="bind_success">绑定成功</string>

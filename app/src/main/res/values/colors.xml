@@ -48,4 +48,7 @@
     <color name="scan_success_bg_color">#18287A</color>
     <color name="sure_scan_success_bg">#1C63FF</color>
     <color name="charge_person_relname">#262626</color>
+    <color name="yh_unread_text">#8953c9</color>
+    <color name="wz_unread_text">#f87873</color>
+    <color name="aq_unread_text">#8fedb0</color>
 </resources>

@@ -178,13 +178,12 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
         }
     }
 
-    @Override
-    public void bindPhone() {
-        startActivity(PhoneBindActivity.getLaucner(context));
+    public void bindPhone(int isPhoneNull,String phone) {
+        startActivity(PhoneBindActivity.getLaucner(context,isPhoneNull,phone));
     }
 
     @Override
-    public void loginSuccessEx(Boolean newPhone, Boolean phoneIsNull) {
+    public void loginSuccessEx(Boolean newPhone, Boolean phoneIsNull,String phone) {
         boolean isMatch = Pattern.matches(Constant.PASSWORD_STYLE, et_password.getText().toString().trim());
 
         if(!isMatch)
@@ -193,14 +192,14 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
             return;
         }
 
-        if(newPhone)
+        if(phoneIsNull)
         {
-            bindPhone();
+            bindPhone(1,phone);
             return;
         }
-        else if(phoneIsNull)
+        else if(newPhone)
         {
-            bindPhone();
+            bindPhone(0,phone);
             return;
         }
 

@@ -4,6 +4,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.corelibs.api.ApiFactory;
 import com.corelibs.api.ResponseTransformer;
 import com.corelibs.base.BasePresenter;
@@ -42,7 +44,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
     @Override
     protected void onViewAttach() {
         super.onViewAttach();
-        api= ApiFactory.getFactory().create(LoginApi.class);
+        api = ApiFactory.getFactory().create(LoginApi.class);
     }
 
     @Override
@@ -50,41 +52,42 @@ public class LoginPresenter extends BasePresenter<LoginView> {
 
     }
 
-    public void loginAction(String account, final String password){
-        if(checkLoginInput(account,password)){
-            LoginRequestBean bean =new LoginRequestBean();
+    public void loginAction(String account, final String password) {
+        if (checkLoginInput(account, password)) {
+            LoginRequestBean bean = new LoginRequestBean();
 //            bean.language= Tools.getLocalLanguage(getContext());
-            bean.userName=account;
-            bean.password= MD5Utils.encode(password);
-            bean.phoneType=Tools.getPhoneType();
-            bean.phoneCode=Tools.getIMEI(getContext());
+            bean.userName = account;
+            bean.password = MD5Utils.encode(password);
+            bean.phoneType = Tools.getPhoneType();
+            bean.phoneCode = Tools.getIMEI(getContext());
             view.showLoading();
             api.login(bean)
                     .compose(new ResponseTransformer<>(this.<BaseData<JsonObject>>bindUntilEvent(ActivityEvent.DESTROY)))
                     .subscribe(new ResponseSubscriber<BaseData<JsonObject>>(view) {
                         @Override
                         public void success(BaseData baseData) {
-                            if(baseData!=null&&baseData.data!=null){
-                                JsonObject jsonObject= (JsonObject) baseData.data;
-                                String token= String.valueOf(jsonObject.get("Access-Token"));
-                                SharePrefsUtils.putValue(getContext(),"token",token);
-                                PreferencesHelper.saveData(Constant.LOGIN_PWD,password);
+                            if (baseData != null && baseData.data != null) {
+                                JSONObject jsonObject = JSON.parseObject(baseData.data.toString());
+                                String token = String.valueOf(jsonObject.get("Access-Token"));
+                                SharePrefsUtils.putValue(getContext(), "token", token);
+                                PreferencesHelper.saveData(Constant.LOGIN_PWD, password);
 
                                 Boolean newPhone = "true".equals(String.valueOf(jsonObject.get("newPhone")));
                                 Boolean phoneIsNull = "true".equals(String.valueOf(jsonObject.get("phoneIsNull")));
-
-                                view.loginSuccessEx(newPhone,phoneIsNull);
+                                String phone = String.valueOf(jsonObject.get("phone"));
+                                view.loginSuccessEx(newPhone, phoneIsNull, phone);
                             }
                         }
                     });
 
         }
     }
-    public void forgetPwd(String phonenum,String yzm,String newpwd){
-        ForgetPwdRequestBean bean=new ForgetPwdRequestBean();
-        bean.phoneNume=phonenum;
-        bean.yzm=yzm;
-        bean.newpwd=newpwd;
+
+    public void forgetPwd(String phonenum, String yzm, String newpwd) {
+        ForgetPwdRequestBean bean = new ForgetPwdRequestBean();
+        bean.phoneNume = phonenum;
+        bean.yzm = yzm;
+        bean.newpwd = newpwd;
         api.forgetPwd(bean)
                 .compose(new ResponseTransformer<>(this.<BaseData>bindUntilEvent(ActivityEvent.DESTROY)))
                 .subscribe(new ResponseSubscriber<BaseData>(view) {
@@ -94,9 +97,10 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                     }
                 });
     }
-    public void getCode(String content){
-        CodeRequestBean bean=new CodeRequestBean();
-        bean.phonenum=content;
+
+    public void getCode(String content) {
+        CodeRequestBean bean = new CodeRequestBean();
+        bean.phonenum = content;
         api.getCode(bean)
                 .compose(new ResponseTransformer<>(this.<BaseData>bindUntilEvent(ActivityEvent.DESTROY)))
                 .subscribe(new ResponseSubscriber<BaseData>(view) {
@@ -107,13 +111,13 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                 });
     }
 
-    private boolean checkLoginInput(String account,String password){
-        if(TextUtils.isEmpty(account)){
+    private boolean checkLoginInput(String account, String password) {
+        if (TextUtils.isEmpty(account)) {
             ToastMgr.show(getContext().getString(R.string.login_account_empty));
             return false;
         }
 
-        if(TextUtils.isEmpty(password)){
+        if (TextUtils.isEmpty(password)) {
             ToastMgr.show(getContext().getString(R.string.login_password_empty));
             return false;
         }
@@ -122,17 +126,17 @@ public class LoginPresenter extends BasePresenter<LoginView> {
     }
 
     public void getPushTag() {
-        String token= SharePrefsUtils.getValue(getContext(),"token",null);
-        Log.e("---getUserInfo--yzh","token--"+token);
-        String token1=token.replaceAll("\"","");
+        String token = SharePrefsUtils.getValue(getContext(), "token", null);
+        Log.e("---getUserInfo--yzh", "token--" + token);
+        String token1 = token.replaceAll("\"", "");
         api.getPushTag(token1)
                 .compose(new ResponseTransformer<>(this.<BaseData<PushBean>>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData<PushBean>>() {
                     @Override
                     public void success(BaseData<PushBean> pushBesn) {
 
-                        if(pushBesn!=null&&pushBesn.isSuccess()){
-                            view.returnTag(pushBesn.data.getResult(),pushBesn.data.getTag());
+                        if (pushBesn != null && pushBesn.isSuccess()) {
+                            view.returnTag(pushBesn.data.getResult(), pushBesn.data.getTag());
                         }
 
 
@@ -141,12 +145,12 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                 });
     }
 
-    public void getCompanyChoiceList(){
-        SafeRequestBean bean =new SafeRequestBean();
-        String token= SharePrefsUtils.getValue(getContext(),"token",null);
-        Log.i("token",token);
-        String token1=token.replaceAll("\"","");
-        api.findCompanyList(token1,bean)
+    public void getCompanyChoiceList() {
+        SafeRequestBean bean = new SafeRequestBean();
+        String token = SharePrefsUtils.getValue(getContext(), "token", null);
+        Log.i("token", token);
+        String token1 = token.replaceAll("\"", "");
+        api.findCompanyList(token1, bean)
                 .compose(new ResponseTransformer<>(this.<BaseData<SecuritySearchBean>>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData<SecuritySearchBean>>() {
 
@@ -163,7 +167,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                 });
     }
 
-    public void getServerVersion(){
+    public void getServerVersion() {
         api.getServerVersion()
                 .compose(new ResponseTransformer<>(this.<BaseData<String>>bindToLifeCycle()))
                 .subscribe(new ResponseSubscriber<BaseData<String>>() {
