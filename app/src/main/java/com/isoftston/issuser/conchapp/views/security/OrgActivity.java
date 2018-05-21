@@ -84,6 +84,8 @@ public class OrgActivity extends BaseActivity<SecuryView,SecurityPresenter> impl
         else if(1 == code)
         {
             nav.setNavTitle(getString(R.string.trouble_company));
+        }else if (2==code){
+            nav.setNavTitle(getString(R.string.work_company));
         }
 
         mAdapter = new NodeTreeAdapter(context,mListView,mLinkedList);
@@ -113,7 +115,7 @@ public class OrgActivity extends BaseActivity<SecuryView,SecurityPresenter> impl
                 {
                     //选中单位
                     Intent intent =new Intent();
-                    if(0 == code)
+                    if(0 == code||2==code)
                     {
                         intent.putExtra(Constant.FIND_COMPANY_NAME,node.get_label());
                         intent.putExtra(Constant.FIND_COMPANY_ID,(String)node.get_id());

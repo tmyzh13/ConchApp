@@ -413,7 +413,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
                 startActivityForResult(intent, CHOSE_NAME_CODE);
                 break;
             case R.id.rl_work_company:
-                startActivityForResult(OrgActivity.getLaucnher(context, 0), 128);
+                startActivityForResult(OrgActivity.getLaucnher(context, 2), 128);
                 break;
             case R.id.bt_submit:
                 showDialogView();
