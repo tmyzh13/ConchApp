@@ -33,10 +33,11 @@ public class MineMsgFragment extends BaseFragment {
     @Override
     protected void init(Bundle savedInstanceState) {
         Log.e("yzh","mineMsgFragment");
-        tabs=new String[]{getString(R.string.alls),getString(R.string.weizhang),getString(R.string.trouble)};
+        tabs=new String[]{getString(R.string.my_send),getString(R.string.my_fix),getString(R.string.my_delay),getString(R.string.my_sales),getString(R.string.my_accept)};
         MessageTypePageAdapter adapter=new MessageTypePageAdapter(getActivity().getSupportFragmentManager(),tabs,2);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         Tools.setIndicator(tabLayout,10,10);
     }
 

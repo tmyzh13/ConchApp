@@ -116,6 +116,16 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
             item = "wz";
         }else if (getString(R.string.trouble).equals(type)){
             item = "yh";
+        }else if (getString(R.string.my_send).equals(type)){
+            item = "fb";
+        }else if (getString(R.string.my_fix).equals(type)){
+            item = "zg";
+        }else if (getString(R.string.my_delay).equals(type)){
+            item = "yq";
+        }else if (getString(R.string.my_sales).equals(type)){
+            item = "xa";
+        }else if (getString(R.string.my_accept).equals(type)){
+            item = "ys";
         }
 
         adapter=new SecurityAdapter(getContext());
