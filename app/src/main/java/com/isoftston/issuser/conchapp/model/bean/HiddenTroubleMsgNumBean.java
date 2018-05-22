@@ -4,6 +4,8 @@ public class HiddenTroubleMsgNumBean {
 
     private Integer all;
 
+    private Integer wxa;
+
     private Integer fb;
 
     private Integer wzg;
@@ -60,5 +62,13 @@ public class HiddenTroubleMsgNumBean {
 
     public void setWys(Integer wys) {
         this.wys = wys;
+    }
+
+    public Integer getWxa() {
+        return wxa;
+    }
+
+    public void setWxa(Integer wxa) {
+        this.wxa = wxa;
     }
 }

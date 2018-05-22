@@ -42,7 +42,7 @@ public class HiddenTroubleMessageFragment extends BaseFragment {
     @Override
     protected void init(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
-        tabs=new String[]{getString(R.string.alls),getString(R.string.send),getString(R.string.not_alter),getString(R.string.overdue)
+        tabs=new String[]{getString(R.string.alls),getString(R.string.unsales),getString(R.string.not_alter),getString(R.string.overdue)
                 ,getString(R.string.altered),getString(R.string.not_check)};
         adapter =new MessageTypePageAdapter(getActivity().getSupportFragmentManager(),tabs,0);
         viewPager.setAdapter(adapter);
@@ -80,14 +80,15 @@ public class HiddenTroubleMessageFragment extends BaseFragment {
 
         Integer[] values = new Integer[]{
                 bean.getAll(),
-                bean.getFb(),
+//                bean.getFb(),
+                bean.getWxa(),
                 bean.getWzg(),
                 bean.getYq(),
                 bean.getYzg(),
                 bean.getWys()
         };
 
-        String[] tmps=new String[]{getString(R.string.alls),getString(R.string.send),getString(R.string.not_alter),getString(R.string.overdue)
+        String[] tmps=new String[]{getString(R.string.alls),getString(R.string.unsales),getString(R.string.not_alter),getString(R.string.overdue)
                 ,getString(R.string.altered),getString(R.string.not_check)};
 
         for(int i = 0;i < tmps.length;++i)

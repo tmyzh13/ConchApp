@@ -15,6 +15,7 @@ public class SafeBean {
     private int YHYQ;
     private int YH;
     private int YHYZG;
+    private int YHWXA;
 
     public int getYHFB() {
         return YHFB;
@@ -94,5 +95,13 @@ public class SafeBean {
 
     public void setYHYZG(int YHYZG) {
         this.YHYZG = YHYZG;
+    }
+
+    public int getYHWXA() {
+        return YHWXA;
+    }
+
+    public void setYHWXA(int YHWXA) {
+        this.YHWXA = YHWXA;
     }
 }

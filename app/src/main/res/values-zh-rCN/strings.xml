@@ -44,6 +44,7 @@
     <string name="illegal_msg">违章信息</string>
     <string name="alls">全部</string>
     <string name="send">发布</string>
+    <string name="unsales">未销案</string>
     <string name="not_alter">未整改</string>
     <string name="overdue">逾期</string>
     <string name="altered">已整改</string>

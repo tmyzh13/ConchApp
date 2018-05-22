@@ -102,6 +102,8 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
         String item = "";
         if (getString(R.string.alls).equals(type)){
             item = "all";
+        }else if(getString(R.string.unsales).equals(type)){
+            item = "wxa";
         }else if(getString(R.string.send).equals(type)){
             item = "fb";
         }else if (getString(R.string.not_alter).equals(type)){
@@ -218,6 +220,8 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
             return  "all";
         }else if(getString(R.string.send).equals(type)){
             return "fb";
+        }else if(getString(R.string.unsales).equals(type)){
+            return "wxa";
         }else if (getString(R.string.not_alter).equals(type)){
             return "wzg";
         }else if (getString(R.string.overdue).equals(type)){
@@ -299,6 +303,7 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
         HiddenTroubleMsgNumBean HiddenMsg = new HiddenTroubleMsgNumBean();
         HiddenMsg.setAll(data.total.getYH());
         HiddenMsg.setFb(data.total.getYHFB());
+        HiddenMsg.setWxa(data.total.getYHWXA());
         HiddenMsg.setWys(data.total.getYHWYS());
         HiddenMsg.setWzg(data.total.getYHWZG());
         HiddenMsg.setYq(data.total.getYHYQ());
