@@ -18,6 +18,7 @@ import com.corelibs.views.ptr.loadmore.widget.AutoLoadMoreListView;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.SecurityAdapter;
 import com.isoftston.issuser.conchapp.model.bean.HiddenTroubleMsgNumBean;
+import com.isoftston.issuser.conchapp.model.bean.MineMsgNumBean;
 import com.isoftston.issuser.conchapp.model.bean.MsgTotalCountBean;
 import com.isoftston.issuser.conchapp.model.bean.OrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeBean;
@@ -102,6 +103,10 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
         String item = "";
         if (getString(R.string.alls).equals(type)){
             item = "all";
+        }else if(getString(R.string.unapproval).equals(type)){
+            item = "wsp";
+        }else if(getString(R.string.no_send).equals(type)){
+            item = "wfs";
         }else if(getString(R.string.unsales).equals(type)){
             item = "wxa";
         }else if(getString(R.string.send).equals(type)){
@@ -120,6 +125,9 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
             item = "yh";
         }else if (getString(R.string.my_send).equals(type)){
             item = "fb";
+        }
+        else if (getString(R.string.my_approval).equals(type)){
+            item = "sp";
         }else if (getString(R.string.my_fix).equals(type)){
             item = "zg";
         }else if (getString(R.string.my_delay).equals(type)){
@@ -220,6 +228,10 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
             return  "all";
         }else if(getString(R.string.send).equals(type)){
             return "fb";
+        }else if(getString(R.string.unapproval).equals(type)){
+            return "wsp";
+        }else if(getString(R.string.no_send).equals(type)){
+            return "wfs";
         }else if(getString(R.string.unsales).equals(type)){
             return "wxa";
         }else if (getString(R.string.not_alter).equals(type)){
@@ -234,6 +246,19 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
             return "wz";
         }else if (getString(R.string.trouble).equals(type)){
             return "yh";
+        }else if (getString(R.string.my_send).equals(type)){
+            return "fb";
+        }
+        else if (getString(R.string.my_approval).equals(type)){
+            return "sp";
+        }else if (getString(R.string.my_fix).equals(type)){
+            return "zg";
+        }else if (getString(R.string.my_delay).equals(type)){
+            return "yq";
+        }else if (getString(R.string.my_sales).equals(type)){
+            return "xa";
+        }else if (getString(R.string.my_accept).equals(type)){
+            return "ys";
         }
         return  "";
     }
@@ -302,6 +327,8 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
 
         HiddenTroubleMsgNumBean HiddenMsg = new HiddenTroubleMsgNumBean();
         HiddenMsg.setAll(data.total.getYH());
+        HiddenMsg.setWsp(data.total.getYHWSP());
+        HiddenMsg.setWfs(data.total.getYHWFS());
         HiddenMsg.setFb(data.total.getYHFB());
         HiddenMsg.setWxa(data.total.getYHWXA());
         HiddenMsg.setWys(data.total.getYHWYS());
@@ -309,6 +336,14 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
         HiddenMsg.setYq(data.total.getYHYQ());
         HiddenMsg.setYzg(data.total.getYHYZG());
         EventBus.getDefault().post(HiddenMsg);
+
+        MineMsgNumBean mineMsgNumBean = new MineMsgNumBean();
+        mineMsgNumBean.setWDFB(data.total.getWDFB());
+        mineMsgNumBean.setWDSP(data.total.getWDSP());
+        mineMsgNumBean.setWDZG(data.total.getWDZG());
+        mineMsgNumBean.setWDYS(data.total.getWDYS());
+        mineMsgNumBean.setWDXA(data.total.getWDXA());
+        EventBus.getDefault().post(mineMsgNumBean);
 
         PushCacheUtils.getInstance().compareLocalSecurityPushMessage(getContext(),listMessage);
 

@@ -45,13 +45,16 @@
     <string name="alls">全部</string>
     <string name="send">发布</string>
     <string name="unsales">未销案</string>
+    <string name="unapproval">未审批</string>
     <string name="not_alter">未整改</string>
     <string name="overdue">逾期</string>
     <string name="altered">已整改</string>
+    <string name="no_send">未发送</string>
     <string name="not_check">未验收</string>
     <string name="weizhang">违章</string>
     <string name="trouble">隐患</string>
     <string name="my_send">我的发布</string>
+    <string name="my_approval">我的审批</string>
     <string name="my_fix">我的整改</string>
     <string name="my_delay">我的逾期</string>
     <string name="my_sales">我的销案</string>

@@ -4,6 +4,8 @@ public class HiddenTroubleMsgNumBean {
 
     private Integer all;
 
+    private Integer wsp;
+
     private Integer wxa;
 
     private Integer fb;
@@ -13,6 +15,8 @@ public class HiddenTroubleMsgNumBean {
     private Integer yq;
 
     private Integer yzg;
+
+    private Integer wfs;
 
     private Integer wys;
 
@@ -70,5 +74,21 @@ public class HiddenTroubleMsgNumBean {
 
     public void setWxa(Integer wxa) {
         this.wxa = wxa;
+    }
+
+    public Integer getWsp() {
+        return wsp;
+    }
+
+    public void setWsp(Integer wsp) {
+        this.wsp = wsp;
+    }
+
+    public Integer getWfs() {
+        return wfs;
+    }
+
+    public void setWfs(Integer wfs) {
+        this.wfs = wfs;
     }
 }
