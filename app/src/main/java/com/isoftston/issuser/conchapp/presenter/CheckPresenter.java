@@ -95,7 +95,7 @@ public class CheckPresenter extends ListPagePresenter<CheckView> {
         Matcher matcher = pattern.matcher(content);
         String all = matcher.replaceAll("");
 
-        bean.equipId=all;
+        bean.equipId=content;
 //        bean.userId=UserHelper.getUserId()+"";
 //        bean.userId= String.valueOf(UserHelper.getUserId());
 

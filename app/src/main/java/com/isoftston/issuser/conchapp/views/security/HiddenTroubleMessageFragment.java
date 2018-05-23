@@ -42,8 +42,8 @@ public class HiddenTroubleMessageFragment extends BaseFragment {
     @Override
     protected void init(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
-        tabs=new String[]{getString(R.string.alls),getString(R.string.unapproval),getString(R.string.not_alter),getString(R.string.overdue)
-                ,getString(R.string.altered),getString(R.string.no_send),getString(R.string.not_check),getString(R.string.unsales)};
+        tabs = new String[]{getString(R.string.alls),getString(R.string.not_alter),getString(R.string.overdue)
+                ,getString(R.string.unapproval),getString(R.string.no_send),getString(R.string.not_check),getString(R.string.unsales),getString(R.string.altered)};
         adapter =new MessageTypePageAdapter(getActivity().getSupportFragmentManager(),tabs,0);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -80,17 +80,17 @@ public class HiddenTroubleMessageFragment extends BaseFragment {
 
         Integer[] values = new Integer[]{
                 bean.getAll(),
-                bean.getWsp(),
                 bean.getWzg(),
                 bean.getYq(),
-                bean.getYzg(),
+                bean.getWsp(),
                 bean.getWfs(),
                 bean.getWys(),
-                bean.getWxa()
+                bean.getWxa(),
+                bean.getYzg()
         };
 
-        String[] tmps=new String[]{getString(R.string.alls),getString(R.string.unapproval),getString(R.string.not_alter),getString(R.string.overdue)
-                ,getString(R.string.altered),getString(R.string.no_send),getString(R.string.not_check),getString(R.string.unsales)};
+        String[] tmps=new String[]{getString(R.string.alls),getString(R.string.not_alter),getString(R.string.overdue)
+                ,getString(R.string.unapproval),getString(R.string.no_send),getString(R.string.not_check),getString(R.string.unsales),getString(R.string.altered)};
 
         for(int i = 0;i < tmps.length;++i)
         {
