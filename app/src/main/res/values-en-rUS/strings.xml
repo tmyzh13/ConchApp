@@ -2,6 +2,11 @@
     <!--app名称-->
     <string name="app_name_main">Conch Warning</string>
 
+    <string name="bind_phone">Bind phone</string>
+    <string name="change_bind_phone">Verify your phone</string>
+    <string name="bind_phone_hint">Please enter your mobile number and we will send you a verification message with this mobile number.</string>
+    <string name="bind_phone_valid">Please enter SMS verification code</string>
+    <string name="bind_success">Bind successfully</string>
     <string name="phone_check">Please enter the correct phone number</string>
 
     <string name="language">中</string>
@@ -38,12 +43,21 @@
     <string name="illegal_msg">Violation</string>
     <string name="alls">All</string>
     <string name="send">Send</string>
+    <string name="unsales">Unsold</string>
+    <string name="unapproval">Not approved</string>
     <string name="not_alter">Not corrected</string>
     <string name="overdue">Overdue</string>
     <string name="altered">Corrected</string>
+    <string name="no_send">Unsent</string>
     <string name="not_check">Not Accepted</string>
     <string name="weizhang">Violation</string>
     <string name="trouble">Danger</string>
+    <string name="my_send">Release</string>
+    <string name="my_approval">Approval</string>
+    <string name="my_fix">Rectification</string>
+    <string name="my_delay">Overdue</string>
+    <string name="my_sales">Sales</string>
+    <string name="my_accept">Acceptance</string>
 
     <string name="yh_message">Danger</string>
     <string name="wz_message">Violation</string>
@@ -114,6 +128,7 @@
     <string name="hidden_trouble_position">Hidden Parts</string>
     <string name="hidden_trouble_input">Enter</string>
     <string name="hidden_trouble_major">Major</string>
+    <string name="hidden_trouble_major_full">Major risks</string>
     <string name="hidden_trouble_normal">Minor</string>
     <string name="hidden_trouble_source">Hidden Danger Source</string>
     <string name="hidden_info">Discovery date must be earlier than registration time</string>
@@ -142,10 +157,14 @@
     <string name="write">Enter</string>
     <string name="checker">Reviewer</string>
     <string name="new_work">New Operation</string>
+    <string name="new_danger_work">New dangerous operation</string>
+    <string name="new_common_work">New routine operation</string>
     <string name="fix_work">Operation Modification</string>
     <string name="manager_fix">Modify Principal</string>
     <string name="authorize">Approver</string>
     <string name="sure">Ok</string>
+    <string name="resure">Double confirm</string>
+    <string name="wait_again">Hold on</string>
     <string name="equipment_type">Device Type</string>
     <string name="equipment_number">Device ID</string>
     <string name="equipment_name">Device Name</string>
@@ -204,6 +223,7 @@
     <string name="danger_work_phone">Central Control Telephone</string>
     <string name="danger_work_safety_point">Safety Points or Notes</string>
     <string name="danger_work_damage_type">Types of damage that may be caused</string>
+    <string name="danger_work_accident">Possible dangerous accidents</string>
     <string name="danger_work_accident">Possible Dangerous Accidents</string>
     <string name="danger_work_accident_eg">Typical Accident Cases</string>
     <string name="danger_work_action_rules">Inspection Maintenance Operation</string>
