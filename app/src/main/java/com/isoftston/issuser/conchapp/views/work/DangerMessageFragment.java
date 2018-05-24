@@ -151,7 +151,7 @@ public class DangerMessageFragment extends BaseFragment<WorkView, WorkPresenter>
             for (int i=0;i<countBeanlist.size();i++){
                 tabList.add(tabs.get(i+1)+" "+countBeanlist.get(i).getCount());
             }
-            adapter = new WorkMessageAdapter(getActivity().getSupportFragmentManager(), tabList, 0);
+            adapter = new WorkMessageAdapter(getActivity().getSupportFragmentManager(), tabList, 1);
             viewPager.setAdapter(adapter);
             tabLayout.setupWithViewPager(viewPager);
             adapter.notifyDataSetChanged();
