@@ -14,11 +14,21 @@ import android.widget.TextView;
 import com.corelibs.base.BaseFragment;
 import com.corelibs.base.BasePresenter;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.model.bean.DangerTypeBean;
+import com.isoftston.issuser.conchapp.model.bean.DeviceDetailBean;
+import com.isoftston.issuser.conchapp.model.bean.DeviceTypeBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkCountBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkRequestCountBean;
+import com.isoftston.issuser.conchapp.presenter.WorkPresenter;
+import com.isoftston.issuser.conchapp.views.interfaces.WorkView;
 import com.isoftston.issuser.conchapp.views.seacher.SeacherActivity;
 import com.isoftston.issuser.conchapp.views.work.adpter.WorkTypeAdapter;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 import butterknife.Bind;
 
@@ -26,7 +36,7 @@ import butterknife.Bind;
  * Created by issuser on 2018/4/9.
  */
 
-public class WorkFragment extends BaseFragment implements View.OnClickListener {
+public class WorkFragment extends BaseFragment<WorkView,WorkPresenter>  implements WorkView,View.OnClickListener {
     @Bind(R.id.nav)
     NavBar nav;
     @Bind(R.id.iv_add)
@@ -52,6 +62,9 @@ public class WorkFragment extends BaseFragment implements View.OnClickListener {
         nav.setColorRes(R.color.app_blue);
         nav.setNavTitle(getString(R.string.home_work));
         nav.hideBack();
+        WorkRequestCountBean bean=new WorkRequestCountBean();
+        bean.setType("0");
+        presenter.getWorkCount(bean);
         tv_danger_work.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_work_normal));
         iv_seach.setVisibility(View.VISIBLE);
         iv_add.setVisibility(View.VISIBLE);
@@ -93,8 +106,8 @@ public class WorkFragment extends BaseFragment implements View.OnClickListener {
     }
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected WorkPresenter createPresenter() {
+        return new WorkPresenter();
     }
 
     @Override
@@ -177,4 +190,72 @@ public class WorkFragment extends BaseFragment implements View.OnClickListener {
         }
     }
 
+    @Override
+    public void onLoadingCompleted() {
+
+    }
+
+    @Override
+    public void onAllPageLoaded() {
+
+    }
+
+    @Override
+    public void renderData(WorkBean workBean) {
+
+    }
+
+    @Override
+    public void getWorkListInfo(List<WorkBean> list) {
+
+    }
+
+    @Override
+    public void getWorkList(List<WorkDetailBean> list) {
+
+    }
+
+    @Override
+    public void getWorkError() {
+
+    }
+
+    @Override
+    public void addWorkSuccess() {
+
+    }
+
+    @Override
+    public void getDangerWorkTypeResult(List<DangerTypeBean> list) {
+
+    }
+
+    @Override
+    public void getDeviceTypeResult(List<DeviceTypeBean> list) {
+
+    }
+
+    @Override
+    public void getDeviceDetailSuccess(List<DeviceDetailBean> list) {
+
+    }
+
+    @Override
+    public void getWorkCountSuccess(List<WorkCountBean> list) {
+        if (list!=null&& list.size()!=0){
+            for (WorkCountBean bean:list){
+                if (bean.getType()==0){
+                    String dangerTotle=getResources().getString(R.string.danger_work)+" "+bean.getTotal();
+                    tv_danger_work.setText(dangerTotle);
+                }else if (bean.getType()==1){
+                    String commonTotle=getResources().getString(R.string.common_work)+" "+ bean.getTotal();
+                    tv_common_work.setText(commonTotle);
+                }else if (bean.getType()==2){
+                    String mineTotle=getResources().getString(R.string.home_mine)+" "+bean.getTotal();
+                    tv_mine.setText(mineTotle);
+                }
+            }
+        }
+
+    }
 }

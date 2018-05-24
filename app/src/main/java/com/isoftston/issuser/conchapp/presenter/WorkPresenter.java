@@ -16,9 +16,12 @@ import com.isoftston.issuser.conchapp.model.bean.DeviceTypeRequstBean;
 import com.isoftston.issuser.conchapp.model.bean.FixWorkBean;
 import com.isoftston.issuser.conchapp.model.bean.NewWorkBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkCountBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkCountListBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkListBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkListRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkListsBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkRequestCountBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkTypeRequestBean;
 import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.WorkView;
@@ -184,6 +187,26 @@ public class WorkPresenter extends BasePresenter<WorkView> {
                     @Override
                     public void success(BaseData<DeviceNameCodeBean> workBeanBaseData) {
                         view.getDeviceDetailSuccess(workBeanBaseData.data.list);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                    }
+                });
+    }
+
+    public void getWorkCount(WorkRequestCountBean bean){
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        String token1=token.replaceAll("\"","");
+        api.getWorkCount(token1,bean)
+                .compose(new ResponseTransformer<>(this.<BaseData<WorkCountListBean>>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData<WorkCountListBean>>(view) {
+                    @Override
+                    public void success(BaseData<WorkCountListBean> workBeanBaseData) {
+                        Log.i("ss","--ss--"+workBeanBaseData.data.list.size());
+                        view.getWorkCountSuccess(workBeanBaseData.data.list);
+
                     }
 
                     @Override

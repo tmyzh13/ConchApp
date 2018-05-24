@@ -7,6 +7,7 @@ import com.isoftston.issuser.conchapp.model.bean.DeviceDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceTypeBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceTypeRequstBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkCountBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
 
 import java.util.List;
@@ -31,4 +32,6 @@ public interface WorkView extends BasePaginationView {
     void getDeviceTypeResult(List<DeviceTypeBean> list);
 
     void getDeviceDetailSuccess(List<DeviceDetailBean> list);
+
+    void getWorkCountSuccess(List<WorkCountBean> list);
 }

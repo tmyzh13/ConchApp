@@ -23,6 +23,7 @@ import com.isoftston.issuser.conchapp.model.bean.DeviceNameCodeBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceTypeBean;
 import com.isoftston.issuser.conchapp.model.bean.FixWorkBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkCountBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
 import com.isoftston.issuser.conchapp.presenter.WorkPresenter;
 import com.isoftston.issuser.conchapp.views.interfaces.WorkView;
@@ -177,6 +178,11 @@ public class ChoiceDeviceNameActivity extends BaseActivity<WorkView, WorkPresent
         adapter.addAll(listdata);
         lv_device.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void getWorkCountSuccess(List<WorkCountBean> list) {
+
     }
 
     @OnClick(R.id.tv_cancel)
