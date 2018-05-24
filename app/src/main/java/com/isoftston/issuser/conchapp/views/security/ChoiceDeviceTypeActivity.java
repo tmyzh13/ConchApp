@@ -22,6 +22,7 @@ import com.isoftston.issuser.conchapp.model.bean.DeviceTypeBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceTypeRequstBean;
 import com.isoftston.issuser.conchapp.model.bean.FixWorkBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkCountBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
 import com.isoftston.issuser.conchapp.presenter.WorkPresenter;
 import com.isoftston.issuser.conchapp.views.interfaces.WorkView;
@@ -166,6 +167,11 @@ public class ChoiceDeviceTypeActivity extends BaseActivity<WorkView, WorkPresent
 
     @Override
     public void getDeviceDetailSuccess(List<DeviceDetailBean> list) {
+
+    }
+
+    @Override
+    public void getWorkCountSuccess(List<WorkCountBean> list) {
 
     }
 

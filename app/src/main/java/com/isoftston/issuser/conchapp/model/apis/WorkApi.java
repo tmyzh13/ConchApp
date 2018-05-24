@@ -10,10 +10,13 @@ import com.isoftston.issuser.conchapp.model.bean.DeviceTypeRequstBean;
 import com.isoftston.issuser.conchapp.model.bean.FixWorkBean;
 import com.isoftston.issuser.conchapp.model.bean.NewWorkBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkCountBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkCountListBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkListBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkListRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkListsBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkRequestCountBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkTypeRequestBean;
 
 import retrofit2.http.Body;
@@ -48,5 +51,9 @@ public interface WorkApi {
 
     @POST(Urls.GET_EQUPMENT_INFO_BY_TYPE)
     Observable<BaseData<DeviceNameCodeBean>> deviceName(@Header("Access-Token") String token, @Body DeviceNameBean bean);
+
+    //获取作业字段统计
+    @POST(Urls.GET_WORK_COUNT)
+    Observable<BaseData<WorkCountListBean>> getWorkCount(@Header("Access-Token") String token, @Body WorkRequestCountBean bean);
 
 }

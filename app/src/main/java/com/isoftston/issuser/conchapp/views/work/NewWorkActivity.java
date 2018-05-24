@@ -36,6 +36,7 @@ import com.isoftston.issuser.conchapp.model.bean.DeviceTypeBean;
 import com.isoftston.issuser.conchapp.model.bean.FixWorkBean;
 import com.isoftston.issuser.conchapp.model.bean.NewWorkBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkCountBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
 import com.isoftston.issuser.conchapp.presenter.WorkPresenter;
 import com.isoftston.issuser.conchapp.utils.DateUtils;
@@ -685,6 +686,11 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
 
     @Override
     public void getDeviceDetailSuccess(List<DeviceDetailBean> list) {
+
+    }
+
+    @Override
+    public void getWorkCountSuccess(List<WorkCountBean> list) {
 
     }
 

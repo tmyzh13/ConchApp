@@ -9,11 +9,14 @@ import com.corelibs.base.BasePresenter;
 import com.corelibs.subscriber.RxBusSubscriber;
 import com.corelibs.utils.rxbus.RxBus;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.model.bean.CountBean;
 import com.isoftston.issuser.conchapp.model.bean.DangerTypeBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceTypeBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkCountBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkRequestCountBean;
 import com.isoftston.issuser.conchapp.presenter.WorkPresenter;
 import com.isoftston.issuser.conchapp.utils.Tools;
 import com.isoftston.issuser.conchapp.views.interfaces.WorkView;
@@ -28,13 +31,15 @@ import butterknife.Bind;
  * Created by issuser on 2018/4/16.
  */
 
-public class DangerMessageFragment extends BaseFragment<WorkView,WorkPresenter> implements WorkView{
+public class DangerMessageFragment extends BaseFragment<WorkView, WorkPresenter> implements WorkView {
     @Bind(R.id.tabLayout)
     TabLayout tabLayout;
     @Bind(R.id.viewPagerDanger)
     ViewPager viewPager;
-    public List<String> tabs=new ArrayList<>();
+    public List<String> tabs = new ArrayList<>();
+    public List<String> tabList = new ArrayList<>();
     private WorkMessageAdapter adapter;
+    private List<CountBean> countBeanlist;
 
     @Override
     protected int getLayoutId() {
@@ -44,12 +49,15 @@ public class DangerMessageFragment extends BaseFragment<WorkView,WorkPresenter> 
     @Override
     protected void init(Bundle savedInstanceState) {
         presenter.getWorkInfo();
+        WorkRequestCountBean bean = new WorkRequestCountBean();
+        bean.setType("0");
+        presenter.getWorkCount(bean);
         tabs.add(getString(R.string.all));
-        adapter = new WorkMessageAdapter(getActivity().getSupportFragmentManager(),tabs,1);
+        adapter = new WorkMessageAdapter(getActivity().getSupportFragmentManager(), tabs, 1);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        Tools.setIndicator(tabLayout,10,10);
+//        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        Tools.setIndicator(tabLayout, 10, 10);
 //        RxBus.getDefault().toObservable(Object.class,"ssss")
 //                .compose(this.bindToLifecycle())
 //                .subscribe(new RxBusSubscriber<Object>() {
@@ -85,15 +93,15 @@ public class DangerMessageFragment extends BaseFragment<WorkView,WorkPresenter> 
     @Override
     public void getWorkListInfo(List<WorkBean> list) {
         hideLoading();
-        if (list.size()==0){
+        if (list.size() == 0) {
             return;
         }
         tabs.clear();
         tabs.add(getString(R.string.all));
-        if (list!=null&&list.size()!=0){
-            for (int i=0;i<list.size();i++){
-                String name=list.get(i).getName();
-                if (name!=null){
+        if (list != null && list.size() != 0) {
+            for (int i = 0; i < list.size(); i++) {
+                String name = list.get(i).getName();
+                if (name != null) {
                     tabs.add(name);
                 }
 
@@ -131,6 +139,23 @@ public class DangerMessageFragment extends BaseFragment<WorkView,WorkPresenter> 
 
     @Override
     public void getDeviceDetailSuccess(List<DeviceDetailBean> list) {
+
+    }
+
+    @Override
+    public void getWorkCountSuccess(List<WorkCountBean> list) {
+        tabList.clear();
+        if(list!=null&& list.size()!=0){
+            countBeanlist=list.get(0).getList();
+            tabList.add(tabs.get(0)+" "+list.get(0).getTotal());
+            for (int i=0;i<countBeanlist.size();i++){
+                tabList.add(tabs.get(i+1)+" "+countBeanlist.get(i).getCount());
+            }
+            adapter = new WorkMessageAdapter(getActivity().getSupportFragmentManager(), tabList, 0);
+            viewPager.setAdapter(adapter);
+            tabLayout.setupWithViewPager(viewPager);
+            adapter.notifyDataSetChanged();
+        }
 
     }
 }

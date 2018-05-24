@@ -26,6 +26,7 @@ import com.isoftston.issuser.conchapp.model.bean.DeviceTypeRequstBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
 import com.isoftston.issuser.conchapp.model.bean.SearchUserBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkBean;
+import com.isoftston.issuser.conchapp.model.bean.WorkCountBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
 import com.isoftston.issuser.conchapp.presenter.WorkPresenter;
 import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
@@ -286,6 +287,11 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
 
     @Override
     public void getDeviceDetailSuccess(List<DeviceDetailBean> list) {
+
+    }
+
+    @Override
+    public void getWorkCountSuccess(List<WorkCountBean> list) {
 
     }
 
