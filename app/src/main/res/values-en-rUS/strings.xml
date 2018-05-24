@@ -224,7 +224,6 @@
     <string name="danger_work_safety_point">Safety Points or Notes</string>
     <string name="danger_work_damage_type">Types of damage that may be caused</string>
     <string name="danger_work_accident">Possible dangerous accidents</string>
-    <string name="danger_work_accident">Possible Dangerous Accidents</string>
     <string name="danger_work_accident_eg">Typical Accident Cases</string>
     <string name="danger_work_action_rules">Inspection Maintenance Operation</string>
     <string name="danger_work_manager_system">Stopped Power Management System</string>
