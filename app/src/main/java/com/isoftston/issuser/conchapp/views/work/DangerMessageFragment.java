@@ -56,7 +56,7 @@ public class DangerMessageFragment extends BaseFragment<WorkView, WorkPresenter>
         adapter = new WorkMessageAdapter(getActivity().getSupportFragmentManager(), tabs, 1);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
-//        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         Tools.setIndicator(tabLayout, 10, 10);
 //        RxBus.getDefault().toObservable(Object.class,"ssss")
 //                .compose(this.bindToLifecycle())
