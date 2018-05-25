@@ -191,6 +191,14 @@ public class WorkFragment extends BaseFragment<WorkView,WorkPresenter>  implemen
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        WorkRequestCountBean bean=new WorkRequestCountBean();
+        bean.setType("0");
+        presenter.getWorkCount(bean);
+    }
+
+    @Override
     public void onLoadingCompleted() {
 
     }

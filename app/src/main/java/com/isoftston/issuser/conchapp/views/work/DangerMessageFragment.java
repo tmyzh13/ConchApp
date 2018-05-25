@@ -71,6 +71,14 @@ public class DangerMessageFragment extends BaseFragment<WorkView, WorkPresenter>
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        WorkRequestCountBean bean = new WorkRequestCountBean();
+        bean.setType("0");
+        presenter.getWorkCount(bean);
+    }
+
+    @Override
     protected WorkPresenter createPresenter() {
         return new WorkPresenter();
     }
@@ -154,6 +162,11 @@ public class DangerMessageFragment extends BaseFragment<WorkView, WorkPresenter>
             adapter = new WorkMessageAdapter(getActivity().getSupportFragmentManager(), tabList, 1);
             viewPager.setAdapter(adapter);
             tabLayout.setupWithViewPager(viewPager);
+//            if (tabList.size()>6){
+//                tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+//            }else {
+//                tabLayout.setTabMode(TabLayout.MODE_FIXED);
+//            }
             adapter.notifyDataSetChanged();
         }
 
