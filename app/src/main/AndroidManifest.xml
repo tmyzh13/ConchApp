@@ -283,6 +283,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".views.mine.ChangePhoneActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".views.mine.CompanySelectActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

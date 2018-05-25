@@ -63,6 +63,12 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
     @Bind(R.id.rl_change_phone)
     RelativeLayout rl_change_phone;
 
+    @Bind(R.id.user_company_rly)
+    RelativeLayout companyRly;
+
+    @Bind(R.id.user_company_tv)
+    TextView companyTv;
+
     private final int REQUEST_CODE = 100;
     private final int RESULT_CODE = 10;
 
@@ -85,7 +91,7 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
         titleTv.setText(getString(R.string.individual_center));
         clicks();
         showUserInfo();
-        changeIcon();
+//        changeIcon();
         //addPwdListen();
     }
 
@@ -109,6 +115,7 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
                 userPhoneNumEt.setText(userInfo.getPhoneNum());
             }
             userCompanyTv.setText(PreferencesHelper.getData(Constant.ORG_NAME));
+            companyTv.setText(userInfo.getCompanyName());
             String pwd = PreferencesHelper.getData(Constant.LOGIN_PWD);
             userPwdEt.setText(pwd);
             Log.i("pwd", "pwd----" + pwd);
@@ -173,6 +180,7 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
         rl_pwd.setOnClickListener(this);
         userPwdEt.setOnClickListener(this);
         rl_change_phone.setOnClickListener(this);
+        companyRly.setOnClickListener(this);
     }
 
     @Override
@@ -205,6 +213,10 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
                 break;
             case R.id.rl_change_phone:
                 startActivityForResult(ChangePhoneActivity.getLaucner(this),REQUEST_CODE);
+                break;
+            case R.id.user_company_rly:
+                startActivityForResult(CompanySelectActivity.getLaucner(this,userInfo.getFactoryId()),REQUEST_CODE);
+                break;
             default:
                 break;
         }
@@ -250,6 +262,7 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
             if (!"".equals(userInfo.getPhoneNum())) {
                 userPhoneNumEt.setText(userInfo.getPhoneNum());
             }
+            companyTv.setText(userInfo.getCompanyName());
             userCompanyTv.setText(PreferencesHelper.getData(Constant.ORG_NAME));
             String pwd = PreferencesHelper.getData(Constant.LOGIN_PWD);
             userPwdEt.setText(pwd);

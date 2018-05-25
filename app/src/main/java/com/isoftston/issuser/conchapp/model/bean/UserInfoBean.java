@@ -14,6 +14,7 @@ public class UserInfoBean implements Serializable {
     private String sex;
     private String userName;
     private String phoneNum;
+    private String factoryId;
     private String companyName;
     private String orgName;
     private String orgId;
@@ -88,5 +89,13 @@ public class UserInfoBean implements Serializable {
 
     public void setOrgName(String orgName) {
         this.orgName = orgName;
+    }
+
+    public String getFactoryId() {
+        return factoryId;
+    }
+
+    public void setFactoryId(String factoryId) {
+        this.factoryId = factoryId;
     }
 }

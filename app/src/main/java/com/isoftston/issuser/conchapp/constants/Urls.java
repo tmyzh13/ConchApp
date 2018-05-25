@@ -93,6 +93,8 @@ public class Urls {
     public static final String SUBMIT_JOB="job/submitJob";
     //查询当前用户信息
     public static final String GET_MY_INFO="info/getMyInfo";
+    public static final String GET_COMPANY = "organization/getSubCompanyList";
+    public static final String UPDATE_COMPANY = "organization/updateCurrentUserFactoryId";
     //意见反馈
     public static final String ADD_FEEDBACK="info/addFeedBack";
 
