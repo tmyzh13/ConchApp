@@ -252,10 +252,10 @@ public class WorkFragment extends BaseFragment<WorkView,WorkPresenter>  implemen
     public void getWorkCountSuccess(List<WorkCountBean> list) {
         if (list!=null&& list.size()!=0){
             for (WorkCountBean bean:list){
-                if (bean.getType()==0){
+                if (bean.getType()==1){
                     String dangerTotle=getResources().getString(R.string.danger_work)+" "+bean.getTotal();
                     tv_danger_work.setText(dangerTotle);
-                }else if (bean.getType()==1){
+                }else if (bean.getType()==0){
                     String commonTotle=getResources().getString(R.string.common_work)+" "+ bean.getTotal();
                     tv_common_work.setText(commonTotle);
                 }else if (bean.getType()==2){
