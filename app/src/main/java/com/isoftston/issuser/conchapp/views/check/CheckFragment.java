@@ -180,18 +180,6 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
         });
 
 
-        tvName.setText(userInfoBean.getRealName());
-        tvCompany.setText(userInfoBean.getCompanyName());
-//        Glide.with(getContext()).load("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524193800&di=ec7643dc32956b231ab9694a6c853c71&imgtype=jpg&er=1&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201503%2F05%2F20150305175720_urKVB.jpeg")
-//                .override(320, 320).into(iv_icon);
-
-        if (userInfoBean.getSex() != null) {
-            if (userInfoBean.getSex().equals("男")) {
-                iv_icon.setImageDrawable(getResources().getDrawable(R.mipmap.man_head));
-            } else {
-                iv_icon.setImageDrawable(getResources().getDrawable(R.mipmap.woman_head));
-            }
-        }
         ptrLayout.setRefreshLoadCallback(this);
         //presenter.getDevice(true);
 
@@ -412,6 +400,13 @@ public class CheckFragment extends BaseFragment<CheckView, CheckPresenter> imple
         userInfoBean = userInfo;
         tvName.setText(userInfoBean.getRealName());
         tvCompany.setText(userInfoBean.getCompanyName());
+        if (userInfoBean.getSex() != null) {
+            if (userInfoBean.getSex().equals("男")) {
+                iv_icon.setImageDrawable(getResources().getDrawable(R.mipmap.man_head));
+            } else {
+                iv_icon.setImageDrawable(getResources().getDrawable(R.mipmap.woman_head));
+            }
+        }
     }
 
     @Override
