@@ -59,6 +59,14 @@ public class MineMessageFragment extends BaseFragment<WorkView, WorkPresenter> i
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        WorkRequestCountBean bean = new WorkRequestCountBean();
+        bean.setType("2");
+        presenter.getWorkCount(bean);
+    }
+
+    @Override
     protected WorkPresenter createPresenter() {
         return new WorkPresenter();
     }

@@ -50,7 +50,7 @@ public class DangerMessageFragment extends BaseFragment<WorkView, WorkPresenter>
     protected void init(Bundle savedInstanceState) {
         presenter.getWorkInfo();
         WorkRequestCountBean bean = new WorkRequestCountBean();
-        bean.setType("0");
+        bean.setType("1");
         presenter.getWorkCount(bean);
         tabs.add(getString(R.string.all));
         adapter = new WorkMessageAdapter(getActivity().getSupportFragmentManager(), tabs, 1);
@@ -68,6 +68,14 @@ public class DangerMessageFragment extends BaseFragment<WorkView, WorkPresenter>
 //                        tabLayout.getTabAt(1).setText(tabs.get(1));
 //                    }
 //                });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        WorkRequestCountBean bean = new WorkRequestCountBean();
+        bean.setType("1");
+        presenter.getWorkCount(bean);
     }
 
     @Override
@@ -146,14 +154,19 @@ public class DangerMessageFragment extends BaseFragment<WorkView, WorkPresenter>
     public void getWorkCountSuccess(List<WorkCountBean> list) {
         tabList.clear();
         if(list!=null&& list.size()!=0){
-            countBeanlist=list.get(0).getList();
-            tabList.add(tabs.get(0)+" "+list.get(0).getTotal());
+            countBeanlist=list.get(1).getList();
+            tabList.add(tabs.get(0)+" "+list.get(1).getTotal());
             for (int i=0;i<countBeanlist.size();i++){
                 tabList.add(tabs.get(i+1)+" "+countBeanlist.get(i).getCount());
             }
             adapter = new WorkMessageAdapter(getActivity().getSupportFragmentManager(), tabList, 1);
             viewPager.setAdapter(adapter);
             tabLayout.setupWithViewPager(viewPager);
+//            if (tabList.size()>6){
+//                tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+//            }else {
+//                tabLayout.setTabMode(TabLayout.MODE_FIXED);
+//            }
             adapter.notifyDataSetChanged();
         }
 
