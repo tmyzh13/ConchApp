@@ -19,6 +19,8 @@ import com.isoftston.issuser.conchapp.model.bean.MessageDetailRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageListInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageListRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageQueryBean;
+import com.isoftston.issuser.conchapp.model.bean.MessageUnReadBean;
+import com.isoftston.issuser.conchapp.model.bean.MessageUnreadGetBean;
 import com.isoftston.issuser.conchapp.model.bean.QueryMessageRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.UserBean;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
@@ -212,6 +214,42 @@ public class MessagePresenter extends ListPagePresenter<MessageView> {
                         super.onError(e);
                         ToastMgr.show(getString(R.string.weather_quality_fail));
                     }
+                });
+    }
+
+    public void getUnReadMessageList(MessageUnReadBean bean) {
+
+        String token=SharePrefsUtils.getValue(getContext(),"token",null);
+        Log.i("token",token);//94c29a2eaf903a1f4b3cc5996385dcd2
+        String token1=token.replaceAll("\"","");
+        view.showLoading();
+        api.getUnReadMessageList(token1,bean)
+                .compose(new ResponseTransformer<>(this.<BaseData<MessageUnreadGetBean>>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData<MessageUnreadGetBean>>(view) {
+
+                    @Override
+                    public void success(BaseData<MessageUnreadGetBean> messageBaseData) {
+                        view.hideLoading();
+                        view.getUnreadMessageListResult(messageBaseData.data);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        view.hideLoading();
+                        view.getWorkError();
+                    }
+
+                    @Override
+                    public boolean operationError(BaseData<MessageUnreadGetBean> messageListInfoBeanBaseData, int status, String message) {
+                        view.hideLoading();
+                        if (status==-200){
+                            view.reLogin();
+                        }
+                        view.getWorkError();
+                        return false;
+                    }
+
                 });
     }
 }

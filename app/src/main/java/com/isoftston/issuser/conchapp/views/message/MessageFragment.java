@@ -41,6 +41,8 @@ import com.isoftston.issuser.conchapp.model.bean.MessageBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageItemBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageListInfoBean;
+import com.isoftston.issuser.conchapp.model.bean.MessageUnReadBean;
+import com.isoftston.issuser.conchapp.model.bean.MessageUnreadGetBean;
 import com.isoftston.issuser.conchapp.model.bean.SecurityUpdateBean;
 import com.isoftston.issuser.conchapp.model.bean.WeatherResponseBean;
 import com.isoftston.issuser.conchapp.model.event.MyEvent;
@@ -191,8 +193,10 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
     private boolean isUpRefresh;
     private boolean isDownRefresh;
     private boolean  isLastRow = false;
+    private boolean isUnreadList;
 
     private List<CountryModelBean> countryList = new ArrayList<>();
+    private List<String> messageBeanList;
 
     private PushBroadcastReceiver broadcastReceiver;
 
@@ -270,11 +274,23 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
                 if (currrentPage == 0){
                     presenter.getMessageListInfo("all","");
                 }else if (currrentPage == 1){
-                    presenter.getEachMessageListInfo("yh","");
+                    if (isUnreadList){
+                        getUnreadYh();
+                    }else {
+                        presenter.getEachMessageListInfo("yh","");
+                    }
                 }else if (currrentPage == 2){
-                    presenter.getEachMessageListInfo("wz","");
+                    if (isUnreadList){
+                        getUnreadWz();
+                    }else {
+                        presenter.getEachMessageListInfo("wz","");
+                    }
                 }else {
-                    presenter.getEachMessageListInfo("aq","");
+                    if (isUnreadList){
+                        getUnreadAq();
+                    }else {
+                        presenter.getEachMessageListInfo("aq","");
+                    }
                 }
             }
         });
@@ -299,8 +315,10 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
 
             @Override
             public void onPageSelected(int position) {
+                resetUnread();
                 switch (position){
                     case 0:
+                        isUnreadList = false;
                         currrentPage = 1;
                         isChange = true;
                         presenter.getEachMessageListInfo("yh","");
@@ -309,6 +327,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
                         yhReadTv.setTextColor(getViewContext().getResources().getColor(R.color.white));
                         break;
                     case 1:
+                        isUnreadList = false;
                         currrentPage = 2;
                         isChange = true;
                         presenter.getEachMessageListInfo("wz","");
@@ -318,6 +337,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
 
                         break;
                     case 2:
+                        isUnreadList = false;
                         currrentPage = 3;
                         isChange = true;
                         presenter.getEachMessageListInfo("aq","");
@@ -370,7 +390,11 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
                 //当滚到最后一行且停止滚动时，执行加载
                 if (isLastRow && scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
                     //加载元素
-                    loadNextPage(mAdapter.getCount());
+                    if(isUnreadList){
+                        loadUnReadNextPage(mAdapter.getCount());
+                    }else {
+                        loadNextPage(mAdapter.getCount());
+                    }
                     isLastRow = false;
                 }
             }
@@ -384,6 +408,40 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
             }
         });
         checkLocationPermission();
+
+    }
+
+    private void loadUnReadNextPage(int count) {
+        if (count == 0){
+            return;
+        }
+        if (count < messageBeanList.size() && messageBeanList.size() > 15){
+            ptrLayout.setLoading();
+            isDownRefresh = true;
+            String[] strings;
+            if (messageBeanList.size() - count > 15){
+                strings = new String[15];
+                for (int i = count;i < count+15;i++){
+                    strings[i] = messageBeanList.get(i);
+                }
+
+            }else{
+                strings = new String[messageBeanList.size()-count];
+                for (int i = count;i < messageBeanList.size();i++){
+                    strings[i] = messageBeanList.get(i);
+                }
+            }
+            MessageUnReadBean bean = new MessageUnReadBean();
+            bean.setIdList(strings);
+            if (currrentPage == 1){
+                bean.setType("yh");
+            }else if (currrentPage == 2){
+                bean.setType("wz");
+            }else {
+                bean.setType("aq");
+            }
+            presenter.getUnReadMessageList(bean);
+        }
 
     }
 
@@ -445,13 +503,13 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
                 wzgTv = view.findViewById(R.id.tv_wzg_num);
                 yqTv = view.findViewById(R.id.tv_yq_num);
                 yhReadTv = view.findViewById(R.id.yh_unread_count);
-//                yhReadTv.setOnClickListener(this);
+                yhReadTv.setOnClickListener(this);
             } else if (i == 1) {
                 view = LayoutInflater.from(getActivity()).inflate(
                         R.layout.viewpager_wz_item, null);
                 wzCountTv = view.findViewById(R.id.tv_count);
                 wzReadTv = view.findViewById(R.id.wz_unread_count);
-//                wzReadTv.setOnClickListener(this);
+                wzReadTv.setOnClickListener(this);
                 //dp
                 wz_tv_wzg_num = view.findViewById(R.id.wz_tv_wzg_num);
                 wz_tv_yq_num = view.findViewById(R.id.wz_tv_yq_num);
@@ -463,8 +521,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
                 jlTv = view.findViewById(R.id.jl_tv);
                 cfTv = view.findViewById(R.id.cf_tv);
                 aqReadTv = view.findViewById(R.id.aq_unread_count);
-//                aqReadTv.setOnClickListener(this);
-
+                aqReadTv.setOnClickListener(this);
             }
 
             list.add(view);
@@ -524,6 +581,7 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
                 isChange = true;
                 break;
             case R.id.iv_back:
+                isUnreadList = false;
                 isChange = true;
                 currrentPage = 0;
                 nav.setNavTitle(getString(R.string.main_message));
@@ -531,59 +589,146 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
                 ll_main.setVisibility(View.VISIBLE);
                 iv_back.setVisibility(View.GONE);
                 presenter.getMessageListInfo("all", "");
+                resetUnread();
                 break;
             case R.id.yh_unread_count:
                 isChange = true;
                 if (yhReadTv.isSelected()){
+                    isUnreadList = false;
                     yhReadTv.setSelected(false);
                     yhReadTv.setBackgroundResource(R.color.transparent);
                     yhReadTv.setTextColor(getViewContext().getResources().getColor(R.color.white));
                     presenter.getEachMessageListInfo("yh","");
                 }else{
+                    isChange = true;
+                    isUnreadList = true;
                     yhReadTv.setSelected(true);
                     yhReadTv.setBackgroundResource(R.drawable.bg_text_click);
                     yhReadTv.setTextColor(getViewContext().getResources().getColor(R.color.yh_unread_text));
-                    List<MessageBean> messageBeanList = PushCacheUtils.getInstance().compareLocalDelete(getViewContext(),mAdapter.getData(),"1");
-                    mAdapter.clear();
-                    mAdapter.addAll(messageBeanList);
-                    mAdapter.notifyDataSetChanged();
+                    getUnreadYh();
                 }
                 break;
             case R.id.wz_unread_count:
                 isChange = true;
                 if (wzReadTv.isSelected()){
+                    isUnreadList = false;
                     wzReadTv.setSelected(false);
                     presenter.getEachMessageListInfo("wz","");
                     wzReadTv.setBackgroundResource(R.color.transparent);
                     wzReadTv.setTextColor(getViewContext().getResources().getColor(R.color.white));
                 }else{
+                    isChange = true;
+                    isUnreadList = true;
                     wzReadTv.setSelected(true);
                     wzReadTv.setBackgroundResource(R.drawable.bg_text_click);
                     wzReadTv.setTextColor(getViewContext().getResources().getColor(R.color.wz_unread_text));
-                    List<MessageBean> messageBeanList = PushCacheUtils.getInstance().compareLocalDelete(getViewContext(),mAdapter.getData(),"2");
-                    mAdapter.clear();
-                    mAdapter.addAll(messageBeanList);
-                    mAdapter.notifyDataSetChanged();
+                    getUnreadWz();
                 }
                 break;
             case R.id.aq_unread_count:
                 isChange = true;
                 if (aqReadTv.isSelected()){
+                    isUnreadList = false;
                     presenter.getEachMessageListInfo("aq","");
                     aqReadTv.setSelected(false);
                     aqReadTv.setBackgroundResource(R.color.transparent);
                     aqReadTv.setTextColor(getViewContext().getResources().getColor(R.color.white));
                 }else{
+                    isChange = true;
+                    isUnreadList = true;
                     aqReadTv.setSelected(true);
                     aqReadTv.setBackgroundResource(R.drawable.bg_text_click);
                     aqReadTv.setTextColor(getViewContext().getResources().getColor(R.color.aq_unread_text));
-                    List<MessageBean> messageBeanList = PushCacheUtils.getInstance().compareLocalDelete(getViewContext(),mAdapter.getData(),"3");
-                    mAdapter.clear();
-                    mAdapter.addAll(messageBeanList);
-                    mAdapter.notifyDataSetChanged();
+                   getUnreadAq();
                 }
                 break;
         }
+    }
+
+    private void getUnreadYh(){
+        messageBeanList = PushCacheUtils.getInstance().readPushLocalCacheType(getViewContext(),"1");
+        if (messageBeanList.size() > 0){
+            String[] strings;
+            if (messageBeanList.size() > 15){
+                strings = new String[15];
+                for (int i = 0;i < 15;i++){
+                    strings[i] = messageBeanList.get(i);
+                }
+
+            }else{
+                strings = new String[messageBeanList.size()];
+                messageBeanList.toArray(strings);
+            }
+            MessageUnReadBean bean = new MessageUnReadBean();
+            bean.setType("yh");
+            bean.setIdList(strings);
+            presenter.getUnReadMessageList(bean);
+        }else {
+            mAdapter.clear();
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void getUnreadWz(){
+        messageBeanList = PushCacheUtils.getInstance().readPushLocalCacheType(getViewContext(),"2");
+        if (messageBeanList.size() > 0){
+            String[] strings;
+            if (messageBeanList.size() > 15){
+                strings = new String[15];
+                for (int i = 0;i < 15;i++){
+                    strings[i] = messageBeanList.get(i);
+                }
+
+            }else{
+                strings = new String[messageBeanList.size()];
+                messageBeanList.toArray(strings);
+            }
+            MessageUnReadBean bean = new MessageUnReadBean();
+            bean.setType("wz");
+            bean.setIdList(strings);
+            presenter.getUnReadMessageList(bean);
+        }else {
+            mAdapter.clear();
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void getUnreadAq(){
+        messageBeanList = PushCacheUtils.getInstance().readPushLocalCacheType(getViewContext(),"3");
+        if (messageBeanList.size() > 0){
+            String[] strings;
+            if (messageBeanList.size() > 15){
+                strings = new String[15];
+                for (int i = 0;i < 15;i++){
+                    strings[i] = messageBeanList.get(i);
+                }
+
+            }else{
+                strings = new String[messageBeanList.size()];
+                messageBeanList.toArray(strings);
+            }
+            MessageUnReadBean bean = new MessageUnReadBean();
+            bean.setType("aq");
+            bean.setIdList(strings);
+            presenter.getUnReadMessageList(bean);
+        }else {
+            mAdapter.clear();
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void resetUnread(){
+        isUnreadList = false;
+        yhReadTv.setSelected(false);
+        yhReadTv.setBackgroundResource(R.color.transparent);
+        yhReadTv.setTextColor(getViewContext().getResources().getColor(R.color.white));
+        wzReadTv.setSelected(false);
+        wzReadTv.setBackgroundResource(R.color.transparent);
+        wzReadTv.setTextColor(getViewContext().getResources().getColor(R.color.white));
+        aqReadTv.setSelected(false);
+        aqReadTv.setBackgroundResource(R.color.transparent);
+        aqReadTv.setTextColor(getViewContext().getResources().getColor(R.color.white));
+
     }
 
     private void changeCurrent(int i) {
@@ -821,6 +966,31 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
     public void refreshAir(AirResponseBean bean) {
         tv_air.setText(bean.getLevel());
 
+    }
+
+    @Override
+    public void getUnreadMessageListResult(MessageUnreadGetBean data) {
+        if (isChange){
+            mAdapter.clear();
+            isChange = false;
+        }
+        if (isUpRefresh){
+            mAdapter.clear();
+            isUpRefresh = false;
+        }
+        if (isDownRefresh){
+            isDownRefresh = false;
+        }
+        ptrLayout.complete();
+        if (data.List.size() == 0 && mAdapter.getCount() > 0){
+            return;
+        }
+        PushCacheUtils.getInstance().compareLocalPushMessage(getContext(),data.List);
+        lastCount = mAdapter.getCount()-1;
+        mAdapter.addAll(data.List);
+        mAdapter.notifyDataSetChanged();
+        lv_message.setAdapter(mAdapter);
+        lv_message.setSelection(lastCount);
     }
 
     public List<CountryModelBean> readXls() {

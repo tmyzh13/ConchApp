@@ -5,6 +5,7 @@ import com.isoftston.issuser.conchapp.model.bean.AirResponseBean;
 import com.isoftston.issuser.conchapp.model.bean.EachMessageInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageListInfoBean;
+import com.isoftston.issuser.conchapp.model.bean.MessageUnreadGetBean;
 import com.isoftston.issuser.conchapp.model.bean.WeatherResponseBean;
 
 /**
@@ -20,4 +21,6 @@ public interface MessageView extends BasePaginationView {
     void refreshWeather(WeatherResponseBean bean);
     void getEachMessageListResult(EachMessageInfoBean data);
     void refreshAir(AirResponseBean bean);
+
+    void getUnreadMessageListResult(MessageUnreadGetBean data);
 }

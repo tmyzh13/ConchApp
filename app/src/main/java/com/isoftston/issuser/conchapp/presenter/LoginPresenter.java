@@ -75,7 +75,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                                 Boolean newPhone = "true".equals(String.valueOf(jsonObject.get("newPhone")));
                                 Boolean phoneIsNull = "true".equals(String.valueOf(jsonObject.get("phoneIsNull")));
                                 String phone = String.valueOf(jsonObject.get("phone"));
-                                view.loginSuccessEx(newPhone, phoneIsNull, phone);
+                                view.loginSuccessEx(newPhone, phoneIsNull, phone,jsonObject);
                             }
                         }
                     });

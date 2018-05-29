@@ -43,6 +43,8 @@ public class Urls {
     //信息列表界面 获取信息列表数据
     public static  final String GET_MESSAGE_LIST="info/getSpwsYHs";
 
+    public static final String GET_UNREAD_LIST = "info/getUnReadInfoList ";
+
     //信息列表界面 信息详情
     public static  final String GET_MESSGAE_DETAIL_INFO="info/getSpwsYH";
 

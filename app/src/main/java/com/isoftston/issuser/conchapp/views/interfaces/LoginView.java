@@ -1,5 +1,6 @@
 package com.isoftston.issuser.conchapp.views.interfaces;
 
+import com.alibaba.fastjson.JSONObject;
 import com.corelibs.base.BaseView;
 import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
 
@@ -16,5 +17,5 @@ public interface LoginView extends BaseView {
     void getSafeChoiceList(SecuritySearchBean bean);
     void getServerVersionCode(String serverCode);
 
-    void loginSuccessEx(Boolean newPhone,Boolean phoneIsNull,String phone);
+    void loginSuccessEx(Boolean newPhone, Boolean phoneIsNull, String phone, JSONObject jsonObject);
 }

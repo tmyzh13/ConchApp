@@ -39,6 +39,14 @@ public class Constant {
     public static final String FIND_COMPANY_ID="find_company_id";
     public static final String FIND_COMPANY_NAME="find_company_name";
 
+    //添加隐患和作业权限
+    public static final String MENUS_PRIVILEGE = "menus_privilege";
+    public static final String YH_MENU="yh_menu";
+    public static final String JX_MENU="jx_menu";
+    public static final String ZY_MENU="zy_menu";
+    public static final String YH_ADD="yh_add";
+    public static final String ZY_add="zy_add";
+
     //隐患单位
     public static final String DANGER_COMPANY_ID="danger_company_id";
     public static final String DANGER_COMPANY_NAME="danger_company_name";

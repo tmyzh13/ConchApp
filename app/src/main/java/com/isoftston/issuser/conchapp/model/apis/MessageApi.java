@@ -9,6 +9,8 @@ import com.isoftston.issuser.conchapp.model.bean.MessageDetailRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageListInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageListRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageQueryBean;
+import com.isoftston.issuser.conchapp.model.bean.MessageUnReadBean;
+import com.isoftston.issuser.conchapp.model.bean.MessageUnreadGetBean;
 import com.isoftston.issuser.conchapp.model.bean.QueryMessageRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.UserBean;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
@@ -51,4 +53,7 @@ public interface MessageApi {
     //获取天气质量
     @GET(Urls.AIR)
     Observable<AirResponseBean> getAirInfo(@Query("id") String cityEnName);
+
+    @POST(Urls.GET_UNREAD_LIST)
+    Observable<BaseData<MessageUnreadGetBean>> getUnReadMessageList(@Header("Access-Token")String token1, @Body MessageUnReadBean bean);
 }

@@ -22,6 +22,7 @@ import com.isoftston.issuser.conchapp.model.bean.AirResponseBean;
 import com.isoftston.issuser.conchapp.model.bean.EachMessageInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageListInfoBean;
+import com.isoftston.issuser.conchapp.model.bean.MessageUnreadGetBean;
 import com.isoftston.issuser.conchapp.model.bean.WeatherResponseBean;
 import com.isoftston.issuser.conchapp.presenter.MessagePresenter;
 import com.isoftston.issuser.conchapp.utils.DateUtils;
@@ -439,6 +440,11 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
 
     @Override
     public void refreshAir(AirResponseBean bean) {
+
+    }
+
+    @Override
+    public void getUnreadMessageListResult(MessageUnreadGetBean data) {
 
     }
 }

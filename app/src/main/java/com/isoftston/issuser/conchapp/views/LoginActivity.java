@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.corelibs.base.BaseActivity;
 import com.corelibs.common.AppManager;
 import com.corelibs.utils.PreferencesHelper;
@@ -77,7 +79,9 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
             LanguageUtil.set(getViewContext(),false);
         }
         if (!TextUtils.isEmpty(PreferencesHelper.getData(Constant.LOGIN_STATUE))){
-            startActivity(MainActivity.getLauncher(context));
+            String menuJsonStr = PreferencesHelper.getData(Constant.MENUS_PRIVILEGE);
+            JSONObject jsonObject = JSONObject.parseObject(menuJsonStr);
+            startActivity(MainActivity.getLauncher(context,jsonObject));
             finish();
         }
         return R.layout.activity_login;
@@ -183,7 +187,7 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
     }
 
     @Override
-    public void loginSuccessEx(Boolean newPhone, Boolean phoneIsNull,String phone) {
+    public void loginSuccessEx(Boolean newPhone, Boolean phoneIsNull, String phone ,JSONObject jsonObject) {
         boolean isMatch = Pattern.matches(Constant.PASSWORD_STYLE, et_password.getText().toString().trim());
 
         if(!isMatch)
@@ -202,9 +206,12 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
             bindPhone(0,phone);
             return;
         }
-
+        PreferencesHelper.saveData(Constant.MENUS_PRIVILEGE,jsonObject.toJSONString());
+        JSONObject jsonObject2 = JSON.parseObject(jsonObject.get("operation_privilege").toString());
+        PreferencesHelper.saveData(Constant.YH_ADD,jsonObject2.get("yh_add").toString());
+        PreferencesHelper.saveData(Constant.ZY_add,jsonObject2.get("zy_add").toString());
         PreferencesHelper.saveData(Constant.LOGIN_STATUE,"1");
-        startActivity(MainActivity.getLauncher(context));
+        startActivity(MainActivity.getLauncher(context,jsonObject));
         ToastUtils.showtoast(context,getString(R.string.login_success));
         finish();
     }
