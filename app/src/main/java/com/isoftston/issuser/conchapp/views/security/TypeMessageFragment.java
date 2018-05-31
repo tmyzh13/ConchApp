@@ -12,11 +12,14 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.corelibs.base.BaseFragment;
+import com.corelibs.utils.PreferencesHelper;
+import com.corelibs.utils.ToastMgr;
 import com.corelibs.views.cube.ptr.PtrFrameLayout;
 import com.corelibs.views.ptr.layout.PtrAutoLoadMoreLayout;
 import com.corelibs.views.ptr.loadmore.widget.AutoLoadMoreListView;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.SecurityAdapter;
+import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.HiddenTroubleMsgNumBean;
 import com.isoftston.issuser.conchapp.model.bean.MineMsgNumBean;
 import com.isoftston.issuser.conchapp.model.bean.MsgTotalCountBean;
@@ -173,6 +176,10 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
                 String troubleType = "";
                 Log.d(TAG,"position:" + position + ",count:" + listMessage.size());
                 if ("yh".equals(listMessage.get(position).getYhlxbm())) {
+                    if ("false".equals(PreferencesHelper.getData(Constant.YH_DETAIL))){
+                        ToastMgr.show(getString(R.string.view_purview));
+                        return;
+                    }
                     troubleType = "yh";
                     intent =new Intent(getActivity(),ItemDangerDtailActivity.class);
                 }else {

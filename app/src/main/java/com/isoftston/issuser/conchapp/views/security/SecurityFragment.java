@@ -96,7 +96,7 @@ public class SecurityFragment extends BaseFragment<SecuryView, SecurityPresenter
             }
         });
         if (type.equals("yh") &&"false".equals(PreferencesHelper.getData(Constant.YH_ADD))){
-            nav.showOrHideAdd(true);
+            nav.showOrHideAdd(false);
         }
         nav.showAdd(new View.OnClickListener() {
             @Override

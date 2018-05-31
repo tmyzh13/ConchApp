@@ -45,7 +45,10 @@ public class Constant {
     public static final String JX_MENU="jx_menu";
     public static final String ZY_MENU="zy_menu";
     public static final String YH_ADD="yh_add";
-    public static final String ZY_add="zy_add";
+    public static final String ZY_ADD="zy_add";
+    public static final String YH_DETAIL="yh_detailView";
+    public static final String ZY_REPAIR = "zy_xiuGai";
+    public static final String ZY_REPEAL = "zy_repeal";
 
     //隐患单位
     public static final String DANGER_COMPANY_ID="danger_company_id";

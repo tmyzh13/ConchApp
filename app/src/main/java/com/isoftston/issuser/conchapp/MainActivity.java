@@ -77,16 +77,13 @@ public class MainActivity extends BaseActivity<LoginView, LoginPresenter> implem
     //public static Map<String,String> fromLXMap=new HashMap<String, String>();
 
     private final String TAG = MainActivity.class.getSimpleName();
+    private String isHaveYH;
+    private String isHaveJX;
+    private String isHaveZY;
 
     private List<OrgBean> org = new ArrayList<>();
 
-    private int bgRecourse[] = new int[]{
-            R.drawable.tab_msg,
-            R.drawable.tab_trouble,
-            R.drawable.tab_work,
-            R.drawable.tab_check,
-            R.drawable.tab_mine
-    };
+    private int bgRecourse[];
     private List<View> naviList = new ArrayList<>();
 
     private Handler mhander = new Handler() {
@@ -143,25 +140,36 @@ public class MainActivity extends BaseActivity<LoginView, LoginPresenter> implem
     protected void init(Bundle savedInstanceState) {
         verifyStoragePermissions(context);
         Intent intent = getIntent();
-        final String isHaveYH = intent.getStringExtra(Constant.YH_MENU);
-        final String isHaveJX = intent.getStringExtra(Constant.JX_MENU);
-        final String isHaveZY = intent.getStringExtra(Constant.ZY_MENU);
+        isHaveYH = intent.getStringExtra(Constant.YH_MENU);
+        isHaveJX = intent.getStringExtra(Constant.JX_MENU);
+        isHaveZY = intent.getStringExtra(Constant.ZY_MENU);
         tabTags = new String[]{getString(R.string.home_message)};
+        bgRecourse = new int[]{
+                R.drawable.tab_msg
+        };
         if ("true".equals(isHaveYH)){
             tabTags = Arrays.copyOf(tabTags, tabTags.length+1);
             tabTags[tabTags.length - 1] = getString(R.string.home_security);
+            bgRecourse = Arrays.copyOf(bgRecourse,bgRecourse.length+1);
+            bgRecourse[bgRecourse.length - 1] = R.drawable.tab_trouble;
         }
         if ("true".equals(isHaveZY)){
             tabTags = Arrays.copyOf(tabTags, tabTags.length+1);
             tabTags[tabTags.length - 1] = getString(R.string.home_work);
+            bgRecourse = Arrays.copyOf(bgRecourse,bgRecourse.length+1);
+            bgRecourse[bgRecourse.length - 1] = R.drawable.tab_work;
         }
 
         if ("true".equals(isHaveJX)){
             tabTags = Arrays.copyOf(tabTags, tabTags.length+1);
             tabTags[tabTags.length - 1] = getString(R.string.home_check);
+            bgRecourse = Arrays.copyOf(bgRecourse,bgRecourse.length+1);
+            bgRecourse[bgRecourse.length - 1] = R.drawable.tab_check;
         }
         tabTags = Arrays.copyOf(tabTags, tabTags.length+1);
         tabTags[tabTags.length - 1] = getString(R.string.home_mine);
+        bgRecourse = Arrays.copyOf(bgRecourse,bgRecourse.length+1);
+        bgRecourse[bgRecourse.length - 1] = R.drawable.tab_mine;
         navigator.setup(this, tabHost, this, getSupportFragmentManager(), R.id.real_tab_content);
         if ("true".equals(isHaveJX)) {
             navigator.setTabChangeInterceptor(new TabChangeInterceptor() {
@@ -270,7 +278,23 @@ public class MainActivity extends BaseActivity<LoginView, LoginPresenter> implem
 
     @Override
     public Class[] getFragmentClasses() {
-        return new Class[]{MessageFragment.class, SecurityFragment.class, WorkFragment.class, CheckFragment.class, MineFragment.class};
+        Class[] fragmentArray = new Class[]{MessageFragment.class};
+        if ("true".equals(isHaveYH)){
+            fragmentArray = Arrays.copyOf(fragmentArray, fragmentArray.length+1);
+            fragmentArray[fragmentArray.length - 1] = SecurityFragment.class;
+        }
+        if ("true".equals(isHaveZY)){
+            fragmentArray = Arrays.copyOf(fragmentArray, fragmentArray.length+1);
+            fragmentArray[fragmentArray.length - 1] = WorkFragment.class;
+        }
+
+        if ("true".equals(isHaveJX)){
+            fragmentArray = Arrays.copyOf(fragmentArray, fragmentArray.length+1);
+            fragmentArray[fragmentArray.length - 1] = CheckFragment.class;
+        }
+        fragmentArray = Arrays.copyOf(fragmentArray, fragmentArray.length+1);
+        fragmentArray[fragmentArray.length - 1] = MineFragment.class;
+        return fragmentArray;
     }
 
     @Override

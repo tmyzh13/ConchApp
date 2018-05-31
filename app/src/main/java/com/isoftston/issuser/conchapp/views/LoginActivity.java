@@ -208,8 +208,11 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
         }
         PreferencesHelper.saveData(Constant.MENUS_PRIVILEGE,jsonObject.toJSONString());
         JSONObject jsonObject2 = JSON.parseObject(jsonObject.get("operation_privilege").toString());
-        PreferencesHelper.saveData(Constant.YH_ADD,jsonObject2.get("yh_add").toString());
-        PreferencesHelper.saveData(Constant.ZY_add,jsonObject2.get("zy_add").toString());
+        PreferencesHelper.saveData(Constant.YH_ADD,jsonObject2.get(Constant.YH_ADD).toString());
+        PreferencesHelper.saveData(Constant.ZY_ADD,jsonObject2.get(Constant.ZY_ADD).toString());
+        PreferencesHelper.saveData(Constant.ZY_REPAIR,jsonObject2.get(Constant.ZY_REPAIR).toString());
+        PreferencesHelper.saveData(Constant.YH_DETAIL,jsonObject2.get(Constant.YH_DETAIL).toString());
+        PreferencesHelper.saveData(Constant.ZY_REPEAL,jsonObject2.get(Constant.ZY_REPEAL).toString());
         PreferencesHelper.saveData(Constant.LOGIN_STATUE,"1");
         startActivity(MainActivity.getLauncher(context,jsonObject));
         ToastUtils.showtoast(context,getString(R.string.login_success));

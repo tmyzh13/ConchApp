@@ -105,8 +105,8 @@ public class WorkFragment extends BaseFragment<WorkView,WorkPresenter>  implemen
 
             }
         });
-        if ("false".equals(PreferencesHelper.getData(Constant.ZY_add))){
-            iv_add.setVisibility(View.INVISIBLE);
+        if ("false".equals(PreferencesHelper.getData(Constant.ZY_ADD))){
+            iv_add.setVisibility(View.GONE);
         }
     }
 

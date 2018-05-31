@@ -326,4 +326,5 @@
     <string name="connect_error">"网络断开，请稍候再试</string>
     <string name="check_agein">请检查相关信息</string>
     <string name="chose_same_people">不能选重复的人</string>
+    <string name="view_purview">您没有查看权限！</string>
 </resources>

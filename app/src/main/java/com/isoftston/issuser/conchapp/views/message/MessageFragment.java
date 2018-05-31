@@ -360,6 +360,10 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
                 Intent intent = null;
                 //yh:隐患，wz：违章，aq：安全
                 if(bean!=null&&"yh".equals(bean.getType())){
+                    if ("false".equals(PreferencesHelper.getData(Constant.YH_DETAIL))){
+                        ToastMgr.show(getString(R.string.view_purview));
+                        return;
+                    }
                    intent = new Intent(getActivity(), ItemDangerDtailActivity.class);
                 }else if(bean!=null&&"wz".equals(bean.getType())){
                     intent = new Intent(getActivity(), ItemDtailActivity.class);
