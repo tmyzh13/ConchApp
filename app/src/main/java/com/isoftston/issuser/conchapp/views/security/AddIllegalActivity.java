@@ -192,6 +192,10 @@ public class AddIllegalActivity extends BaseActivity<SecuryView,SecurityPresente
 
     @OnClick(R.id.ll_confirm)
     public void confirmInfo(){
+        if(picString == null || "".equals(picString)){
+            ToastMgr.show(R.string.add_pic);
+            return;
+        }
         getLoadingDialog().show();
         String name=input_illegal_name.getContent().trim();
 

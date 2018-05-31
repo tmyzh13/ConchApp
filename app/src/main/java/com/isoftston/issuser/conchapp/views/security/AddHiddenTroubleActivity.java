@@ -428,9 +428,18 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         String yh_describle=et_description.getText().toString().trim();
         if (fix_yes.isChecked()){
             fix = fix_yes.getText().toString();
+            if (picChangeString == null || "".equals(picChangeString)){
+                ToastMgr.show(R.string.add_pic);
+                return;
+            }
         }else if (fix_no.isChecked()){
             fix=fix_no.getText().toString();
         }
+        if(picString == null || "".equals(picString)){
+            ToastMgr.show(R.string.add_pic);
+            return;
+        }
+
         if (TextUtils.isEmpty(yh_name)||TextUtils.isEmpty(find_company)||TextUtils.isEmpty(yh_company)||
                 TextUtils.isEmpty(check_people)||TextUtils.isEmpty(yh_grade)||TextUtils.isEmpty(yh_address)||
                 TextUtils.isEmpty(yh_position)||TextUtils.isEmpty(yh_from)||TextUtils.isEmpty(yh_type)

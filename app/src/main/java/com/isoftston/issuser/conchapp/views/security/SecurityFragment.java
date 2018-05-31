@@ -12,8 +12,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.corelibs.base.BaseFragment;
+import com.corelibs.utils.PreferencesHelper;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.IllegalTypeAdapter;
+import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.MessageBean;
 import com.isoftston.issuser.conchapp.model.bean.MsgTotalCountBean;
 import com.isoftston.issuser.conchapp.presenter.SecurityPresenter;
@@ -93,6 +95,9 @@ public class SecurityFragment extends BaseFragment<SecuryView, SecurityPresenter
                 startActivity(SeacherActivity.getLauncher(getContext(), "1"));
             }
         });
+        if (type.equals("yh") &&"false".equals(PreferencesHelper.getData(Constant.YH_ADD))){
+            nav.showOrHideAdd(true);
+        }
         nav.showAdd(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

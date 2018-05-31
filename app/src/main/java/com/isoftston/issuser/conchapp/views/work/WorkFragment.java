@@ -13,7 +13,9 @@ import android.widget.TextView;
 
 import com.corelibs.base.BaseFragment;
 import com.corelibs.base.BasePresenter;
+import com.corelibs.utils.PreferencesHelper;
 import com.isoftston.issuser.conchapp.R;
+import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.model.bean.DangerTypeBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.DeviceTypeBean;
@@ -103,6 +105,9 @@ public class WorkFragment extends BaseFragment<WorkView,WorkPresenter>  implemen
 
             }
         });
+        if ("false".equals(PreferencesHelper.getData(Constant.ZY_add))){
+            iv_add.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
