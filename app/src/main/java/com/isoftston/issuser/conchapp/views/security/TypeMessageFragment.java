@@ -175,11 +175,11 @@ public class TypeMessageFragment extends BaseFragment<SecuryView,SecurityPresent
                 Bundle bundle=new Bundle();
                 String troubleType = "";
                 Log.d(TAG,"position:" + position + ",count:" + listMessage.size());
+                if ("false".equals(PreferencesHelper.getData(Constant.YH_DETAIL))){
+                    ToastMgr.show(getString(R.string.view_purview));
+                    return;
+                }
                 if ("yh".equals(listMessage.get(position).getYhlxbm())) {
-                    if ("false".equals(PreferencesHelper.getData(Constant.YH_DETAIL))){
-                        ToastMgr.show(getString(R.string.view_purview));
-                        return;
-                    }
                     troubleType = "yh";
                     intent =new Intent(getActivity(),ItemDangerDtailActivity.class);
                 }else {

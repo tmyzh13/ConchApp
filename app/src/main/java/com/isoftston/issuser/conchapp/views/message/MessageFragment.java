@@ -366,6 +366,10 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
                     }
                    intent = new Intent(getActivity(), ItemDangerDtailActivity.class);
                 }else if(bean!=null&&"wz".equals(bean.getType())){
+                    if ("false".equals(PreferencesHelper.getData(Constant.YH_DETAIL))){
+                        ToastMgr.show(getString(R.string.view_purview));
+                        return;
+                    }
                     intent = new Intent(getActivity(), ItemDtailActivity.class);
                 }else if(bean!=null&&"aq".equals(bean.getType())){
                     intent = new Intent(getActivity(), ItemSafeDtailActivity.class);
