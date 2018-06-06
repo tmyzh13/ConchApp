@@ -95,22 +95,24 @@ public class SecurityFragment extends BaseFragment<SecuryView, SecurityPresenter
                 startActivity(SeacherActivity.getLauncher(getContext(), "1"));
             }
         });
-        if (type.equals("yh") &&"false".equals(PreferencesHelper.getData(Constant.YH_ADD))){
-            nav.showOrHideAdd(false);
-        }
-        nav.showAdd(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //进入隐患问题新增
-                if (type.equals("yh")) {
-                    startActivity(AddHiddenTroubleActivity.getLauncher(getContext()));
-                } else if (type.equals("wz")) {
-                    //新增违章
-                    startActivity(AddIllegalActivity.getLauncher(getContext()));
-                }
 
-            }
-        });
+        if ("false".equals(PreferencesHelper.getData(Constant.YH_ADD))){
+            nav.showOrHideAdd(false);
+        }else {
+            nav.showAdd(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //进入隐患问题新增
+                    if (type.equals("yh")) {
+                        startActivity(AddHiddenTroubleActivity.getLauncher(getContext()));
+                    } else if (type.equals("wz")) {
+                        //新增违章
+                        startActivity(AddIllegalActivity.getLauncher(getContext()));
+                    }
+
+                }
+            });
+        }
 
         adapter = new IllegalTypeAdapter(getActivity().getSupportFragmentManager());
         myViewPager.setOffscreenPageLimit(3);
@@ -221,7 +223,11 @@ public class SecurityFragment extends BaseFragment<SecuryView, SecurityPresenter
         tv_illegal.setTextColor(getResources().getColor(R.color.text_color_shallow));
         tv_mine.setTextColor(getResources().getColor(R.color.text_color_shallow));
         tv_hidden_trouble.setTextColor(getResources().getColor(R.color.white));
-        nav.showOrHideAdd(true);
+        if ("false".equals(PreferencesHelper.getData(Constant.YH_ADD))){
+            nav.showOrHideAdd(false);
+        }else {
+            nav.showOrHideAdd(true);
+        }
         type = "yh";
         myViewPager.setCurrentItem(0);
     }
@@ -234,7 +240,11 @@ public class SecurityFragment extends BaseFragment<SecuryView, SecurityPresenter
         tv_illegal.setTextColor(getResources().getColor(R.color.white));
         tv_mine.setTextColor(getResources().getColor(R.color.text_color_shallow));
         tv_hidden_trouble.setTextColor(getResources().getColor(R.color.text_color_shallow));
-        nav.showOrHideAdd(true);
+        if ("false".equals(PreferencesHelper.getData(Constant.YH_ADD))){
+            nav.showOrHideAdd(false);
+        }else {
+            nav.showOrHideAdd(true);
+        }
         type = "wz";
         myViewPager.setCurrentItem(1);
     }

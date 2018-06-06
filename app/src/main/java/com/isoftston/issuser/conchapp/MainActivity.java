@@ -62,7 +62,7 @@ public class MainActivity extends BaseActivity<LoginView, LoginPresenter> implem
     InterceptedFragmentTabHost tabHost;
 
     private TabNavigator navigator = new TabNavigator();
-    private String[] tabTags;
+    private String[] tabTags = new String[]{};
     private Context context = MainActivity.this;
     private PushBroadcastReceiver pushBroadcastReceiver;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -83,7 +83,7 @@ public class MainActivity extends BaseActivity<LoginView, LoginPresenter> implem
 
     private List<OrgBean> org = new ArrayList<>();
 
-    private int bgRecourse[];
+    private int bgRecourse[] = new int[]{};
     private List<View> naviList = new ArrayList<>();
 
     private Handler mhander = new Handler() {
@@ -107,6 +107,7 @@ public class MainActivity extends BaseActivity<LoginView, LoginPresenter> implem
             intent.putExtra(Constant.YH_MENU, jsonObject2.get("yh").toString());
             intent.putExtra(Constant.JX_MENU, jsonObject2.get("jx").toString());
             intent.putExtra(Constant.ZY_MENU, jsonObject2.get("zy").toString());
+            PreferencesHelper.saveData(Constant.YH_MENU, jsonObject2.get("yh").toString());
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         return intent;
@@ -143,43 +144,49 @@ public class MainActivity extends BaseActivity<LoginView, LoginPresenter> implem
         isHaveYH = intent.getStringExtra(Constant.YH_MENU);
         isHaveJX = intent.getStringExtra(Constant.JX_MENU);
         isHaveZY = intent.getStringExtra(Constant.ZY_MENU);
-        tabTags = new String[]{getString(R.string.home_message)};
-        bgRecourse = new int[]{
-                R.drawable.tab_msg
-        };
-        if ("true".equals(isHaveYH)){
-            tabTags = Arrays.copyOf(tabTags, tabTags.length+1);
+
+        if ("true".equals(isHaveYH)) {
+
+            tabTags = Arrays.copyOf(tabTags, tabTags.length + 1);
+            tabTags[tabTags.length - 1] = getString(R.string.home_message);
+            bgRecourse = Arrays.copyOf(bgRecourse, bgRecourse.length + 1);
+            bgRecourse[bgRecourse.length - 1] = R.drawable.tab_msg;
+
+            tabTags = Arrays.copyOf(tabTags, tabTags.length + 1);
             tabTags[tabTags.length - 1] = getString(R.string.home_security);
-            bgRecourse = Arrays.copyOf(bgRecourse,bgRecourse.length+1);
+            bgRecourse = Arrays.copyOf(bgRecourse, bgRecourse.length + 1);
             bgRecourse[bgRecourse.length - 1] = R.drawable.tab_trouble;
         }
-        if ("true".equals(isHaveZY)){
-            tabTags = Arrays.copyOf(tabTags, tabTags.length+1);
+        if ("true".equals(isHaveZY)) {
+            tabTags = Arrays.copyOf(tabTags, tabTags.length + 1);
             tabTags[tabTags.length - 1] = getString(R.string.home_work);
-            bgRecourse = Arrays.copyOf(bgRecourse,bgRecourse.length+1);
+            bgRecourse = Arrays.copyOf(bgRecourse, bgRecourse.length + 1);
             bgRecourse[bgRecourse.length - 1] = R.drawable.tab_work;
         }
 
-        if ("true".equals(isHaveJX)){
-            tabTags = Arrays.copyOf(tabTags, tabTags.length+1);
+        if ("true".equals(isHaveJX)) {
+            tabTags = Arrays.copyOf(tabTags, tabTags.length + 1);
             tabTags[tabTags.length - 1] = getString(R.string.home_check);
-            bgRecourse = Arrays.copyOf(bgRecourse,bgRecourse.length+1);
+            bgRecourse = Arrays.copyOf(bgRecourse, bgRecourse.length + 1);
             bgRecourse[bgRecourse.length - 1] = R.drawable.tab_check;
         }
-        tabTags = Arrays.copyOf(tabTags, tabTags.length+1);
+        tabTags = Arrays.copyOf(tabTags, tabTags.length + 1);
         tabTags[tabTags.length - 1] = getString(R.string.home_mine);
-        bgRecourse = Arrays.copyOf(bgRecourse,bgRecourse.length+1);
+        bgRecourse = Arrays.copyOf(bgRecourse, bgRecourse.length + 1);
         bgRecourse[bgRecourse.length - 1] = R.drawable.tab_mine;
+
         navigator.setup(this, tabHost, this, getSupportFragmentManager(), R.id.real_tab_content);
         if ("true".equals(isHaveJX)) {
             navigator.setTabChangeInterceptor(new TabChangeInterceptor() {
                 @Override
                 public boolean canTab(String tabId) {
                     int position = 3;
-                    if (("false".equals(isHaveZY) && "true".equals(isHaveYH)) || (("true".equals(isHaveZY) && "false".equals(isHaveYH)))) {
+                    if ("false".equals(isHaveZY) && "true".equals(isHaveYH)) {
                         position = 2;
-                    } else if ("false".equals(isHaveZY) && "false".equals(isHaveYH)){
+                    } else if ("true".equals(isHaveZY) && "false".equals(isHaveYH)) {
                         position = 1;
+                    } else if ("false".equals(isHaveZY) && "false".equals(isHaveYH)) {
+                        position = 0;
                     }
                     if (tabId.equals(tabTags[position])) {
                         setBarColor(getResources().getColor(R.color.transparent_black));
@@ -278,21 +285,23 @@ public class MainActivity extends BaseActivity<LoginView, LoginPresenter> implem
 
     @Override
     public Class[] getFragmentClasses() {
-        Class[] fragmentArray = new Class[]{MessageFragment.class};
-        if ("true".equals(isHaveYH)){
-            fragmentArray = Arrays.copyOf(fragmentArray, fragmentArray.length+1);
+        Class[] fragmentArray = new Class[]{};
+        if ("true".equals(isHaveYH)) {
+            fragmentArray = Arrays.copyOf(fragmentArray, fragmentArray.length + 1);
+            fragmentArray[fragmentArray.length - 1] = MessageFragment.class;
+            fragmentArray = Arrays.copyOf(fragmentArray, fragmentArray.length + 1);
             fragmentArray[fragmentArray.length - 1] = SecurityFragment.class;
         }
-        if ("true".equals(isHaveZY)){
-            fragmentArray = Arrays.copyOf(fragmentArray, fragmentArray.length+1);
+        if ("true".equals(isHaveZY)) {
+            fragmentArray = Arrays.copyOf(fragmentArray, fragmentArray.length + 1);
             fragmentArray[fragmentArray.length - 1] = WorkFragment.class;
         }
 
-        if ("true".equals(isHaveJX)){
-            fragmentArray = Arrays.copyOf(fragmentArray, fragmentArray.length+1);
+        if ("true".equals(isHaveJX)) {
+            fragmentArray = Arrays.copyOf(fragmentArray, fragmentArray.length + 1);
             fragmentArray[fragmentArray.length - 1] = CheckFragment.class;
         }
-        fragmentArray = Arrays.copyOf(fragmentArray, fragmentArray.length+1);
+        fragmentArray = Arrays.copyOf(fragmentArray, fragmentArray.length + 1);
         fragmentArray[fragmentArray.length - 1] = MineFragment.class;
         return fragmentArray;
     }

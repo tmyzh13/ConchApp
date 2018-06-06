@@ -263,6 +263,8 @@ public class IndividualCenterActivity extends BaseActivity<UserView, UserPresent
                 userPhoneNumEt.setText(userInfo.getPhoneNum());
             }
             companyTv.setText(userInfo.getCompanyName());
+            PreferencesHelper.getData(Constant.ORG_ID);
+            PreferencesHelper.getData(Constant.ORG_NAME);
             userCompanyTv.setText(PreferencesHelper.getData(Constant.ORG_NAME));
             String pwd = PreferencesHelper.getData(Constant.LOGIN_PWD);
             userPwdEt.setText(pwd);

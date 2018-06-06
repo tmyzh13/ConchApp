@@ -65,8 +65,13 @@ public class MineFragment extends BaseFragment<UserView, UserPresenter> implemen
     @Override
     protected void init(Bundle savedInstanceState) {
         clicks();
-        showUserInfo();
         versionTv.setText("V" + VersionUtil.getVersionName(getActivity()));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        showUserInfo();
     }
 
     private void showUserInfo() {
