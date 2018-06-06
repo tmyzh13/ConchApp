@@ -413,8 +413,6 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
 
     @OnClick(R.id.ll_confirm)
     public void confirmInfo(){
-        //提交新增信息 暂时结束页面
-        getLoadingDialog().show();
         String yh_name=input_trouble_name.getContent().trim();
 
         String startTimeStr = tv_start_time.getText().toString().trim();
@@ -450,6 +448,8 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
             return;
         }
 
+        //提交新增信息 暂时结束页面
+        getLoadingDialog().show();
 
         AddYHBean bean=new AddYHBean();
         bean.setYhmc(yh_name);
