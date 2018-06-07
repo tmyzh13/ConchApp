@@ -202,6 +202,8 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         worker_num_input.setInputText(getString(R.string.work_number), InputType.TYPE_CLASS_NUMBER);
         tv_start_time.setText(now);
         tv_end_time.setText(now);
+        find_company_id= PreferencesHelper.getData(Constant.ORG_ID);
+        tv_work_company.setText(PreferencesHelper.getData(Constant.ORG_NAME));
         clicks();
         et_name.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
