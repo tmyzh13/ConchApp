@@ -263,7 +263,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
-                            android:paddingLeft="20dp"
+                            android:paddingLeft="30dp"
                             android:textColor="@color/text_gray1" />
 
 
@@ -296,7 +296,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:paddingLeft="20dp"
+                        android:paddingLeft="30dp"
                         android:textColor="@color/text_gray1" />
                     </LinearLayout>
 
@@ -326,7 +326,7 @@
                         android:id="@+id/zgqx_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginLeft="30dp"
                         android:layout_marginTop="10dp"
                         android:textColor="@color/text_gray1" />
                 </LinearLayout>
@@ -426,7 +426,7 @@
                         android:id="@+id/yhly_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginLeft="30dp"
                         android:layout_marginTop="10dp"
                         android:textColor="@color/text_gray1" />
                 </LinearLayout>

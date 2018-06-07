@@ -144,7 +144,7 @@ public class MineFragment extends BaseFragment<UserView, UserPresenter> implemen
             }
         }
         userNameTv.setText(userInfo.getRealName());
-        userCompanyTv.setText(userInfo.getOrgName());
+        userCompanyTv.setText(userInfo.getCompanyName());
     }
 
     @Override
