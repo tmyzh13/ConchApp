@@ -21,6 +21,6 @@ public class DeviceNameAdapter extends QuickAdapter<DeviceDetailBean> {
 
     @Override
     protected void convert(BaseAdapterHelper helper, DeviceDetailBean item, int position) {
-        helper.setText(R.id.tv_name_device,item.getName());
+        helper.setText(R.id.tv_name_device,item.getName()+"-"+item.getEquipCode());
     }
 }

@@ -94,6 +94,10 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
         view_statue.setLayoutParams(lp);
         setBarColor(getResources().getColor(R.color.transparent_black));
         presenter.getServerVersion();
+        if (!"".equals(PreferencesHelper.getData(Constant.USER_NAME))){
+            et_login.setText(PreferencesHelper.getData(Constant.USER_NAME));
+            et_password.setText(PreferencesHelper.getData(Constant.PASSWORD));
+        }
     }
 
     @Override
@@ -216,6 +220,10 @@ public class LoginActivity extends BaseActivity<LoginView,LoginPresenter> implem
         PreferencesHelper.saveData(Constant.LOGIN_STATUE,"1");
         startActivity(MainActivity.getLauncher(context,jsonObject));
         ToastUtils.showtoast(context,getString(R.string.login_success));
+        PreferencesHelper.saveData(Constant.USER_NAME,username);
+        PreferencesHelper.saveData(Constant.PASSWORD,password);
+
+
         finish();
     }
 

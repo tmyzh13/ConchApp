@@ -142,94 +142,109 @@
                         android:src="@mipmap/yh_icon" />
 
                     <LinearLayout
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginLeft="@dimen/dp_10"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical"
-                        android:padding="10dp">
+                        android:orientation="vertical">
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/hidden_trouble_register_date"
-                            android:textColor="#262626"
-                            android:textStyle="bold" />
-                      <!--  <TextView
-                            android:id="@+id/sjdwmc_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/hidden_trouble_register_date"
-                            android:textColor="#262626"
-                            android:textStyle="bold" />-->
+                            android:orientation="horizontal"
+                            android:layout_marginTop="@dimen/dp_10">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_10"
-                            android:text="@string/illeagl_company"
-                            android:textColor="#262626"
-                            android:textStyle="bold" />
-                   <!--     <TextView
-                            android:id="@+id/yhdd_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_10"
-                            android:text="@string/yh_adress"
-                            android:textColor="#262626"
-                            android:textStyle="bold" />-->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/hidden_trouble_register_date"
+                                android:textColor="#262626"
+                                android:textStyle="bold" />
+                            <!--  <TextView
+                                  android:id="@+id/sjdwmc_tv"
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:text="@string/hidden_trouble_register_date"
+                                  android:textColor="#262626"
+                                  android:textStyle="bold" />-->
+                            <TextView
+                                android:id="@+id/sjdwmc_tv"
+                                android:layout_marginLeft="@dimen/dp_20"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#262626"
+                                android:textStyle="bold" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/illegal_place"
-                            android:layout_marginTop="@dimen/dp_10"
-                            android:textColor="#262626"
-                            android:textStyle="bold" />
+                            <!--     <TextView
+                                     android:id="@+id/yhdd_tv"
+                                     android:layout_width="wrap_content"
+                                     android:layout_height="wrap_content"
+                                     android:layout_marginTop="@dimen/dp_10"
+                                     android:text="@string/yh_adress"
+                                     android:textColor="#262626"
+                                     android:textStyle="bold" />-->
 
-                <!--        <TextView
-                            android:id="@+id/yhbw_tv"
+                            <!--        <TextView
+                                        android:id="@+id/yhbw_tv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/yh_point"
+                                        android:layout_marginTop="@dimen/dp_10"
+                                        android:textColor="#262626"
+                                        android:textStyle="bold" />-->
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginTop="@dimen/dp_10"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/yh_point"
-                            android:layout_marginTop="@dimen/dp_10"
-                            android:textColor="#262626"
-                            android:textStyle="bold" />-->
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/illeagl_company"
+                                android:textColor="#262626"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/yhdd_tv"
+                                android:layout_marginLeft="@dimen/dp_20"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#262626"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="@dimen/dp_10"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/illegal_place"
+                                android:textColor="#262626"
+                                android:textStyle="bold" />
+
+
+                            <TextView
+                                android:id="@+id/yhbw_tv"
+                                android:layout_marginLeft="@dimen/dp_20"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#262626"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
 
                     </LinearLayout>
 
-                   <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical"
-                        android:padding="10dp">
-
-                        <TextView
-                            android:id="@+id/sjdwmc_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="#262626"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/yhdd_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_10"
-                            android:textColor="#262626"
-                            android:singleLine="true"
-                            android:ellipsize="end"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/yhbw_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/dp_10"
-                            android:textColor="#262626"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
