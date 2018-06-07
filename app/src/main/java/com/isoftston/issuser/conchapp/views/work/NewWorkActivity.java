@@ -289,14 +289,14 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
             rb_no.setChecked(false);
             rb_no.setClickable(false);
             ll_danger_work.setVisibility(View.GONE);
-            rl_gas_checker.setVisibility(View.VISIBLE);
+//            rl_gas_checker.setVisibility(View.VISIBLE);
         } else {
             rb_no.setChecked(true);
             rb_yes.setChecked(false);
             rb_yes.setClickable(false);
             rl_dangerwork_type.setVisibility(View.GONE);
             ll_danger_work.setVisibility(View.GONE);
-            rl_gas_checker.setVisibility(View.GONE);
+//            rl_gas_checker.setVisibility(View.GONE);
         }
         presenter.getDangerWorkType(new FixWorkBean());
         //作业区域
@@ -325,7 +325,13 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
                     rl_charger.setVisibility(View.VISIBLE);
                     rl_gas_checker.setVisibility(View.GONE);
                 }
-                type = totalist.get(i).getCode();
+                typeStr = adapter.getItem(i);
+                for (DangerTypeBean bean : totalist) {
+                    if (typeStr.equals(bean.getName())) {
+                        type = bean.getCode();
+                        break;
+                    }
+                }
 
             }
 
@@ -343,10 +349,11 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
         work_zone_sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                area = spAdapter.getItem(position).toString();
+                area = spAdapter.getItem(position);
                 for (WorkBean bean : workBeanList) {
                     if (area.equals(bean.getName())) {
                         areaId = String.valueOf(bean.getId());
+                        break;
                     }
                 }
             }
@@ -440,6 +447,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     String auditor;
     String approver;
     String area;
+    String typeStr;
     public String gasId;
     public String gasName = null;
 
@@ -500,7 +508,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
                 || TextUtils.isEmpty(equipmentName) || TextUtils.isEmpty(area) || TextUtils.isEmpty(part)
                 || TextUtils.isEmpty(content) || TextUtils.isEmpty(find_company_id) || TextUtils.isEmpty(numPeople)
                 || TextUtils.isEmpty(guardian) || TextUtils.isEmpty(leading)
-                || TextUtils.isEmpty(auditor) || TextUtils.isEmpty(approver)) {
+                || TextUtils.isEmpty(auditor) || TextUtils.isEmpty(approver)||area.equals(getResources().getString(R.string.input_text))||typeStr.equals(getResources().getString(R.string.input_text))) {
             ToastMgr.show(R.string.input_all_message);
             return;
         }
@@ -645,6 +653,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     public void getWorkListInfo(List<WorkBean> list) {
         workBeanList = list;
         areaList.clear();
+        areaList.add(getResources().getString(R.string.input_text));
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getName()!=null){
                 areaList.add(list.get(i).getName());
@@ -672,6 +681,7 @@ public class NewWorkActivity extends BaseActivity<WorkView, WorkPresenter> imple
     @Override
     public void getDangerWorkTypeResult(List<DangerTypeBean> list) {
         totalist = list;
+        dangerTypeList.add(getResources().getString(R.string.input_text));
         for (DangerTypeBean bean : list) {
             dangerTypeList.add(bean.getName());
         }
