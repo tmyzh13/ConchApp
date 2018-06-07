@@ -231,6 +231,7 @@ public class ItemFragment extends BaseFragment<WorkView,WorkPresenter> implement
             ptrLayout.complete();
             return;
         }
+        type = type.split(" ")[0];
         for (WorkBean workBean:list){
             if (type.equals(getString(R.string.all))){
                 presenter.getWorkList(lastId,bType,"");
