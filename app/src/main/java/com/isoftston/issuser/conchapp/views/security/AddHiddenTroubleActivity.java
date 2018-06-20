@@ -358,9 +358,9 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
             }
         }else if(requestCode==111){
             if(resultCode==10) {
-                map = (HashMap<String, String>) data.getSerializableExtra(Constant.TEMP_PIC_LIST);
+                changeMap = (HashMap<String, String>) data.getSerializableExtra(Constant.TEMP_PIC_LIST);
                 StringBuilder builder = new StringBuilder();
-                for (String path : map.values()) {
+                for (String path : changeMap.values()) {
                     builder.append(path);
                     builder.append(",");
                 }
@@ -385,6 +385,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
         }
     }
     private HashMap<String, String> map =new HashMap<>();
+    private HashMap<String, String> changeMap =new HashMap<>();
     private String picString;
     private String picChangeString;
 
@@ -397,7 +398,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
     @OnClick(R.id.rl_change_photo)
     public void goChangePhoto(){
         //进入照片选择界面
-        startActivityForResult(ChoicePhotoActivity.getLauncher(context,"0",map,0),111);
+        startActivityForResult(ChoicePhotoActivity.getLauncher(context,"0",changeMap,0),111);
     }
 
     @OnClick(R.id.ll_description)
