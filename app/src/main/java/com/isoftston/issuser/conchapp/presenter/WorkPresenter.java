@@ -56,9 +56,6 @@ public class WorkPresenter extends BasePresenter<WorkView> {
                 .subscribe(new ResponseSubscriber<BaseData<WorkListBean>>(view) {
                     @Override
                     public void success(BaseData<WorkListBean> workBeanBaseData) {
-                        if (workBeanBaseData.data.list.size() == 0){
-                            ToastMgr.show(R.string.no_such_info);
-                        }
                         view.getWorkListInfo(workBeanBaseData.data.list);
                     }
 
@@ -88,9 +85,6 @@ public class WorkPresenter extends BasePresenter<WorkView> {
                 .subscribe(new ResponseSubscriber<BaseData<WorkListsBean>>(view) {
                     @Override
                     public void success(BaseData<WorkListsBean> workBeanBaseData) {
-                        if (workBeanBaseData.data.list.size() == 0){
-                            ToastMgr.show(R.string.no_such_info);
-                        }
                         view.getWorkList(workBeanBaseData.data.list);
                     }
 
@@ -221,9 +215,6 @@ public class WorkPresenter extends BasePresenter<WorkView> {
                     @Override
                     public void success(BaseData<WorkCountListBean> workBeanBaseData) {
                         Log.i("ss","--ss--"+workBeanBaseData.data.list.size());
-                        if (workBeanBaseData.data.list.size() == 0){
-                            ToastMgr.show(R.string.no_such_info);
-                        }
                         view.getWorkCountSuccess(workBeanBaseData.data.list);
 
                     }
