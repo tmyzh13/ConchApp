@@ -29,7 +29,11 @@ import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.SelectImageHelper;
 import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.constants.Urls;
+import com.isoftston.issuser.conchapp.model.bean.OrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
+import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
+import com.isoftston.issuser.conchapp.model.bean.UpdateZgtpBean;
+import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.presenter.SecurityPresenter;
 import com.isoftston.issuser.conchapp.utils.FileSizeUtil;
 import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
@@ -56,7 +60,7 @@ import rx.functions.Action1;
  * Created by issuser on 2018/4/11.
  */
 
-public class ChoicePhotoActivity extends BaseActivity implements View.OnClickListener {
+public class ChoicePhotoActivity extends BaseActivity<SecuryView,SecurityPresenter> implements View.OnClickListener,SecuryView {
 
     @Bind(R.id.nav)
     NavBar navBar;
@@ -76,11 +80,20 @@ public class ChoicePhotoActivity extends BaseActivity implements View.OnClickLis
     private ArrayList<String> historylist;
     private HashMap<String, String> mFiles;
     private int kind;//0：拍照、相册 1：拍照 2：相册
+    private String id;
 
     public static Intent getLauncher(Context context, String type, HashMap<String, String> map,int kind) {
         Intent intent = new Intent(context, ChoicePhotoActivity.class);
         intent.putExtra("type", type);
         intent.putExtra("files", map);
+        intent.putExtra("kind",kind);
+        return intent;
+    }
+
+    public static Intent getLauncher(Context context, String type,String id,int kind) {
+        Intent intent = new Intent(context, ChoicePhotoActivity.class);
+        intent.putExtra("type", type);
+        intent.putExtra("id", id);
         intent.putExtra("kind",kind);
         return intent;
     }
@@ -101,6 +114,7 @@ public class ChoicePhotoActivity extends BaseActivity implements View.OnClickLis
         type = getIntent().getStringExtra("type");
         mFiles = (HashMap<String, String>) getIntent().getSerializableExtra("files");
         kind = getIntent().getIntExtra("kind",0);
+        id = getIntent().getStringExtra("id");
         if (mFiles == null) {
             mFiles = new HashMap<>();
         }
@@ -178,7 +192,17 @@ public class ChoicePhotoActivity extends BaseActivity implements View.OnClickLis
 
     @OnClick(R.id.tv_confirm)
     public void confirm() {
+        if (id != null){
+            showLoading();
+            UpdateZgtpBean updateZgtpBean = new UpdateZgtpBean();
+            updateZgtpBean.setId(id);
+            presenter.checkUpload(updateZgtpBean);
+            return;
+        }
+        uploadImage();
+    }
 
+    private void uploadImage(){
         List<File> listFiles = helper.getChosenImages();
         for (int i = 0; i < listFiles.size(); i++) {
             String path = FileSizeUtil.compressImage(listFiles.get(i).getPath());
@@ -186,13 +210,12 @@ public class ChoicePhotoActivity extends BaseActivity implements View.OnClickLis
         }
 
         if (list.size() == 0) {
-            ToastUtils.showtoast(context, "还未上传图片");
+            hideLoading();
+            ToastUtils.showtoast(context, getString(R.string.not_upload_image));
             finish();
             return;
         }
-
         showLoading();
-
         final Handler handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -243,6 +266,10 @@ public class ChoicePhotoActivity extends BaseActivity implements View.OnClickLis
                             e.printStackTrace();
                         }
                         if (object == null) {
+                            message.arg1 = 0;
+                            handler.sendMessage(message);
+                            return;
+                        }else if ("0".equals(object.getString("code"))){
                             message.arg1 = 0;
                             handler.sendMessage(message);
                             return;
@@ -298,5 +325,55 @@ public class ChoicePhotoActivity extends BaseActivity implements View.OnClickLis
                 }).create();
 
         alert.show();
+    }
+
+    @Override
+    public void addSuccess() {
+        uploadImage();
+    }
+
+    @Override
+    public void getSafeListSuccess(SafeListBean data) {
+
+    }
+
+    @Override
+    public void addFailed() {
+
+    }
+
+    @Override
+    public void getSafeChoiceList(SecuritySearchBean bean) {
+
+    }
+
+    @Override
+    public void getOrgList(List<OrgBean> bean) {
+
+    }
+
+    @Override
+    public void getOrgId(String orgId) {
+
+    }
+
+    @Override
+    public void getWorkError() {
+
+    }
+
+    @Override
+    public void setUserInfo(UserInfoBean userInfo) {
+
+    }
+
+    @Override
+    public void onLoadingCompleted() {
+
+    }
+
+    @Override
+    public void onAllPageLoaded() {
+
     }
 }

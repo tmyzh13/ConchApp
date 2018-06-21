@@ -12,6 +12,7 @@ import com.isoftston.issuser.conchapp.model.bean.MessageQueryBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageUnReadBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageUnreadGetBean;
 import com.isoftston.issuser.conchapp.model.bean.QueryMessageRequestBean;
+import com.isoftston.issuser.conchapp.model.bean.UpdateZgtpBean;
 import com.isoftston.issuser.conchapp.model.bean.UserBean;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.WeatherResponseBean;
@@ -56,4 +57,7 @@ public interface MessageApi {
 
     @POST(Urls.GET_UNREAD_LIST)
     Observable<BaseData<MessageUnreadGetBean>> getUnReadMessageList(@Header("Access-Token")String token1, @Body MessageUnReadBean bean);
+
+    @POST(Urls.UPLOAD_ZGTP)
+    Observable<BaseData> updateZgtp(@Header("Access-Token")String token1,@Body UpdateZgtpBean updateZgtpBean);
 }

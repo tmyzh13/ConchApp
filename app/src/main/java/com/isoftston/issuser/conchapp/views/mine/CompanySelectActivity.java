@@ -40,7 +40,7 @@ public class CompanySelectActivity extends BaseActivity <CompanySelectView,Compa
 
     private int pos;
 
-    private String id;
+    private String id="";
     private final int RESULT_CODE = 10;
     private boolean isExpand;
 
@@ -60,7 +60,6 @@ public class CompanySelectActivity extends BaseActivity <CompanySelectView,Compa
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        id = getIntent().getStringExtra("id");
         nav.setColorRes(R.color.white);
         nav.setTitleColor(getResources().getColor(R.color.black));
         setBarColor(getResources().getColor(R.color.transparent_black));

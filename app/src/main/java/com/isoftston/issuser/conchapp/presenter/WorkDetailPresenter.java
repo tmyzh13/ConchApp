@@ -6,6 +6,8 @@ import com.corelibs.api.ApiFactory;
 import com.corelibs.api.ResponseTransformer;
 import com.corelibs.base.BasePresenter;
 import com.corelibs.subscriber.ResponseSubscriber;
+import com.corelibs.utils.ToastMgr;
+import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.model.apis.WorkDetailApi;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
 import com.isoftston.issuser.conchapp.model.bean.DangerWorkTypeBean;
@@ -161,7 +163,9 @@ public class WorkDetailPresenter extends BasePresenter<WorkDetailView> {
                 .subscribe(new ResponseSubscriber<BaseData<WorkListBean>>(view) {
                     @Override
                     public void success(BaseData<WorkListBean> workBeanBaseData) {
-
+                        if (workBeanBaseData.data.list.size() == 0){
+                            ToastMgr.show(R.string.no_such_info);
+                        }
                         view.getWorkListInfo(workBeanBaseData.data.list);
                     }
 

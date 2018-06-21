@@ -7,8 +7,9 @@ package com.isoftston.issuser.conchapp.constants;
 
 public class Urls {
   //  public static final String ROOT="http://10.0.11.208:8099/conch/";//客户环境
-    public static final String ROOT="http://220.180.131.37:18000/conch/";//客户环境
-//    public static final String ROOT="http://10.28.124.196:8099/conch/";//测试环境
+      public static final String ROOT="http://220.180.131.37:18000/conch/";//客户环境
+//      public static final String ROOT="http://10.28.124.201:8099/conch/";//武汉现场环境
+//    public static final String ROOT="http://10.28.124.201:8099/conch/";//测试环境
 //    public static final String ROOT="http://10.28.124.188:8099/conch/";//周法电脑
 //    public static final String ROOT="http://10.28.124.116:8099/conch/";
 //    public static final String ROOT="http://10.28.124.196:8099/conch/";
@@ -47,6 +48,13 @@ public class Urls {
 
     //信息列表界面 信息详情
     public static  final String GET_MESSGAE_DETAIL_INFO="info/getSpwsYH";
+
+    //添加整改图片路径
+    public static final String UPLOAD_ZGTP = "safety/yhZG2App ";
+    //提交整改图片
+    public static final String UPLOAD_ZGTP_FILE = "upload/zgImg";
+
+    public static final String CHECK_UPLOAD_IMG = "info/isSaveHiddenDangerById";
 
     //信息列表搜索
     public static  final String SEARCH_MESSGAE_INFO="info/searchInfos";

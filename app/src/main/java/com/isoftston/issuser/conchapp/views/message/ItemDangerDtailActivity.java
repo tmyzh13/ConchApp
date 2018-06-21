@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -17,12 +18,14 @@ import com.bumptech.glide.request.target.Target;
 import com.corelibs.base.BaseActivity;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.adapters.mGridViewAdapter;
+import com.isoftston.issuser.conchapp.constants.Constant;
 import com.isoftston.issuser.conchapp.constants.Urls;
 import com.isoftston.issuser.conchapp.model.bean.AirResponseBean;
 import com.isoftston.issuser.conchapp.model.bean.EachMessageInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageListInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageUnreadGetBean;
+import com.isoftston.issuser.conchapp.model.bean.UpdateZgtpBean;
 import com.isoftston.issuser.conchapp.model.bean.WeatherResponseBean;
 import com.isoftston.issuser.conchapp.presenter.MessagePresenter;
 import com.isoftston.issuser.conchapp.utils.DateUtils;
@@ -30,14 +33,17 @@ import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.MessageView;
 import com.isoftston.issuser.conchapp.views.message.adpter.VpAdapter;
 import com.isoftston.issuser.conchapp.views.message.utils.PushCacheUtils;
+import com.isoftston.issuser.conchapp.views.security.ChoicePhotoActivity;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 import com.isoftston.issuser.conchapp.weight.RoundByXfermode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * Created by issuser on 2018/4/10.
@@ -86,12 +92,18 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
     TextView msyh_tv;
     @Bind(R.id.yhly_tv)
     TextView yhly_tv;
+    @Bind(R.id.fix_person)
+    TextView fix_person;
 
 
     @Bind(R.id.zgzt_fix_img)
     RoundByXfermode zgztFixImage;
     @Bind(R.id.zgzt_unfix_img)
     RoundByXfermode zgztUnFixImage;
+    @Bind(R.id.fix_img_rly)
+    RelativeLayout fix_img_rly;
+    @Bind(R.id.add_change_photo)
+    LinearLayout add_change_photo;
 
 
 
@@ -188,6 +200,32 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
         PushCacheUtils.getInstance().removePushIdMessage(this,id);
     }
 
+    @OnClick(R.id.add_change_photo)
+    public void goPhoto(){
+        //进入照片选择界面
+        startActivityForResult(ChoicePhotoActivity.getLauncher(getApplicationContext(),"0",id,0),112);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==112){
+            if(resultCode==10) {
+               HashMap<String,String> map = (HashMap<String, String>) data.getSerializableExtra(Constant.TEMP_PIC_LIST);
+                StringBuilder builder = new StringBuilder();
+                for (String path : map.values()) {
+                    builder.append(path);
+                    builder.append(",");
+                }
+                String picChangeString = builder.toString();
+                UpdateZgtpBean updateZgtpBean = new UpdateZgtpBean();
+                updateZgtpBean.setZgtp(picChangeString);
+                updateZgtpBean.setId(id);
+                presenter.updateZgtp(updateZgtpBean);
+            }
+        }
+    }
 
     @Override
     protected MessagePresenter createPresenter() {
@@ -240,13 +278,15 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
     private void initImages() {
         //实例化一个集合，用于存放图片
         imageList = new ArrayList<View>();
+        View view;
+        ImageView iv;
         for (int i = 0; i < urls.size(); i++) {
-            final int j = i;
-            View view = LayoutInflater.from(getApplicationContext()).inflate(
+            view = LayoutInflater.from(getApplicationContext()).inflate(
                     R.layout.viewpager_item, null);
+            iv = view.findViewById(R.id.view_image);
+            final int j = i;
 //            TextView title = (TextView) view.findViewById(R.id.view_title);
 //            title.setText("头像");
-            ImageView iv = view.findViewById(R.id.view_image);
             Glide.with(this).load(urls.get(i))
                     .listener(listener)
                     .centerCrop()
@@ -262,23 +302,36 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
                     startActivity(intent);
                 }
             });
-//            iv.setImageResource(images[i]);
+            imageList.add(view);
+        }
+        if (urls.size() == 0){
+            view = LayoutInflater.from(getApplicationContext()).inflate(
+                    R.layout.viewpager_item, null);
+            iv = view.findViewById(R.id.view_image);
+            Glide.with(this).load(R.mipmap.un_load)
+                    .fitCenter()
+                    .into(iv);
             imageList.add(view);
         }
 
         imageChangeList = new ArrayList<View>();
+        if (zgurls.size() == 0){
+            fix_img_rly.setVisibility(View.GONE);
+        }else {
+            fix_img_rly.setVisibility(View.VISIBLE);
+        }
         for (int i = 0; i < zgurls.size(); i++) {
-            final int j = i;
-            View view = LayoutInflater.from(getApplicationContext()).inflate(
+            View viewChange = LayoutInflater.from(getApplicationContext()).inflate(
                     R.layout.viewpager_item, null);
 //            TextView title = (TextView) view.findViewById(R.id.view_title);
 //            title.setText("头像");
-            ImageView iv = view.findViewById(R.id.view_image);
+            ImageView ivChange = viewChange.findViewById(R.id.view_image);
+            final int j = i;
             Glide.with(this).load(zgurls.get(i))
                     .centerCrop()
                     .listener(listener)
-                    .into(iv);
-            iv.setOnClickListener(new View.OnClickListener() {
+                    .into(ivChange);
+            ivChange.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent=new Intent(ItemDangerDtailActivity.this,ImageDetilActivity.class);
@@ -290,7 +343,7 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
                 }
             });
 //            iv.setImageResource(images[i]);
-            imageChangeList.add(view);
+            imageChangeList.add(viewChange);
         }
     }
 
@@ -319,6 +372,10 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
 
     @Override
     public void getMessageDetailResult(MessageDetailBean bean) {
+        long cjsj = Long.valueOf(bean.getCjsj());
+        if (System.currentTimeMillis() - cjsj >= 8*60*60*1000){
+            add_change_photo.setVisibility(View.GONE);
+        }
         initView(bean);
         initImages();
         //初始化小圆点
@@ -344,6 +401,7 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
         }
         tv_yh_finder.setText(bean.getFxrmc());
         String picPath[];
+        urls.clear();
         if(bean.getDangerPhoto()!=null){
             picPath = bean.getDangerPhoto().split(",");
             for (String path : picPath){
@@ -354,6 +412,7 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
                 }
             }
         }
+        zgurls.clear();
 
         String zgpicPath[];
         if(bean.getRepairPhoto()!=null){
@@ -373,6 +432,7 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
         sjdwmc_tv.setText(bean.getFindByUnit());
         yhdd_tv.setText(bean.getDangerSite());
         yhbw_tv.setText(bean.getDangerPart());
+        fix_person.setText(bean.getZgfzr());
 
         if(bean.getZgqx()!=null)
         zgqx_tv.setText(DateUtils.getMillionToDate(bean.getZgqx()));
@@ -388,10 +448,8 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
             yhzt_tv.setText(R.string.fixed);
             zgztUnFixImage.setVisibility(View.GONE);
             zgztFixImage.setVisibility(View.VISIBLE);
+            add_change_photo.setVisibility(View.GONE);
         }
-
-
-
 
         //Map<String,String> fromLYMap= MainActivity.fromLYMap;
         //Map<String,String> fromLXMap=MainActivity.fromLXMap;
@@ -445,6 +503,16 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
 
     @Override
     public void getUnreadMessageListResult(MessageUnreadGetBean data) {
+
+    }
+
+    @Override
+    public void updateSuccess() {
+        presenter.getMessageDetailInfo(type,id);
+    }
+
+    @Override
+    public void updateFailed() {
 
     }
 }

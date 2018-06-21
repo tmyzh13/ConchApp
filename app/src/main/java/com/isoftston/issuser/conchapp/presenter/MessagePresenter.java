@@ -22,6 +22,7 @@ import com.isoftston.issuser.conchapp.model.bean.MessageQueryBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageUnReadBean;
 import com.isoftston.issuser.conchapp.model.bean.MessageUnreadGetBean;
 import com.isoftston.issuser.conchapp.model.bean.QueryMessageRequestBean;
+import com.isoftston.issuser.conchapp.model.bean.UpdateZgtpBean;
 import com.isoftston.issuser.conchapp.model.bean.UserBean;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.WeatherResponseBean;
@@ -45,7 +46,7 @@ public class MessagePresenter extends ListPagePresenter<MessageView> {
         super.onViewAttach();
         api= ApiFactory.getFactory().create(MessageApi.class);
     }
-    public void getMessageListInfo(String type,String lastId){
+    public void getMessageListInfo(String type, final String lastId){
         MessageListRequestBean bean=new MessageListRequestBean();
         bean.type=type;
         bean.lastId=lastId;
@@ -58,6 +59,9 @@ public class MessagePresenter extends ListPagePresenter<MessageView> {
 
                     @Override
                     public void success(BaseData<MessageListInfoBean> messageBaseData) {
+                        if (messageBaseData.data.list.size() == 0 && "".equals(lastId)){
+                            ToastMgr.show(R.string.no_such_info);
+                        }
                         view.getMessageListResult(messageBaseData.data);
                     }
 
@@ -140,7 +144,7 @@ public class MessagePresenter extends ListPagePresenter<MessageView> {
                 });
     }
 
-    public void getEachMessageListInfo(String type, String lastId) {
+    public void getEachMessageListInfo(String type, final String lastId) {
         MessageListRequestBean bean=new MessageListRequestBean();
         bean.type=type;
         bean.lastId=lastId;
@@ -154,6 +158,9 @@ public class MessagePresenter extends ListPagePresenter<MessageView> {
 
                     @Override
                     public void success(BaseData<EachMessageInfoBean> messageBaseData) {
+                        if (messageBaseData.data.list.size() == 0 && "".equals(lastId)){
+                            ToastMgr.show(R.string.no_such_info);
+                        }
                         view.hideLoading();
                         view.getEachMessageListResult(messageBaseData.data);
                     }
@@ -175,6 +182,27 @@ public class MessagePresenter extends ListPagePresenter<MessageView> {
                         return false;
                     }
 
+                });
+    }
+
+    public void updateZgtp(UpdateZgtpBean updateZgtpBean){
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        Log.i("token",token);
+        String token1=token.replaceAll("\"","");
+        api.updateZgtp(token1,updateZgtpBean)
+                .compose(new ResponseTransformer<>(this.<BaseData>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData>(view) {
+
+                    @Override
+                    public void success(BaseData messageDetailBeanBaseData) {
+                        view.updateSuccess();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        view.updateFailed();
+                    }
                 });
     }
 

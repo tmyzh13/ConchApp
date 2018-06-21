@@ -8,6 +8,7 @@ import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeRequestOrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
+import com.isoftston.issuser.conchapp.model.bean.UpdateZgtpBean;
 import com.isoftston.issuser.conchapp.model.bean.UserBean;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 
@@ -39,4 +40,6 @@ public interface SecurityApi {
     //获取用户信息
     @POST(Urls.GET_MY_INFO)
     Observable<BaseData<UserInfoBean>> getUserInfo(@Header("Access-Token") String token, @Body UserBean bean);
+    @POST(Urls.CHECK_UPLOAD_IMG)
+    Observable<BaseData> checkUpload(@Header("Access-Token")String token1, @Body UpdateZgtpBean updateZgtpBean);
 }

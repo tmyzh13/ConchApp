@@ -110,10 +110,12 @@ public class ImageDetilActivity extends BaseActivity{
     private void initImages() {
         //实例化一个集合，用于存放图片
         imageList = new ArrayList<View>();
+        View view;
+        PhotoView imageView;
         for (int i = 0; i < urls.size(); i++) {
-            View view = LayoutInflater.from(getApplicationContext()).inflate(
+            view = LayoutInflater.from(getApplicationContext()).inflate(
                     R.layout.imageview_item, null);
-            final PhotoView imageView = view.findViewById(R.id.view_image);
+            imageView = view.findViewById(R.id.view_image);
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -127,6 +129,15 @@ public class ImageDetilActivity extends BaseActivity{
 //                    .placeholder(errorImageId)
 //                    .error(errorImageId)
                     .centerCrop()
+                    .into(imageView);
+            imageList.add(view);
+        }
+        if (urls.size() == 0){
+            view = LayoutInflater.from(getApplicationContext()).inflate(
+                    R.layout.imageview_item, null);
+            imageView = view.findViewById(R.id.view_image);
+            Glide.with(this).load(R.mipmap.un_load)
+                    .fitCenter()
                     .into(imageView);
             imageList.add(view);
         }

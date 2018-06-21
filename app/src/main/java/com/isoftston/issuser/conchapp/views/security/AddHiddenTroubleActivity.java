@@ -439,7 +439,7 @@ public class AddHiddenTroubleActivity extends BaseActivity<SecuryView,SecurityPr
             return;
         }
 
-        if (TextUtils.isEmpty(yh_name)||TextUtils.isEmpty(find_company)||TextUtils.isEmpty(yh_company)||
+        if (TextUtils.isEmpty(find_company)||TextUtils.isEmpty(yh_company)||
                 TextUtils.isEmpty(check_people)||TextUtils.isEmpty(yh_grade)||TextUtils.isEmpty(yh_address)||
                 TextUtils.isEmpty(yh_position)||TextUtils.isEmpty(yh_from)||TextUtils.isEmpty(yh_type)
                 ||(TextUtils.isEmpty(fix) && !yh_grade_name.equals(getString(R.string.hidden_trouble_major_full)))||TextUtils.isEmpty(yh_describle)||(TextUtils.isEmpty(yh_grade_name))||TextUtils.isEmpty(yh_grade)||TextUtils.isEmpty(yh_from_id)||tv_yh_type.equals(getResources().getString(R.string.input_text))

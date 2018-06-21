@@ -92,7 +92,10 @@ public class MessageTypeAdapter extends QuickAdapter<MessageBean> {
                     .transform(new CenterCrop(context), new RoundedTransformationBuilder().cornerRadius(20).build(context))
                     .into(content_pic);
         }else{
-            content_pic.setVisibility(View.GONE);
+            Glide.with(context).load(R.mipmap.un_load)
+                    .fitCenter()
+                    .override(320,160)
+                    .into(content_pic);
         }
     }
 }

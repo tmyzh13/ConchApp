@@ -269,6 +269,7 @@
     <string name="sex_female">Female</string>
     <string name="submit_success">Submitted successfully!</string>
     <string name="submit_fail">Submission Failed!</string>
+    <string name="no_company">No subsidiary!</string>
 
     <!--jpush-->
     <string name="get_cache_record_fail">获取缓存记录失败</string>
@@ -279,6 +280,7 @@
     <string name="describle_yh">Describe the hidden danger</string>
     <string name="fix_pic">Rectification Photo</string>
     <string name="yh_from">Hidden Danger Source</string>
+    <string name="fix_person">Rectification</string>
 
     <!--选择检修人员-->
     <string name="choice_check_people">Select troubleshooting people</string>
@@ -335,4 +337,8 @@
     <string name="general_code_error">Abnormal data</string>
     <string name="chose_same_people">Can not choose the same people</string>
     <string name="view_purview">You do not have permission to view!</string>
+
+    <string name="no_such_info">No such information!</string>
+    <string name="not_change_img">Has timed out, can not submit changes!</string>
+    <string name="not_upload_image">Image not uploaded yet</string>
 </resources>

@@ -1001,6 +1001,16 @@ public class MessageFragment extends BaseFragment<MessageView, MessagePresenter>
         lv_message.setSelection(lastCount);
     }
 
+    @Override
+    public void updateSuccess() {
+
+    }
+
+    @Override
+    public void updateFailed() {
+
+    }
+
     public List<CountryModelBean> readXls() {
         InputStream myFile = null;
         myFile = getResources().openRawResource(R.raw.citycode);

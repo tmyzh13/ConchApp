@@ -176,13 +176,15 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
     private void initImages() {
         //实例化一个集合，用于存放图片
         imageList = new ArrayList<View>();
+        View view;
+        ImageView iv;
         for (int i = 0; i < urls.size(); i++) {
             final int j = i;
-            View view = LayoutInflater.from(getApplicationContext()).inflate(
+            view = LayoutInflater.from(getApplicationContext()).inflate(
                     R.layout.viewpager_item, null);
 //            TextView title = (TextView) view.findViewById(R.id.view_title);
 //            title.setText("头像");
-            ImageView iv = view.findViewById(R.id.view_image);
+            iv = view.findViewById(R.id.view_image);
             Glide.with(this).load(urls.get(i))
                     .centerCrop()
                     .into(iv);
@@ -199,6 +201,15 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
             });
 
 //            iv.setImageResource(images[i]);
+            imageList.add(view);
+        }
+        if (urls.size() == 0){
+            view = LayoutInflater.from(getApplicationContext()).inflate(
+                    R.layout.viewpager_item, null);
+            iv = view.findViewById(R.id.view_image);
+            Glide.with(this).load(R.mipmap.un_load)
+                    .fitCenter()
+                    .into(iv);
             imageList.add(view);
         }
     }
@@ -319,6 +330,16 @@ public class ItemDtailActivity extends BaseActivity<MessageView,MessagePresenter
 
     @Override
     public void getUnreadMessageListResult(MessageUnreadGetBean data) {
+
+    }
+
+    @Override
+    public void updateSuccess() {
+
+    }
+
+    @Override
+    public void updateFailed() {
 
     }
 }

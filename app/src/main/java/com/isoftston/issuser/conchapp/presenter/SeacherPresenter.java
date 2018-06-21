@@ -6,6 +6,8 @@ import com.corelibs.api.ApiFactory;
 import com.corelibs.api.ResponseTransformer;
 import com.corelibs.base.BasePresenter;
 import com.corelibs.subscriber.ResponseSubscriber;
+import com.corelibs.utils.ToastMgr;
+import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.model.apis.SearchUserApi;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
 import com.isoftston.issuser.conchapp.model.bean.DeviceListBean;
@@ -65,6 +67,9 @@ public class SeacherPresenter extends BasePresenter<SeacherView> {
 
                     @Override
                     public void success(BaseData<EachMessageInfoBean> messageBaseData) {
+                        if (messageBaseData.data.list.size() == 0 && "".equals(lastId)){
+                            ToastMgr.show(R.string.no_such_info);
+                        }
                         view.getEachMessageListResult(messageBaseData.data, "0",lastId);
                     }
 
@@ -99,6 +104,9 @@ public class SeacherPresenter extends BasePresenter<SeacherView> {
                 .subscribe(new ResponseSubscriber<BaseData<SafeListBean>>(view) {
                     @Override
                     public void success(BaseData<SafeListBean> safeListBeanBaseData) {
+                        if (safeListBeanBaseData.data.list.size() == 0 && "".equals(lastId)){
+                            ToastMgr.show(R.string.no_such_info);
+                        }
                         view.getEachMessageListResult(safeListBeanBaseData.data, "1",lastId);
                     }
 
@@ -132,6 +140,9 @@ public class SeacherPresenter extends BasePresenter<SeacherView> {
                 .subscribe(new ResponseSubscriber<BaseData<WorkListsBean>>(view) {
                     @Override
                     public void success(BaseData<WorkListsBean> safeListBeanBaseData) {
+                        if (safeListBeanBaseData.data.list.size() == 0 && "".equals(lastId)){
+                            ToastMgr.show(R.string.no_such_info);
+                        }
                         view.getEachMessageListResult(safeListBeanBaseData.data, "2",lastId);
                     }
 
@@ -164,6 +175,9 @@ public class SeacherPresenter extends BasePresenter<SeacherView> {
                 .subscribe(new ResponseSubscriber<BaseData<DeviceListBean>>(view) {
                     @Override
                     public void success(BaseData<DeviceListBean> safeListBeanBaseData) {
+                        if (safeListBeanBaseData.data.list.size() == 0 && "".equals(lastId)){
+                            ToastMgr.show(R.string.no_such_info);
+                        }
                         view.getEachMessageListResult(safeListBeanBaseData.data, "3",lastId);
                     }
 

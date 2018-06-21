@@ -23,4 +23,8 @@ public interface MessageView extends BasePaginationView {
     void refreshAir(AirResponseBean bean);
 
     void getUnreadMessageListResult(MessageUnreadGetBean data);
+
+    void updateSuccess();
+
+    void updateFailed();
 }

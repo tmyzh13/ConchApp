@@ -6,6 +6,8 @@ import com.corelibs.api.ApiFactory;
 import com.corelibs.api.ResponseTransformer;
 import com.corelibs.base.BasePresenter;
 import com.corelibs.subscriber.ResponseSubscriber;
+import com.corelibs.utils.ToastMgr;
+import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.model.UserHelper;
 import com.isoftston.issuser.conchapp.model.apis.WorkApi;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
@@ -54,7 +56,9 @@ public class WorkPresenter extends BasePresenter<WorkView> {
                 .subscribe(new ResponseSubscriber<BaseData<WorkListBean>>(view) {
                     @Override
                     public void success(BaseData<WorkListBean> workBeanBaseData) {
-
+                        if (workBeanBaseData.data.list.size() == 0){
+                            ToastMgr.show(R.string.no_such_info);
+                        }
                         view.getWorkListInfo(workBeanBaseData.data.list);
                     }
 
@@ -84,6 +88,9 @@ public class WorkPresenter extends BasePresenter<WorkView> {
                 .subscribe(new ResponseSubscriber<BaseData<WorkListsBean>>(view) {
                     @Override
                     public void success(BaseData<WorkListsBean> workBeanBaseData) {
+                        if (workBeanBaseData.data.list.size() == 0){
+                            ToastMgr.show(R.string.no_such_info);
+                        }
                         view.getWorkList(workBeanBaseData.data.list);
                     }
 
@@ -150,6 +157,9 @@ public class WorkPresenter extends BasePresenter<WorkView> {
                 .subscribe(new ResponseSubscriber<BaseData<DangerWorkTypeBean>>(view) {
                     @Override
                     public void success(BaseData<DangerWorkTypeBean> workBeanBaseData) {
+                        if (workBeanBaseData.data.list.size() == 0){
+                            ToastMgr.show(R.string.no_such_info);
+                        }
                         view.getDangerWorkTypeResult(workBeanBaseData.data.list);
                     }
 
@@ -168,6 +178,9 @@ public class WorkPresenter extends BasePresenter<WorkView> {
                 .subscribe(new ResponseSubscriber<BaseData<DeviceTypeRequstBean>>(view) {
                     @Override
                     public void success(BaseData<DeviceTypeRequstBean> workBeanBaseData) {
+                        if (workBeanBaseData.data.list.size() == 0){
+                            ToastMgr.show(R.string.no_such_info);
+                        }
                         view.getDeviceTypeResult(workBeanBaseData.data.list);
                     }
 
@@ -186,6 +199,9 @@ public class WorkPresenter extends BasePresenter<WorkView> {
                 .subscribe(new ResponseSubscriber<BaseData<DeviceNameCodeBean>>(view) {
                     @Override
                     public void success(BaseData<DeviceNameCodeBean> workBeanBaseData) {
+                        if (workBeanBaseData.data.list.size() == 0){
+                            ToastMgr.show(R.string.no_such_info);
+                        }
                         view.getDeviceDetailSuccess(workBeanBaseData.data.list);
                     }
 
@@ -205,6 +221,9 @@ public class WorkPresenter extends BasePresenter<WorkView> {
                     @Override
                     public void success(BaseData<WorkCountListBean> workBeanBaseData) {
                         Log.i("ss","--ss--"+workBeanBaseData.data.list.size());
+                        if (workBeanBaseData.data.list.size() == 0){
+                            ToastMgr.show(R.string.no_such_info);
+                        }
                         view.getWorkCountSuccess(workBeanBaseData.data.list);
 
                     }

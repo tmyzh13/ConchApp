@@ -6,6 +6,8 @@ import com.corelibs.api.ApiFactory;
 import com.corelibs.api.ResponseTransformer;
 import com.corelibs.base.BasePresenter;
 import com.corelibs.subscriber.ResponseSubscriber;
+import com.corelibs.utils.ToastMgr;
+import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.model.apis.SecurityApi;
 import com.isoftston.issuser.conchapp.model.bean.AddYHBean;
 import com.isoftston.issuser.conchapp.model.bean.BaseData;
@@ -14,6 +16,7 @@ import com.isoftston.issuser.conchapp.model.bean.SafeListBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.SafeRequestOrgBean;
 import com.isoftston.issuser.conchapp.model.bean.SecuritySearchBean;
+import com.isoftston.issuser.conchapp.model.bean.UpdateZgtpBean;
 import com.isoftston.issuser.conchapp.model.bean.UserBean;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.utils.SharePrefsUtils;
@@ -90,7 +93,7 @@ public class SecurityPresenter extends BasePresenter<SecuryView> {
                     }
                 });
     }
-    public void getSafeMessageList(String type,String item,String lastId){
+    public void getSafeMessageList(final String type, String item, final String lastId){
         SafeRequestBean bean=new SafeRequestBean();
         bean.item=item;
         bean.type=type;
@@ -105,7 +108,9 @@ public class SecurityPresenter extends BasePresenter<SecuryView> {
                     @Override
                     public void success(BaseData<SafeListBean> messageBeanBaseData) {
                         view.getSafeListSuccess(messageBeanBaseData.data);
-
+                        if (messageBeanBaseData.data.list.size() == 0 && "wz".equals(type)){
+                            ToastMgr.show(R.string.no_such_info);
+                        }
                     }
 
                     @Override
@@ -154,6 +159,9 @@ public class SecurityPresenter extends BasePresenter<SecuryView> {
 
                     @Override
                     public void success(BaseData<SecuritySearchBean> messageBeanBaseData) {
+                        if (messageBeanBaseData.data() == null){
+                            ToastMgr.show(R.string.no_such_info);
+                        }
                         view.getSafeChoiceList(messageBeanBaseData.data);
 
                     }
@@ -206,6 +214,30 @@ public class SecurityPresenter extends BasePresenter<SecuryView> {
                     public void success(BaseData<UserInfoBean> userInfoBeanBaseData) {
                         Log.i("yzh","saveUser--"+userInfoBeanBaseData);
                         view.setUserInfo(userInfoBeanBaseData.data);
+                    }
+                });
+    }
+
+    public void checkUpload(UpdateZgtpBean updateZgtpBean){
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        Log.i("token",token);
+        String token1=token.replaceAll("\"","");
+        api.checkUpload(token1,updateZgtpBean)
+                .compose(new ResponseTransformer<>(this.<BaseData>bindToLifeCycle()))
+                .subscribe(new ResponseSubscriber<BaseData>(view) {
+
+                    @Override
+                    public void success(BaseData messageDetailBeanBaseData) {
+                        if (messageDetailBeanBaseData.code == 1){
+                            view.addSuccess();
+                        }else {
+                            ToastMgr.show(R.string.not_change_img);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
                     }
                 });
     }

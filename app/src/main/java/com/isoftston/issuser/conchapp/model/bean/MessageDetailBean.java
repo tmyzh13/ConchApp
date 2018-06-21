@@ -51,6 +51,7 @@ public class MessageDetailBean {
     private String tplj;
     private String ts;
     private String ispush;
+    private String zgfzr;
 
 /*"id":294,"fxrmc":"孙武","fxrCompany":"安全环保处","findByUnit":"吊车班","dangerSite":"北京","dangerPart":
         "新疆","dangerLevel":"ZDYH","dangerType":"TFKQZLBLQY","fxsj":"1525072920000","zgqx":null,"yhzgzt"
@@ -526,5 +527,13 @@ public class MessageDetailBean {
     }
     public String getIspush() {
         return ispush;
+    }
+
+    public String getZgfzr() {
+        return zgfzr;
+    }
+
+    public void setZgfzr(String zgfzr) {
+        this.zgfzr = zgfzr;
     }
 }

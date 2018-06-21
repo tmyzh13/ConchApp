@@ -154,4 +154,14 @@ public class ItemSafeDtailActivity extends BaseActivity<MessageView,MessagePrese
     public void getUnreadMessageListResult(MessageUnreadGetBean data) {
 
     }
+
+    @Override
+    public void updateSuccess() {
+
+    }
+
+    @Override
+    public void updateFailed() {
+
+    }
 }

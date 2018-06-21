@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/input_trouble_name"
                 android:background="@drawable/ll_hidden_trouble_bg"
-                />
+                android:visibility="gone"/>
 
 
             <LinearLayout

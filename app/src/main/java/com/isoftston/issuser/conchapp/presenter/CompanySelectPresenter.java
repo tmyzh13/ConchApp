@@ -50,6 +50,8 @@ public class CompanySelectPresenter extends BasePresenter<CompanySelectView> {
                     public void success(BaseData<List<CompanyBean>> messageBeanBaseData) {
                         if (messageBeanBaseData.data.size() > 0){
                             view.getOrgList(messageBeanBaseData.data);
+                        }else {
+                            ToastMgr.show(getString(R.string.no_company));
                         }
                     }
 
