@@ -851,6 +851,25 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/activity_horizontal_margin" />
                 </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dp_20"
+                    android:visibility="gone">
+
+                    <TextView
+                        style="@style/project_name_tv_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/tab_height"
+                        android:gravity="center_vertical"
+                        android:text="@string/danger_work_form" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/form_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp" />
+                </RelativeLayout>
             </LinearLayout>
 
 

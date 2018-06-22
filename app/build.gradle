@@ -58,5 +58,5 @@ dependencies {
     compile 'com.amap.api:location:latest.integration'
     compile 'com.hynnet:jxl:2.6.12.1'
     compile 'com.bm.photoview:library:1.4.1'
-
+    compile 'cn.bingoogolapple:bga-progressbar:1.0.0@aar'
 }

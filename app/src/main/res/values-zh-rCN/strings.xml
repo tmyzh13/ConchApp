@@ -99,6 +99,7 @@
     <string name="work_company">作业单位</string>
     <string name="work_number">作业人数</string>
     <string name="danger_work_type">危险作业类别</string>
+    <string name="danger_work_form">作业审批单</string>
     <string name="gas_checker">气体检测人</string>
 
     <!--add_illegal_promble-->

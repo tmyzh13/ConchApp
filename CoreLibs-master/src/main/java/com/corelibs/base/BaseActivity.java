@@ -149,12 +149,16 @@ public abstract class BaseActivity<V extends BaseView, T extends BasePresenter<V
 
     @Override
     public void showLoading() {
-        loadingDialog.show();
+        if (loadingDialog !=null && !loadingDialog.isShowing()){
+            loadingDialog.show();
+        }
     }
 
     @Override
     public void hideLoading() {
-        loadingDialog.dismiss();
+        if (loadingDialog !=null && loadingDialog.isShowing()){
+            loadingDialog.dismiss();
+        }
     }
 
     @Override

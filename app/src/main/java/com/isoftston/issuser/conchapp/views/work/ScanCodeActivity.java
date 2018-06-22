@@ -12,6 +12,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
@@ -29,6 +30,7 @@ import android.widget.TextView;
 import com.corelibs.base.BaseActivity;
 import com.corelibs.utils.PreferencesHelper;
 import com.corelibs.utils.ToastMgr;
+import com.corelibs.utils.download.BGAUpgradeUtil;
 import com.google.zxing.client.android.CaptureActivity;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
@@ -47,14 +49,17 @@ import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.WorkDetailView;
 import com.isoftston.issuser.conchapp.views.mine.adapter.ScanInfoAdapter;
 import com.isoftston.issuser.conchapp.views.security.ChoicePhotoActivity;
+import com.isoftston.issuser.conchapp.weight.DownloadingDialog;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import rx.Subscriber;
 
 
 public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPresenter> implements WorkDetailView, View.OnClickListener {
@@ -187,6 +192,9 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
 
     @Bind(R.id.scan_info_lv)
     ListView mListView;
+    @Bind(R.id.form_recycler_view)
+    RecyclerView formRecyclerView;
+
     private List<ImageInfoBean> datas = new ArrayList<>();
     private ScanInfoAdapter mAdapter;
     private boolean isScaned2 = false;
@@ -945,7 +953,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                 } else {
                     ToastMgr.show(getString(R.string.check_manager_open_pemission));
                 }
-                break;
+                return;
             default:
                 break;
         }
@@ -1274,6 +1282,70 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                     ToastUtils.showtoast(this, "扫描和拍照同时完成以后才可以提交！");
                 }
                 break;
+        }
+    }
+
+
+    /**
+     * 下载新版 apk 文件
+     */
+    public void downloadApkFile(String url, String fileName) {
+        String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        if (ContextCompat.checkSelfPermission(getViewContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            // 如果新版 apk 文件已经下载过了，直接 return，此时不需要开发者调用安装 apk 文件的方法，在 isApkFileDownloaded 里已经调用了安装」
+            if (BGAUpgradeUtil.isFileDownloaded(fileName)) {
+                return;
+            }
+
+            // 下载新版 apk 文件
+            BGAUpgradeUtil.downloadApkFile(url, fileName)
+                    .subscribe(new Subscriber<File>() {
+                        @Override
+                        public void onStart() {
+                            showDownloadingDialog();
+                        }
+
+                        @Override
+                        public void onCompleted() {
+                            dismissDownloadingDialog();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            dismissDownloadingDialog();
+                        }
+
+                        @Override
+                        public void onNext(File apkFile) {
+                            if (apkFile != null) {
+                                BGAUpgradeUtil.installApk(apkFile);
+                            }
+                        }
+                    });
+        } else {
+
+        }
+    }
+
+
+    private DownloadingDialog mDownloadingDialog;
+
+    /**
+     * 显示下载对话框
+     */
+    private void showDownloadingDialog() {
+        if (mDownloadingDialog == null) {
+            mDownloadingDialog = new DownloadingDialog(this);
+        }
+        mDownloadingDialog.show();
+    }
+
+    /**
+     * 隐藏下载对话框
+     */
+    private void dismissDownloadingDialog() {
+        if (mDownloadingDialog != null) {
+            mDownloadingDialog.dismiss();
         }
     }
 }

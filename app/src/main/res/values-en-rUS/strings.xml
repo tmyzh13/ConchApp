@@ -98,6 +98,7 @@
     <string name="continue_scan_photo">Scan code is successful, continue to click to re-scan code or take pictures</string>
     <string name="work_company">Operation Unit</string>
     <string name="work_number">Number of workers</string>
+    <string name="danger_work_form">Job approval form</string>
     <string name="danger_work_type">Operation category</string>
     <string name="gas_checker">Gas detector</string>
 
