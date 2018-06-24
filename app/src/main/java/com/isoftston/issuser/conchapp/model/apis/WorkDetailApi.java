@@ -50,7 +50,7 @@ public interface WorkDetailApi {
 
     //危险作业审批单信息上传
     @POST(Urls.UPLOAD_WXZYSPD)
-    Observable<BaseData<ResponseDataBean>> uploadWxzyspd(@Header("Access-Token") String token, @Body
+    Observable<BaseData> uploadWxzyspd(@Header("Access-Token") String token, @Body
             UploadWxzyspdRequestBean param);
 
 }

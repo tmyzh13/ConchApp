@@ -1058,7 +1058,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
 
                 UploadWxzyspdRequestBean param = new UploadWxzyspdRequestBean();
                 param.setId(workDetailBean.getId());
-                param.setZyspdList(picString);
+                param.setZyspdList(picString.substring(0,picString.length()-1));
                 presenter.uploadWxzyspd(param);
             }
         }
@@ -1332,7 +1332,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     }
 
     @Override
-    public void uploadWxzyspdSuccess(ResponseDataBean responseDataBean) {
+    public void uploadWxzyspdSuccess() {
         ToastMgr.show(R.string.uploadWx_success);
         presenter.getWorkDetailInfo(jobId);
     }

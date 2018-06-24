@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
 import com.corelibs.base.BaseActivity;
 import com.corelibs.base.BasePresenter;
 import com.corelibs.views.NoScrollingGridView;
@@ -43,8 +44,6 @@ import com.isoftston.issuser.conchapp.views.interfaces.SecuryView;
 import com.isoftston.issuser.conchapp.views.work.NewWorkActivity;
 import com.isoftston.issuser.conchapp.weight.ChooseImagePopupWindow;
 import com.isoftston.issuser.conchapp.weight.NavBar;
-
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.Serializable;
@@ -205,7 +204,12 @@ public class ChoicePhotoActivity extends BaseActivity<SecuryView,SecurityPresent
     private void uploadImage(){
         List<File> listFiles = helper.getChosenImages();
         for (int i = 0; i < listFiles.size(); i++) {
-            String path = FileSizeUtil.compressImage(listFiles.get(i).getPath());
+            String path;
+            if (listFiles.get(i).length()/1024*1024 >=1){
+                path = FileSizeUtil.compressImage(listFiles.get(i).getPath());
+            }else{
+                path = listFiles.get(i).getAbsolutePath();
+            }
             list.add(path);
         }
 
@@ -253,15 +257,15 @@ public class ChoicePhotoActivity extends BaseActivity<SecuryView,SecurityPresent
                 for (final String path : list) {
                     String uploadPath = mFiles.get(path);
                     if (TextUtils.isEmpty(uploadPath)) { // 没上传过就上传
-                        picPath = UploadImage.uploadFile(Urls.ROOT + Urls.UPLOAD_IMAGE, path, token1);
+                        picPath = UploadImage.uploadFile(Urls.ROOT + Urls.UPLOAD_IMAGE, path, token1,path.substring(path.lastIndexOf("/")+1,path.lastIndexOf("."))+".jpg");
                         if (picPath == null) {
                             message.arg1 = 0;
                             handler.sendMessage(message);
                             return;
                         }
-                        com.alibaba.fastjson.JSONObject object = null;
+                        JSONObject object = null;
                         try {
-                            object = com.alibaba.fastjson.JSONObject.parseObject(picPath);
+                            object = JSONObject.parseObject(picPath);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -275,7 +279,7 @@ public class ChoicePhotoActivity extends BaseActivity<SecuryView,SecurityPresent
                             return;
                         }
 
-                        uploadPath = object.getString("mess").toString();
+                        uploadPath = object.getString("mess");
                     }
                     // 上传过就直接使用地址
                     files.put(path, uploadPath);

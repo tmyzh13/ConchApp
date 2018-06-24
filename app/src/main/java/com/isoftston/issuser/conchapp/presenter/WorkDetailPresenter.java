@@ -183,11 +183,11 @@ public class WorkDetailPresenter extends BasePresenter<WorkDetailView> {
         String token= SharePrefsUtils.getValue(getContext(),"token",null);
         String token1=token.replaceAll("\"","");
         api.uploadWxzyspd(token1,param)
-            .compose(new ResponseTransformer<>(this.<BaseData<ResponseDataBean>>bindToLifeCycle()))
-            .subscribe(new ResponseSubscriber<BaseData<ResponseDataBean>>(view) {
+                .compose(new ResponseTransformer<>(this.<BaseData>bindToLifeCycle()))
+            .subscribe(new ResponseSubscriber<BaseData>(view) {
                 @Override
-                public void success(BaseData<ResponseDataBean> responseDataBeanBaseData) {
-                    view.uploadWxzyspdSuccess(responseDataBeanBaseData.data);
+                public void success(BaseData responseDataBeanBaseData) {
+                    view.uploadWxzyspdSuccess();
                 }
 
                 @Override

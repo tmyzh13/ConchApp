@@ -2,8 +2,6 @@ package com.isoftston.issuser.conchapp.utils;
 
 import android.util.Log;
 
-import com.corelibs.utils.ToastMgr;
-import com.isoftston.issuser.conchapp.R;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -19,7 +17,7 @@ import java.net.URL;
 
 
 public  class  UploadImage {
-    public static String uploadFile(String uploadUrl,String uploadFilePath,String token) {
+    public static String uploadFile(String uploadUrl,String uploadFilePath,String token,String fileName) {
         String end = "\r\n";
         String twoHyphens = "--";
         String boundary = "******";
@@ -37,7 +35,7 @@ public  class  UploadImage {
 
             DataOutputStream dos = new DataOutputStream(httpURLConnection.getOutputStream());
             dos.writeBytes(twoHyphens + boundary + end);
-            dos.writeBytes("Content-Disposition: form-data; name=\"file\"; filename=\"test.jpg\"" + end);
+            dos.writeBytes("Content-Disposition: form-data; name=\"file\"; filename=\""+fileName+"\"" + end);
 //          dos.writeBytes("Content-Disposition: form-data; name=\"file\"; filename=\""
 //                  + uploadFilePath.substring(uploadFilePath.lastIndexOf("/") + 1) + "\"" + end);
             dos.writeBytes(end);

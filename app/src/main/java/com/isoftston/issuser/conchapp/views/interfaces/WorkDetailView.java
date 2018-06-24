@@ -29,6 +29,6 @@ public interface WorkDetailView extends BasePaginationView {
 
     void getWorkListInfo(List<WorkBean> list);
 
-    void uploadWxzyspdSuccess(ResponseDataBean responseDataBean);
+    void uploadWxzyspdSuccess();
 
 }
