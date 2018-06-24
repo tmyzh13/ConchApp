@@ -1241,16 +1241,6 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                 fileBean.setFileName(fileBeanArray.split(":")[0]);
                 fileBean.setFilePath(fileBeanArray.split(":")[1]);
                 formList.add(fileBean);
-                formList.add(fileBean);
-                formList.add(fileBean);
-                formList.add(fileBean);
-                formList.add(fileBean);
-                formList.add(fileBean);
-                formList.add(fileBean);
-                formList.add(fileBean);
-                formList.add(fileBean);
-                formList.add(fileBean);
-                formList.add(fileBean);
             }
             LinearLayoutManager layoutmanager = new LinearLayoutManager(this);
             layoutmanager.setOrientation(LinearLayoutManager.HORIZONTAL);
