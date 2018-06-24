@@ -108,9 +108,6 @@ public class SecurityPresenter extends BasePresenter<SecuryView> {
                     @Override
                     public void success(BaseData<SafeListBean> messageBeanBaseData) {
                         view.getSafeListSuccess(messageBeanBaseData.data);
-                        if (messageBeanBaseData.data.list.size() == 0 && "wz".equals(type)){
-                            ToastMgr.show(R.string.no_such_info);
-                        }
                     }
 
                     @Override

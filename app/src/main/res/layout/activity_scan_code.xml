@@ -111,10 +111,10 @@
 
 
                     <TextView
-                        android:layout_alignParentRight="true"
                         android:id="@+id/project_name_time_day"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/dp_5" />
 
@@ -130,6 +130,7 @@
                     android:orientation="horizontal"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin">
+
                     <LinearLayout
                         android:id="@+id/ll_gas_point"
                         android:layout_width="match_parent"
@@ -152,6 +153,7 @@
                             android:layout_centerVertical="true"
                             android:background="@color/colorLine" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -231,6 +233,7 @@
                     android:layout_marginLeft="@dimen/dp_30"
                     android:layout_marginRight="@dimen/activity_vertical_margin"
                     android:visibility="visible">
+
                     <LinearLayout
                         android:id="@+id/ll_gas_check"
                         android:layout_width="0dp"
@@ -243,17 +246,18 @@
                             style="@style/charge_person_style"
                             android:layout_width="50dp"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/dp_10"
-                            android:text="气体检测人" />
+                            android:text="气体检测人"
+                            android:textSize="@dimen/dp_10" />
 
                         <TextView
                             android:id="@+id/gas_person_relname"
                             style="@style/charge_person_relname_style"
                             android:layout_width="50dp"
-                            android:textSize="@dimen/dp_10"
                             android:layout_height="wrap_content"
-                            android:text="气体检测人" />
+                            android:text="气体检测人"
+                            android:textSize="@dimen/dp_10" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -264,17 +268,17 @@
                             android:id="@+id/charge_person"
                             style="@style/charge_person_style"
                             android:layout_width="wrap_content"
-                            android:textSize="@dimen/dp_10"
                             android:layout_height="wrap_content"
-                            android:text="@string/person_in_charge" />
+                            android:text="@string/person_in_charge"
+                            android:textSize="@dimen/dp_10" />
 
                         <TextView
                             android:id="@+id/charge_person_relname"
                             style="@style/charge_person_relname_style"
                             android:layout_width="wrap_content"
-                            android:textSize="@dimen/dp_10"
                             android:layout_height="wrap_content"
-                            android:text="@string/person_in_charge" />
+                            android:text="@string/person_in_charge"
+                            android:textSize="@dimen/dp_10" />
                     </LinearLayout>
 
 
@@ -282,50 +286,50 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.0"
-                        android:paddingLeft="20dp"
                         android:gravity="center_horizontal"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:paddingLeft="20dp">
 
                         <TextView
                             android:id="@+id/guardian"
                             style="@style/charge_person_style"
                             android:layout_width="wrap_content"
-                            android:textSize="@dimen/dp_10"
                             android:layout_height="wrap_content"
-                            android:text="@string/guardian" />
+                            android:text="@string/guardian"
+                            android:textSize="@dimen/dp_10" />
 
                         <TextView
                             android:id="@+id/guardian_relname"
                             style="@style/charge_person_relname_style"
                             android:layout_width="wrap_content"
-                            android:textSize="@dimen/dp_10"
                             android:layout_height="wrap_content"
-                            android:text="@string/guardian" />
+                            android:text="@string/guardian"
+                            android:textSize="@dimen/dp_10" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:paddingLeft="1dp"
                         android:gravity="center_horizontal"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:paddingLeft="1dp">
 
                         <TextView
                             android:id="@+id/auditor"
                             style="@style/charge_person_style"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/dp_10"
-                            android:text="@string/auditor" />
+                            android:text="@string/auditor"
+                            android:textSize="@dimen/dp_10" />
 
                         <TextView
                             android:id="@+id/auditor_relname"
                             style="@style/charge_person_relname_style"
                             android:layout_width="wrap_content"
-                            android:textSize="@dimen/dp_10"
                             android:layout_height="wrap_content"
-                            android:text="@string/auditor" />
+                            android:text="@string/auditor"
+                            android:textSize="@dimen/dp_10" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -341,17 +345,17 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="end"
-                            android:textSize="@dimen/dp_10"
-                            android:text="@string/approver" />
+                            android:text="@string/approver"
+                            android:textSize="@dimen/dp_10" />
 
                         <TextView
                             android:id="@+id/approver_relname"
                             style="@style/charge_person_relname_style"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/dp_10"
                             android:gravity="end"
-                            android:text="@string/approver" />
+                            android:text="@string/approver"
+                            android:textSize="@dimen/dp_10" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -449,10 +453,10 @@
                         android:text="@string/work_start_time" />
 
                     <TextView
-                        android:layout_alignParentRight="true"
                         android:id="@+id/work_start_time_day"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
@@ -476,15 +480,16 @@
                         android:text="@string/work_end_time" />
 
                     <TextView
-                        android:layout_alignParentRight="true"
                         android:id="@+id/work_end_time_day"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
                 </RelativeLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -516,6 +521,7 @@
                 </RelativeLayout>
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -524,6 +530,7 @@
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:background="@drawable/shape_corner_white"
                 android:orientation="vertical">
+
                 <RelativeLayout
                     android:id="@+id/gas_rl"
                     android:layout_width="match_parent"
@@ -544,11 +551,13 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/activity_horizontal_margin" />
                 </RelativeLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_0.5"
                     android:layout_centerInParent="true"
                     android:background="@color/dividing_line" />
+
                 <RelativeLayout
                     android:id="@+id/lead_rl"
                     android:layout_width="match_parent"
@@ -799,7 +808,6 @@
                 android:orientation="vertical">
 
 
-
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_0.5"
@@ -855,10 +863,10 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dp_20"
-                    android:visibility="gone">
+                    android:layout_marginBottom="@dimen/dp_20">
 
                     <TextView
+                        android:id="@+id/work_form_tv"
                         style="@style/project_name_tv_style"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/tab_height"
@@ -866,12 +874,34 @@
                         android:text="@string/danger_work_form" />
 
                     <android.support.v7.widget.RecyclerView
+                        android:layout_below="@id/work_form_tv"
                         android:id="@+id/form_recycler_view"
                         android:layout_width="match_parent"
-                        android:layout_height="80dp" />
+                        android:layout_height="wrap_content" />
+
+                    <RelativeLayout
+                        android:id="@+id/add_form"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/tab_height"
+                        android:gravity="center_vertical|right">
+                        <LinearLayout
+                            android:id="@+id/add_change_photo"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginRight="@dimen/dp_10"
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/ll_oval_bg"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/photo" />
+                        </LinearLayout>
+                    </RelativeLayout>
                 </RelativeLayout>
             </LinearLayout>
-
 
 
             <LinearLayout
@@ -893,22 +923,23 @@
                         style="@style/project_name_tv_style"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/tab_height"
-                        android:paddingRight="@dimen/dp_10"
                         android:gravity="center_vertical"
+                        android:paddingRight="@dimen/dp_10"
                         android:text="@string/work_name" />
 
                     <TextView
                         android:id="@+id/work_content_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/co"
                         android:layout_alignParentRight="true"
-                        android:gravity="end"
+                        android:layout_centerInParent="true"
                         android:layout_marginRight="@dimen/activity_horizontal_margin"
-                        android:layout_centerInParent="true" />
+                        android:layout_toRightOf="@+id/co"
+                        android:gravity="end" />
                 </RelativeLayout>
 
             </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -308,10 +308,13 @@
     <string name="exsit">Click again to exit the program</string>
     <string name="information_tips">Tips!</string>
     <string name="tips">Phone number can not be empty</string>
+    <string name="tip_wifi_state">Currently using data traffic, confirm download?</string>
     <string name="internet_error">Network connection timeout</string>
     <string name="internet_exception">Network connection is abnormal</string>
     <string name="back_failed">Undo job failed</string>
     <string name="subimt_failed">Submission Failed</string>
+    <string name="uploadWx_failed">Dangerous job approval slip failed to upload</string>
+    <string name="uploadWx_success">Dangerous job approval slip uploaded successfully</string>
     <string name="modify_failed">Modification failed</string>
     <string name="find_company">Discovery Unit</string>
     <string name="input_num">Please enter the number of workers</string>

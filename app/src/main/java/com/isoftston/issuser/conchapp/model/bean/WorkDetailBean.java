@@ -47,6 +47,7 @@ public class WorkDetailBean implements Serializable{
     public long createTime;//创建时间
     public int status;//状态状态(0:新建，1:撤销，2：负责人开工扫描，3：开工，4:负责人结束扫描,5:完成)
     public int isDanger;
+    private String zyspdList;
     public String orgId;
     public String getEquipmentTypeName() {
         return equipmentTypeName;
@@ -291,5 +292,11 @@ public class WorkDetailBean implements Serializable{
         this.orgId = orgId;
     }
 
+    public String getZyspdList() {
+        return zyspdList;
+    }
 
+    public void setZyspdList(String zyspdList) {
+        this.zyspdList = zyspdList;
+    }
 }

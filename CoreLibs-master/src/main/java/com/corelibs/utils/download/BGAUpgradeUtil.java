@@ -20,11 +20,6 @@ import rx.schedulers.Schedulers;
 
 import static com.corelibs.utils.download.AppUtil.sApp;
 
-/**
- * 作者:王浩 邮件:bingoogolapple@gmail.com
- * 创建时间:16/12/16 上午10:48
- * 描述:应用升级工具类
- */
 public class BGAUpgradeUtil {
     private static final String MIME_TYPE_APK = "application/vnd.android.package-archive";
 
@@ -50,7 +45,7 @@ public class BGAUpgradeUtil {
     public static boolean isFileDownloaded(String fileName) {
         File file = StorageUtil.getApkFile(fileName);
         if (file.exists()) {
-            installApk(file);
+            openFile(file);
             return true;
         }
         return false;
@@ -83,8 +78,12 @@ public class BGAUpgradeUtil {
     }
 
 
-    public static void openFile(File file){
-        OpenFileUtil.openFile(file.getAbsolutePath());
+    public static Intent openFile(File file){
+        return OpenFileUtil.openFile(file.getAbsolutePath());
+    }
+
+    public static Intent openFile(String fileName){
+        return OpenFileUtil.openFile(StorageUtil.getApkFile(fileName).getAbsolutePath());
     }
 
 
@@ -139,5 +138,18 @@ public class BGAUpgradeUtil {
 
         // 删除文件
         StorageUtil.deleteFile(apkDir);
+    }
+
+    /**
+     *  文件是否已经下载过，如果已经下载过就直接安装
+     *
+     * @param fileName 文件名
+     * @return
+     */
+    public static void deleteFile(String fileName) {
+        File file = StorageUtil.getApkFile(fileName);
+        if (file.exists()) {
+            file.delete();
+        }
     }
 }

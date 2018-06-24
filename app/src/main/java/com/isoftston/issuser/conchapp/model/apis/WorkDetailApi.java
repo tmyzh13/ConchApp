@@ -8,6 +8,7 @@ import com.isoftston.issuser.conchapp.model.bean.RequestWorkDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.ResponseDataBean;
 import com.isoftston.issuser.conchapp.model.bean.RevokeJobBody;
 import com.isoftston.issuser.conchapp.model.bean.SubmitJobBody;
+import com.isoftston.issuser.conchapp.model.bean.UploadWxzyspdRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.UserBean;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
@@ -46,5 +47,10 @@ public interface WorkDetailApi {
     //获取作业信息
     @POST(Urls.GET_WORK_INFO)
     Observable<BaseData<WorkListBean>> getWorkInfo(@Header("Access-Token") String token, @Body WorkListRequestBean bean);
+
+    //危险作业审批单信息上传
+    @POST(Urls.UPLOAD_WXZYSPD)
+    Observable<BaseData<ResponseDataBean>> uploadWxzyspd(@Header("Access-Token") String token, @Body
+            UploadWxzyspdRequestBean param);
 
 }

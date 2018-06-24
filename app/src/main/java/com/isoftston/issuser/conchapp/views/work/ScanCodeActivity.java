@@ -2,16 +2,22 @@ package com.isoftston.issuser.conchapp.views.work;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.PermissionChecker;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -30,15 +36,19 @@ import android.widget.TextView;
 import com.corelibs.base.BaseActivity;
 import com.corelibs.utils.PreferencesHelper;
 import com.corelibs.utils.ToastMgr;
+import com.corelibs.utils.download.BGADownloadProgressEvent;
 import com.corelibs.utils.download.BGAUpgradeUtil;
 import com.google.zxing.client.android.CaptureActivity;
 import com.isoftston.issuser.conchapp.R;
 import com.isoftston.issuser.conchapp.constants.Constant;
+import com.isoftston.issuser.conchapp.constants.Urls;
 import com.isoftston.issuser.conchapp.model.bean.DangerTypeBean;
+import com.isoftston.issuser.conchapp.model.bean.FileBean;
 import com.isoftston.issuser.conchapp.model.bean.FixWorkBean;
 import com.isoftston.issuser.conchapp.model.bean.ImageInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.ResponseDataBean;
 import com.isoftston.issuser.conchapp.model.bean.SubmitJobBody;
+import com.isoftston.issuser.conchapp.model.bean.UploadWxzyspdRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailBean;
@@ -49,6 +59,7 @@ import com.isoftston.issuser.conchapp.utils.ToastUtils;
 import com.isoftston.issuser.conchapp.views.interfaces.WorkDetailView;
 import com.isoftston.issuser.conchapp.views.mine.adapter.ScanInfoAdapter;
 import com.isoftston.issuser.conchapp.views.security.ChoicePhotoActivity;
+import com.isoftston.issuser.conchapp.views.work.adpter.WorkAnnexAdapter;
 import com.isoftston.issuser.conchapp.weight.DownloadingDialog;
 import com.isoftston.issuser.conchapp.weight.NavBar;
 
@@ -60,6 +71,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 import rx.Subscriber;
+import rx.functions.Action1;
 
 
 public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPresenter> implements WorkDetailView, View.OnClickListener {
@@ -69,6 +81,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     private static final int OPEN_ACTIVITY_SCAN_CODE = 102;
     private static final int OPEN_ACTIVITY_TAKE_PHOTO_CODE = 103;
     private static final int MODIFY_CODE = 104;
+    private static final int CHOICE_PHOTO_CODE = 1110;
     @Bind(R.id.nav)
     NavBar nav;
     @Bind(R.id.iv_add)
@@ -128,7 +141,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     //底部列表显示具体人名
     @Bind(R.id.person_in_charge_tv)
     TextView personInChargeNmaeTv;//负责人
-//    @Bind(R.id.lead_rl)
+    //    @Bind(R.id.lead_rl)
 //    RelativeLayout leadRl;//负责人布局
     @Bind(R.id.guardian_tv)
     TextView guardianNameTv;//监护人
@@ -170,12 +183,14 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             LinearLayout scanCodeLl;
     LinearLayout scanCodeLayout;////扫码
     LinearLayout takePhotoLayout;//拍照
-//    @Bind(R.id.scan_flag_iv)
+    //    @Bind(R.id.scan_flag_iv)
     ImageView scanFlagIv1;//第一轮扫码、拍照标记view
-//    @Bind(R.id.photo_flag_iv)
+    //    @Bind(R.id.photo_flag_iv)
     ImageView photoFlagIv1;
     private boolean isScaned1 = false;//是否扫过
     private boolean isPhotoed1 = false;//是否拍过照
+    @Bind(R.id.add_form)
+    RelativeLayout addForm;
 
     @Bind(R.id.scaned_layout)
     LinearLayout scanedLayout;
@@ -209,7 +224,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     private boolean isOneTurnDone = false;//第一轮是否完成
 
     private boolean isCommited = false;
-    private boolean isDangerWork ;
+    private boolean isDangerWork;
     private String jobId = "";
     private String userId = "";
     private boolean isGasPersonDown = false;//检测人是否提交
@@ -224,6 +239,10 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     private boolean flage3 = false;
     private boolean flage0 = false;
     private List<WorkBean> workBeanList = new ArrayList<>();
+
+    private HashMap<String, String> picMap = new HashMap<>();
+    private List<FileBean> formList;
+    private WorkAnnexAdapter adapter;
 
     @SuppressLint("HandlerLeak")
     public Handler handler = new Handler() {
@@ -256,9 +275,9 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                         mListView.setVisibility(View.VISIBLE);
                     }
                     if (turn == 1) {
-                        if (isGasPerson){
-                           changeGasToGreen();
-                        }else if (isChargePerson) {
+                        if (isGasPerson) {
+                            changeGasToGreen();
+                        } else if (isChargePerson) {
                             changeChargersToGreen();
                         } else if (isGurdianPerson) {
                             changeGuardiansToGreen();
@@ -268,8 +287,8 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                             changeApproversToGreen();
                         }
                     } else {
-                        if (isGasPerson){
-                           changeGasToBlue();
+                        if (isGasPerson) {
+                            changeGasToBlue();
                         } else if (isChargePerson) {
                             changeChargersToBlue();
                         } else if (isGurdianPerson) {
@@ -316,14 +335,24 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
 //        setData();
 //        scaned();
 
-
+        // 监听下载进度
+        BGAUpgradeUtil.getDownloadProgressEventObservable()
+                .compose(this.<BGADownloadProgressEvent>bindToLifecycle())
+                .subscribe(new Action1<BGADownloadProgressEvent>() {
+                    @Override
+                    public void call(BGADownloadProgressEvent downloadProgressEvent) {
+                        if (mDownloadingDialog != null && mDownloadingDialog.isShowing() && downloadProgressEvent.isNotDownloadFinished() && downloadProgressEvent.getProgress() >= 0 && downloadProgressEvent.getTotal() >= 0) {
+                            mDownloadingDialog.setProgress(downloadProgressEvent.getProgress(), downloadProgressEvent.getTotal());
+                        }
+                    }
+                });
     }
 
     /**
      * 测试数据
      */
     private void setData() {
-        mAdapter = new ScanInfoAdapter(this, datas,workDetailBean);
+        mAdapter = new ScanInfoAdapter(this, datas, workDetailBean);
         mListView.setAdapter(mAdapter);
         setListViewHeightBasedOnChildren(mListView);
     }
@@ -341,12 +370,13 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
     int auditorCount = 0;
     int approverCount = 0;
     int leadingCount = 0;
+
     private void checkUserPosition(WorkDetailBean bean) {
         hideAllBtn();
         status = bean.status;
         switch (status) {
             case 0://新建：
-                if (bean.gas==null){
+                if (bean.gas == null) {
                     if (userId.equals(bean.leading)) {
                         showAllBtn();
                     } else if (userId.equals(bean.approver) || bean.equals(bean.auditor)
@@ -356,47 +386,47 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                     } else {
                         scanCodeLl.setVisibility(View.GONE);
                     }
-                }else {
-                    if (userId.equals(bean.gas)){
+                } else {
+                    if (userId.equals(bean.gas)) {
                         commitBtn.setVisibility(View.VISIBLE);
-                        if (datas!=null && datas.size()>0){
-                            for (ImageInfoBean imageInfoBean:datas){
-                                if (imageInfoBean.getUserId().equals(bean.gas)){
+                        if (datas != null && datas.size() > 0) {
+                            for (ImageInfoBean imageInfoBean : datas) {
+                                if (imageInfoBean.getUserId().equals(bean.gas)) {
                                     commitBtn.setVisibility(View.GONE);
                                     scanCodeLl.setVisibility(View.GONE);
                                     changeGasToGreen();
                                 }
                             }
                         }
-                    }else if (userId.equals(bean.leading)){
-                        if (datas!=null && datas.size()==0){
+                    } else if (userId.equals(bean.leading)) {
+                        if (datas != null && datas.size() == 0) {
                             revokeBtn.setVisibility(View.VISIBLE);
                             modifyBtn.setVisibility(View.VISIBLE);
                             scanCodeLl.setVisibility(View.GONE);
-                        }else if (datas!=null && datas.size()>0){
+                        } else if (datas != null && datas.size() > 0) {
                             changeGasToGreen();
-                            for (ImageInfoBean imageInfoBean:datas){
-                                if (imageInfoBean.getUserId().equals(bean.gas)){
+                            for (ImageInfoBean imageInfoBean : datas) {
+                                if (imageInfoBean.getUserId().equals(bean.gas)) {
                                     commitBtn.setVisibility(View.VISIBLE);
                                     scanCodeLl.setVisibility(View.VISIBLE);
                                 }
                             }
                         }
                     } else if (userId.equals(bean.approver) || bean.equals(bean.auditor)
-                            || userId.equals(bean.guardian)){
-                        if (datas!=null && datas.size()>0){
-                            for (ImageInfoBean imageInfoBean:datas){
-                                if (imageInfoBean.getUserId().equals(bean.gas)){
+                            || userId.equals(bean.guardian)) {
+                        if (datas != null && datas.size() > 0) {
+                            for (ImageInfoBean imageInfoBean : datas) {
+                                if (imageInfoBean.getUserId().equals(bean.gas)) {
                                     changeGasToGreen();
                                 }
                             }
                         }
                         commitBtn.setVisibility(View.GONE);
                         scanCodeLl.setVisibility(View.GONE);
-                    }else {
-                        if (datas!=null && datas.size()>0){
-                            for (ImageInfoBean imageInfoBean:datas){
-                                if (imageInfoBean.getUserId().equals(bean.gas)){
+                    } else {
+                        if (datas != null && datas.size() > 0) {
+                            for (ImageInfoBean imageInfoBean : datas) {
+                                if (imageInfoBean.getUserId().equals(bean.gas)) {
                                     changeGasToGreen();
                                 }
                             }
@@ -412,14 +442,14 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                 break;
             case 2://负责人开工扫描：第一轮负责人已提交了
                 //改变负责人相关UI
-                if (bean.gas==null){
+                if (bean.gas == null) {
                     changeChargersToGreen();
                     if (userId.equals(bean.leading)) {
                         hideAllBtn();
                         scanCodeLl.setVisibility(View.GONE);
                     }
                     isChargePersonDown = true;
-                    flage0=true;
+                    flage0 = true;
                     for (ImageInfoBean imageInfoBean : datas) {
                         if (imageInfoBean.getUserId().equals(bean.guardian)) {
                             changeGuardiansToGreen();
@@ -432,13 +462,13 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                             flage3 = true;
                         }
                     }
-                }else {
+                } else {
                     changeGasToGreen();
-                    if (userId.equals(bean.gas)||userId.equals(bean.leading)){
+                    if (userId.equals(bean.gas) || userId.equals(bean.leading)) {
                         hideAllBtn();
                         scanCodeLl.setVisibility(View.GONE);
                     }
-                    isGasPersonDown=true;
+                    isGasPersonDown = true;
                     for (ImageInfoBean imageInfoBean : datas) {
                         if (imageInfoBean.getUserId().equals(bean.guardian)) {
                             changeGuardiansToGreen();
@@ -449,9 +479,9 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                         } else if (imageInfoBean.getUserId().equals(bean.approver)) {
                             changeApproversToGreen();
                             flage3 = true;
-                        }else if (imageInfoBean.getUserId().equals(bean.leading)){
+                        } else if (imageInfoBean.getUserId().equals(bean.leading)) {
                             changeChargersToGreen();
-                             flage0 = true;
+                            flage0 = true;
                         }
                     }
                 }
@@ -465,7 +495,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                 flage3 = true;
                 flage0 = true;
                 isOneTurnDone = true;
-                if (bean.gas==null){
+                if (bean.gas == null) {
                     if (!userId.equals(bean.leading)) {
                         scanedLayout.setVisibility(View.VISIBLE);
                         scanCodeLlInner.setVisibility(View.GONE);
@@ -474,51 +504,51 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                         commitBtn.setVisibility(View.VISIBLE);
                         scanedLayout.setVisibility(View.VISIBLE);
                     }
-                }else {
+                } else {
                     scanedLayout.setVisibility(View.VISIBLE);
-                    gasCount=0;
-                    if (userId.equals(bean.leading)){
-                       for (ImageInfoBean imageInfoBean:datas){
-                           if (imageInfoBean.getUserId().equals(bean.gas)) {
-                               gasCount = gasCount + 1;
-                           }
-                       }
-                       if(gasCount==2){
-                           changeGasToBlue();
-                           commitBtn.setVisibility(View.VISIBLE);
-                           scanCodeLlInner.setVisibility(View.VISIBLE);
-                       }else {
-                           changeGasToGreen();
-                           commitBtn.setVisibility(View.GONE);
-                           scanCodeLlInner.setVisibility(View.GONE);
-
-                       }
-
-                   } else if (userId.equals(bean.gas)){
-                       for (ImageInfoBean imageInfoBean:datas){
-                           if (imageInfoBean.getUserId().equals(bean.gas)) {
-                               gasCount = gasCount + 1;
-                           }
-                       }
-                       if (gasCount==1){
-                           changeGasToGreen();
-                           commitBtn.setVisibility(View.VISIBLE);
-                           scanCodeLlInner.setVisibility(View.VISIBLE);
-                       }else if (gasCount==2){
-                           changeGasToBlue();
-                           commitBtn.setVisibility(View.GONE);
-                           scanCodeLlInner.setVisibility(View.GONE);
-
-                       }
-                   }else {
-                        for (ImageInfoBean imageInfoBean:datas){
+                    gasCount = 0;
+                    if (userId.equals(bean.leading)) {
+                        for (ImageInfoBean imageInfoBean : datas) {
                             if (imageInfoBean.getUserId().equals(bean.gas)) {
                                 gasCount = gasCount + 1;
                             }
                         }
-                        if (gasCount==2){
+                        if (gasCount == 2) {
                             changeGasToBlue();
-                        }else {
+                            commitBtn.setVisibility(View.VISIBLE);
+                            scanCodeLlInner.setVisibility(View.VISIBLE);
+                        } else {
+                            changeGasToGreen();
+                            commitBtn.setVisibility(View.GONE);
+                            scanCodeLlInner.setVisibility(View.GONE);
+
+                        }
+
+                    } else if (userId.equals(bean.gas)) {
+                        for (ImageInfoBean imageInfoBean : datas) {
+                            if (imageInfoBean.getUserId().equals(bean.gas)) {
+                                gasCount = gasCount + 1;
+                            }
+                        }
+                        if (gasCount == 1) {
+                            changeGasToGreen();
+                            commitBtn.setVisibility(View.VISIBLE);
+                            scanCodeLlInner.setVisibility(View.VISIBLE);
+                        } else if (gasCount == 2) {
+                            changeGasToBlue();
+                            commitBtn.setVisibility(View.GONE);
+                            scanCodeLlInner.setVisibility(View.GONE);
+
+                        }
+                    } else {
+                        for (ImageInfoBean imageInfoBean : datas) {
+                            if (imageInfoBean.getUserId().equals(bean.gas)) {
+                                gasCount = gasCount + 1;
+                            }
+                        }
+                        if (gasCount == 2) {
+                            changeGasToBlue();
+                        } else {
                             changeGasToGreen();
                         }
                         scanCodeLlInner.setVisibility(View.GONE);
@@ -533,9 +563,9 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                 guardianCount = 0;
                 auditorCount = 0;
                 approverCount = 0;
-                leadingCount=0;
+                leadingCount = 0;
                 turn = 2;
-                if (bean.gas==null){
+                if (bean.gas == null) {
                     changeChargersToBlue();
                     changeGuardiansToGreen();
                     changeAuditorsToGreen();
@@ -553,13 +583,13 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                             approverCount = approverCount + 1;
                         }
                     }
-                }else {
+                } else {
                     changeGasToBlue();
                     changeChargersToGreen();
                     changeGuardiansToGreen();
                     changeAuditorsToGreen();
                     changeApproversToGreen();
-                    isGasPersonDown=true;
+                    isGasPersonDown = true;
                     for (ImageInfoBean imageInfoBean : datas) {
                         if (imageInfoBean.getUserId().equals(bean.guardian)) {
                             guardianCount = guardianCount + 1;
@@ -570,8 +600,8 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                         if (imageInfoBean.getUserId().equals(bean.approver)) {
                             approverCount = approverCount + 1;
                         }
-                        if (imageInfoBean.getUserId().equals(bean.leading)){
-                            leadingCount=leadingCount + 1;
+                        if (imageInfoBean.getUserId().equals(bean.leading)) {
+                            leadingCount = leadingCount + 1;
                         }
                     }
                 }
@@ -589,19 +619,19 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                 scanCodeLl.setVisibility(View.GONE);
                 scanedLayout.setVisibility(View.GONE);
                 turn = 2;
-                flage0=true;
-                flage1=true;
-                flage2=true;
-                flage3=true;
-                approverCount=2;
-                auditorCount=2;
-                guardianCount=2;
-                leadingCount=2;
+                flage0 = true;
+                flage1 = true;
+                flage2 = true;
+                flage3 = true;
+                approverCount = 2;
+                auditorCount = 2;
+                guardianCount = 2;
+                leadingCount = 2;
                 break;
             default:
                 break;
         }
-        if (bean.gas!=null &&status==3){
+        if (bean.gas != null && status == 3) {
             scan();
             scaned();
             return;
@@ -612,73 +642,73 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             scanCodeLlInner.setVisibility(View.GONE);
             commitBtn.setVisibility(View.GONE);
         }
-        if (leadingCount==1&&userId.equals(bean.getLeading())){
+        if (leadingCount == 1 && userId.equals(bean.getLeading())) {
             commitBtn.setVisibility(View.VISIBLE);
             scanCodeLlInner.setVisibility(View.VISIBLE);
-        }else if (leadingCount==2){
+        } else if (leadingCount == 2) {
             changeChargersToBlue();
         }
-        if (guardianCount==1&&userId.equals(bean.getGuardian())){
+        if (guardianCount == 1 && userId.equals(bean.getGuardian())) {
             commitBtn.setVisibility(View.VISIBLE);
             scanCodeLlInner.setVisibility(View.VISIBLE);
-        }else if (guardianCount==2){
+        } else if (guardianCount == 2) {
             changeGuardiansToBlue();
         }
-        if (auditorCount==1&&userId.equals(bean.getAuditor())){
+        if (auditorCount == 1 && userId.equals(bean.getAuditor())) {
             commitBtn.setVisibility(View.VISIBLE);
             scanCodeLlInner.setVisibility(View.VISIBLE);
-        }else if (auditorCount==2){
+        } else if (auditorCount == 2) {
             changeAuditorsToBlue();
         }
-        if (approverCount==1&&userId.equals(bean.getApprover())){
+        if (approverCount == 1 && userId.equals(bean.getApprover())) {
             commitBtn.setVisibility(View.VISIBLE);
             scanCodeLlInner.setVisibility(View.VISIBLE);
-        }else if (approverCount==2){
+        } else if (approverCount == 2) {
             changeApproversToBlue();
         }
         //比对自己的职位
-        if (userId.equals(bean.gas)){
-            isGasPerson=true;
-        }else if (userId.equals(bean.leading)) {
+        if (userId.equals(bean.gas)) {
+            isGasPerson = true;
+        } else if (userId.equals(bean.leading)) {
             isChargePerson = true;
-            if (!flage0 && bean.status>1){
+            if (!flage0 && bean.status > 1) {
                 commitBtn.setVisibility(View.VISIBLE);
             }
-            if (leadingCount==2){
+            if (leadingCount == 2) {
                 commitBtn.setVisibility(View.GONE);
                 scanCodeLlInner.setVisibility(View.GONE);
             }
         } else if (userId.equals(bean.guardian)) {
             isGurdianPerson = true;
-            if (!flage1&&bean.status>1) {
+            if (!flage1 && bean.status > 1) {
                 commitBtn.setVisibility(View.VISIBLE);
             } else {
                 scanCodeLl.setVisibility(View.GONE);
             }
-            if (guardianCount==2){
+            if (guardianCount == 2) {
                 commitBtn.setVisibility(View.GONE);
                 scanCodeLlInner.setVisibility(View.GONE);
             }
         } else if (userId.equals(bean.auditor)) {
             isAuditorPerson = true;
-            if (!flage2&&bean.status>1) {
+            if (!flage2 && bean.status > 1) {
                 commitBtn.setVisibility(View.VISIBLE);
             } else {
                 scanCodeLl.setVisibility(View.GONE);
             }
-            if (auditorCount==2){
+            if (auditorCount == 2) {
                 commitBtn.setVisibility(View.GONE);
                 scanCodeLlInner.setVisibility(View.GONE);
             }
 
         } else if (userId.equals(bean.approver)) {
             isApproverPerson = true;
-            if (!flage3&&bean.status>1) {
+            if (!flage3 && bean.status > 1) {
                 commitBtn.setVisibility(View.VISIBLE);
             } else {
                 scanCodeLl.setVisibility(View.GONE);
             }
-            if (approverCount==2){
+            if (approverCount == 2) {
                 commitBtn.setVisibility(View.GONE);
                 scanCodeLlInner.setVisibility(View.GONE);
             }
@@ -692,17 +722,17 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             scanedLayout.setVisibility(View.VISIBLE);
             scanCodeLlInner.setVisibility(View.GONE);
         }
-        Log.i("test","---test:"+approverCount+"---"+auditorCount+"---"+guardianCount);
+        Log.i("test", "---test:" + approverCount + "---" + auditorCount + "---" + guardianCount);
 
-        if (turn==2 && bean.status==3){
-            if (bean.gas==null){
-                if (userId.equals(bean.leading)){
+        if (turn == 2 && bean.status == 3) {
+            if (bean.gas == null) {
+                if (userId.equals(bean.leading)) {
                     commitBtn.setVisibility(View.VISIBLE);
                     scanCodeLlInner.setVisibility(View.VISIBLE);
                     scanedLayout.setVisibility(View.VISIBLE);
                 }
-            }else {
-                if (userId.equals(bean.gas)){
+            } else {
+                if (userId.equals(bean.gas)) {
                     commitBtn.setVisibility(View.VISIBLE);
                     scanCodeLlInner.setVisibility(View.VISIBLE);
                     scanedLayout.setVisibility(View.VISIBLE);
@@ -712,7 +742,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
 
         }
         //第一轮完成后才显示列表数据
-        if (turn==2) {
+        if (turn == 2) {
             scanedLayout.setVisibility(View.VISIBLE);
             mListView.setVisibility(View.VISIBLE);
         } else {
@@ -731,6 +761,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         gasRelnameTv.setTextColor(getResources().getColor(R.color.colorGreen));
         gasCheckerTv.setTextColor(getResources().getColor(R.color.colorGreen));
     }
+
     private void changeGasToBlue() {
         gasPersonIv.setImageResource(R.drawable.dots_blue);
         gasTv.setTextColor(getResources().getColor(R.color.colorDarkBlue));
@@ -855,8 +886,8 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
 //        scanFlagIv = scanCodeLayout.findViewById(R.id.scan_flag_iv1);
         takePhotoLayout = scanCodeLl.findViewById(R.id.take_photo_layout);
 //        photoFlagIv = takePhotoLayout.findViewById(R.id.photo_flag_iv1);
-        scanFlagIv1=scanCodeLl.findViewById(R.id.scan_flag_iv1);
-        photoFlagIv1=scanCodeLl.findViewById(R.id.photo_flag_iv1);
+        scanFlagIv1 = scanCodeLl.findViewById(R.id.scan_flag_iv1);
+        photoFlagIv1 = scanCodeLl.findViewById(R.id.photo_flag_iv1);
         //所有人扫过后按钮在内部显示
         scanCodeInner = scanCodeLlInner.findViewById(R.id.scan_code_layout);
         takePhotoInnerLayout = scanCodeLlInner.findViewById(R.id.take_photo_layout);
@@ -864,8 +895,8 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         photoFlagIv2 = scanCodeLlInner.findViewById(R.id.photo_flag_iv1);
 
         jobId = getIntent().getStringExtra("jobId");
-        isDangerWork = getIntent().getBooleanExtra("isDangerWork",false);
-        Log.e(TAG, "----jobId:" + jobId+"----"+isDangerWork);
+        isDangerWork = getIntent().getBooleanExtra("isDangerWork", false);
+        Log.e(TAG, "----jobId:" + jobId + "----" + isDangerWork);
         clicks();
     }
 
@@ -902,7 +933,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         takePhotoInnerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this, "0", map,1), OPEN_ACTIVITY_TAKE_PHOTO_CODE);
+                startActivityForResult(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this, "0", map, 1), OPEN_ACTIVITY_TAKE_PHOTO_CODE);
             }
         });
     }
@@ -919,7 +950,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         takePhotoLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this, "0", map,1), OPEN_ACTIVITY_TAKE_PHOTO_CODE);
+                startActivityForResult(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this, "0", map, 1), OPEN_ACTIVITY_TAKE_PHOTO_CODE);
             }
         });
     }
@@ -950,6 +981,14 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //获得授权,开始扫描
                     startScanCode();
+                } else {
+                    ToastMgr.show(getString(R.string.check_manager_open_pemission));
+                }
+                return;
+            case REQUEST_STORAGE_PERMISSION_CODE://摄像头权限
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //获得授权,开始扫描
+                    downloadFile(fileName,filePath);
                 } else {
                     ToastMgr.show(getString(R.string.check_manager_open_pemission));
                 }
@@ -1007,6 +1046,21 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
 //            }
         } else if (requestCode == MODIFY_CODE) {
             presenter.getWorkDetailInfo(jobId);
+        } else if (requestCode == CHOICE_PHOTO_CODE) {
+            if (resultCode == 10) {
+                picMap = (HashMap<String, String>) data.getSerializableExtra(Constant.TEMP_PIC_LIST);
+                StringBuilder builder = new StringBuilder();
+                for (String path : picMap.values()) {
+                    builder.append(path);
+                    builder.append(",");
+                }
+                String picString = builder.toString();
+
+                UploadWxzyspdRequestBean param = new UploadWxzyspdRequestBean();
+                param.setId(workDetailBean.getId());
+                param.setZyspdList(picString);
+                presenter.uploadWxzyspd(param);
+            }
         }
     }
 
@@ -1037,7 +1091,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
 //                } else if (status == 2) {
                 Message message = new Message();
 //                message.what=SCANED1;
-                if (turn==1) {
+                if (turn == 1) {
                     message.what = SCANED1;
                 } else {
                     message.what = SCANED2;
@@ -1100,10 +1154,10 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         if (workDetailBean.status == 1 || workDetailBean.status == 5) {
             hideAllBtn();
         }
-        if (workDetailBean.getGasName()==null){
+        if (workDetailBean.getGasName() == null) {
             ll_gas_point.setVisibility(View.GONE);
             ll_gas_check.setVisibility(View.GONE);
-        }else {
+        } else {
             ll_gas_point.setVisibility(View.VISIBLE);
             ll_gas_check.setVisibility(View.VISIBLE);
         }
@@ -1117,12 +1171,12 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             work_end_time_day.setText(endTime);
         }
 
-        String gasName=workDetailBean.gasName;
-        if (gasName!=null){
+        String gasName = workDetailBean.gasName;
+        if (gasName != null) {
             gasRl.setVisibility(View.VISIBLE);
             gasCheckerTv.setText(gasName);
             gasRelnameTv.setText(gasName);
-        }else {
+        } else {
             gasRl.setVisibility(View.GONE);
         }
         String chargeName = workDetailBean.leadingName;
@@ -1148,8 +1202,8 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         equipmentTypeTv.setText(workDetailBean.equipmentTypeName);
         equipmentModelTv.setText(workDetailBean.equipmentCode);
         equipmentNameTv.setText(workDetailBean.equipmentName);
-        for (WorkBean workBean1:workBeanList){
-            if (workBean1.getId() == Integer.parseInt(workDetailBean.area)){
+        for (WorkBean workBean1 : workBeanList) {
+            if (workBean1.getId() == Integer.parseInt(workDetailBean.area)) {
                 workZoneTv.setText(workBean1.getName());
             }
         }
@@ -1169,10 +1223,63 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         } else {
             dangerWorkRl.setVisibility(View.GONE);
         }
+        //如果状态为完成且自己是负责人 显示上传按钮
+        if (workDetailBean.getStatus() == 5 && userId.equals(workDetailBean.getLeading()) && ("".equals(workDetailBean.getZyspdList()) || workDetailBean.getZyspdList() == null)) {
+            addForm.setVisibility(View.VISIBLE);
+        } else {
+            addForm.setVisibility(View.GONE);
+        }
 
         checkUserPosition(workDetailBean);
         getLoadingDialog().dismiss();
+        if (workDetailBean.getZyspdList() != null && !"".equals(workDetailBean.getZyspdList())) {
+            addForm.setVisibility(View.GONE);
+            formList = new ArrayList<>();
+            String[] fileArray = workDetailBean.getZyspdList().split(",");
+            for (String fileBeanArray : fileArray) {
+                FileBean fileBean = new FileBean();
+                fileBean.setFileName(fileBeanArray.split(":")[0]);
+                fileBean.setFilePath(fileBeanArray.split(":")[1]);
+                formList.add(fileBean);
+                formList.add(fileBean);
+                formList.add(fileBean);
+                formList.add(fileBean);
+                formList.add(fileBean);
+                formList.add(fileBean);
+                formList.add(fileBean);
+                formList.add(fileBean);
+                formList.add(fileBean);
+                formList.add(fileBean);
+                formList.add(fileBean);
+            }
+            LinearLayoutManager layoutmanager = new LinearLayoutManager(this);
+            layoutmanager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            //设置RecyclerView 布局
+            formRecyclerView.setLayoutManager(layoutmanager);
+            //设置Adapter
+            adapter = new WorkAnnexAdapter(formList);
+            formRecyclerView.setAdapter(adapter);
+            adapter.setOnItemClickListener(new WorkAnnexAdapter.OnItemClickListener() {
+                @Override
+                public void onClick(int position) {
+                    fileName = formList.get(position).getFileName();
+                    filePath = Urls.ROOT+formList.get(position).getFilePath();
+                    if (isWifiConnected(getViewContext())){
+                        if (ContextCompat.checkSelfPermission(getViewContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(ScanCodeActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_STORAGE_PERMISSION_CODE);
+                        }else {
+                            downloadFile(filePath,fileName);
+                        }
+                    }else{
+                        showDialogView(filePath,fileName);
+                    }
+                }
+            });
+        }
     }
+
+    private String fileName;
+    private String filePath;
 
     private void hideAllBtn() {
         revokeBtn.setVisibility(View.GONE);
@@ -1200,6 +1307,10 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             ToastMgr.show(R.string.subimt_failed);
             getLoadingDialog().dismiss();
             Log.e(TAG, "----提交作业失败");
+        } else if (type == 3) {
+            ToastMgr.show(R.string.uploadWx_failed);
+            getLoadingDialog().dismiss();
+            Log.e(TAG, "----危险作业审批单信息上传失败");
         }
     }
 
@@ -1224,10 +1335,16 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
             scanCodeLl.setVisibility(View.GONE);
         }
         if (turn == 2) {
-            Log.e(TAG,"----turn==2");
+            Log.e(TAG, "----turn==2");
             scanedLayout.setVisibility(View.VISIBLE);
             scanCodeLlInner.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void uploadWxzyspdSuccess(ResponseDataBean responseDataBean) {
+        ToastMgr.show(R.string.uploadWx_success);
+        presenter.getWorkDetailInfo(jobId);
     }
 
     @Override
@@ -1246,7 +1363,6 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         //获取作业详情
         presenter.getWorkDetailInfo(jobId);
     }
-
 
 
     @Override
@@ -1287,16 +1403,14 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
 
 
     /**
-     * 下载新版 apk 文件
+     * 下载 文件
      */
-    public void downloadApkFile(String url, String fileName) {
-        String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        if (ContextCompat.checkSelfPermission(getViewContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            // 如果新版 apk 文件已经下载过了，直接 return，此时不需要开发者调用安装 apk 文件的方法，在 isApkFileDownloaded 里已经调用了安装」
+    public void downloadFile(String url, final String fileName) {
+            // 如果文件已经下载过了，直接 打开
             if (BGAUpgradeUtil.isFileDownloaded(fileName)) {
+                getViewContext().startActivity(BGAUpgradeUtil.openFile(fileName));
                 return;
             }
-
             // 下载新版 apk 文件
             BGAUpgradeUtil.downloadApkFile(url, fileName)
                     .subscribe(new Subscriber<File>() {
@@ -1312,21 +1426,57 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
 
                         @Override
                         public void onError(Throwable e) {
+                            ToastMgr.show(getString(R.string.download_fail));
+                            BGAUpgradeUtil.deleteFile(fileName);
                             dismissDownloadingDialog();
                         }
 
                         @Override
-                        public void onNext(File apkFile) {
-                            if (apkFile != null) {
-                                BGAUpgradeUtil.installApk(apkFile);
+                        public void onNext(File file) {
+                            if (file != null) {
+                                getViewContext().startActivity(BGAUpgradeUtil.openFile(file));
                             }
                         }
                     });
-        } else {
-
-        }
     }
 
+    private void showDialogView(final String url, final String fileName) {
+        AlertDialog alert = new AlertDialog.Builder(getViewContext()).setTitle(R.string.tip_wifi_state)
+                .setMessage(R.string.action_cancel)
+                .setPositiveButton(R.string.login_confirm, new DialogInterface.OnClickListener() {
+                    @Override//处理确定按钮点击事件
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();//对话框关闭。
+                        if (ContextCompat.checkSelfPermission(getViewContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(ScanCodeActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_STORAGE_PERMISSION_CODE);
+                        }else {
+                            downloadFile(filePath,fileName);
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.wait_again, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();//对话框关闭。
+                    }
+                })
+                .setCancelable(true)
+                .create();
+        alert.show();
+    }
+
+    public boolean isWifiConnected(Context context) {
+        if (context != null) {
+            ConnectivityManager mConnectivityManager = (ConnectivityManager) context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mWiFiNetworkInfo = mConnectivityManager
+                    .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            if (mWiFiNetworkInfo != null) {
+                return mWiFiNetworkInfo.isAvailable();
+            }
+        }
+        return false;
+    }
 
     private DownloadingDialog mDownloadingDialog;
 
@@ -1347,5 +1497,9 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
         if (mDownloadingDialog != null) {
             mDownloadingDialog.dismiss();
         }
+    }
+    @OnClick(R.id.add_form)
+    public void addForm(){
+        startActivityForResult(ChoicePhotoActivity.getLauncher(ScanCodeActivity.this,"0",picMap,0),CHOICE_PHOTO_CODE);
     }
 }

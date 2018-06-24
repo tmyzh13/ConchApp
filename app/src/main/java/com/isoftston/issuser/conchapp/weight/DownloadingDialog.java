@@ -14,7 +14,7 @@ public class DownloadingDialog extends AppCompatDialog {
     public DownloadingDialog(Context context) {
         super(context, R.style.AppDialogTheme);
         setContentView(R.layout.dialog_downloading);
-        mProgressBar = (BGAProgressBar) findViewById(R.id.pb_downloading_content);
+        mProgressBar = findViewById(R.id.pb_downloading_content);
         setCancelable(false);
     }
 

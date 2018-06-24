@@ -29,6 +29,7 @@
     <string name="login_find_password">找回密码</string>
     <string name="login_account_empty">请输入账号</string>
     <string name="login_password_empty">请输入密码</string>
+    <string name="download_fail">下载错误，请点击重新下载！</string>
 
     <!--seacher-->
     <string name="search_key">关键字</string>
@@ -313,6 +314,8 @@
     <string name="internet_exception">网络连接异常</string>
     <string name="back_failed">撤销作业失败</string>
     <string name="subimt_failed">提交失败</string>
+    <string name="uploadWx_failed">危险作业审批单上传失败</string>
+    <string name="uploadWx_success">危险作业审批单上传成功</string>
     <string name="modify_failed">修改失败</string>
     <string name="find_company">发现单位</string>
     <string name="input_num">作业人数请输入数字</string>

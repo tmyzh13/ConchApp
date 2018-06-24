@@ -16,6 +16,7 @@ import com.isoftston.issuser.conchapp.model.bean.RequestWorkDetailBean;
 import com.isoftston.issuser.conchapp.model.bean.ResponseDataBean;
 import com.isoftston.issuser.conchapp.model.bean.RevokeJobBody;
 import com.isoftston.issuser.conchapp.model.bean.SubmitJobBody;
+import com.isoftston.issuser.conchapp.model.bean.UploadWxzyspdRequestBean;
 import com.isoftston.issuser.conchapp.model.bean.UserBean;
 import com.isoftston.issuser.conchapp.model.bean.UserInfoBean;
 import com.isoftston.issuser.conchapp.model.bean.WorkDetailRequestBean;
@@ -176,6 +177,25 @@ public class WorkDetailPresenter extends BasePresenter<WorkDetailView> {
                     }
 
                 });
+    }
+
+    public void uploadWxzyspd(UploadWxzyspdRequestBean param) {
+        String token= SharePrefsUtils.getValue(getContext(),"token",null);
+        String token1=token.replaceAll("\"","");
+        api.uploadWxzyspd(token1,param)
+            .compose(new ResponseTransformer<>(this.<BaseData<ResponseDataBean>>bindToLifeCycle()))
+            .subscribe(new ResponseSubscriber<BaseData<ResponseDataBean>>(view) {
+                @Override
+                public void success(BaseData<ResponseDataBean> responseDataBeanBaseData) {
+                    view.uploadWxzyspdSuccess(responseDataBeanBaseData.data);
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    super.onError(e);
+                    view.responseError(3);
+                }
+            });
     }
 
 }

@@ -7,8 +7,8 @@ package com.isoftston.issuser.conchapp.constants;
 
 public class Urls {
   //  public static final String ROOT="http://10.0.11.208:8099/conch/";//客户环境
-      public static final String ROOT="http://220.180.131.37:18000/conch/";//客户环境
-//      public static final String ROOT="http://10.28.124.201:8099/conch/";//武汉现场环境
+//      public static final String ROOT="http://220.180.131.37:18000/conch/";//客户环境
+      public static final String ROOT="http://10.28.124.201:8099/conch/";//武汉现场环境
 //    public static final String ROOT="http://10.28.124.201:8099/conch/";//测试环境
 //    public static final String ROOT="http://10.28.124.188:8099/conch/";//周法电脑
 //    public static final String ROOT="http://10.28.124.116:8099/conch/";
@@ -101,6 +101,8 @@ public class Urls {
     public static final String CANCEL_JOB="job/cancelJob";
     //提交作业
     public static final String SUBMIT_JOB="job/submitJob";
+    //危险作业审批单信息上传
+    public static final String UPLOAD_WXZYSPD="job/uploadWxzyspd";
     //查询当前用户信息
     public static final String GET_MY_INFO="info/getMyInfo";
     public static final String GET_COMPANY = "organization/getSubCompanyList";
