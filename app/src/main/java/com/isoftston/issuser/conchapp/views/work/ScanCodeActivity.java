@@ -1401,7 +1401,7 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                 getViewContext().startActivity(BGAUpgradeUtil.openFile(fileName));
                 return;
             }
-            // 下载新版 apk 文件
+            // 下载文件
             BGAUpgradeUtil.downloadApkFile(url, fileName)
                     .subscribe(new Subscriber<File>() {
                         @Override

@@ -104,6 +104,8 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
     RelativeLayout fix_img_rly;
     @Bind(R.id.add_change_photo)
     LinearLayout add_change_photo;
+    @Bind(R.id.tip_add_photo_tv)
+    TextView tipAddPhotoTv;
 
 
 
@@ -372,10 +374,6 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
 
     @Override
     public void getMessageDetailResult(MessageDetailBean bean) {
-        long cjsj = Long.valueOf(bean.getCjsj());
-        if (System.currentTimeMillis() - cjsj >= 8*60*60*1000){
-            add_change_photo.setVisibility(View.GONE);
-        }
         initView(bean);
         initImages();
         //初始化小圆点
@@ -436,14 +434,26 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
 
         if(bean.getZgqx()!=null)
         zgqx_tv.setText(DateUtils.getMillionToDate(bean.getZgqx()));
+        long cjsj = Long.valueOf(bean.getCjsj());
+        boolean isGone = false;
+        if (System.currentTimeMillis() - cjsj >= 8*60*60*1000){
+            add_change_photo.setVisibility(View.GONE);
+            isGone = true;
+        }
         if(bean.getYhzgzt() == null || "0".equals(bean.getYhzgzt())){
             yhzt_tv.setText(R.string.un_fix);
             zgztUnFixImage.setVisibility(View.VISIBLE);
             zgztFixImage.setVisibility(View.GONE);
+            if (isGone){
+                tipAddPhotoTv.setVisibility(View.VISIBLE);
+            }
         }else if ("1".equals(bean.getYhzgzt())){
             yhzt_tv.setText(R.string.on_fix);
             zgztUnFixImage.setVisibility(View.VISIBLE);
             zgztFixImage.setVisibility(View.GONE);
+            if (isGone){
+                tipAddPhotoTv.setVisibility(View.VISIBLE);
+            }
         }else {
             yhzt_tv.setText(R.string.fixed);
             zgztUnFixImage.setVisibility(View.GONE);

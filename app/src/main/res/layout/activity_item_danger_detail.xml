@@ -543,6 +543,14 @@
                                 android:layout_height="wrap_content"
                                 android:src="@mipmap/photo" />
                         </LinearLayout>
+                        <TextView
+                            android:id="@+id/tip_add_photo_tv"
+                            android:layout_marginRight="@dimen/dp_10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/not_add_photo"
+                            android:textColor="@color/yellow"
+                            android:visibility="gone"/>
                     </RelativeLayout>
                 </LinearLayout>
 

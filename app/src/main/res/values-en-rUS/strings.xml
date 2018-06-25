@@ -59,6 +59,8 @@
     <string name="my_sales">Sales</string>
     <string name="my_accept">Acceptance</string>
     <string name="add_pic">Please add pictures</string>
+    <string name="not_add_photo">Over 8 hours can&apos;t add rectification picture!</string>
+
 
     <string name="yh_message">Danger</string>
     <string name="wz_message">Violation</string>
