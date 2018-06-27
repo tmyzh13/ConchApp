@@ -436,7 +436,7 @@ public class ItemDangerDtailActivity extends BaseActivity<MessageView,MessagePre
         zgqx_tv.setText(DateUtils.getMillionToDate(bean.getZgqx()));
         long cjsj = Long.valueOf(bean.getCjsj());
         boolean isGone = false;
-        if (System.currentTimeMillis() - cjsj >= 8*60*60*1000){
+        if (System.currentTimeMillis() - cjsj >= 8*60*60*1000 || !"8a88fee1570c782301570ce8c271004e".equals(bean.getDangerLevel())){
             add_change_photo.setVisibility(View.GONE);
             isGone = true;
         }

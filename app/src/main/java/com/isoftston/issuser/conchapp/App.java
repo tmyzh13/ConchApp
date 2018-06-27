@@ -1,6 +1,7 @@
 package com.isoftston.issuser.conchapp;
 
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.StrictMode;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
@@ -46,7 +47,9 @@ public class App extends MultiDexApplication {
         //galleryfinal 7.0
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
-        builder.detectFileUriExposure();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            builder.detectFileUriExposure();
+        }
 
         //jpush
         JPushInterface.setDebugMode(true);
