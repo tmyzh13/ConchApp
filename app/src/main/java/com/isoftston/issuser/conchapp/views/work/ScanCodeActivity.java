@@ -1253,7 +1253,12 @@ public class ScanCodeActivity extends BaseActivity<WorkDetailView, WorkDetailPre
                 @Override
                 public void onClick(int position) {
                     fileName = formList.get(position).getFileName();
-                    filePath = Urls.ROOT+formList.get(position).getFilePath();
+                    String path = formList.get(position).getFilePath();
+                    if (!path.startsWith("uploadDir")){
+                        filePath = Urls.ROOT+path;
+                    }else {
+                        filePath = Urls.IMAGE_ROOT+path;
+                    }
                     if (isWifiConnected(getViewContext())){
                         if (ContextCompat.checkSelfPermission(getViewContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                             ActivityCompat.requestPermissions(ScanCodeActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_STORAGE_PERMISSION_CODE);
